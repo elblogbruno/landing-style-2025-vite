@@ -1,0 +1,528 @@
+/* Estilos base para las diapositivas del elevador */
+.elevator-slides-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+  font-family: 'Inter', sans-serif;
+}
+
+.reveal {
+  font-family: 'Inter', sans-serif;
+}
+
+.reveal .slides section {
+  height: 100%;
+  padding: 0;
+  top: 0 !important;
+  color: white;
+}
+
+/* Temas para las diapositivas */
+.section-slide {
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Tema claro */
+.section-slide.light {
+  background-color: rgba(241, 245, 249, 0.8);
+  color: #0f172a;
+}
+
+/* Tema oscuro */
+.section-slide.dark {
+  background-color: rgba(15, 23, 42, 0.8);
+  color: white;
+}
+
+/* Estilos para los títulos de las diapositivas */
+.section-slide h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.section-slide.light h2 {
+  color: #3b82f6;
+}
+
+.section-slide.dark h2 {
+  color: #60a5fa;
+}
+
+.section-slide h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.section-slide p {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+/* Slide de bienvenida (hero) */
+.hero-slide .avatar-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+.hero-slide .instructions {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0;
+  right: 0;
+}
+
+.instructions {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 2rem;
+}
+
+/* Slide de About */
+.about-slide .content-columns {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.about-slide .column {
+  width: 48%;
+}
+
+.about-slide .skill-list {
+  text-align: left;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.about-slide .skill-list li {
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.about-slide .skill-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #22c55e;
+}
+
+.about-slide .quote-column blockquote {
+  font-style: italic;
+  padding: 0.5rem;
+  border-left: 3px solid;
+  text-align: left;
+}
+
+.about-slide.light .quote-column blockquote {
+  border-color: #3b82f6;
+  background-color: rgba(219, 234, 254, 0.3);
+}
+
+.about-slide.dark .quote-column blockquote {
+  border-color: #60a5fa;
+  background-color: rgba(30, 58, 138, 0.3);
+}
+
+.content-columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.column {
+  flex: 1;
+  padding: 0 10px;
+}
+
+.skill-list li {
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.quote-column blockquote {
+  font-style: italic;
+  border-left: 3px solid #60a5fa;
+  padding-left: 10px;
+  text-align: left;
+}
+
+/* Slide de Experience */
+.experience-slide .timeline {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.experience-slide .timeline-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.experience-slide.light .timeline-item {
+  background-color: rgba(219, 234, 254, 0.3);
+}
+
+.experience-slide.dark .timeline-item {
+  background-color: rgba(30, 58, 138, 0.2);
+}
+
+.experience-slide .year {
+  font-weight: 600;
+  width: 30%;
+  text-align: left;
+}
+
+.experience-slide .position {
+  width: 70%;
+  text-align: left;
+}
+
+.experience-slide .pitch-quote {
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.timeline {
+  width: 100%;
+}
+
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  text-align: left;
+}
+
+.year {
+  font-weight: bold;
+  min-width: 100px;
+}
+
+/* Slide de Projects */
+.projects-slide .projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.projects-slide .project-card {
+  padding: 0.75rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.projects-slide .project-card:hover {
+  transform: scale(1.05);
+}
+
+.projects-slide.light .project-card {
+  background-color: rgba(219, 234, 254, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.projects-slide.dark .project-card {
+  background-color: rgba(30, 58, 138, 0.2);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.projects-slide .project-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.projects-slide .project-title {
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.project-card {
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+.project-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+/* Slide de Talks */
+.talks-slide .talks-list {
+  width: 100%;
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+}
+
+.talks-slide .talks-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
+
+.talks-slide.light .talks-list li {
+  background-color: rgba(219, 234, 254, 0.3);
+}
+
+.talks-slide.dark .talks-list li {
+  background-color: rgba(30, 58, 138, 0.2);
+}
+
+.talks-slide .talk-date {
+  font-weight: 600;
+  width: 15%;
+  text-align: left;
+}
+
+.talks-slide .talk-title {
+  width: 85%;
+  text-align: left;
+}
+
+.talks-list {
+  width: 100%;
+  text-align: left;
+}
+
+.talks-list li {
+  margin-bottom: 0.8rem;
+  display: flex;
+}
+
+.talk-date {
+  min-width: 60px;
+  font-weight: bold;
+}
+
+/* Slide de News */
+.news-slide .news-ticker {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.news-slide .ticker-item {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  text-align: left;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.news-slide .ticker-item::before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.news-slide.light .ticker-item {
+  background-color: rgba(219, 234, 254, 0.3);
+}
+
+.news-slide.dark .ticker-item {
+  background-color: rgba(30, 58, 138, 0.2);
+}
+
+.news-ticker {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.ticker-item {
+  margin-bottom: 0.8rem;
+  text-align: left;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+/* Slide de Education */
+.education-slide .education-card {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.education-slide.light .education-card {
+  background-color: rgba(219, 234, 254, 0.3);
+  border-left: 3px solid #3b82f6;
+}
+
+.education-slide.dark .education-card {
+  background-color: rgba(30, 58, 138, 0.2);
+  border-left: 3px solid #60a5fa;
+}
+
+.education-slide .degree {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.education-slide .school {
+  font-size: 0.8rem;
+}
+
+.education-slide .year {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.education-card {
+  margin-bottom: 1rem;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.degree {
+  font-weight: bold;
+}
+
+/* Slide de Contact */
+.contact-slide .contact-methods {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.contact-slide .contact-item {
+  padding: 0.75rem;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.contact-slide .contact-item:hover {
+  transform: scale(1.1);
+}
+
+.contact-slide.light .contact-item {
+  background-color: rgba(219, 234, 254, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.contact-slide.dark .contact-item {
+  background-color: rgba(30, 58, 138, 0.2);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.contact-slide .contact-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.contact-slide .contact-label {
+  font-size: 0.7rem;
+}
+
+.contact-methods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 1rem 0;
+}
+
+.contact-item {
+  width: 80px;
+  text-align: center;
+}
+
+.contact-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+/* Optimización para controles específicos de RevealJS en esta implementación */
+.reveal .controls {
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+
+.reveal .progress {
+  height: 3px;
+}
+
+/* Ajustar el tamaño de los fragmentos para animaciones */
+.reveal .slides section .fragment {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.reveal .slides section .fragment.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Animación de pulso para elementos destacados */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Ajustes para evitar desbordamiento */
+.reveal .slides {
+  text-align: center;
+  margin: 0 !important;
+  padding: 0 !important;
+}

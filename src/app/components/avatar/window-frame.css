@@ -1,0 +1,408 @@
+.window-frame {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 600px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px solid rgba(100, 116, 139, 0.5);
+  transition: all 0.3s ease-out;
+}
+ 
+
+:global(.dark) .window-frame {
+  background: linear-gradient(45deg, #005569, #003344);
+  box-shadow: 
+    0 0 20px rgba(0, 85, 105, 0.3),
+    0 0 40px rgba(0, 85, 105, 0.2);
+}
+
+.window-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px 0 0 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Transiciones más suaves para las puertas del elevador */
+.elevator-doors-transition {
+  transition: opacity 500ms ease-in-out;
+}
+
+/* Mejorar el efecto de vibración para el elevador en movimiento */
+.elevator-moving {
+  animation: elevator-vibrate 0.1s infinite ease-in-out;
+}
+
+@keyframes elevator-vibration {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(-0.5px) translateY(0.3px);
+  }
+  50% {
+    transform: translateX(0) translateY(-0.3px);
+  }
+  75% {
+    transform: translateX(0.5px) translateY(0.3px);
+  }
+}
+
+/* Vibration animation for elevator movement */
+@keyframes elevator-vibrate {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-0.7px, 0.5px); }
+  50% { transform: translate(0.5px, -0.6px); }
+  75% { transform: translate(-0.6px, 0.4px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Añadir transición suave para los textos del elevador */
+.elevator-text {
+  transition: all 0.3s ease-out;
+}
+
+/* Posicionamiento sticky más simple */
+.sticky {
+  position: sticky;
+  top: 1rem;
+  transition: all 0.3s ease-out;
+}
+
+/* Garantizar capas adecuadas */
+aside {
+  z-index: 2;
+  pointer-events: all; 
+}
+
+/* Estilos para el bocadillo de diálogo */
+.pitch-speech-bubble {
+  transition: all 0.3s ease-out;
+  animation: float-gentle 3s ease-in-out infinite alternate;
+  z-index: 30; /* Z-index reducido para no superponer otros controles */
+}
+
+@keyframes float-gentle {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Efecto de pulsación para el bocadillo 3D */
+@keyframes speech-bubble-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Añadir efecto de tipeo */
+.pitch-speech-bubble .text-sm {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de CRT para la pantalla del elevador */
+@keyframes tv-scanline {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0.6;
+  }
+}
+
+@keyframes tv-flicker {
+  0% {
+    opacity: 1;
+  }
+  1% {
+    opacity: 0.95;
+  }
+  2% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  86% {
+    opacity: 0.98;
+  }
+  89% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.96;
+  }
+  95% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Efecto de LED parpadeante para la TV */
+@keyframes led-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Efecto de ticker de noticias deslizándose */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Efecto de reflejo en pantalla */
+@keyframes screen-glare {
+  0% {
+    opacity: 0.02;
+  }
+  50% {
+    opacity: 0.05;
+  }
+  100% {
+    opacity: 0.02;
+  }
+}
+
+/* Efecto de texto digital para la pantalla */
+@keyframes text-typing {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Animación de texto cambiando */
+.changing-text {
+  animation: text-flicker 0.3s ease-out;
+}
+
+@keyframes text-flicker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+ 
+
+.slide-container {
+  width: 100%;
+  background-color: transparent;
+  padding: 15px 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Animación de entrada para las diapositivas */
+.slide-text {
+  opacity: 0;
+  animation: fadeIn 0.5s forwards 0.2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efecto de cambio de diapositiva */
+.slide-container {
+  position: relative;
+  animation: slideChange 0.4s ease-out;
+}
+
+@keyframes slideChange {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Estilos para el contenido de la TV */
+.slide-container h3 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.8), 0 0 20px rgba(0, 123, 255, 0.3);
+  }
+}
+
+/* Estilos para el modo pantalla completa */
+.window-frame:fullscreen {
+  height: 100vh !important;
+  width: 100vw !important;
+  border-radius: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  z-index: 9999;
+}
+
+.window-frame:fullscreen canvas {
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Ajustes para fullscreen */
+.window-frame:fullscreen .tv-content-html {
+  transform: scale(1.2) !important;
+  transition: transform 0.3s ease;
+}
+
+/* Elevamos el z-index para que los controles queden por encima */
+.window-frame:fullscreen .reveal .controls {
+  z-index: 100 !important;
+}
+
+/* Aseguramos que no se desbordan elementos */
+.reveal .slides {
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform-style: preserve-3d !important;
+  backface-visibility: hidden !important;
+}
+
+/* Animación para el botón de pantalla completa */
+@keyframes pulse-highlight {
+  0% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(96, 165, 250, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
+}
+
+/* Clase para animar el botón al inicio para llamar la atención */
+.fullscreen-btn-highlight {
+  animation: pulse-highlight 2s infinite;
+}
+
+/* Mejoras para los controles en modo pantalla completa */
+.window-frame:fullscreen .elevator-controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+/* Ocultar elementos innecesarios en pantalla completa */
+.window-frame:fullscreen .hidden-in-fullscreen {
+  display: none !important;
+}
+
+/* Mejorar visibilidad del texto en fullscreen */
+.window-frame:fullscreen .tv-content-html {
+  transform: scale(1.2) !important;
+}
+
+/* Mejoras de rendimiento para HTML dentro de Three.js */
+.section-slide {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Mejoras específicas para presentaciones */
+.reveal .slides {
+  background: transparent !important;
+  transform-style: preserve-3d !important;
+  backface-visibility: hidden !important;
+  z-index: 999 !important;
+}
+
+/* Asegurar que los controles de RevealJS estén visibles */
+.reveal .controls {
+  z-index: 10001 !important; /* Mayor que cualquier otro elemento */
+  opacity: 0.9 !important;
+}
+
+/* Elevator frame and vibration effects */
+.elevator-frame {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Applied when elevator is vibrating */
+.vibrating {
+  will-change: transform;
+}
+ 
+/* General styles for the elevator UI */
+.elevator-text {
+  transition: all 0.3s ease-out;
+}
+
+.floor-indicator {
+  font-family: monospace;
+  font-weight: bold;
+}
+
+/* Improved transition effects */
+.transform-smooth {
+  transition: transform 0.3s ease-out;
+}
+
+/* Create a subtle shaking effect during floor travel */
+.elevator-moving {
+  animation: elevator-vibrate 0.1s infinite ease-in-out;
+}

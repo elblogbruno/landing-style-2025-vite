@@ -1,0 +1,42 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.box {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.lid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background-color: #888;
+  transform-origin: bottom;
+  animation: openLid 2s ease-in-out forwards;
+}
+
+.base {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background-color: #ccc;
+}
+
+@keyframes openLid {
+  0% {
+    transform: rotateX(0);
+  }
+  100% {
+    transform: rotateX(-110deg);
+  }
+}

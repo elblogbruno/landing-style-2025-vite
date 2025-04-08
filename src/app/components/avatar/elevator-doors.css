@@ -1,0 +1,110 @@
+/* filepath: d:\Desktop\Proyectos\Web Development\2025\landing-style-2025-vite\src\app\components\avatar\elevator-doors.css */
+/* Elevator door animation effects */
+
+@keyframes doorShake {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-1px); }
+  20% { transform: translateX(1.5px); }
+  30% { transform: translateX(-1.5px); }
+  40% { transform: translateX(1px); }
+  50% { transform: translateX(-0.5px); }
+  60% { transform: translateX(0.5px); }
+  70% { transform: translateX(-0.25px); }
+  80% { transform: translateX(0.25px); }
+  90% { transform: translateX(-0.1px); }
+  100% { transform: translateX(0); }
+}
+
+.door-moving {
+  animation: doorShake 1.2s ease-in-out;
+}
+
+.door-reflection {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0) 50%
+  );
+}
+
+.door-reflection-dark {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.1) 20%,
+    rgba(0, 0, 0, 0) 50%
+  );
+}
+
+/* Light pulse for door sensors */
+@keyframes sensorPulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.sensor-active {
+  animation: sensorPulse 0.8s infinite;
+}
+
+/* Elevator control panel glow */
+.control-glow {
+  box-shadow: 0 0 8px 2px rgba(255, 185, 0, 0.3);
+}
+
+/* Door opening/closing animation */
+@keyframes slideFromLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@keyframes slideFromRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+.door-left-open {
+  animation: slideFromLeft 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.door-right-open {
+  animation: slideFromRight 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.door-left-close {
+  animation: slideFromLeft 1.5s cubic-bezier(0.25, 1, 0.5, 1) reverse forwards;
+}
+
+.door-right-close {
+  animation: slideFromRight 1.5s cubic-bezier(0.25, 1, 0.5, 1) reverse forwards;
+}
+
+/* Door state transitions */
+.door-transitioning {
+  transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Animation delay classes */
+.bounce-delay-0 {
+  animation-delay: 0ms;
+}
+
+.bounce-delay-150 {
+  animation-delay: 150ms;
+}
+
+.bounce-delay-300 {
+  animation-delay: 300ms;
+}
+
+/* New attention-grabbing glow animation for the door frame */
+@keyframes frameGlow {
+  0% { box-shadow: 0 0 0px rgba(255, 185, 0, 0.2); }
+  50% { box-shadow: 0 0 12px rgba(255, 185, 0, 0.5); }
+  100% { box-shadow: 0 0 0px rgba(255, 185, 0, 0.2); }
+}
+
+.frame-glow {
+  animation: frameGlow 2s infinite;
+}

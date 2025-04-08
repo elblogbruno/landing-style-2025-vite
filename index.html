@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A 23-year-old tech enthusiast from Barcelona, founder of Glassear, dedicated to making Augmented-Reality technology accessible to everyone." />
+    
+    <!-- Precargar recursos críticos para mejorar LCP -->
+    <link rel="preload" href="/fonts/montserrat/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/montserrat/Montserrat-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/montserrat/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <link rel="preload" href="/images-webp/hero/profile.webp" as="image" fetchpriority="high">
+    <!-- Precargar CSS crítico -->
+    <!-- <link rel="preload" href="/src/app/globals.css" as="style"> -->
+
+    <link rel="stylesheet" href="/src/app/globals.css" />
+
+ 
+    
+    <!-- Favicons con tamaños optimizados -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Prevenir flash de tema incorrecto con inline script -->
+    <script>
+      (function() {
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        // Check for system preference if no saved preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        // Apply dark mode if saved preference is dark or if system prefers dark and no saved preference
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+    
+    <link rel="preconnect" href="https://umami.brunomoya.com" crossorigin />
+    
+    <!-- Cargar analíticas de forma diferida y con bajo impacto en la carga principal -->
+    <script defer async src="https://umami.brunomoya.com/script.js" data-website-id="9ee90309-39f6-4914-b42f-be92e8be3787" data-auto-track="false"></script>
+
+    <!-- Meta tags para SEO y compartir en redes sociales -->
+    <meta name="author" content="Bruno Moya" />
+    <meta property="og:title" content="Hi, I'm Bruno Moya." />
+    <meta property="og:description" content="AR/VR/MR Developer and Entrepreneur." />
+    <meta property="og:image" content="/images-webp/hero/cover-better.webp" />
+    <meta property="og:url" content="https://www.glassear.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hi, I'm Bruno Moya." />
+    <meta name="twitter:description" content="AR/VR/MR Developer and Entrepreneur." />
+    <meta name="twitter:image" content="/images-webp/hero/cover-better.webp" />
+    <meta name="keywords" content="Bruno Moya, AR Developer, VR Developer, MR Developer, Entrepreneur, Glassear, Augmented Reality, Mixed Reality, Barcelona, Tech Enthusiast" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="en" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:creator" content="@brunomoya6" />
+    
+    <title>Hi, I'm Bruno Moya | AR/VR/MR Developer & Entrepreneur</title>
+ 
+  </head>
+  <body>
+     
+    <div id="root"></div>
+    
+    <script type="module" src="/src/main.tsx"></script> 
+  </body>
+</html>

@@ -1,0 +1,1 @@
+export const openIndiegogoPrelaunch = 'https://www.indiegogo.com/projects/glassmusic-ditch-paper-sheets-learn-effortlessly/coming_soon/x/37967798';

@@ -1,0 +1,43 @@
+# Configuración para mejorar el acceso a archivos estáticos en /new
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Si el archivo existe físicamente, servirlo directamente
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+  
+  # Regla específica para PDFs y otros archivos estáticos en /new
+  RewriteCond %{REQUEST_URI} ^/new/.*\.(pdf|png|jpg|jpeg|webp|svg|ico|ttf|woff|woff2|mp3|glb|gltf|bin)$
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+  RewriteRule ^/new/(.*\.(pdf|png|jpg|jpeg|webp|svg|ico|ttf|woff|woff2|mp3|glb|gltf|bin))$ /new/$1 [L]
+  
+  # Para todas las demás URLs, reenviar al índice para la aplicación SPA
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ /new/index.html [L]
+</IfModule>
+
+# Configurar explícitamente tipos MIME para archivos modulares JavaScript
+<IfModule mod_mime.c>
+  AddType application/javascript .mjs
+  AddType application/javascript .js
+</IfModule>
+
+# Habilitar CORS para archivos PDF
+<IfModule mod_headers.c>
+  <FilesMatch "\.pdf$">
+    Header set Access-Control-Allow-Origin "*"
+    Header set Content-Type "application/pdf"
+  </FilesMatch>
+</IfModule>
+
+# Ajustar caché para mejorar el rendimiento
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Caché para PDF durante 1 día
+  ExpiresByType application/pdf "access plus 1 day"
+  # Caché para recursos estáticos durante 1 semana
+  ExpiresByType image/webp "access plus 1 week"
+  ExpiresByType image/png "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+</IfModule>

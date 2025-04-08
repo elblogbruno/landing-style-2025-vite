@@ -1,0 +1,1 @@
+export type SectionKey = 'hero' | 'about' | 'experience' | 'projects' | 'talks' | 'news' | 'awards' | 'education' | 'contact';
