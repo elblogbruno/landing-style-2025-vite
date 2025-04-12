@@ -1,33 +1,19 @@
 "use client";
 
-import { useEffect, useRef, FC, useState } from 'react';
+import { useEffect, useRef, FC, useState, useCallback, memo } from 'react';
 import { SectionKey } from './avatar/types';
 
-// Implementación propia de throttle para eliminar la dependencia de lodash
+// Implementación optimizada de throttle
 function throttle<T extends (...args: unknown[]) => ReturnType<T>>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
-  let timeout: ReturnType<typeof setTimeout> | null = null;
-  let previous = 0;
-
-  return function(this: unknown, ...args: Parameters<T>) {
+  let lastCall = 0;
+  return (...args: Parameters<T>) => {
     const now = Date.now();
-    const remaining = wait - (now - previous);
-    
-    if (remaining <= 0 || remaining > wait) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-      previous = now;
-      func.apply(this, args);
-    } else if (!timeout) {
-      timeout = setTimeout(() => {
-        previous = Date.now();
-        timeout = null;
-        func.apply(this, args);
-      }, remaining);
+    if (now - lastCall >= wait) {
+      lastCall = now;
+      func(...args);
     }
   };
 }
@@ -36,13 +22,14 @@ interface SectionObserverProps {
   sections: string[];
   currentSection: SectionKey;
   onSectionChange: (section: SectionKey) => void;
-  performanceMode: boolean;
+  performanceMode?: boolean;
 }
 
-const SectionObserver: FC<SectionObserverProps> = ({ 
+const SectionObserver: FC<SectionObserverProps> = memo(({ 
   sections, 
   currentSection, 
-  onSectionChange
+  onSectionChange,
+  performanceMode = false
 }) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const sectionsRef = useRef(sections);
@@ -50,91 +37,127 @@ const SectionObserver: FC<SectionObserverProps> = ({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pendingSectionRef = useRef<SectionKey | null>(null);
   const lastIntersection = useRef<Record<string, number>>({});
+  const currentSectionRef = useRef<SectionKey>(currentSection);
+  
+  // Actualizar la referencia de la sección actual
+  useEffect(() => {
+    currentSectionRef.current = currentSection;
+  }, [currentSection]);
 
   // Actualiza la referencia cuando cambien las secciones
   useEffect(() => {
     sectionsRef.current = sections;
   }, [sections]);
 
-  // Controlar los eventos de desplazamiento
-  useEffect(() => {
-    const handleScrollStart = throttle(() => {
-      setIsScrolling(true);
+  // Handler optimizado para eventos de scroll
+  const handleScroll = useCallback(throttle(() => {
+    // Marcar como scrolling
+    setIsScrolling(true);
       
-      // Limpiar cualquier timeout existente
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
+    // Limpiar cualquier timeout existente
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    
+    // Configurar un nuevo timeout para detectar fin de scrolling
+    scrollTimeoutRef.current = setTimeout(() => {
+      setIsScrolling(false);
       
-      // Configurar un nuevo timeout
-      scrollTimeoutRef.current = setTimeout(() => {
-        setIsScrolling(false);
-        
-        // Procesar cualquier cambio de sección pendiente
-        if (pendingSectionRef.current && pendingSectionRef.current !== currentSection) {
-          onSectionChange(pendingSectionRef.current);
-          pendingSectionRef.current = null;
-        }
-      }, 150); // Tiempo de espera después de que se detiene el desplazamiento
-    }, 100);
-    
-    window.addEventListener('scroll', handleScrollStart);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScrollStart);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+      // Procesar cualquier cambio de sección pendiente
+      if (pendingSectionRef.current && pendingSectionRef.current !== currentSectionRef.current) {
+        onSectionChange(pendingSectionRef.current);
+        pendingSectionRef.current = null;
       }
-    };
-  }, [currentSection, onSectionChange]);
+    }, 150);
+    
+  }, performanceMode ? 250 : 100), [onSectionChange, performanceMode]);
 
-  // Método alternativo de detección de secciones basado en posición de desplazamiento
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      const viewportHeight = window.innerHeight;
-      const viewportCenter = window.scrollY + viewportHeight / 2;
+  // Método para determinar la sección visible
+  const updateVisibleSection = useCallback(throttle(() => {
+    // En modo de rendimiento alto, usar un algoritmo más simple
+    if (performanceMode) {
+      const viewportCenter = window.scrollY + (window.innerHeight / 2);
       
-      // Calcular qué sección está más cerca del centro de la pantalla
-      let closestSection = null;
-      let closestDistance = Infinity;
-      
-      sectionsRef.current.forEach(sectionId => {
+      // Encontrar sección visible con algoritmo simplificado
+      for (const sectionId of sectionsRef.current) {
         const element = document.getElementById(sectionId);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const absoluteTop = rect.top + window.scrollY;
-          const absoluteBottom = rect.bottom + window.scrollY;
-          const sectionCenter = (absoluteTop + absoluteBottom) / 2;
-          
-          const distance = Math.abs(viewportCenter - sectionCenter);
-          
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestSection = sectionId;
+        if (!element) continue;
+        
+        const top = element.offsetTop;
+        const bottom = top + element.clientHeight;
+        
+        // Si el centro de la pantalla está dentro de la sección
+        if (viewportCenter >= top && viewportCenter <= bottom) {
+          if (sectionId !== currentSectionRef.current) {
+            if (isScrolling) {
+              pendingSectionRef.current = sectionId as SectionKey;
+            } else {
+              onSectionChange(sectionId as SectionKey);
+            }
           }
-        }
-      });
-      
-      // Si encontramos una sección cercana y es diferente de la actual
-      if (closestSection && closestSection !== currentSection) {
-        // Si estamos desplazándonos, almacenar para procesar después
-        if (isScrolling) {
-          pendingSectionRef.current = closestSection as SectionKey;
-        } else {
-          onSectionChange(closestSection as SectionKey);
+          break;
         }
       }
-    }, 100);
+      return;
+    }
     
-    window.addEventListener('scroll', handleScroll);
+    // Para dispositivos más potentes, usar algoritmo más preciso
+    const viewportHeight = window.innerHeight;
+    const viewportCenter = window.scrollY + viewportHeight / 2;
+    
+    // Calcular qué sección está más cerca del centro de la pantalla
+    let closestSection = null;
+    let closestDistance = Infinity;
+    
+    sectionsRef.current.forEach(sectionId => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const absoluteTop = rect.top + window.scrollY;
+        const absoluteBottom = rect.bottom + window.scrollY;
+        const sectionCenter = (absoluteTop + absoluteBottom) / 2;
+        
+        const distance = Math.abs(viewportCenter - sectionCenter);
+        
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestSection = sectionId;
+        }
+      }
+    });
+    
+    // Si encontramos una sección cercana y es diferente de la actual
+    if (closestSection && closestSection !== currentSectionRef.current) {
+      // Si estamos desplazándonos, almacenar para procesar después
+      if (isScrolling) {
+        pendingSectionRef.current = closestSection as SectionKey;
+      } else {
+        onSectionChange(closestSection as SectionKey);
+      }
+    }
+  }, performanceMode ? 300 : 150), [onSectionChange, isScrolling, performanceMode]);
+
+  // Configurar observer de scroll
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', updateVisibleSection, { passive: true });
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', updateVisibleSection);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
     };
-  }, [currentSection, onSectionChange, isScrolling, sections]);
+  }, [handleScroll, updateVisibleSection]);
 
-  // Observador de intersección modificado para mayor fiabilidad
+  // Observador de intersección solo para dispositivos de mayor rendimiento
   useEffect(() => {
+    // En modo de alto rendimiento, no usar IntersectionObserver
+    if (performanceMode) {
+      return;
+    }
+    
     // Limpiar el observador anterior
     if (observerRef.current) {
       observerRef.current.disconnect();
@@ -142,51 +165,59 @@ const SectionObserver: FC<SectionObserverProps> = ({
 
     // Configuración optimizada para el observador de intersección
     const options = {
-      rootMargin: '-15% 0px -15% 0px', // Margen reducido para mejor precisión
-      threshold: [0.1, 0.2, 0.3, 0.4, 0.5] // Múltiples umbrales para detección más precisa
+      rootMargin: '-15% 0px -15% 0px',
+      threshold: [0.15, 0.5] // Menos umbrales para mejorar rendimiento
     };
 
     observerRef.current = new IntersectionObserver((entries) => {
-      // Guardar ratios de intersección actualizados
+      // Actualizar solo las entradas que han cambiado
+      let needsUpdate = false;
+      
       entries.forEach(entry => {
         const id = entry.target.id;
-        if (id) {
+        if (id && lastIntersection.current[id] !== entry.intersectionRatio) {
           lastIntersection.current[id] = entry.intersectionRatio;
+          needsUpdate = true;
         }
       });
       
-      // Encontrar la sección con mayor visibilidad
-      let maxRatio = 0;
-      let maxSection = null;
-      
-      Object.entries(lastIntersection.current).forEach(([section, ratio]) => {
-        if (ratio > maxRatio && sectionsRef.current.includes(section)) {
-          maxRatio = ratio;
-          maxSection = section;
-        }
-      });
-      
-      // Actualizar sección si tenemos una con suficiente visibilidad
-      if (maxSection && maxRatio > 0.1 && maxSection !== currentSection) {
-        if (isScrolling) {
-          pendingSectionRef.current = maxSection as SectionKey;
-        } else {
-          onSectionChange(maxSection as SectionKey);
+      // Solo procesar si alguna ratio ha cambiado
+      if (needsUpdate) {
+        // Encontrar la sección con mayor visibilidad
+        let maxRatio = 0;
+        let maxSection = null;
+        
+        Object.entries(lastIntersection.current).forEach(([section, ratio]) => {
+          if (ratio > maxRatio && sectionsRef.current.includes(section)) {
+            maxRatio = ratio;
+            maxSection = section;
+          }
+        });
+        
+        // Actualizar sección si tenemos una con suficiente visibilidad
+        if (maxSection && maxRatio > 0.15 && maxSection !== currentSectionRef.current) {
+          if (isScrolling) {
+            pendingSectionRef.current = maxSection as SectionKey;
+          } else {
+            onSectionChange(maxSection as SectionKey);
+          }
         }
       }
     }, options);
 
-    // Observar todas las secciones en el DOM
-    sectionsRef.current.forEach((section) => {
-      const element = document.getElementById(section);
-      if (element) {
-        observerRef.current?.observe(element);
-        
-        // Inicializar con un valor por defecto si aún no existe
-        if (!(section in lastIntersection.current)) {
-          lastIntersection.current[section] = 0;
+    // Observar solo elementos visibles inicialmente para reducir sobrecarga
+    requestAnimationFrame(() => {
+      sectionsRef.current.forEach((section) => {
+        const element = document.getElementById(section);
+        if (element) {
+          observerRef.current?.observe(element);
+          
+          // Inicializar con un valor por defecto si aún no existe
+          if (!(section in lastIntersection.current)) {
+            lastIntersection.current[section] = 0;
+          }
         }
-      }
+      });
     });
 
     // Cleanup al desmontar
@@ -195,17 +226,10 @@ const SectionObserver: FC<SectionObserverProps> = ({
         observerRef.current.disconnect();
       }
     };
-  }, [onSectionChange, currentSection, isScrolling]);
-
-  // Log para depuración en desarrollo
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Current section:', currentSection);
-      console.log('Intersection ratios:', lastIntersection.current);
-    }
-  }, [currentSection]);
+  }, [isScrolling, onSectionChange, performanceMode]);
 
   return null;
-};
+});
 
+SectionObserver.displayName = 'SectionObserver';
 export default SectionObserver;

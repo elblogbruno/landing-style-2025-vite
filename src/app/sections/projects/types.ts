@@ -22,13 +22,15 @@ export interface Project {
   endDate?: string | null;
 }
 
+export interface ProjectsData {
+  title: string;
+  items: Project[];
+  skills: Skill[];
+  categories: Array<{ id: string; name: string }> | null;
+}
+
 export interface ProjectsProps {
-  data: {
-    title: string;
-    items: Project[];
-    skills: Skill[];
-    categories: Array<{ id: string; name: string }> | null;
-  };
+  data?: ProjectsData; // Ahora es opcional porque usamos useTranslation
   theme?: 'dark' | 'light';
 }
 

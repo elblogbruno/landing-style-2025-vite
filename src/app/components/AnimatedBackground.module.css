@@ -1,0 +1,79 @@
+/* Animaciones para los orbes */
+@keyframes orb1Animation {
+  0%, 100% { transform: translate(20vw, -10vh); }
+  25% { transform: translate(-15vw, 15vh); }
+  50% { transform: translate(5vw, -20vh); }
+  75% { transform: translate(-25vw, 5vh); }
+}
+
+@keyframes orb2Animation {
+  0%, 100% { transform: translate(-10vw, 15vh); }
+  25% { transform: translate(25vw, -20vh); }
+  50% { transform: translate(-5vw, 10vh); }
+  75% { transform: translate(15vw, -5vh); }
+}
+
+@keyframes orb3Animation {
+  0%, 100% { transform: translate(5vw, -15vh); }
+  25% { transform: translate(-20vw, 5vh); }
+  50% { transform: translate(15vw, -25vh); }
+  75% { transform: translate(-10vw, 20vh); }
+}
+
+@keyframes orb4Animation {
+  0%, 100% { transform: translate(-15vw, 10vh); }
+  25% { transform: translate(10vw, -15vh); }
+  50% { transform: translate(-25vw, 5vh); }
+  75% { transform: translate(5vw, -25vh); }
+}
+
+@keyframes orb5Animation {
+  0%, 100% { transform: translate(15vw, -5vh); }
+  25% { transform: translate(-5vw, 15vh); }
+  50% { transform: translate(20vw, -10vh); }
+  75% { transform: translate(-15vw, 20vh); }
+}
+
+@keyframes orb6Animation {
+  0%, 100% { transform: translate(10vw, -10vh); }
+  25% { transform: translate(-15vw, 20vh); }
+  50% { transform: translate(5vw, -15vh); }
+  75% { transform: translate(-20vw, 5vh); }
+}
+
+.orb1 {
+  animation: orb1Animation 120s infinite ease-in-out;
+  will-change: transform;
+}
+
+.orb2 {
+  animation: orb2Animation 130s infinite ease-in-out;
+  will-change: transform;
+}
+
+.orb3 {
+  animation: orb3Animation 110s infinite ease-in-out;
+  will-change: transform;
+}
+
+.orb4 {
+  animation: orb4Animation 140s infinite ease-in-out;
+  will-change: transform;
+}
+
+.orb5 {
+  animation: orb5Animation 125s infinite ease-in-out;
+  will-change: transform;
+}
+
+.orb6 {
+  animation: orb6Animation 115s infinite ease-in-out;
+  will-change: transform;
+}
+
+/* Optimización para reducir carga en CPU */
+@media (prefers-reduced-motion: reduce) {
+  .orb1, .orb2, .orb3, .orb4, .orb5, .orb6 {
+    animation: none;
+  }
+}

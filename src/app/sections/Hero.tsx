@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef, memo } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { track } from '../utils/umami-analytics';
+import { getCurrentAge } from '../../utils/age-calculator';
 
 interface HeroProps {
   data: {
@@ -17,11 +19,12 @@ interface HeroProps {
       external?: boolean;
     }[];
   };
-  theme?: "light" | "dark";
+  theme: "light" | "dark";
 }
 
 // Memo para evitar re-renderizados innecesarios
 const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
+  const { t } = useTranslation();
   const isLight = theme === "light";
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -97,28 +100,28 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
                 contentVisibility: 'auto',
                 containIntrinsicSize: '0 60px',
               }}
-              dangerouslySetInnerHTML={{ __html: data.title }}
+              dangerouslySetInnerHTML={{ __html: t('hero.title') }}
             />
             
             <h2 
               className={`text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 md:mb-6 ${isLight ? 'text-gray-600' : 'text-gray-300'}`}
             >
-              {data.subtitle}
+              {t('hero.subtitle')}
             </h2>
           </div>
           
           {/* Description con mejor rendimiento */}
-          <div 
+            <div 
             className={`max-w-3xl mx-auto mb-10 md:mb-16 p-5 sm:p-6 md:p-8 rounded-xl ${isLight ? 'bg-white/60 backdrop-blur-sm border border-gray-100' : 'bg-gray-800/30 backdrop-blur-sm border border-gray-800'}`}
             style={{
               contentVisibility: 'auto',
               containIntrinsicSize: '0 150px',
             }}
-          >
+            >
             <p className={`text-base sm:text-lg md:text-xl leading-relaxed ${isLight ? 'text-gray-700' : 'text-gray-200'}`}>
-              {data.description}
+              {t('hero.description').replace('{{age}}', String(getCurrentAge()))}
             </p>
-          </div>
+            </div>
 
           {/* Mobile contact & resume buttons con lazy mounting */}
           {typeof window !== 'undefined' && (
@@ -142,7 +145,7 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
-                  Contact Me
+                  {t('contact.title')}
                 </a>
                 
                 {data.resumeUrl && (
@@ -160,7 +163,7 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M16 2H8a2 2 0 00-2 2v16a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2zM8 0h8a4 4 0 014 4v16a4 4 0 01-4 4H8a4 4 0 01-4-4V4a4 4 0 014-4zm2 6h4v2h-4V6zm0 4h4v2h-4v-2zm0 4h4v2h-4v-2z" />
                     </svg>
-                    Resume
+                    {t('hero.resumeButton')}
                   </a>
                 )}
               </div>
@@ -176,7 +179,7 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
               transition={{ delay: 1, duration: 0.8, type: "tween" }}
             >
               <p className={`text-sm mb-2 ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
-                Scroll down to explore
+                {t('hero.scrollDown')}
               </p>
               <motion.div
                 animate={{ 

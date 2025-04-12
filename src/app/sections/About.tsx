@@ -1,28 +1,27 @@
 import React from 'react';
 import { TimelineAnimation } from '../components/timeline';
+import { useTranslation } from 'react-i18next';
 
 interface AboutProps {
-  data: {
-    title: string;
-    paragraphs: string[];
-    image: string;
-    skills: string[];
-    timeline: {
-      time: string;
-      title: string;
-      body: string;
-      imgSrc: string;
-      link?: string;
-      btnText?: string;
-      icon: React.ReactNode; // Cambiar de string a ReactNode
-    }[];
-  };
   theme?: "dark" | "light";
 }
 
-const About: React.FC<AboutProps> = ({ data, theme = "dark" }) => {
+const About: React.FC<AboutProps> = ({ theme = "dark" }) => {
+  const { t } = useTranslation();
+  
+  // Obtener los datos de timeline directamente desde las traducciones
+  const timelineData = t('about.timeline', { returnObjects: true }) as {
+    time: string;
+    title: string;
+    body: string;
+    imgSrc: string;
+    link?: string;
+    btnText?: string;
+    icon: React.ReactNode;
+  }[];
+  
   return (
-    <TimelineAnimation timeline={data.timeline} theme={theme} />
+    <TimelineAnimation timeline={timelineData} theme={theme} />
   );
 };
 

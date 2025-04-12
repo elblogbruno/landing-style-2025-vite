@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { ProjectCardProps } from './types';
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, theme, activeFilter, onSkillClick }) => {
@@ -134,4 +134,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, theme, activeFilter,
   );
 };
 
-export default ProjectCard;
+// Exportamos el componente memorizado para evitar re-renderizados innecesarios
+// cuando solo cambia el tema y otras props no relacionadas
+export default memo(ProjectCard, (prevProps, nextProps) => {
+  // Solo re-renderizar si cambian props relevantes para este componente específico
+  return prevProps.project === nextProps.project && 
+         prevProps.activeFilter === nextProps.activeFilter &&
+         prevProps.theme === nextProps.theme;
+});

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface EducationItem {
   id?: number;
@@ -12,26 +13,29 @@ interface EducationItem {
 }
 
 interface EducationProps {
-  data: {
-    title: string;
-    items: EducationItem[];
-  };
   theme?: 'dark' | 'light';
 }
 
-const Education: React.FC<EducationProps> = ({ data, theme = 'dark' }) => {
+const Education: React.FC<EducationProps> = ({ theme = 'dark' }) => {
+  const { t } = useTranslation();
   const isDark = theme === 'dark';
+  
+  // Obtener datos directamente de las traducciones
+  const educationData = {
+    title: t('education.title'),
+    items: t('education.items', { returnObjects: true }) as EducationItem[]
+  };
   
   return (
     <div className="md:py-16">
-      <h2 className={`text-3xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-800'}`}>{data.title}</h2>
+      <h2 className={`text-3xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-800'}`}>{educationData.title}</h2>
       
       <div className="relative">
         {/* Línea vertical */}
         <div className={`absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 h-full w-1 ${isDark ? 'bg-blue-500/30' : 'bg-blue-500/50'}`}></div>
         
         <div className="space-y-12">
-          {data.items.map((item, index) => (
+          {educationData.items.map((item, index) => (
             <div key={item.id || index} className={`relative flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
               {/* Punto en la línea temporal */}
               <div className={`hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500 border-4 ${isDark ? 'border-gray-800' : 'border-gray-100'}`}></div>

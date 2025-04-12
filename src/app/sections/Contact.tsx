@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface FormData {
   name: string;
@@ -9,22 +10,11 @@ interface FormData {
 }
 
 interface ContactProps {
-  data: {
-    title: string;
-    subtitle: string;
-    email: string; 
-    location: string;
-    resume_link: string;
-    social: {
-      platform: string;
-      url: string;
-      icon: string;
-    }[];
-  };
   theme?: 'light' | 'dark';
 }
 
-const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
+const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -36,19 +26,33 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   
+  // Obtener datos desde las traducciones
+  const contactData = {
+    title: t('contact.title'),
+    subtitle: t('contact.subtitle'),
+    email: t('contact.email'),
+    location: t('contact.location'),
+    resume_link: t('contact.resume_link'),
+    social: t('contact.social', { returnObjects: true }) as {
+      platform: string;
+      url: string;
+      icon: string;
+    }[]
+  };
+  
   const validateForm = () => {
     const newErrors: Partial<FormData> = {};
     
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.name.trim()) newErrors.name = t('contact.form.errors.nameRequired');
     
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('contact.form.errors.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = t('contact.form.errors.emailInvalid');
     }
     
-    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    if (!formData.subject.trim()) newErrors.subject = t('contact.form.errors.subjectRequired');
+    if (!formData.message.trim()) newErrors.message = t('contact.form.errors.messageRequired');
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -148,24 +152,24 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
   
   return (
     <div className="md:py-16">
-      <h2 className={styles.title}>{data.title}</h2>
+      <h2 className={styles.title}>{contactData.title}</h2>
       
       {/* Call to Action Banner */}
       <div className={`mb-10 p-6 rounded-xl ${theme === 'light' ? 'bg-blue-100 text-blue-800' : 'bg-blue-900/40 text-blue-100'}`}>
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-4 md:mb-0">
-            <h3 className="text-xl md:text-2xl font-bold">Did I catch your attention?</h3>
-            <p className="mt-1 text-sm md:text-base">Let's connect and discuss how we can work together.</p>
+            <h3 className="text-xl md:text-2xl font-bold">{t('contact.cta.title')}</h3>
+            <p className="mt-1 text-sm md:text-base">{t('contact.cta.description')}</p>
           </div>
           <a 
-            href="#contact" 
+            href="#contact-form" 
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               theme === 'light' 
                 ? 'bg-blue-600 text-white hover:bg-blue-700' 
                 : 'bg-blue-500 text-white hover:bg-blue-400'
             }`}
           >
-            Send me a message
+            {t('contact.cta.button')}
           </a>
         </div>
       </div>
@@ -173,7 +177,7 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Información de contacto */}
         <div className={styles.container}>
-          <h3 className={styles.heading}>{data.subtitle}</h3>
+          <h3 className={styles.heading}>{contactData.subtitle}</h3>
           
           <div className="space-y-6">
             <div className="flex items-start space-x-4">
@@ -183,8 +187,8 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
                 </svg>
               </div>
               <div>
-                <h4 className={styles.fieldTitle}>Location</h4>
-                <p className={styles.fieldContent}>{data.location}</p>
+                <h4 className={styles.fieldTitle}>{t('contact.locationTitle')}</h4>
+                <p className={styles.fieldContent}>{contactData.location}</p>
               </div>
             </div>
             
@@ -196,12 +200,12 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
               </svg>
               </div>
               <div>
-              <h4 className={styles.fieldTitle}>Email</h4>
+              <h4 className={styles.fieldTitle}>{t('contact.emailTitle')}</h4>
               <a 
-                href={`mailto:${data.email}`} 
+                href={`mailto:${contactData.email}`} 
                 className={`${styles.fieldContent} underline hover:text-blue-500`}
               >
-                {data.email}
+                {contactData.email}
               </a>
               </div>
             </div>
@@ -214,23 +218,23 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
               </svg>
               </div>
               <div>
-              <h4 className={styles.fieldTitle}>Resume</h4>
+              <h4 className={styles.fieldTitle}>{t('contact.resumeTitle')}</h4>
               <a 
-                href={data.resume_link} 
+                href={contactData.resume_link} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className={`${styles.fieldContent} underline hover:text-blue-500`}
               >
-                View Resume
+                {t('contact.viewResume')}
               </a>
               </div>
             </div>
           </div>
           
           <div className="mt-10">
-            <h4 className={styles.fieldTitle + " mb-4"}>Follow Me</h4>
+            <h4 className={styles.fieldTitle + " mb-4"}>{t('contact.followMe')}</h4>
             <div className="flex space-x-4">
-              {data.social.map((platform, index) => (
+              {contactData.social.map((platform, index) => (
                 <a 
                   key={index} 
                   href={platform.url} 
@@ -247,14 +251,14 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
         
         {/* Formulario de contacto */}
         <div id="contact-form" className={styles.container}>
-          <h3 className={styles.heading}>Send a Message</h3>
+          <h3 className={styles.heading}>{t('contact.form.title')}</h3>
           
           <form 
             onSubmit={handleSubmit}
             method="POST"
           >
             <div className="mb-4">
-              <label className={`block ${styles.labelText} mb-2`} htmlFor="name">Name</label>
+              <label className={`block ${styles.labelText} mb-2`} htmlFor="name">{t('contact.form.namePlaceholder')}</label>
               <input
                 type="text"
                 id="name"
@@ -262,13 +266,13 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
                 value={formData.name}
                 onChange={handleChange}
                 className={`w-full ${styles.inputBg} border ${errors.name ? 'border-red-500' : styles.inputBorder} rounded-lg p-3 ${styles.inputText} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                placeholder="Your name"
+                placeholder={t('contact.form.namePlaceholder')}
               />
               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
             </div>
             
             <div className="mb-4">
-              <label className={`block ${styles.labelText} mb-2`} htmlFor="email">Email</label>
+              <label className={`block ${styles.labelText} mb-2`} htmlFor="email">{t('contact.form.emailLabel')}</label>
               <input
                 type="email"
                 id="email"
@@ -276,13 +280,13 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
                 value={formData.email}
                 onChange={handleChange}
                 className={`w-full ${styles.inputBg} border ${errors.email ? 'border-red-500' : styles.inputBorder} rounded-lg p-3 ${styles.inputText} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                placeholder="Your email"
+                placeholder={t('contact.form.emailPlaceholder')}
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
             
             <div className="mb-4">
-              <label className={`block ${styles.labelText} mb-2`} htmlFor="subject">Subject</label>
+              <label className={`block ${styles.labelText} mb-2`} htmlFor="subject">{t('contact.form.subjectLabel')}</label>
               <input
                 type="text"
                 id="subject"
@@ -290,13 +294,13 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
                 value={formData.subject}
                 onChange={handleChange}
                 className={`w-full ${styles.inputBg} border ${errors.subject ? 'border-red-500' : styles.inputBorder} rounded-lg p-3 ${styles.inputText} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                placeholder="Subject"
+                placeholder={t('contact.form.subjectPlaceholder')}
               />
               {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
             </div>
             
             <div className="mb-6">
-              <label className={`block ${styles.labelText} mb-2`} htmlFor="message">Message</label>
+              <label className={`block ${styles.labelText} mb-2`} htmlFor="message">{t('contact.form.messageLabel')}</label>
               <textarea
                 id="message"
                 name="message"
@@ -304,7 +308,7 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
                 onChange={handleChange}
                 rows={5}
                 className={`w-full ${styles.inputBg} border ${errors.message ? 'border-red-500' : styles.inputBorder} rounded-lg p-3 ${styles.inputText} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                placeholder="Your message"
+                placeholder={t('contact.form.messagePlaceholder')}
               />
               {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
             </div>
@@ -323,18 +327,18 @@ const Contact: React.FC<ContactProps> = ({ data, theme = 'dark' }) => {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-              ) : 'Send Message'}
+              ) : t('contact.form.submitButton')}
             </button>
             
             {submitStatus === 'success' && (
               <div className="mt-4 p-3 bg-green-500/20 border border-green-500 rounded-lg text-green-400 text-center">
-                Message sent successfully!
+                {t('contact.form.successMessage')}
               </div>
             )}
             
             {submitStatus === 'error' && (
               <div className="mt-4 p-3 bg-red-500/20 border border-red-500 rounded-lg text-red-400 text-center">
-                Failed to send message. Please try again later.
+                {t('contact.form.errorMessage')}
               </div>
             )}
           </form>

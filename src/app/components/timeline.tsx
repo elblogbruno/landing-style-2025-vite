@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, memo } from "react";
 import { motion, AnimatePresence, animate, useMotionValue } from "framer-motion";
 import useMeasure from "react-use-measure";
 import { useInView } from "react-intersection-observer";
+import { useTranslation } from "react-i18next";
 
 import './timeline.css';
 
@@ -42,38 +43,47 @@ const ArrowDownIcon = memo(() => (
   </svg>
 ));
 
-// Actualizar la firma de TimelineAnimation para usar la interfaz
-export function TimelineAnimation({ timeline, theme }: { timeline: TimelineItem[], theme: string }) {
+// Actualizar la firma de TimelineAnimation para usar la interfaz y memoizarla
+export const TimelineAnimation = memo(function TimelineAnimation({ timeline, theme }: { timeline: TimelineItem[], theme: string }) {
   const timelineRef = useRef(null);
   const isDark = theme === "dark";
+  const { t } = useTranslation();
+
+  // Detectar si el componente está visible para mejorar rendimiento
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+    rootMargin: '100px'
+  });
 
   return (
-    <div className="w-full h-auto flex justify-center overflow-hidden" id="timeline">
+    <div ref={ref} className="w-full h-auto flex justify-center overflow-hidden" id="timeline">
       <section
         ref={timelineRef}
         className="max-w-4xl w-full flex flex-col items-center px-4 lg:px-8"
       >
         <div className="flex flex-col items-center justify-center text-center">
           <h1 className={`text-4xl font-extrabold leading-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            My Journey in Tech
+            {t('about.title')}
           </h1>
           <h2 className={`text-2xl font-semibold ${isDark ? 'text-gray-300' : 'text-gray-700'} max-w-2xl mt-4`}>
-            From curious kid to AR/VR developer and entrepreneur
+            {t('about.subtitle')}
           </h2>
         </div>
 
         {/* Contenedor especial que limita visualmente pero permite overflow */}
         <div className="w-full pt-8 pb-6 overflow-visible relative">
-          <TimelineComponent timeline={timeline} theme={theme} />
+          {/* Solo renderizamos el TimelineComponent cuando está visible o cerca */}
+          {inView && <TimelineComponent timeline={timeline} theme={theme} />}
         </div>
 
         <div className="flex flex-col items-center justify-around gap-4">
           <h1 className={`text-3xl font-bold leading-tight ${isDark ? 'text-white' : 'text-gray-900'} mt-8`}>
-            Let's explore my projects and achievements
+            {t('about.exploreTitle')}
           </h1>
 
           <p className={`font-medium max-w-xl text-lg text-center ${isDark ? 'text-gray-300' : 'text-gray-700'} mt-4 px-6`}>
-            Keep scrolling to discover what I've been creating!
+            {t('about.exploreDescription')}
           </p>
 
           <div className="flex items-center justify-center mt-6">
@@ -83,19 +93,25 @@ export function TimelineAnimation({ timeline, theme }: { timeline: TimelineItem[
       </section>
     </div>
   );
-}
+});
 
 // Optimized TimelineItem component to reduce DOM size
-const TimelineItem = memo(({ item, theme, onToggle, isActive }: { 
+const TimelineItem = memo(({ item, theme, onToggle, isActive, index = 0 }: { 
   item: TimelineItem, 
-  index?: number, // Making index optional since it's not used
+  index?: number,
   theme: string,
   onToggle: () => void,
   isActive: boolean
 }) => {
   const isDark = theme === "dark";
-  const isMobile = window.innerWidth <= 768;
+  const [isMobile, setIsMobile] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const { t } = useTranslation();
+
+  // Detectar mobile solo una vez al montar
+  useEffect(() => {
+    setIsMobile(window.innerWidth <= 768);
+  }, []);
 
   // On desktop we show overlay on hover, on mobile we use click/tap
   const showOverlay = isMobile ? isActive : (isActive || isHovered);
@@ -123,7 +139,7 @@ const TimelineItem = memo(({ item, theme, onToggle, isActive }: {
         {item.imgSrc && (
           <img 
             src={item.imgSrc} 
-            alt={item.title} 
+            alt={t(`about.timeline.${index}.title`, item.title)} 
             className="absolute inset-0 w-full h-full object-cover opacity-0" // Oculta pero carga lazy
             loading="lazy"
             decoding="async"
@@ -139,7 +155,7 @@ const TimelineItem = memo(({ item, theme, onToggle, isActive }: {
 
         <div className="about-timeline-title-overlay">
           <h2 className={`about-timeline-title ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            {item.title}
+            {t(`about.timeline.${index}.title`, item.title)}
           </h2>
         </div>
 
@@ -159,15 +175,15 @@ const TimelineItem = memo(({ item, theme, onToggle, isActive }: {
               exit={{ opacity: 0 }}
             >
               <div className="about-timeline-overlay-content">
-                <p className="about-timeline-body">{item.body}</p>
+                <p className="about-timeline-body">{t(`about.timeline.${index}.body`, item.body)}</p>
                 {item.link && (
                   <a
-                    href={item.link}
+                    href={t(`about.timeline.${index}.link`, item.link)}
                     target="_blank"
                     className="about-timeline-btn"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {item.btnText}
+                    {t(`about.timeline.${index}.btnText`)}
                   </a>
                 )}
                 {/* Close button for mobile */}
@@ -179,7 +195,7 @@ const TimelineItem = memo(({ item, theme, onToggle, isActive }: {
                       onToggle();
                     }}
                   >
-                    Close
+                    {t('common.close', 'Close')}
                   </button>
                 )}
               </div>
@@ -192,7 +208,7 @@ const TimelineItem = memo(({ item, theme, onToggle, isActive }: {
 });
 
 // Optimized TimelineComponent with virtualization
-export default function TimelineComponent({ timeline, theme }: { timeline: TimelineItem[], theme: string }) {
+const TimelineComponent = memo(function TimelineComponent({ timeline, theme }: { timeline: TimelineItem[], theme: string }) {
   const isDark = theme === "dark";
   const timelineItems = timeline;
 
@@ -213,7 +229,21 @@ export default function TimelineComponent({ timeline, theme }: { timeline: Timel
   // Only render items that are visible or close to being visible
   const [visibleRange, setVisibleRange] = useState({ start: 0, end: 5 });
 
-  const { ref: inViewRef, inView} = useInView({ threshold: 0.5 });
+  // Usar un umbral más bajo para reducir cálculos
+  const { ref: inViewRef, inView} = useInView({ 
+    threshold: 0.2, 
+    triggerOnce: false
+  });
+  
+  // Mantener un ref para animaciones activas para poder cancelarlas
+  const animationRef = useRef<any>(null);
+
+  // Estado para verificar si está visible para animaciones
+  const [isVisible, setIsVisible] = useState(false);
+  
+  // Guardamos todos los valores activos en refs para evitar re-renders
+  const isVisibleRef = useRef(false);
+  const inViewRef2 = useRef(false);
 
   // Calcular dinámicamente la posición inicial
   const containerCenter = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
@@ -224,6 +254,27 @@ export default function TimelineComponent({ timeline, theme }: { timeline: Timel
   const handleItemToggle = (index: number) => {
     setActiveItemIndex(activeItemIndex === index ? null : index);
   };
+
+  // Actualizar refs cuando cambia la visibilidad
+  useEffect(() => {
+    isVisibleRef.current = isVisible;
+  }, [isVisible]);
+
+  useEffect(() => {
+    inViewRef2.current = inView;
+    
+    // Solo activar las animaciones cuando es visible
+    if (inView) {
+      setIsVisible(true);
+    } else {
+      // Añadir un pequeño retraso para evitar parpadeos
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [inView]);
 
   // Detect mobile device based on screen width
   useEffect(() => {
@@ -248,6 +299,8 @@ export default function TimelineComponent({ timeline, theme }: { timeline: Timel
       if (timelineEl) {
         // Update visible range based on scroll position
         const handleScrollUpdate = () => {
+          if (!isVisibleRef.current) return; // No procesar si no es visible
+          
           const scrollPos = timelineEl.scrollLeft;
           const containerWidth = timelineEl.clientWidth;
           const itemWidth = 300; // Approximate width of item + margin
@@ -268,23 +321,34 @@ export default function TimelineComponent({ timeline, theme }: { timeline: Timel
         };
       }
     }
-  }, [isMobile, timelineItems.length]);
+  }, [isMobile, timelineItems.length, isVisible]);
 
   // Calculate container width
   useEffect(() => {
+    if (!inView) return; // No actualizar si no está visible
+    
     const totalWidth = bounds.width;
     setContainerWidth(totalWidth);
-  }, [bounds.width]);
+  }, [bounds.width, inView]);
 
-  // Animation effect
+  // Animation effect - optimized to pause when not visible
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || !inView) return;
     
     if (inView && !mouseOver) {
       xTranslation.set(startPosition);
     } else if (!inView) {
       return;
     }
+
+    // Limpiar cualquier animación previa
+    if (animationRef.current) {
+      animationRef.current();
+      animationRef.current = null;
+    }
+
+    // Solo ejecutar animaciones si está visible
+    if (!isVisible) return;
 
     let controls;
 
@@ -311,11 +375,21 @@ export default function TimelineComponent({ timeline, theme }: { timeline: Timel
       });
     }
 
-    return controls?.stop;
-  }, [rerender, xTranslation, duration, containerWidth, startPosition, endPosition, mustFinish, inView, mouseOver, isMobile]);
+    // Guardar la función de limpieza
+    animationRef.current = controls?.stop;
+
+    return () => {
+      if (controls) controls.stop();
+    };
+  }, [rerender, xTranslation, duration, containerWidth, startPosition, endPosition, mustFinish, inView, mouseOver, isMobile, isVisible]);
   
   // Virtualization for desktop view
   const getVisibleDesktopItems = () => {
+    // Skip calculation if not visible
+    if (!isVisibleRef.current || !inViewRef2.current) {
+      return visibleRange;
+    }
+    
     // Simple calculation for visible items
     const scrollPosition = xTranslation.get();
     const screenWidth = window.innerWidth;
@@ -368,69 +442,77 @@ export default function TimelineComponent({ timeline, theme }: { timeline: Timel
     );
   }
 
-  // Desktop view with virtualization
+  // Desktop view with virtualization - only render if visible
   return (
     <div
       ref={inViewRef}
       className="relative w-full h-[500px] overflow-hidden" 
     >
-      <div className="flex justify-center w-full h-full">
-        <motion.div
-          className="flex flex-row justify-start items-center h-full"
-          style={{ x: xTranslation }}
-          onHoverStart={() => {
-            setMustFinish(true);
-            setMouseOver(true); 
-            setDuration(SLOW_DURATION);
-          }}
-          onHoverEnd={() => {
-            setMustFinish(false);
-            setMouseOver(false);
-            setDuration(FAST_DURATION);
-          }}
-          onUpdate={() => {
-            // Update which items are visible during animation
-            if (!mouseOver) {
-              const visibleItems = getVisibleDesktopItems();
-              setVisibleRange(visibleItems);
-            }
-          }}
-        >
-          <div
-            ref={ref}
-            className={`flex flex-row items-center about-timeline horizontal ${
-              isDark ? "about-timeline-dark" : "about-timeline-light"
-            }`}
+      {isVisible && (
+        <div className="flex justify-center w-full h-full">
+          <motion.div
+            className="flex flex-row justify-start items-center h-full"
+            style={{ x: xTranslation }}
+            onHoverStart={() => {
+              setMustFinish(true);
+              setMouseOver(true); 
+              setDuration(SLOW_DURATION);
+            }}
+            onHoverEnd={() => {
+              setMustFinish(false);
+              setMouseOver(false);
+              setDuration(FAST_DURATION);
+            }}
+            onUpdate={() => {
+              // Actualizar elementos visibles solo si el ratón no está encima
+              // y el componente sigue siendo visible
+              if (!mouseOver && isVisibleRef.current) {
+                const visibleItems = getVisibleDesktopItems();
+                if (visibleItems.start !== visibleRange.start || 
+                    visibleItems.end !== visibleRange.end) {
+                  setVisibleRange(visibleItems);
+                }
+              }
+            }}
           >
-            {/* Create placeholder elements for all items, but only render content for visible ones */}
-            {timelineItems.map((item, index) => {
-              const isVisible = index >= visibleRange.start && index <= visibleRange.end;
-              
-              if (!isVisible) {
-                // Return empty placeholder with correct size to maintain scrolling
+            <div
+              ref={ref}
+              className={`flex flex-row items-center about-timeline horizontal ${
+                isDark ? "about-timeline-dark" : "about-timeline-light"
+              }`}
+            >
+              {/* Create placeholder elements for all items, but only render content for visible ones */}
+              {timelineItems.map((item, index) => {
+                const isVisible = index >= visibleRange.start && index <= visibleRange.end;
+                
+                if (!isVisible) {
+                  // Return empty placeholder with correct size to maintain scrolling
+                  return (
+                    <div 
+                      key={index}
+                      className="about-timeline-item-container mb-12"
+                      style={{ width: '300px', height: '400px', visibility: 'hidden' }} 
+                    />
+                  );
+                }
+                
                 return (
-                  <div 
-                    key={index}
-                    className="about-timeline-item-container mb-12"
-                    style={{ width: '300px', height: '400px', visibility: 'hidden' }} 
+                  <TimelineItem 
+                    key={index} 
+                    item={item} 
+                    index={index} 
+                    theme={theme}
+                    onToggle={() => handleItemToggle(index)}
+                    isActive={activeItemIndex === index}
                   />
                 );
-              }
-              
-              return (
-                <TimelineItem 
-                  key={index} 
-                  item={item} 
-                  index={index} 
-                  theme={theme}
-                  onToggle={() => handleItemToggle(index)}
-                  isActive={activeItemIndex === index}
-                />
-              );
-            })}
-          </div>
-        </motion.div>
-      </div>
+              })}
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
-}
+});
+
+export default TimelineComponent;

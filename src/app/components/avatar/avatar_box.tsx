@@ -1,3 +1,4 @@
+import React, { memo } from 'react'; 
 import { Canvas, extend } from '@react-three/fiber'; 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useElevatorSound } from './hooks/useElevatorSound';
@@ -6,16 +7,12 @@ import ElevatorCabin from './components/ElevatorCabin';
 import LoadingIndicator from './components/LoadingIndicator';
 import { Mesh, BoxGeometry, MeshStandardMaterial, Fog, AmbientLight, DirectionalLight } from 'three';
 import { track } from '../../utils/umami-analytics';
-
-// import FloorMarkers from './components/FloorMarkers';
-
+import { useTranslation } from 'react-i18next';
+import { SectionKey } from './types';
 
 import ElevatorControls from './components/ElevatorControls';
 import WelcomeOverlay from './components/WelcomeOverlay';
-
-import './window-frame.css';  
-import React, { memo } from 'react'; 
-import { SectionKey } from './types';
+import './window-frame.css';
 
 extend({ Mesh, BoxGeometry, MeshStandardMaterial, Fog, AmbientLight, DirectionalLight });
 
@@ -62,39 +59,20 @@ const animateScroll = (
   requestAnimationFrame(animation);
 };
 
-interface ElevatorProps {
-    data: {
-        overlay: {
-            title: string;
-            subtitle: string;
-            resumeUrl: string;
-            buttons: {
-                text: string;
-                url: string;
-                type: string;
-                external?: boolean;
-            }[];
-        };
-        floors: {
-            [key in SectionKey]: {
-                description: string;
-                pitchLine: string;
-            }
-        };
-    };
+interface ElevatorProps { 
     currentSection: SectionKey;
     theme: "dark" | "light";
     onTransitionChange?: (isTransitioning: boolean) => void;
     isButtonTriggered?: boolean; // Nueva prop para distinguir navegación por botón vs scroll
 }
 
-const AvatarBox: React.FC<ElevatorProps> = ({ 
-    data, 
+const AvatarBox: React.FC<ElevatorProps> = ({  
     currentSection, 
     theme, 
     onTransitionChange,
     isButtonTriggered = false // Por defecto asumimos que es navegación por scroll
 }) => { 
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const currentSectionRef = useRef(currentSection);
     const [isTransitioning, setIsTransitioning] = useState(false);
@@ -166,15 +144,48 @@ const AvatarBox: React.FC<ElevatorProps> = ({
         }, 1500); // Increased timeout to ensure doors fully close before scrolling
     }, []);
 
+    // Optimizar el useEffect para evitar que las puertas se abran y cierren dos veces
     useEffect(() => {
-        if (currentSection === 'hero') {
-            setShowOverlay(true);
-            setDoorsOpen(false);
-        } else {
-            setDoorsOpen(true);
-            setShowOverlay(false); 
+        // No realizar cambios en las puertas durante la carga inicial
+        if (loading) return;
+        
+        // Usamos un flag para evitar que este efecto se ejecute varias veces seguidas por puertas
+        const shouldUpdateDoors = !doorTransitionInProgressRef.current;
+
+        if (shouldUpdateDoors) {
+            // Estado de puertas basado en la sección actual
+            const shouldDoorsBeOpen = currentSection !== 'hero';
+            
+            // Evitar cambios innecesarios - sólo actualizar si el estado deseado es diferente al actual
+            if (shouldDoorsBeOpen !== doorsOpen) {
+                doorTransitionInProgressRef.current = true;
+                
+                if (shouldDoorsBeOpen) {
+                    // Primero ocultar overlay si estamos saliendo de hero
+                    if (showOverlay) {
+                        setShowOverlay(false);
+                    }
+                    
+                    // Luego abrir las puertas
+                    setDoorsOpen(true);
+                    
+                    // Resetear el flag después de la animación completa
+                    setTimeout(() => {
+                        doorTransitionInProgressRef.current = false;
+                    }, 1700); // Un poco más que la duración de la animación de las puertas (1.6s)
+                } else {
+                    // Cerrar las puertas primero
+                    setDoorsOpen(false);
+                    
+                    // Después mostrar el overlay cuando las puertas estén cerradas
+                    setTimeout(() => {
+                        setShowOverlay(true);
+                        doorTransitionInProgressRef.current = false;
+                    }, 1700); // Un poco más que la duración de la animación de las puertas
+                }
+            }
         }
-    }, [currentSection]);
+    }, [currentSection, loading, doorsOpen, showOverlay]);
 
     // Handle model loading
     const handleModelLoaded = useCallback(() => {
@@ -199,60 +210,60 @@ const AvatarBox: React.FC<ElevatorProps> = ({
           'hero': { 
             y: baseHeight, 
             floor: 6, 
-            description: data.floors.hero.description,
-            pitchLine: data.floors.hero.pitchLine
+            description: t('elevator.floors.hero.description'),
+            pitchLine: t('elevator.floors.hero.pitchLine')
           },
           'about': { 
             y: baseHeight - floorHeight, 
             floor: 5, 
-            description: data.floors.about.description, 
-            pitchLine: data.floors.about.pitchLine
+            description: t('elevator.floors.about.description'), 
+            pitchLine: t('elevator.floors.about.pitchLine')
           },
           'experience': { 
             y: baseHeight - (floorHeight * 2), 
             floor: 4, 
-            description: data.floors.experience.description, 
-            pitchLine: data.floors.experience.pitchLine
+            description: t('elevator.floors.experience.description'), 
+            pitchLine: t('elevator.floors.experience.pitchLine')
           },
           'projects': { 
             y: baseHeight - (floorHeight * 3), 
             floor: 3, 
-            description: data.floors.projects.description, 
-            pitchLine: data.floors.projects.pitchLine
+            description: t('elevator.floors.projects.description'), 
+            pitchLine: t('elevator.floors.projects.pitchLine')
           },
           'talks': { 
             y: baseHeight - (floorHeight * 4), 
             floor: 2, 
-            description: data.floors.talks.description, 
-            pitchLine: data.floors.talks.pitchLine
+            description: t('elevator.floors.talks.description'), 
+            pitchLine: t('elevator.floors.talks.pitchLine')
           },
           'news': { 
             y: baseHeight - (floorHeight * 5), 
             floor: 1, 
-            description: data.floors.news.description, 
-            pitchLine: data.floors.news.pitchLine
+            description: t('elevator.floors.news.description'), 
+            pitchLine: t('elevator.floors.news.pitchLine')
           },
           'awards': { 
             y: baseHeight - (floorHeight * 6), 
             floor: 0, 
-            description: data.floors.awards.description, 
-            pitchLine: data.floors.awards.pitchLine
+            description: t('elevator.floors.awards.description'), 
+            pitchLine: t('elevator.floors.awards.pitchLine')
           },
           'education': { 
             y: baseHeight - (floorHeight * 7), 
             floor: -1, 
-            description: data.floors.education.description, 
-            pitchLine: data.floors.education.pitchLine
+            description: t('elevator.floors.education.description'), 
+            pitchLine: t('elevator.floors.education.pitchLine')
           },
           'contact': { 
             y: baseHeight - (floorHeight * 8), 
             floor: -2, 
-            description: data.floors.contact.description, 
-            pitchLine: data.floors.contact.pitchLine
+            description: t('elevator.floors.contact.description'), 
+            pitchLine: t('elevator.floors.contact.pitchLine')
           },
       };
       return floorsConfig;
-    }, [data.floors]);
+    }, [t]);
 
     // Iniciar el movimiento del elevador al montar el componente
     useEffect(() => {
@@ -363,6 +374,8 @@ const AvatarBox: React.FC<ElevatorProps> = ({
         const targetY = floors[section].y;
         const targetFloor = floors[section].floor;
         const description = floors[section].description;
+        const currentTargetFloor = floors[currentSectionRef.current]?.floor || currentFloor;
+        const floorDiff = Math.abs(targetFloor - currentTargetFloor);
 
         // Solo registramos el cambio de piso cuando se hace mediante botones (interacción directa)
         if (animationType === 'full') {
@@ -380,146 +393,171 @@ const AvatarBox: React.FC<ElevatorProps> = ({
         
         // ANIMACIÓN TIPO COMPLETO (por botón): cerrar puertas, bloquear scroll, etc.
         if (animationType === 'full') {
-            // console.log('Elevator moving to section:', section);
             // Bloquear el scroll durante la transición completa
             blockScrolling(true);
-            
-            // Only change door state and force update if transition isn't already in progress
-            if (!doorTransitionInProgressRef.current) {
-                doorTransitionInProgressRef.current = true;
-                // Close the doors first - ensure they fully close before elevator moves
-                setDoorsOpen(false);
-                
-                // Reset transition flag after animation completes
-                setTimeout(() => {
-                    doorTransitionInProgressRef.current = false;
-                }, 1700); // Slightly longer than door animation
-            }
             
             // Clear any existing timeouts and animations
             if (doorsTimeoutRef.current) {
                 clearTimeout(doorsTimeoutRef.current);
+                doorsTimeoutRef.current = null;
+            }
+            if (transitionTimeoutRef.current) {
+                clearTimeout(transitionTimeoutRef.current);
+                transitionTimeoutRef.current = null;
             }
             if (animationFrameRef.current) {
                 cancelAnimationFrame(animationFrameRef.current);
+                animationFrameRef.current = null;
             }
             
-            // Wait for doors to fully close before moving (sincronizado con el scroll)
+            // Establecer flag de animación de puertas
+            doorTransitionInProgressRef.current = true;
+            
+            // Cerrar las puertas primero
+            setDoorsOpen(false);
+            
+            // Duración basada en distancia - más larga para distancias mayores
+            const baseDuration = 1800;
+            const additionalTimePerFloor = 600;
+            const moveDuration = Math.min(baseDuration + (floorDiff * additionalTimePerFloor), 4500);
+            
+            // Tiempo para asegurar que las puertas se cierren COMPLETAMENTE antes de mover el elevador
+            const doorCloseTime = 1750; // Aumentado para garantizar cierre completo
+            
+            // Espera a que las puertas se cierren completamente antes de mover el elevador
             doorsTimeoutRef.current = setTimeout(() => {
-                // Añadir clase para vibración
-                const elevatorElement = document.querySelector('.window-frame');
-                elevatorElement?.classList.add('elevator-moving');
+                // Verificar que las puertas estén cerradas antes de comenzar a moverse
+                if (doorsOpen) {
+                    // Si por alguna razón las puertas siguen abiertas, extendemos el tiempo
+                    setTimeout(() => {
+                        startElevatorMovement();
+                    }, 500);
+                    return;
+                }
                 
-                // Show floor direction and target in console for debugging
-                // console.log(`Moving ${goingUp ? '↑' : '↓'} to floor ${targetFloor}`);
+                startElevatorMovement();
                 
-                // Calcular distancia para ajustar duración
-                const floorDiff = Math.abs(targetFloor - currentFloor);
-                
-                // Duración basada en distancia (debe coincidir con la duración del scroll en page.tsx)
-                const duration = Math.min(1800 + (floorDiff * 600), 3500);
-                const startY = cameraRef.current.y;
-        
-                // Iniciar animación de movimiento del elevador
-                let startTime: number | null = null;
-                const animate = (timestamp: number | null) => {
-                    if (timestamp === null) return;
-                    if (!startTime) startTime = timestamp;
-                    const elapsed = timestamp - startTime;
-                    const rawProgress = Math.min(elapsed / duration, 1);
+                // Función interna para iniciar el movimiento del elevador
+                function startElevatorMovement() {
+                    // Añadir clase para vibración
+                    const elevatorElement = document.querySelector('.window-frame');
+                    elevatorElement?.classList.add('elevator-moving');
                     
-                    // Usar la misma función de easing que el scroll
-                    let progress;
-                    
-                    if (rawProgress < 0.2) {
-                        // Aceleración inicial
-                        progress = (rawProgress / 0.2) * (rawProgress / 0.2) * 0.2;
-                        
-                        // Vibración inicial
-                        const startingVibration = rawProgress * 0.5;
-                        setElevatorVibration(startingVibration);
-                    } else if (rawProgress > 0.8) {
-                        // Desaceleración final
-                        const decelProgress = (1 - rawProgress) / 0.2;
-                        progress = 0.8 + (1 - decelProgress * decelProgress) * 0.2;
-                        
-                        // Vibración final
-                        const endingVibration = (1 - ((rawProgress - 0.8) / 0.2)) * 0.5;
-                        setElevatorVibration(endingVibration);
-                    } else {
-                        // Velocidad constante
-                        progress = 0.2 + (rawProgress - 0.2) * (0.6 / 0.6);
-                        
-                        // Vibración constante
-                        setElevatorVibration(0.3 + Math.sin(elapsed * 0.01) * 0.1);
-                    }
-        
-                    const newY = startY + (targetY - startY) * progress;
-                    cameraRef.current.y = newY;
-                    
-                    if (rawProgress < 1) {
-                        animationFrameRef.current = requestAnimationFrame(animate);
-                    } else {
-                        // Finalización de la animación completa
-                        if (transitionTimeoutRef.current) {
-                            clearTimeout(transitionTimeoutRef.current);
-                        }
-                        
-                        // Vibración final al llegar
-                        setElevatorVibration(0.8);
-                        
-                        // After elevator has arrived at destination
-                        transitionTimeoutRef.current = setTimeout(() => {
-                            elevatorElement?.classList.remove('elevator-moving');
-                            setElevatorVibration(0);
+                    const startY = cameraRef.current.y;
+            
+                    // Animación con física más realista
+                    const animate = () => {
+                        const animateElevator = (currentTime: number) => {
+                            if (!startTime) startTime = currentTime;
+                            const elapsed = currentTime - startTime;
+                            const rawProgress = Math.min(elapsed / moveDuration, 1);
                             
-                            // Update floor information
-                            setCurrentFloor(targetFloor);
+                            // Función de easing con 3 fases: aceleración, velocidad constante, desaceleración
+                            let progress;
                             
-                            // Only open doors if no door transition is in progress
-                            if (!doorTransitionInProgressRef.current) {
-                                doorTransitionInProgressRef.current = true;
-                                // Open doors after arrival
-                                setDoorsOpen(true);
+                            // Ajustar la proporción de cada fase según la distancia del viaje
+                            const accelerationPhase = floorDiff > 3 ? 0.15 : 0.2; 
+                            const decelerationPhase = floorDiff > 3 ? 0.15 : 0.2;
+                            const constantPhase = 1 - accelerationPhase - decelerationPhase;
+                            
+                            // Calcular posición y vibración según la fase
+                            if (rawProgress < accelerationPhase) {
+                                // Fase de aceleración: movimiento cuadrático
+                                const accelProgress = rawProgress / accelerationPhase;
+                                progress = (accelProgress * accelProgress) * accelerationPhase;
                                 
-                                // Reset transition flag after animation completes
-                                setTimeout(() => {
-                                    doorTransitionInProgressRef.current = false;
-                                }, 1700); // Slightly longer than door animation
+                                // Vibración inicial - aumenta gradualmente
+                                const startVibration = rawProgress * 0.5;
+                                setElevatorVibration(startVibration);
+                            } 
+                            else if (rawProgress > (1 - decelerationPhase)) {
+                                // Fase de desaceleración: desaceleración cuadrática
+                                const decelStart = 1 - decelerationPhase;
+                                const decelProgress = (rawProgress - decelStart) / decelerationPhase;
+                                const invDecelProgress = 1 - decelProgress;
+                                
+                                progress = 1 - (invDecelProgress * invDecelProgress * decelerationPhase);
+                                
+                                // Vibración final - disminuye gradualmente
+                                const endVibration = (1 - decelProgress) * 0.5;
+                                setElevatorVibration(endVibration);
+                            } 
+                            else {
+                                // Fase de velocidad constante
+                                const constStart = accelerationPhase;
+                                const constProgress = (rawProgress - constStart) / constantPhase;
+                                progress = accelerationPhase + (constProgress * constantPhase);
+                                
+                                // Vibración constante con ligera variación sinusoidal
+                                const baseVibration = 0.3; 
+                                const variationAmplitude = 0.1;
+                                const variationFrequency = 0.01;
+                                setElevatorVibration(baseVibration + Math.sin(elapsed * variationFrequency) * variationAmplitude);
                             }
+            
+                            // Actualizar posición
+                            const newY = startY + (targetY - startY) * progress;
+                            cameraRef.current.y = newY;
                             
-                            // Evento de apertura de puertas - no es necesario registrarlo, ya que es parte de la transición
-                            // iniciada por la interacción del usuario que ya registramos al inicio
-                            
-                            // After doors are fully open, reset transition state
-                            setTimeout(() => {
-                                setIsTransitioning(false);
-                                isScrollingRef.current = false;
+                            // Continuar animando o finalizar
+                            if (rawProgress < 1) {
+                                animationFrameRef.current = requestAnimationFrame(animateElevator);
+                            } else {
+                                // Finalización de la animación
+                                setElevatorVibration(0.5); // Vibración de llegada
                                 
-                                // Desbloquear el scroll de la página
-                                blockScrolling(false);
-                                
-                                if (pendingSectionRef.current && pendingSectionRef.current !== section) {
-                                    const nextSection = pendingSectionRef.current;
-                                    pendingSectionRef.current = null;
-                                    moveElevatorToSection(nextSection);
-                                }
-                            }, 1600); // Match door opening animation duration
-                            
-                        }, 500); // Slight pause after arrival before opening doors
-                    }
-                };
-                animationFrameRef.current = requestAnimationFrame(animate);
-            }, 1500); // Increased timeout to ensure doors fully close before moving
+                                // After elevator has arrived at destination
+                                const arrivalPauseTime = 500; // Pausa al llegar
+                                transitionTimeoutRef.current = setTimeout(() => {
+                                    elevatorElement?.classList.remove('elevator-moving');
+                                    setElevatorVibration(0); // Detener vibración
+                                    
+                                    // Update floor information
+                                    setCurrentFloor(targetFloor);
+                                    
+                                    // Resetear el flag de la animación de las puertas
+                                    doorTransitionInProgressRef.current = false;
+                                    
+                                    // Abrir puertas después de la llegada
+                                    setDoorsOpen(true);
+                                    
+                                    // After doors are fully open, reset transition state
+                                    const doorOpenTime = 1600; // Tiempo para abrir puertas
+                                    setTimeout(() => {
+                                        setIsTransitioning(false);
+                                        isScrollingRef.current = false;
+                                        
+                                        // Desbloquear el scroll de la página
+                                        blockScrolling(false);
+                                        
+                                        // Si hay una navegación pendiente, procesarla
+                                        if (pendingSectionRef.current && pendingSectionRef.current !== section) {
+                                            const nextSection = pendingSectionRef.current;
+                                            pendingSectionRef.current = null;
+                                            moveElevatorToSection(nextSection);
+                                        }
+                                    }, doorOpenTime);
+                                    
+                                }, arrivalPauseTime);
+                            }
+                        };
+                        
+                        // Variable para tiempo inicial (fuera de la función anidada)
+                        let startTime: number | null = null;
+                        animationFrameRef.current = requestAnimationFrame(animateElevator);
+                    };
+                    
+                    animate(); // No necesitamos pasar performance.now() aquí
+                }
+            }, doorCloseTime);
         } else {
-            // console.log('Elevator moving to section (scroll):', section);
             // ANIMACIÓN TIPO SCROLL (por scroll): solo actualizar la posición de la cámara
             cameraRef.current.y = targetY;
             setCurrentFloor(targetFloor);
             setIsTransitioning(false);
             isScrollingRef.current = false;
         }
-    }, [animationType, blockScrolling, currentFloor, floors, isTransitioning]);
+    }, [animationType, blockScrolling, currentFloor, doorsOpen, floors, isTransitioning]);
 
     return (
         <div 
@@ -534,8 +572,7 @@ const AvatarBox: React.FC<ElevatorProps> = ({
             {/* Make sure WelcomeOverlay comes BEFORE the ElevatorDoors in the DOM to ensure proper z-index stacking */}
             <WelcomeOverlay 
                 show={showOverlay} 
-                theme={theme}
-                data={data.overlay}
+                theme={theme} 
                 onStart={handleStartTrip} 
             />
 

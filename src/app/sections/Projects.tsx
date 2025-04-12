@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import ActiveFilterBadge from './projects/ActiveFilterBadge';
 import FilterCategories from './projects/FilterCategories';
 import NoResultsMessage from './projects/NoResultsMessage';
@@ -9,7 +10,8 @@ import { Project, ProjectsProps } from './projects/types';
 import { filterProjectsByCategory, filterProjectsBySkill, sortProjects } from './projects/utils'; 
 import ProjectStats from './projects/ProjectStats';
 
-const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
+const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'dark' }) => {
+  const { t } = useTranslation();
   const INITIAL_PROJECT_COUNT = 6;
   const LOAD_MORE_COUNT = 6;
 
@@ -29,28 +31,39 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
     return false; // Default to hidden on server-side rendering
   });
 
-  const sortedProjects = useMemo(() => sortProjects(data.items), [data.items]);
+  // Obtener datos de proyectos desde las traducciones con conversiones de tipo explícitas
+  const projectsData = useMemo(() => {
+    return {
+      title: t('projects.title'),
+      categories: (t('projects.categories', { returnObjects: true }) as { id: string; name: string }[] || []),
+      skills: (t('projects.skills', { returnObjects: true }) as { name: string; category: string }[] || []),
+      items: (t('projects.items', { returnObjects: true }) as Project[] || [])
+    };
+  }, [t]);
+
+  const sortedProjects = useMemo(() => sortProjects(projectsData.items), [projectsData.items]);
   
   // Get skills to use from the project's skills array if available, otherwise from general skills
   const projectSkills = useMemo(() => {
-    return data.skills || [];
-  }, [data.skills]);
+    // Asegurar que siempre devuelve un array
+    return Array.isArray(projectsData.skills) ? projectsData.skills : [];
+  }, [projectsData.skills]);
   
   // Use categories from site-data if available, or fall back to a default set
   const categories = useMemo(() => {
     // Always include 'all' category
-    const allCategory = { id: 'all', name: 'All' };
+    const allCategory = { id: 'all', name: t('projects.all') };
     
     // Check if categories are defined in the data
-    if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {
-      return [allCategory, ...data.categories];
+    if (Array.isArray(projectsData.categories) && projectsData.categories.length > 0) {
+      return [allCategory, ...projectsData.categories];
     }
     
-    // Extract unique categories from skills data
+    // Extract unique categories from skills data as a optimization
     const uniqueCategories = new Set<string>();
     
     // Add categories from skills
-    if (projectSkills.length > 0) {
+    if (Array.isArray(projectSkills) && projectSkills.length > 0) {
       projectSkills.forEach(skill => {
         if (skill.category) {
           uniqueCategories.add(skill.category);
@@ -65,41 +78,48 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
     }));
     
     return [allCategory, ...categoryItems];
-  }, [data.categories, projectSkills]);
+  }, [projectsData.categories, projectSkills, t]);
 
-  // This function prioritizes featured projects
-  const getOptimizedProjectList = (projects: Project[]) => {
+  // This function prioritizes featured projects - memoized to prevent recreation
+  const getOptimizedProjectList = useCallback((projects: Project[]) => {
     // Separate featured and regular projects
     const featured = projects.filter(project => project.featured);
     const regular = projects.filter(project => !project.featured);
     
     // Return featured projects first, then regular projects
     return [...featured, ...regular];
-  };
+  }, []);
 
-  // Add effect to update showSkillsFilter state when window is resized
+  // Add effect to update showSkillsFilter state when window is resized - optimized with throttling
   useEffect(() => {
+    let resizeTimer: number;
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        // On desktop/tablet, show skills filter by default unless explicitly hidden by user
-        if (showSkillsFilter === false && !localStorage.getItem('skillsFilterHidden')) {
-          setShowSkillsFilter(true);
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        if (window.innerWidth >= 768) {
+          // On desktop/tablet, show skills filter by default unless explicitly hidden by user
+          if (showSkillsFilter === false && !localStorage.getItem('skillsFilterHidden')) {
+            setShowSkillsFilter(true);
+          }
+        } else {
+          // On mobile, hide skills filter by default
+          setShowSkillsFilter(false);
         }
-      } else {
-        // On mobile, hide skills filter by default
-        setShowSkillsFilter(false);
-      }
+      }, 150); // Throttle resize events
     };
 
     // Set initial state
     handleResize();
 
     // Add event listener
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
     
     // Clean up
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [showSkillsFilter]);
 
   useEffect(() => {
     // Sort and prioritize featured projects
@@ -108,14 +128,14 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
     setVisibleProjectCount(INITIAL_PROJECT_COUNT);
     setExpandedView(false);
     setAllProjectsLoaded(optimizedProjects.length <= INITIAL_PROJECT_COUNT);
-  }, [sortedProjects]);
+  }, [sortedProjects, getOptimizedProjectList]);
 
-  const handleCategoryChange = (category: string) => {
+  const handleCategoryChange = useCallback((category: string) => {
     setCategoryFilter(category);
     setActiveFilter(null);
     
     // Filter projects by category
-    const filteredByCategory = filterProjectsByCategory(sortedProjects, category, projectSkills);
+    const filteredByCategory = filterProjectsByCategory(sortedProjects, category, Array.isArray(projectSkills) ? projectSkills : []);
     
     // Optimize the order to prioritize featured projects
     const optimizedProjects = getOptimizedProjectList(filteredByCategory);
@@ -129,9 +149,9 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
     if (category !== 'all' && window.innerWidth >= 768) {
       setShowSkillsFilter(true);
     }
-  };
+  }, [sortedProjects, projectSkills, getOptimizedProjectList]);
 
-  const applySkillFilter = (skillName: string) => {
+  const applySkillFilter = useCallback((skillName: string) => {
     setActiveFilter(skillName);
     
     // Filter projects by skill
@@ -144,9 +164,9 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
     setVisibleProjectCount(INITIAL_PROJECT_COUNT);
     setExpandedView(false);
     setAllProjectsLoaded(optimizedProjects.length <= INITIAL_PROJECT_COUNT);
-  };
+  }, [sortedProjects, getOptimizedProjectList]);
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setActiveFilter(null);
     setCategoryFilter('all');
     
@@ -157,32 +177,37 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
     setVisibleProjectCount(INITIAL_PROJECT_COUNT);
     setExpandedView(false);
     setAllProjectsLoaded(optimizedProjects.length <= INITIAL_PROJECT_COUNT);
-  };
+  }, [sortedProjects, getOptimizedProjectList]);
 
-  const loadMoreProjects = () => {
-    const newCount = visibleProjectCount + LOAD_MORE_COUNT;
-    setVisibleProjectCount(newCount);
-    setAllProjectsLoaded(newCount >= filteredProjects.length);
-  };
+  const loadMoreProjects = useCallback(() => {
+    setVisibleProjectCount(prev => {
+      const newCount = prev + LOAD_MORE_COUNT;
+      setAllProjectsLoaded(newCount >= filteredProjects.length);
+      return newCount;
+    });
+  }, [filteredProjects.length]);
 
-  const collapseProjects = () => {
+  const collapseProjects = useCallback(() => {
     setVisibleProjectCount(INITIAL_PROJECT_COUNT);
     setExpandedView(false);
     setAllProjectsLoaded(false);
-  };
+  }, [INITIAL_PROJECT_COUNT]);
 
   // Toggle skills filter visibility and remember preference
-  const toggleSkillsFilter = () => {
-    const newState = !showSkillsFilter;
-    setShowSkillsFilter(newState);
-    
-    // Optionally, store user preference
-    if (!newState) {
-      localStorage.setItem('skillsFilterHidden', 'true');
-    } else {
-      localStorage.removeItem('skillsFilterHidden');
-    }
-  };
+  const toggleSkillsFilter = useCallback(() => {
+    setShowSkillsFilter(prevState => {
+      const newState = !prevState;
+      
+      // Optionally, store user preference
+      if (!newState) {
+        localStorage.setItem('skillsFilterHidden', 'true');
+      } else {
+        localStorage.removeItem('skillsFilterHidden');
+      }
+      
+      return newState;
+    });
+  }, []);
 
   const currentlyVisibleProjects = useMemo(() => {
     return filteredProjects.slice(0, visibleProjectCount);
@@ -196,18 +221,56 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
     return currentlyVisibleProjects.filter(project => !project.featured);
   }, [currentlyVisibleProjects]);
 
+  // Memoize component props to prevent recreating objects on each render
+  const filterCategoriesProps = useMemo(() => ({
+    categories,
+    activeCategory: categoryFilter,
+    onCategoryChange: handleCategoryChange,
+    theme
+  }), [categories, categoryFilter, handleCategoryChange, theme]);
+
+  const skillsFilterProps = useMemo(() => ({
+    skills: Array.isArray(projectSkills) ? projectSkills : [],
+    categoryFilter,
+    categories,
+    activeFilter,
+    onSkillClick: applySkillFilter,
+    theme
+  }), [projectSkills, categoryFilter, categories, activeFilter, applySkillFilter, theme]);
+
+  const projectsListProps = useMemo(() => ({
+    featuredProjects,
+    regularProjects,
+    activeFilter,
+    currentlyVisibleProjects,
+    applySkillFilter,
+    theme
+  }), [featuredProjects, regularProjects, activeFilter, currentlyVisibleProjects, applySkillFilter, theme]);
+
+  const paginationControlsProps = useMemo(() => ({
+    filteredProjects,
+    initialProjectCount: visibleProjectCount,
+    allProjectsLoaded,
+    expandedView,
+    onLoadMore: loadMoreProjects,
+    onCollapse: collapseProjects,
+    theme
+  }), [filteredProjects, visibleProjectCount, allProjectsLoaded, expandedView, loadMoreProjects, collapseProjects, theme]);
+
+  const projectStatsProps = useMemo(() => ({
+    count: filteredProjects.length,
+    allLoaded: allProjectsLoaded,
+    expandedView,
+    theme
+  }), [filteredProjects.length, allProjectsLoaded, expandedView, theme]);
+
   return (
-    <div className={`md:py-16`}>
-      <h2 className={`text-3xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>{data.title}</h2>
+    <div className="md:py-16">
+      <h2 className={`text-3xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>{projectsData.title}</h2>
 
       <div className="flex flex-wrap justify-between items-center mb-6">
         <div className="flex-grow mr-4">
-          <FilterCategories
-            categories={categories}
-            activeCategory={categoryFilter}
-            onCategoryChange={handleCategoryChange}
-            theme={theme}
-          />
+          <FilterCategories {...filterCategoriesProps} />
         </div>
         
         <button 
@@ -242,7 +305,7 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
               />
             )}
           </svg>
-          {showSkillsFilter ? 'Hide Skills' : 'Show Skills'}
+          {showSkillsFilter ? t('projects.hideSkills') : t('projects.showSkills')}
         </button>
       </div>
 
@@ -255,34 +318,12 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
       )}
 
       {showSkillsFilter && (
-        <SkillsFilter
-          skills={projectSkills}
-          categoryFilter={categoryFilter}
-          categories={categories}
-          activeFilter={activeFilter}
-          onSkillClick={applySkillFilter} 
-          theme={theme} 
-        /> 
+        <SkillsFilter {...skillsFilterProps} /> 
       )}
 
-      <ProjectsList
-        featuredProjects={featuredProjects}
-        regularProjects={regularProjects}
-        activeFilter={activeFilter}
-        currentlyVisibleProjects={currentlyVisibleProjects}
-        applySkillFilter={applySkillFilter}
-        theme={theme}
-      />
+      <ProjectsList {...projectsListProps} />
 
-      <PaginationControls
-        filteredProjects={filteredProjects}
-        initialProjectCount={visibleProjectCount}
-        allProjectsLoaded={allProjectsLoaded}
-        expandedView={expandedView}
-        onLoadMore={loadMoreProjects}
-        onCollapse={collapseProjects}
-        theme={theme}
-      />
+      <PaginationControls {...paginationControlsProps} />
 
       {filteredProjects.length === 0 && (
         <NoResultsMessage
@@ -291,14 +332,10 @@ const Projects: React.FC<ProjectsProps> = ({ data, theme = 'dark' }) => {
         />
       )}
 
-      <ProjectStats 
-        count={filteredProjects.length}
-        allLoaded={allProjectsLoaded}
-        expandedView={expandedView}
-        theme={theme}
-      />
+      <ProjectStats {...projectStatsProps} />
     </div>
   );
-};
+  
+});
 
 export default Projects;

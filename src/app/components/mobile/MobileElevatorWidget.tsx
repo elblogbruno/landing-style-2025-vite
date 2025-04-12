@@ -2,19 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { track } from '../../utils/umami-analytics';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionKey } from '../avatar/types';
+import { useTranslation } from 'react-i18next';
  
 interface MobileElevatorWidgetProps {
   currentSection: SectionKey;
   theme: "dark" | "light";
   floors: string[];
-  data: {
-    floors: {
-      [key in SectionKey]: {
-        description: string;
-        pitchLine: string;
-      }
-    }
-  };
   onFloorSelect: (floor: string) => void;
   highlightOnMount?: boolean;
   onTransitionChange?: (isTransitioning: boolean) => void;
@@ -25,10 +18,11 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
   currentSection,
   theme,
   floors,
-  data,
   onFloorSelect,
   highlightOnMount = false 
 }) => {
+  const { t } = useTranslation();
+  
   // Definir floorMap a nivel de componente para que esté disponible en todo el código
   const floorMap: Record<string, number> = {
     hero: 6,
@@ -571,7 +565,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
 
                         {/* Pitch line text */}
                         <p className={`text-xs italic ${isLight ? 'text-gray-600' : 'text-gray-200'}`}>
-                          "{data.floors[currentSection]?.pitchLine || 'Welcome to my elevator pitch!'}"
+                          "{t(`elevator.floors.${currentSection}.pitchLine`, "Welcome to my elevator pitch!")}" 
                         </p>
                       </div>
                     </div>
@@ -585,7 +579,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
               <div className="mt-4">
                 <div className={`text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>LOCATION</div>
                 <div className={`font-medium ${isLight ? 'text-gray-800' : 'text-gray-100'}`}>
-                  {data.floors[currentSection]?.description || currentSection.toUpperCase()}
+                  {t(`elevator.floors.${currentSection}.description`, currentSection.toUpperCase())}
                 </div>
               </div>
             </div>

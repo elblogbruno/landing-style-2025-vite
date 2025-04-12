@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { track } from '../../utils/umami-analytics';
+import { useTranslation } from 'react-i18next';
 
 interface MobileWelcomeTourProps {
   theme: "dark" | "light";
@@ -8,9 +9,9 @@ interface MobileWelcomeTourProps {
 }
 
 const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose }) => {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 3;
-  const [doNotShowAgain, setDoNotShowAgain] = useState(false);
+  const totalSteps = 5; // Aumentado a 5 pasos
   
   const isLight = theme === "light";
   
@@ -41,9 +42,6 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
     
     // Store that user has seen the tour
     localStorage.setItem('hasSeenMobileTour', 'true');
-    if (doNotShowAgain) {
-      localStorage.setItem('neverShowMobileTour', 'true');
-    }
     onClose();
   };
   
@@ -57,9 +55,6 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
     
     // Store that user has seen the tour
     localStorage.setItem('hasSeenMobileTour', 'true');
-    if (doNotShowAgain) {
-      localStorage.setItem('neverShowMobileTour', 'true');
-    }
     onClose();
   };
 
@@ -89,12 +84,12 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
         <div className={`px-5 pt-2 pb-3 ${isLight ? 'bg-blue-50/70' : 'bg-blue-900/20'}`}>
           <div className="flex items-center justify-between">
             <h3 className={`text-lg font-medium ${isLight ? 'text-gray-800' : 'text-white'}`}>
-              Elevator Pitch Guide
+              {t('mobileTour.title')}
             </h3>
             <button 
               onClick={handleSkip}
               className={`rounded-full p-1.5 ${isLight ? 'hover:bg-gray-200' : 'hover:bg-gray-700'}`}
-              aria-label="Skip tour"
+              aria-label={t('mobileTour.skipTour')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -139,11 +134,11 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
                   
                   <div>
                     <h4 className={`text-base font-medium mb-1 ${isLight ? 'text-gray-800' : 'text-white'}`}>
-                      Discover My Elevator Pitch
+                      {t('mobileTour.step1.title')}
                     </h4>
                     
                     <p className={`${isLight ? 'text-gray-600' : 'text-gray-300'} text-sm`}>
-                      Each floor represents a different section of my professional journey.
+                      {t('mobileTour.step1.description')}
                     </p>
                   </div>
                 </div>
@@ -152,7 +147,7 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
               {currentStep === 2 && (
                 <div className="flex items-center gap-4">
                   <div className="shrink-0 w-16 h-16 relative">
-                    <div className={`absolute right-0 bottom-1 w-9 h-9 rounded-full flex items-center justify-center ${isLight ? 'bg-blue-100 text-blue-600' : 'bg-blue-900/30 text-blue-400'}`}>
+                    <div className={`absolute left-0 top-0 w-12 h-12 rounded-full flex items-center justify-center ${isLight ? 'bg-blue-100 text-blue-600' : 'bg-blue-900/30 text-blue-400'}`}>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                         <rect x="4" y="2" width="16" height="20" rx="2" />
                         <line x1="12" y1="6" x2="12" y2="18" />
@@ -161,20 +156,20 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
                       </svg>
                     </div>
                     
-                    <div className="absolute left-0 top-0 w-12 h-12 flex items-center justify-center">
+                    {/* <div className="absolute left-0 top-0 w-12 h-12 flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className={`h-12 w-12 ${isLight ? 'text-gray-700' : 'text-gray-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                       </svg>
-                    </div>
+                    </div> */}
                   </div>
                   
                   <div>
                     <h4 className={`text-base font-medium mb-1 ${isLight ? 'text-gray-800' : 'text-white'}`}>
-                      Look for the Elevator Button
+                      {t('mobileTour.step2.title')}
                     </h4>
                     
                     <p className={`${isLight ? 'text-gray-600' : 'text-gray-300'} text-sm`}>
-                      Find the elevator button at the bottom right corner to navigate through sections.
+                      {t('mobileTour.step2.description')}
                     </p>
                   </div>
                 </div>
@@ -203,11 +198,60 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
                   
                   <div>
                     <h4 className={`text-base font-medium mb-1 ${isLight ? 'text-gray-800' : 'text-white'}`}>
-                      Select a Floor to Navigate
+                      {t('mobileTour.step3.title')}
                     </h4>
                     
                     <p className={`${isLight ? 'text-gray-600' : 'text-gray-300'} text-sm`}>
-                      Tap any floor to navigate to skills, experience, and projects.
+                      {t('mobileTour.step3.description')}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 4 && (
+                <div className="flex items-center gap-4">
+                  <div className="shrink-0 w-16 h-16 flex items-center justify-center rounded-full bg-green-100/70 dark:bg-green-900/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-9 w-9 ${isLight ? 'text-green-600' : 'text-green-400'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <rect x="2" y="3" width="20" height="14" rx="2" />
+                      <polyline points="8 21 12 17 16 21" />
+                      <line x1="12" y1="17" x2="12" y2="21" />
+                      <path d="M6 7h4" />
+                      <path d="M14 7h4" />
+                      <path d="M6 11h12" />
+                    </svg>
+                  </div>
+                  
+                  <div>
+                    <h4 className={`text-base font-medium mb-1 ${isLight ? 'text-gray-800' : 'text-white'}`}>
+                      {t('mobileTour.step4.title')}
+                    </h4>
+                    
+                    <p className={`${isLight ? 'text-gray-600' : 'text-gray-300'} text-sm`}>
+                      {t('mobileTour.step4.description')}
+                    </p>
+                  </div>
+                </div>
+              )}
+              
+              {currentStep === 5 && (
+                <div className="flex items-center gap-4">
+                  <div className="shrink-0 w-16 h-16 flex items-center justify-center rounded-full bg-purple-100/70 dark:bg-purple-900/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-9 w-9 ${isLight ? 'text-purple-600' : 'text-purple-400'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                      <path d="M12 22V19" />
+                      <path d="M17 20l-1-2" />
+                      <path d="M7 20l1-2" />
+                    </svg>
+                  </div>
+                  
+                  <div>
+                    <h4 className={`text-base font-medium mb-1 ${isLight ? 'text-gray-800' : 'text-white'}`}>
+                      {t('mobileTour.step5.title')}
+                    </h4>
+                    
+                    <p className={`${isLight ? 'text-gray-600' : 'text-gray-300'} text-sm`}>
+                      {t('mobileTour.step5.description')}
                     </p>
                   </div>
                 </div>
@@ -217,25 +261,14 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
           
           {/* Actions */}
           <div className="flex justify-between items-center mt-4">
-            <div className="flex items-center">
-              <input
-                type="checkbox" 
-                id="doNotShowAgain"
-                checked={doNotShowAgain}
-                onChange={() => setDoNotShowAgain(!doNotShowAgain)}
-                className="h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <label htmlFor="doNotShowAgain" className={`ml-1.5 text-xs ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
-                Don't show again
-              </label>
-            </div>
+            <div className="flex-grow"></div> {/* Espacio vacío para mantener el layout */}
             
             <div className="flex gap-2">
               <button
                 onClick={handleSkip}
                 className={`px-3 py-1.5 rounded-lg text-xs ${isLight ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-300 hover:bg-gray-800'}`}
               >
-                Skip
+                {t('mobileTour.skipButton')}
               </button>
               
               <button
@@ -245,7 +278,7 @@ const MobileWelcomeTour: React.FC<MobileWelcomeTourProps> = ({ theme, onClose })
                   : 'bg-blue-600 hover:bg-blue-500 text-white'
                 }`}
               >
-                {currentStep < totalSteps ? 'Next' : 'Got it'}
+                {currentStep < totalSteps ? t('mobileTour.nextButton') : t('mobileTour.gotItButton')}
               </button>
             </div>
           </div>

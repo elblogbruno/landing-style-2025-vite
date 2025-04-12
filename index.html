@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <!-- <script
+      crossOrigin="anonymous"
+      src="//unpkg.com/react-scan/dist/auto.global.js"
+    /> -->
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="A 23-year-old tech enthusiast from Barcelona, founder of Glassear, dedicated to making Augmented-Reality technology accessible to everyone." />
@@ -14,25 +19,14 @@
     <!-- Precargar CSS crítico -->
     <!-- <link rel="preload" href="/src/app/globals.css" as="style"> -->
 
-    <link rel="stylesheet" href="/src/app/globals.css" />
-
- 
-    
-    <!-- Favicons con tamaños optimizados -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- Prevenir flash de tema incorrecto con inline script -->
+   
+    <!-- Prevenir flash de tema incorrecto -->
     <script>
+      // Aplicar tema inmediatamente para evitar flash
       (function() {
-        // Check for saved theme preference
         const savedTheme = localStorage.getItem('theme');
-        // Check for system preference if no saved preference
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        // Apply dark mode if saved preference is dark or if system prefers dark and no saved preference
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
           document.documentElement.classList.add('dark');
         } else {
@@ -40,6 +34,20 @@
         }
       })();
     </script>
+    <!-- Estilo inline para prevenir flash -->
+    <style>
+      html.dark {
+        color-scheme: dark;
+      }
+    </style>
+
+    <link rel="stylesheet" href="/src/app/globals.css" />
+
+    <!-- Favicons con tamaños optimizados -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     
     <link rel="preconnect" href="https://umami.brunomoya.com" crossorigin />
     

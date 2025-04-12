@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { track } from '../../../utils/umami-analytics';
+import { useTranslation } from 'react-i18next';
 
 interface ElevatorControlsProps {
   theme: "dark" | "light";
@@ -12,7 +13,7 @@ interface ElevatorControlsProps {
   enableAudio: () => void;
 }
 
-const ElevatorControls: React.FC<ElevatorControlsProps> = ({
+const ElevatorControls: React.FC<ElevatorControlsProps> = React.memo(({
   theme,
   currentFloor,
   floorDescription,
@@ -22,6 +23,8 @@ const ElevatorControls: React.FC<ElevatorControlsProps> = ({
   toggleFullscreen,
   enableAudio
 }) => {
+  const { t } = useTranslation();
+  
   // Handle mute button click with tracking
   const handleMuteToggle = () => {
     track({
@@ -42,26 +45,35 @@ const ElevatorControls: React.FC<ElevatorControlsProps> = ({
     });
     toggleFullscreen();
   };
+  
+  // Memorizamos los elementos que dependen de currentFloor y floorDescription
+  const floorIndicator = useMemo(() => (
+    <div className={`absolute top-4 right-4 ${theme === "dark" ? "bg-black/90" : "bg-white/90"} ${theme === "dark" ? "text-white" : "text-gray-800"} px-2 py-1 rounded-md border font-mono text-lg ${theme === "dark" ? "border-gray-700" : "border-gray-300"}`}>
+      <span className={theme === "dark" ? "text-amber-500" : "text-blue-600"}>{currentFloor}</span>
+      <span className={theme === "dark" ? "text-gray-400" : "text-gray-500"}>F</span>
+    </div>
+  ), [currentFloor, theme]);
+  
+  const floorDescriptionElement = useMemo(() => (
+    <div className={`absolute top-4 left-4 ${theme === "dark" ? "bg-gray-900/90" : "bg-white/90"} px-3 py-2 rounded-md text-sm border ${theme === "dark" ? "border-gray-700 text-white" : "border-gray-300 text-gray-800"}`}>
+      <div className={`text-xs ${theme === "dark" ? "text-blue-400" : "text-blue-600"} uppercase tracking-wider`}>{t('elevator.controls.currentFloor')}</div>
+      <div className="font-bold">{floorDescription}</div>
+    </div>
+  ), [floorDescription, theme, t]);
 
   return (
     <>
       {/* Floor indicator */}
-      <div className={`absolute top-4 right-4 ${theme === "dark" ? "bg-black/90" : "bg-white/90"} ${theme === "dark" ? "text-white" : "text-gray-800"} px-2 py-1 rounded-md border font-mono text-lg ${theme === "dark" ? "border-gray-700" : "border-gray-300"}`}>
-        <span className={theme === "dark" ? "text-amber-500" : "text-blue-600"}>{currentFloor}</span>
-        <span className={theme === "dark" ? "text-gray-400" : "text-gray-500"}>F</span>
-      </div>
+      {floorIndicator}
       
       {/* Floor description */}
-      <div className={`absolute top-4 left-4 ${theme === "dark" ? "bg-gray-900/90" : "bg-white/90"} px-3 py-2 rounded-md text-sm border ${theme === "dark" ? "border-gray-700 text-white" : "border-gray-300 text-gray-800"}`}>
-        <div className={`text-xs ${theme === "dark" ? "text-blue-400" : "text-blue-600"} uppercase tracking-wider`}>Current Floor</div>
-        <div className="font-bold">{floorDescription}</div>
-      </div>
+      {floorDescriptionElement}
 
       {/* Sound button */}
       <div 
         className={`absolute bottom-16 left-4 ${theme === "dark" ? "bg-gray-900/80 border-gray-700" : "bg-white/80 border-gray-300"} px-2 py-1 rounded border cursor-pointer flex items-center gap-1`}
         onClick={handleMuteToggle}
-        title={isMuted ? "Enable sound" : "Mute sound"}
+        title={isMuted ? t('elevator.controls.unmute') : t('elevator.controls.mute')}
       >
         <span className={theme === "dark" ? "text-white" : "text-gray-800"}>
           {isMuted ? (
@@ -75,7 +87,7 @@ const ElevatorControls: React.FC<ElevatorControlsProps> = ({
           )}
         </span>
         <span className={`text-xs ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
-          {isMuted ? "Audio off" : "Audio on"}
+          {isMuted ? t('elevator.controls.audioOff') : t('elevator.controls.audioOn')}
         </span>
       </div>
 
@@ -83,7 +95,7 @@ const ElevatorControls: React.FC<ElevatorControlsProps> = ({
       <div 
         className={`absolute bottom-4 right-4 ${theme === "dark" ? "bg-gray-900/80 border-gray-700" : "bg-white/80 border-gray-300"} px-2 py-1 rounded border cursor-pointer flex items-center gap-1 z-10`}
         onClick={handleFullscreenToggle}
-        title={isFullscreen ? "Exit fullscreen" : "View in fullscreen"}
+        title={isFullscreen ? t('elevator.controls.exitFullscreen') : t('elevator.controls.fullscreen')}
       >
         <span className={theme === "dark" ? "text-white" : "text-gray-800"}>
           {isFullscreen ? (
@@ -97,18 +109,18 @@ const ElevatorControls: React.FC<ElevatorControlsProps> = ({
           )}
         </span>
         <span className={`text-xs ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
-          {isFullscreen ? "Exit" : "Fullscreen"}
+          {isFullscreen ? t('elevator.controls.exit') : t('elevator.controls.fullscreen')}
         </span>
       </div>
 
       {/* Instruction message for fullscreen visible only in that mode */}
       {isFullscreen && (
         <div className={`absolute top-4 left-1/2 transform -translate-x-1/2 ${theme === "dark" ? "bg-gray-900/80 text-white border-gray-700" : "bg-white/80 text-gray-800 border-gray-300"} px-3 py-2 rounded-md text-sm border z-10 transition-opacity duration-300`} style={{ opacity: isFullscreen ? 1 : 0 }}>
-          <p>Press <kbd className={`px-1.5 py-0.5 rounded ${theme === "dark" ? "bg-gray-800" : "bg-gray-200"} font-mono text-xs mx-1`}>ESC</kbd> or the button to exit fullscreen</p>
+          <p>{t('elevator.controls.escToExit')}</p>
         </div>
       )}
     </>
   );
-};
+});
 
 export default ElevatorControls;

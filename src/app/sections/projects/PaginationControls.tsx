@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { PaginationControlsProps } from './types';
 
 const PaginationControls: React.FC<PaginationControlsProps> = ({
@@ -10,6 +11,8 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   onCollapse,
   theme
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <>
       {filteredProjects.length > initialProjectCount && (
@@ -22,7 +25,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
                 : 'bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 hover:border-blue-600'
               } rounded-xl shadow-lg transition-all flex items-center space-x-2 hover:shadow-xl`}
             >
-              <span>Show More Projects</span>
+              <span>{t('projects.showMoreProjects')}</span>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -35,7 +38,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
                 : 'bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 hover:border-blue-600'
               } rounded-xl shadow-lg transition-all flex items-center space-x-2 hover:shadow-xl`}
             >
-              <span>Hide Projects</span>
+              <span>{t('projects.hideProjects')}</span>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
               </svg>

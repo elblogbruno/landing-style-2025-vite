@@ -1,0 +1,1170 @@
+{
+    "hero": {
+      "title": "Hi, I'm Bruno Moya.",
+      "subtitle": "AR/VR/MR Developer and Entrepreneur.",
+      "description": "A {{age}}-year-old tech enthusiast from Barcelona, founder of Glassear, dedicated to making Augmented-Reality technology accessible to everyone.",
+      "profileImage": "/images-webp/hero/profile.webp",
+      "coverImage": "/images-webp/hero/cover-better.webp",
+      "resumeUrl": "/cv-english.pdf",
+      "resumeButton": "Resume",
+      "scrollDown": "Scroll down to explore"
+    },
+    "elevator": {
+      "overlay": {
+        "title": "My Elevator Pitch",
+        "enterButton": "Enter the elevator",
+        "divider": "or",
+        "subtitle": "Navigate through my story, floor by floor. Explore my work and professional experience in a unique and immersive way", 
+        "buttons": [
+          {
+            "text": "My work",
+            "url": "#projects",
+            "type": "work",
+            "external": false  
+          },
+          {
+            "text": "Contact",
+            "url": "#contact",
+            "type": "contact",
+            "external": false 
+          },
+          {
+            "text": "Resume",
+            "url": "/cv-english.pdf",
+            "type": "resume",
+            "external": true 
+          }
+        ]
+      },
+      "floors": {
+        "hero": {
+          "description": "Welcome Lobby",
+          "pitchLine": "Hi! I'm a creative developer passionate about building the future."
+        },
+        "about": {
+          "description": "About Me",
+          "pitchLine": "I combine technical expertise with creative problem-solving."
+        },
+        "experience": {
+          "description": "Work Experience",
+          "pitchLine": "I've delivered innovative solutions for industry leaders."
+        },
+        "projects": {
+          "description": "Project Gallery",
+          "pitchLine": "Check out these examples of my best work and creativity."
+        },
+        "talks": {
+          "description": "Presentations",
+          "pitchLine": "I share knowledge through engaging talks and workshops."
+        },
+        "news": {
+          "description": "Latest News",
+          "pitchLine": "Stay updated with my recent achievements and announcements."
+        },
+        "awards": {
+          "description": "Recognition & Awards",
+          "pitchLine": "Honors and acknowledgements I've received throughout my journey."
+        },
+        "education": {
+          "description": "Education History",
+          "pitchLine": "My educational background has prepared me for complex challenges."
+        },
+        "contact": {
+          "description": "Contact Info",
+          "pitchLine": "Let's connect and explore how we can work together."
+        }
+      },
+      "doors": { 
+        "closing": "DOORS CLOSING",
+        "opening": "DOORS OPENING",
+        "closed": "DOORS CLOSED",
+        "open": "DOORS OPEN"
+      },
+      "controls": {
+        "currentFloor": "Current Floor",
+        "mute": "Mute",
+        "unmute": "Unmute",
+        "audioOff": "Audio off",
+        "audioOn": "Audio on",
+        "fullscreen": "Fullscreen",
+        "exit": "Exit",
+        "exitFullscreen": "Exit fullscreen",
+        "escToExit": "Press ESC or the button to exit fullscreen"
+      },
+      "errors": {
+        "soundPlay": "Error playing elevator sound:",
+        "dingPlay": "Error playing elevator ding:"
+      },
+      "animation": {
+        "loading": "Loading...",
+        "fullscreen": "Fullscreen",
+        "exitFullscreen": "Exit fullscreen",
+        "mute": "Mute",
+        "unmute": "Unmute",
+        "controlsLabel": "Elevator Controls",
+        "currentFloor": "Current Floor",
+        "vibrationLevel": "Vibration Level"
+      },
+      "analytics": {
+        "startJourney": "Start Journey",
+        "fromHero": "From hero section",
+        "floorChange": "Floor Change",
+        "toFloor": "To floor {floor} ({section}) via button"
+      }
+    },
+    "about": { 
+        "title": "My Technology Journey",
+        "subtitle": "From curious child to AR/VR developer and entrepreneur",
+        "exploreTitle": "Let's explore my projects and achievements",
+        "exploreDescription": "Keep scrolling to discover what I've been creating!",
+      "timeline": [
+      {
+        "time": "2007",
+        "title": "Curiosity Sparks the Flame",
+        "body": "From a very young age, I began exploring the digital world, experimenting with computers and creating my first ideas.",
+        "imgSrc": "/images-webp/timeline/childhood.webp", 
+        "icon": "start"
+      },
+      {
+        "time": "2013",
+        "title": "Discovering Programming",
+        "body": "At the age of 12/13, I discovered programming and fell in love with it, creating my first projects and learning to code.",
+        "imgSrc": "/images-webp/timeline/programming.webp", 
+        "icon": "start"
+      },
+      {
+        "time": "2015",
+        "title": "Birth of Glassear",
+        "body": "At the age of 13, I launched Glassear, my first project to push mixed reality to new frontiers.",
+        "imgSrc": "/images-webp/timeline/glassear_inception.webp",
+        "link": "https://tustory.com/inception",
+        "btnText": "View Project",
+        "icon": "headset"
+      },
+      {
+        "time": "2018",
+        "title": "The Breakthrough Moment",
+        "body": "My efforts led me to receive recognition at the Maker Faire Galicia, marking a milestone in my career.",
+        "imgSrc": "/images-webp/timeline/breakthrough.webp",
+        "link": "https://tustory.com/breakthrough",
+        "btnText": "Watch Video",
+        "icon": "targetPrize"
+      },
+      {
+        "time": "2019",
+        "title": "Sharing My Vision",
+        "body": "I began participating in conferences and talks, inspiring others about the potential of augmented and virtual reality.",
+        "imgSrc": "/images-webp/timeline/vision.webp",
+        "link": "https://tustory.com/vision",
+        "btnText": "Watch Talk",
+        "icon": "publicSpeaker"
+      }
+    ]
+    },
+    "experience": {
+      "title": "Experience",
+      "seeMoreDetails": "See more details",
+      "showMore": "Show more",
+      "description": "Description",
+      "moreInfo": "More information",
+      "close": "Close",
+      "items": [
+        {
+          "logo": "/images-webp/experience/experience-glassear.webp",
+          "title": "Speaker - Creator",
+          "company": "Glassear",
+          "companyUrl": "https://www.glassear.com/",
+          "period": "May 2015 - Present",
+          "location": "Barcelona, Spain",
+          "description": "Development of software and hardware for AR using Unity 3D and ARFoundation. I have worked with Java protocols on Android, such as USB Accessory for connecting external devices and the Screen Recording API for capturing and processing content in real-time, optimizing the user experience in immersive environments.",
+          "moreInfo": "Implementation of computer vision algorithms for interactive experiences. Use of vision models like Yolo and OpenCV, for example in my TFG GlassFood. Development of web interfaces with HTML, CSS, and React (Next.js). Example: www.glassear.com/music. Integration of APIs and performance optimization for a better user experience. Presentations at national events on AR and emerging technology. Industry 4.0 Award at Maker Faire Galicia 2018. Jury member at Maker Faire Galicia 2019. Talks at Google Developer Groups (GDG) in Zaragoza and Lleida."
+        },
+        {
+          "logo": "/images-webp/experience/experience-patient73.webp",
+          "title": "Technical Lead",
+          "company": "Patient73 - Fecamm",
+          "companyUrl": "https://patient73.org/",
+          "period": "Jul 2022 - Jan 2025",
+          "location": "Barcelona, España",
+          "moreInfo": false,
+          "description": "Collaboration with the non-profit organization Fecamm (Federació Catalana de malalties minoritàries), in the process of introducing games to their platform so that people with rare diseases can play. In relation to this, we have organized a month-long GameJam in collaboration with UAB, UPC, and various hospitals"
+        },
+        {
+          "logo": "/images-webp/experience/hess.svg",
+          "title": "Freelance Developer",
+          "company": "Evalua-lo.com",
+          "companyUrl": "https://cianeconsulting.com/hess-test/es/?page=0",
+          "period": "Sept 2024 - Feb 2025",
+          "location": "Remote",
+          "description": "Development of the Hess Test: Creation of an application for psychological evaluation in human resources, with React on the frontend and PHP on the backend. The tool, scientifically validated by its creator, Gaspar, is used by companies in the sector for talent selection and analysis.",
+          "moreInfo": "Implementation of databases, automated email sending, and user management in a WordPress-based environment. Use of processing queues for high performance in systems with limited resources, optimizing execution on shared hosting. Ensuring cross-platform compatibility and optimization for different devices and browsers. Development of the backend as a WordPress plugin, facilitating integration with other systems."
+        },
+        {
+          "logo": "/images-webp/experience/experience-CVC.webp",
+          "title": "Computer Vision internship",
+          "company": "Computer Vision Center",
+          "companyUrl": "https://www.cvc.uab.es/",
+          "period": "May 2018 - Jul 2018",
+          "location": "Barcelona, UAB",
+          "description": "Development of AI applied to pose tracking, face tracking, and object tracking in an Android app created with Java.",
+          "moreInfo": "My tutor was Edgar Riba, creator of Kornia, a library with over 10.4k stars on Github. Quote, 'Sometimes we forgot how young he was when assigning him tasks'."
+        },
+        {
+          "logo": "/images-webp/experience/experience-manomotion.webp",
+          "title": "Hand Tracking AR/VR Internship",
+          "company": "Manomotion",
+          "companyUrl": "https://www.manomotion.com/",
+          "period": "Dec 2018 - Jun 2019",
+          "location": "Stockholm, Sweden",
+          "description": "Development of AR applications for Glassear, using the ManoMotion SDK. Design of AR interfaces and optimization of hand tracking algorithms.",
+          "moreInfo": "Work with OpenCV and neural networks to improve gesture detection. Certificate available at: https://www.linkedin.com/feed/update/urn:li:activity:6559408874229760001/"
+        }
+      ]
+    },
+    "projects": {
+      "title": "Projects",
+      "featuredProjects": "Featured Projects",
+      "otherProjects": "Other Projects",
+      "showSkills": "Show Skills",
+      "hideSkills": "Hide Skills",
+      "all": "All",
+      "activeFilter": "Currently showing projects with:",
+      "clearFilter": "Clear filter",
+      "noResults": "No projects found with the selected skill.",
+      "showMoreProjects": "Show More Projects",
+      "hideProjects": "Hide Projects",
+      "allProjectsLoaded": "All {{count}} projects loaded",
+      "showingProjects": "Showing all {{count}} projects",
+      "scrollForMore": "Scroll down to load more",
+      "categorySkills": "{{category}} skills:",
+      "allSkills": "All skills:",
+      "showingSkills": "Showing {{start}}-{{end}} of {{total}}",
+      "noSkillsFound": "No skills found for this category",
+      "prev": "← Prev",
+      "pageInfo": "Page {{current}} of {{total}}",
+      "next": "Next →",
+      "categories": [
+        { "id": "frontend", "name": "Frontend" },
+        { "id": "backend", "name": "Backend" },
+        { "id": "ar-vr", "name": "AR/VR" },
+        { "id": "mobile", "name": "Mobile" },
+        { "id": "ai-ml", "name": "AI & ML" },
+        { "id": "game-dev", "name": "Game Dev" },
+        { "id": "iot-hardware", "name": "IoT & Hardware" },
+        { "id": "other", "name": "Other" }
+      ],
+      "skills": [
+        { "name": "Web Development", "category": "frontend" },
+        { "name": "React", "category": "frontend" },
+        { "name": "Next.js", "category": "frontend" },
+        { "name": "Social Network", "category": "frontend" },
+        { "name": "UI", "category": "frontend" },
+        { "name": "UX", "category": "frontend" },
+        
+        { "name": "Python", "category": "backend" },
+        { "name": "Notion API", "category": "backend" },
+        { "name": "FastAPI", "category": "backend" },
+        { "name": "APIs", "category": "backend" },
+        { "name": "Spotify API", "category": "backend" },
+        
+        { "name": "AR", "category": "ar-vr" },
+        { "name": "VR", "category": "ar-vr" },
+        { "name": "Mixed Reality", "category": "ar-vr" },
+        { "name": "Vuforia", "category": "ar-vr" },
+        { "name": "Filters", "category": "ar-vr" },
+        { "name": "Facemasks", "category": "ar-vr" },
+        { "name": "Hand Tracking", "category": "ar-vr" },
+        
+        { "name": "Android", "category": "mobile" },
+        { "name": "Mobile", "category": "mobile" },
+        
+        { "name": "AI", "category": "ai-ml" },
+        { "name": "Machine Learning", "category": "ai-ml" },
+        { "name": "LLM", "category": "ai-ml" },
+        { "name": "Computer Vision", "category": "ai-ml" },
+        { "name": "OpenCV", "category": "ai-ml" },
+        
+        { "name": "Unity", "category": "game-dev" },
+        { "name": "Unity3D", "category": "game-dev" },
+        { "name": "Game Development", "category": "game-dev" },
+        { "name": "Gamejam", "category": "game-dev" },
+        
+        { "name": "Hardware", "category": "iot-hardware" },
+        { "name": "IoT", "category": "iot-hardware" },
+        { "name": "Raspberry Pi", "category": "iot-hardware" },
+        { "name": "Smart Home", "category": "iot-hardware" },
+        { "name": "Voice Assistant", "category": "iot-hardware" },
+        
+        { "name": "Education", "category": "other" },
+        { "name": "Music", "category": "other" },
+        { "name": "Finance", "category": "other" },
+        { "name": "Travel", "category": "other" },
+        { "name": "Telegram", "category": "other" },
+        { "name": "Browser Extensions", "category": "other" },
+        { "name": "Organizing", "category": "other" }
+      ],
+      "items": [
+        {
+          "id": 1,
+          "title": "Glassear",
+          "description": "The affordable mixed reality headset that competes with #Microsoft and #Google.",
+          "imageUrl": "/images-webp/projects/glassear-thumbnail.webp",
+          "skills": ["AR", "VR", "Mixed Reality", "Hardware"],
+          "demoUrl": "https://www.glassear.com/",
+          "featured": true,
+          "date": "2014-07-01",
+          "startDate": "2014-07-01",
+          "endDate": null
+        },
+        {
+          "id": 2,
+          "title": "NotionAI MyMind",
+          "description": "This repo uses AI and the wonderful Notion to enable you to add anything on the web to your \"Mind\" and forget about everything else.",
+          "imageUrl": "/images-webp/projects/notionai-mymind.webp",
+          "skills": ["Python", "AI", "Notion API", "Browser Extensions"],
+          "githubUrl": "https://elblogbruno.github.io/NotionAI-MyMind/",
+          "featured": true,
+          "date": "2020-08-11",
+          "startDate": "2020-08-11",
+          "endDate": "2021-12-31"
+        },
+        {
+          "id": 3,
+          "title": "Smartroom - Smartmirror",
+          "description": "Making my room smarter with a Smart Mirror, domotics and open source voice assistant. Big updates coming soon, stay tuned!",
+          "imageUrl": "/images-webp/projects/smartmirror-header.webp",
+          "skills": ["IoT", "Raspberry Pi", "Voice Assistant", "Smart Home"],
+          "githubUrl": "https://github.com/elblogbruno/AlexaMirror",
+          "featured": true,
+          "date": "2016-06-06",
+          "startDate": "2016-06-06",
+          "endDate": null
+        },
+        {
+          "id": 4,
+          "title": "hitornot.ml",
+          "description": "A statistical AI model to predict whether a Spotify song will be a hit, turned into a website that learns from user input!",
+          "imageUrl": "/images-webp/projects/hitornot_ml.webp",
+          "skills": ["AI", "Machine Learning", "Music", "Web Development"],
+          "githubUrl": "https://github.com/elblogbruno/MD3-Kaggle-Spotify-Hit-Detector",
+          "featured": true,
+          "date": "2021-10-04",
+          "startDate": "2021-10-04",
+          "endDate": "2022-12-31"
+        },
+        {
+          "id": 5,
+          "title": "ManoMojies",
+          "description": "This app allows you to place emojis on your reality, even search emojis out of the box! Fill your world with emojis right now and start building your own story!",
+          "imageUrl": "/images-webp/projects/manomojies-logo.webp",
+          "skills": ["AR", "Android", "Unity", "Hand Tracking"],
+          "demoUrl": "https://play.google.com/store/apps/details?id=com.manomotion.arfoundationssdkceexample",
+          "featured": false,
+          "date": "2020-12-09",
+          "startDate": "2020-12-09",
+          "endDate": "2021-12-31"
+        },
+        {
+          "id": 6,
+          "title": "Tripdepart",
+          "description": "The traveling social network! Never travel alone again!",
+          "imageUrl": "/images-webp/projects/tripdepart-thumbnail.webp",
+          "skills": ["Web Development", "Social Network", "Travel"],
+          "demoUrl": "https://www.tripdepart.com",
+          "featured": false,
+          "date": "2018-03-18",
+          "startDate": "2018-03-18",
+          "endDate": "2019-12-31"
+        },
+        {
+          "id": 7,
+          "title": "Poem Mask",
+          "description": "An AR app that allows you to be whoever you want to be thanks to real-time searching capabilities and facemasks.",
+          "imageUrl": "/images-webp/projects/poemmask-thumbnail.webp",
+          "skills": ["AR", "AI", "Facemasks", "Mobile"],
+          "demoUrl": "https://play.google.com/store/apps/details?id=com.glassear.poemMask&hl=es_419",
+          "featured": false,
+          "date": "2019-06-08",
+          "startDate": "2019-06-08",
+          "endDate": "2020-12-31"
+        },
+        {
+          "id": 8,
+          "title": "OpenCV Detectors",
+          "description": "An Android app I programmed during my internship at CVC that has built-in detectors like face detection, body detection, or even object detection.",
+          "imageUrl": "/images-webp/projects/opencvdetectors-thumbnail.webp",
+          "skills": ["Android", "OpenCV", "Computer Vision"],
+          "githubUrl": "https://github.com/elblogbruno/OpenCV-Detectors",
+          "featured": false,
+          "date": "2018-06-08",
+          "startDate": "2018-06-08",
+          "endDate": "2019-12-31"
+        },
+        {
+          "id": 9,
+          "title": "Warshipy.py",
+          "description": "A game about sinking ships and bots. Made with Unity3D, Python, and Telegram.",
+          "imageUrl": "/images-webp/projects/warshipy-thumbnail.webp",
+          "skills": ["Unity3D", "Python", "Telegram"],
+          "githubUrl": "https://github.com/elblogbruno/Warship.py",
+          "featured": false,
+          "date": "2019-02-08",
+          "startDate": "2019-02-08",
+          "endDate": "2020-12-31"
+        },
+        {
+          "id": 10,
+          "title": "Spotdownloader",
+          "description": "A terminal app in Python that downloads all your music in .MP3 from a given Spotify playlist.",
+          "imageUrl": "/images-webp/projects/spotdownloader-thumbnail.webp",
+          "skills": ["Python", "Spotify API", "Music"],
+          "githubUrl": "https://github.com/elblogbruno/SpotDownloader",
+          "featured": false,
+          "date": "2019-09-21",
+          "startDate": "2019-09-21",
+          "endDate": "2020-12-31"
+        },
+        {
+          "id": 11,
+          "title": "GlassTDR",
+          "description": "An augmented reality app I did for my \"Treball de recerca (TDR)\" that allowed the teacher to experience more immersively the work I had done.",
+          "imageUrl": "/images-webp/projects/glasstdr-thumbnail.webp",
+          "skills": ["AR", "Education", "Mobile"],
+          "demoUrl": "https://play.google.com/store/apps/details?id=com.glassear.tdr&hl=es_419",
+          "featured": false,
+          "date": "2018-12-13",
+          "startDate": "2018-12-13",
+          "endDate": "2019-12-31"
+        },
+        {
+          "id": 12,
+          "title": "PoemAR (Formerly CatalAR)",
+          "description": "An augmented reality app I did to learn more about Catalan Book \"Tirant Lo Blanc\".",
+          "imageUrl": "/images-webp/projects/poemAR-thumbnail.webp",
+          "skills": ["AR", "Education", "Vuforia"],
+          "demoUrl": "https://mega.nz/folder/4Y9AHQaL#0rC8l1kbJFD0yZLrzNDgvg",
+          "featured": false,
+          "date": "2018-05-13",
+          "startDate": "2018-05-13",
+          "endDate": "2019-12-31"
+        },
+        {
+          "id": 14,
+          "title": "Doctor Strange AR Filter",
+          "description": "3rd Prize at Manomotion's Gamejam themed 'Superheroes' with my Friend Avraam Georgiadis.",
+          "imageUrl": "/images-webp/projects/ar_filter_doctor_strange_2021.webp",
+          "skills": ["AR", "Filters", "Gamejam"],
+          "demoUrl": "https://www.linkedin.com/posts/glassear-bruno_doctor-strange-ar-filter-activity-6803581386037985280-Ykzs",
+          "featured": false,
+          "date": "2021-07-05",
+          "startDate": "2021-07-05",
+          "endDate": "2022-12-31"
+        },
+        {
+          "id": 15,
+          "title": "Wanderpi",
+          "description": "Keep your best travel memories organized, and your costs to the letter.",
+          "imageUrl": "/images-webp/projects/wanderpi.webp",
+          "skills": ["Travel", "Finance", "Web Development"],
+          "githubUrl": "https://github.com/elblogbruno/wanderpi",
+          "featured": false,
+          "date": "2021-06-30",
+          "startDate": "2021-06-30",
+          "endDate": "2022-12-31"
+        },
+        {
+          "id": 16,
+          "title": "Patient73 First and Second Edition Gamejam",
+          "description": "Due to my collaboration with Fecamm and Patient73, I had the honor of being one of the organizers of the first and secon edition of the Patient74 Gamejam in collaboration with RCDE.",
+          "imageUrl": "/images-webp/projects/patient73.webp",
+          "skills": ["Gamejam", "Organizing", "Game Development"],
+          "demoUrl": "https://patient73.org/portal1/M_item-detail.asp?tipo_id=360&contentid=5108&contenido=Guanyadors%20de%20la%20Patient73%20GameJam%20per%20les%20Malalties%20Minorit%C3%A0ries%202023",
+          "featured": false,
+          "date": "2023-03-31",
+          "startDate": "2023-03-31",
+          "endDate": "2023-05-31"
+        },
+        {
+          "id": 17,
+          "title": "GuideLife - PayRetailersUAB",
+          "description": "AI-powered platform providing intelligent assistance in health, finance, climate, and energy.",
+          "imageUrl": "/images-webp/projects/payretailersuab-thumbnail.webp",
+          "skills": ["AI", "Machine Learning", "FastAPI", "APIs"],
+          "githubUrl": null,
+          "featured": true,
+          "date": "2025-03-01",
+          "startDate": "2025-03-01",
+          "endDate": "2025-03-02"
+        },
+        {
+          "id": 18,
+          "title": "Hack_FGC",
+          "description": "Accessible ticketing solution for public transport, integrating LLM for real-time assistance.",
+          "imageUrl": "/images-webp/projects/hackfgc-thumbnail.webp",
+          "skills": ["AI", "LLM", "Python", "FastAPI", "UX"],
+          "githubUrl": "https://github.com/GabrielJuan349/Hack_FGC",
+          "featured": true,
+          "date": "2024-10-01",
+          "startDate": "2024-10-01",
+          "endDate": "2024-10-02"
+        },
+        {
+          "id": 19,
+          "title": "SeiVoice",
+          "description": "Voice-controlled assistant for supermarket purchasing and management, developed for Seidor company during HackUPC 2024 hackathon in a single weekend.",
+          "imageUrl": "/images-webp/projects/seivoice-thumbnail.webp",
+          "skills": ["AI", "IoT", "LLM", "Python", "FastAPI", "Raspberry Pi"],
+          "githubUrl": "https://github.com/elblogbruno/seidor-hackupc",
+          "featured": true,
+          "date": "2024-05-05",
+          "startDate": "2024-05-05",
+          "endDate": "2024-05-07"
+        }
+      ]
+    },
+    "talks": {
+      "title": "Talks & Conferences",
+      "items": [
+        {
+          "id": 1,
+          "title": "From Maker To Startup",
+          "event": "Maker Faire Galicia 2020",
+          "date": "2020-11-19",
+          "location": "Galicia, Spain",
+          "description": "Table moderated by Jose Iglesias (Techstars) with the participation of Bruno Moya (Glassear), Marcos Souto (3D LimitLess) and Mahor Muñiz (MAHOR · XYZ)",
+          "videoUrl": "https://makerfairegalicia.com/charlas/de-maker-a-startup",
+          "image": "/images-webp/talks/demakerastartup-2020.webp",
+          "featured": true
+        },
+        {
+          "id": 2,
+          "title": "Interview at NexConf",
+          "event": "NexConf - UAB Virtual Technology Congress",
+          "date": "2020-10-09",
+          "location": "Virtual",
+          "description": "Interview to me at NexConf, the UAB Virtual Technology Congress and TV Show.",
+          "videoUrl": "https://www.linkedin.com/posts/glassear-bruno_nexconf-realidadmixta-glassear-activity-6722780739852632064-mn0H",
+          "image": "/images-webp/talks/nexconf-interview.webp"
+        },
+        {
+          "id": 3,
+          "title": "Create an augmented reality app in an hour",
+          "event": "Maker Faire Galicia 2020",
+          "date": "2020-11-19",
+          "location": "Galicia, Spain",
+          "description": "A workshop given by me about how to create an Augmented Reality app in less than an hour using Unity 3D and Vuforia.",
+          "videoUrl": "https://makerfairegalicia.com/talleres/crea-una-app-de-realidad-aumentada-en-una-hora",
+          "image": "/images-webp/talks/talk-taller-1hora-maker-faire-2020.webp"
+        },
+        {
+          "id": 4,
+          "title": "Mixed and Augmented Reality: From my room to designing the future",
+          "event": "COECYS - University of San Carlos of Guatemala",
+          "date": "2021-10-01",
+          "location": "Virtual",
+          "description": "Talk for the Congress of Science and Systems Students of the University of San Carlos of Guatemala. (COECYS)",
+          "videoUrl": "https://www.youtube.com/watch?v=1aZOHzDZcYY",
+          "image": "/images-webp/talks/guatemala_coecys.webp",
+          "featured": true
+        },
+        {
+          "id": 5,
+          "title": "Democratizing the future of remote work with Glassear",
+          "event": "GDG Spain Streaming",
+          "date": "2020-03-19",
+          "location": "Online",
+          "description": "Streaming done during the lockdown thanks to GDG Spain.",
+          "videoUrl": "https://youtu.be/GqBkSHWfCRU",
+          "image": "/images-webp/talks/gdg-yomequedoencasa-thumbnail.webp"
+        },
+        {
+          "id": 6,
+          "title": "Glassear presentation at the Maker Faire Galicia 2019 professional day",
+          "event": "Maker Faire Galicia 2019",
+          "date": "2019-07-08",
+          "location": "Galicia, Spain",
+          "description": "Glassear presentation at the Maker Faire Galicia 2019 professional conference, where its creator Bruno Moya talks about the road traveled and the one that remains to be done.",
+          "videoUrl": "https://www.youtube.com/watch?v=up7EpNcmWZk",
+          "image": "/images-webp/talks/glassear-maker-faire-galicia-2019.webp",
+          "featured": true
+        },
+        {
+          "id": 7,
+          "title": "Glassear at the Mixed Reality event, where's the limit?",
+          "event": "GDG Zaragoza",
+          "date": "2019-03-04",
+          "location": "Zaragoza, Spain",
+          "description": "Glassear presentation at the Mixed Reality event, comparing them with Magic Leap One.",
+          "videoUrl": "https://www.youtube.com/watch?v=G6gI9KhwhDI",
+          "image": "/images-webp/talks/glassear-video-mixedreality-zgz1.webp"
+        },
+        {
+          "id": 8,
+          "title": "Democratizing the future with Glassear",
+          "event": "Devfest ZGZ",
+          "date": "2019-11-23",
+          "location": "Zaragoza, Spain",
+          "description": "A workshop given at Devfest ZGZ organized by Google where I taught how to develop apps for Glassear using the SDK.",
+          "videoUrl": "http://gdgzaragoza.es/devfest-2019/",
+          "image": "/images-webp/talks/glassear-devfest-zgz-workshop-thumbnail.webp"
+        }, 
+        {
+          "id": 9,
+          "title": "Lecture for students of the Master in BIM Methodology and Management at the UPM",
+          "event": "UPM Master Lecture",
+          "date": "2020-12-09",
+          "location": "Madrid, Spain",
+          "description": "Lecture for students of the Master in BIM Methodology and Management at UPM, given by Felix Tejada from TYPSA.",
+          "videoUrl": "https://www.linkedin.com/posts/glassear-bruno_master-en-metodolog%C3%ADa-y-gesti%C3%B3n-bim-etsam-activity-6755058725125419009-hxaY",
+          "image": "/images-webp/talks/master-felix-2020.webp"
+        },
+        {
+          "id": 10,
+          "title": "Prize giving to me at Maker Faire Galicia",
+          "event": "Maker Faire Galicia 2018",
+          "date": "2018-12-01",
+          "location": "Galicia, Spain",
+          "description": "Glassear Award Ceremony - Maker Faire Galicia 2018 Professional Conference.",
+          "videoUrl": "https://www.youtube.com/watch?v=ygmnUNxPn1Q&feature=emb_logo",
+          "image": "/images-webp/talks/prize-thumbnail.webp"
+        },
+        {
+          "id": 11,
+          "title": "UAB Technoday",
+          "event": "UAB Entrepreneurs Club",
+          "date": "2020-02-18",
+          "location": "Barcelona, Spain",
+          "description": "Talk at the UAB Entrepreneurs Club, organized by it, and sponsored by Accenture.",
+          "videoUrl": "https://twitter.com/EnginyeriaUAB/status/1229756771771781120/photo/1",
+          "image": "/images-webp/talks/glassear-technoday-uab-thumbnail.webp"
+        },
+        {
+          "id": 12,
+          "title": "Debate on Artificial Intelligence at CVC",
+          "event": "CVC AI Discussion",
+          "date": "2019-02-20",
+          "location": "Barcelona, Spain",
+          "description": "Discussion on Artificial Intelligence with doctors in Computer Vision and AI organized by the CVC.",
+          "videoUrl": "http://librarylivinglab.cvc.uab.cat/calendar/experimentai-the-impact-of-artificial-intelligence-in-society/",
+          "image": "/images-webp/talks/talk-cvc-ai-thumbnail.webp"
+        },
+        {
+          "id": 13,
+          "title": "Glassear at Google DevFest Lleida 2019",
+          "event": "Google DevFest Lleida",
+          "date": "2019-11-10",
+          "location": "Lleida, Spain",
+          "description": "Talk by Bruno Moya, creator of Glassear, at the Google DevFest Lleida 2019 event.",
+          "videoUrl": "https://www.youtube.com/watch?v=t9s8PdMX9Pc&feature=emb_title",
+          "image": "/images-webp/talks/devfest-lleida-thumbnail.webp"
+        },  
+        {
+          "id": 14,
+          "title": "Memenginy 2021 Round Table",
+          "event": "Memenginy 2021",
+          "date": "2021-04-29",
+          "location": "Barcelona, Spain",
+          "description": "Round table at Memenginy 2021, with Víctor Pérez Jiménez and Reda Chriki Elba, organized by UAB.",
+          "videoUrl": "https://www.instagram.com/p/COQp85XhXq2/",
+          "image": "/images-webp/talks/memenginy_2021.webp"
+        },
+        {
+          "id": 15,
+          "title": "Talk to students from Castellet secondary school!",
+          "event": "Institut Castellet",
+          "date": "2021-05-12",
+          "location": "Castellet, Spain",
+          "description": "Talk about my #path in #entrepreneurship to middle and high school students at Institut Castellet!",
+          "videoUrl": "https://www.linkedin.com/posts/glassear-bruno_camino-emprendimiento-path-activity-6798897168301203457-ngmy/",
+          "image": "/images-webp/talks/castellet_2021.webp"
+        }
+      ],
+      "contactText": "Interested in inviting me to give a talk?"
+    },
+    "news": {
+      "title": "News & Media",
+      "items": [
+        {
+          "id": 1,
+          "title": "Bruno Moya: from maker at 16 to founder of a startup",
+          "source": "El Correo Gallego",
+          "date": "2020-11-19",
+          "description": "Article written by El Correo Gallego, Galicia's leading newspaper.",
+          "url": "https://www.elcorreogallego.es/santiago/bruno-moya-de-maker-a-los-16-anos-a-fundador-de-una-startup-XX5365077",
+          "image": "/images-webp/news/news-correo-gallego-2020.webp",
+          "featured": true
+        },
+        {
+          "id": 2,
+          "title": "Why Bruno Moya, a 19-year-old Tech Entrepreneur is more digital than most CTO's, CMO's & CEO's",
+          "source": "LinkedIn Article by Nimit Doshi",
+          "date": "2020-09-23",
+          "description": "Article written by conference producer Nimit Doshi, for my participation at the India first immersive digital technologies summit.",
+          "url": "https://www.linkedin.com/pulse/why-bruno-moya-19-year-old-tech-entrepreneur-more-digital-nimit-doshi/",
+          "image": "/images-webp/news/linkedin_nimit_article_digital.webp",
+          "featured": true
+        },
+        {
+          "id": 3,
+          "title": "Article written by me for the 3D Printing and Design magazine",
+          "source": "3D Printing and Design",
+          "date": "2020-09-16",
+          "description": "Article written by me for the 3D Printing and Design magazine, speaking about the future of mixed reality thanks to Glassear.",
+          "url": "http://www.3dprintingdesign.es/revista/9/#page/13",
+          "image": "/images-webp/news/articulo-3d-printing-design.webp"
+        },
+        {
+          "id": 4,
+          "title": "Bruno and Glassear at El Economista",
+          "source": "El Economista",
+          "date": "2019-06-24",
+          "description": "Bruno and Glassear at El Economista, Spain leader economics journal.",
+          "url": "https://www.eleconomista.es/aragon/noticias/9958125/06/19/Llega-Glassear-el-primer-dispositivo-de-realidad-mixta-de-bajo-coste-para-interactuar-por-voz-manos-o-vista.html",
+          "image": "/images-webp/news/news-eleconomista-thumbnail.webp"
+        },
+        {
+          "id": 5,
+          "title": "Regio7 2019",
+          "source": "Regio7",
+          "date": "2019-07-01",
+          "description": "Interview at a Catalonian Journal before participating at Maker Faire Galicia 2019.",
+          "url": "https://www.regio7.cat/economia/2019/07/02/santpedorenc-bruno-moya-comercialitzara-seves/554386.html",
+          "image": "/images-webp/news/news-regio7-2019-thumbnail.webp"
+        },
+        {
+          "id": 6,
+          "title": "From Garage to Market",
+          "source": "Maker Faire Organization",
+          "date": "2019-06-12",
+          "description": "Article written by Maker Faire Organization in 2019.",
+          "url": "https://galicia.makerfaire.com/2019/06/12/del-garaje-al-mercado/",
+          "image": "/images-webp/news/news-delgarajealmercado-thumbnail.webp"
+        },
+        {
+          "id": 7,
+          "title": "The technological future is today",
+          "source": "ABC",
+          "date": "2019-07-07",
+          "description": "Article at ABC, Spanish known journal.",
+          "url": "https://www.abc.es/espana/galicia/abci-futuro-tecnologico-201907070121_noticia.html",
+          "image": "/images-webp/news/news-abc-galicia-thumbnail.webp"
+        },
+        {
+          "id": 8,
+          "title": "Robotics, Holograms and 3D Printers: The Best of Maker Faire Galicia",
+          "source": "Bit2Geek",
+          "date": "2018-11-27",
+          "description": "Article at Portuguese Journal Bit2Geek about robotics, holograms, and 3D printers.",
+          "url": "https://bit2geek.com/2018/11/27/robotica-hologramas-e-impressoras-3d-o-melhor-da-maker-faire-galicia/",
+          "image": "/images-webp/news/news-bit2geek-thumbnail.webp"
+        },
+        {
+          "id": 9,
+          "title": "Regio 7 2018",
+          "source": "Regio7",
+          "date": "2019-01-04",
+          "description": "Interview at a Catalonian Journal after winning the second prize at Maker Faire Galicia 2018.",
+          "url": "https://www.regio7.cat/economia/2019/01/05/santpedorenc-17-anys-idea-revolucionaries/519254.html",
+          "image": "/images-webp/news/news-regio7-before-thumbnail.webp"
+        },
+        {
+          "id": 10,
+          "title": "APD Article",
+          "source": "APD",
+          "date": "2019-07-12",
+          "description": "Article written by APD, Spain big enterprise association, about my participation at Maker Faire Galicia 2019 and speech with all the big enterprises like Airbus, Ikea or Cabify that were there.",
+          "url": "https://www.apd.es/start-ups-aceleradoras-de-cabify-a-airbus/",
+          "image": "/images-webp/news/news-apd-thumbnail.webp"
+        }
+      ],
+      "contactText": "Do you have a publication and want to interview me?"
+    },
+    "awards": {
+      "title": "Awards, Certificates & Publications",
+      "subtitle": "Milestones & Recognition",
+      "description": "Throughout my journey in technology and entrepreneurship, I've been honored to receive recognition for innovation, creativity, and technical achievements.",
+      "items": [
+      {
+        "id": 1,
+        "title": "Maker Faire Galicia Industry 4.0 Award",
+        "organization": "Maker Faire Galicia",
+        "date": "2018-12-01",
+        "category": "Innovation",
+        "description": "Awarded for the innovation and creativity demonstrated with the Glassear mixed reality headset project for the future of Industry 4.0.",
+        "image": "/images-webp/talks/prize-thumbnail.webp",
+        "url": "https://www.youtube.com/watch?v=ygmnUNxPn1Q",
+        "featured": true,
+        "badgeColor": "blue",
+        "imageStyle": "contain",
+        "type": "award"
+      },
+      {
+        "id": 2,
+        "title": "3rd Prize - AR Superheroes Gamejam",
+        "organization": "Manomotion",
+        "date": "2021-07-05",
+        "category": "Augmented Reality",
+        "description": "Winner of the third place in the Manomotion GameJam for the Doctor Strange AR Filter created with Avraam Georgiadis.",
+        "image": "/images-webp/projects/ar_filter_doctor_strange_2021.webp",
+        "url": "https://www.linkedin.com/posts/glassear-bruno_doctor-strange-ar-filter-activity-6803581386037985280-Ykzs",
+        "featured": true,
+        "badgeColor": "purple",
+        "type": "award"
+      },
+      {
+        "id": 3,
+        "title": "3rd Prize - Manomojies Gamejam",
+        "organization": "Manomotion",
+        "date": "2020-12-29",
+        "category": "Augmented Reality",
+        "description": "Winner of the 3rd prize in the Gamejam organized by Manomotion, based on the theme of using Hand Tracking and augmented reality mixed with emojis.",
+        "image": "/images-webp/projects/manomojies-logo.webp",
+        "url": "https://www.linkedin.com/posts/glassear-bruno_doctor-strange-ar-filter-activity-6803581386037985280-Ykzs",
+        "featured": false,
+        "badgeColor": "purple",
+        "type": "award"
+      },
+      {
+        "id": 4,
+        "title": "Hand Tracking Certification",
+        "organization": "Manomotion",
+        "date": "2019-12-01",
+        "category": "Technical Competence",
+        "description": "Certified in hand tracking technology for AR/VR applications after completing an internship with Manomotion.",
+        "image": "/images-webp/experience/experience-manomotion.webp",
+        "url": "https://www.linkedin.com/feed/update/urn:li:activity:6559408874229760001/",
+        "featured": false,
+        "badgeColor": "green",
+        "type": "certificate"
+      },
+      {
+        "id": 5,
+        "title": "Featured in Spain's Leading Economic Newspaper",
+        "organization": "El Economista",
+        "date": "2019-06-24",
+        "category": "Media Recognition",
+        "description": "Recognized by El Economista, Spain's leading economic newspaper, for pioneering work in affordable mixed reality technology.",
+        "image": "/images-webp/news/news-eleconomista-thumbnail.webp",
+        "url": "https://www.eleconomista.es/aragon/noticias/9958125/06/19/Llega-Glassear-el-primer-dispositivo-de-realidad-mixta-de-bajo-coste-para-interactuar-por-voz-manos-o-vista.html",
+        "featured": false,
+        "badgeColor": "yellow",
+        "type": "recognition"
+      },
+      {
+        "id": 6,
+        "title": "TDR Excellence Award",
+        "organization": "Ins Gerbert D'Aurillac",
+        "date": "2019-06-01",
+        "category": "Academic Excellence",
+        "description": "I received the highest grade (10/10) for my research project 'Le casque de réalité augmentée abordable' in the French-Spanish double baccalaureate program.",
+        "image": "/images-webp/talks/glassear-maker-faire-galicia-2019.webp",
+        "featured": false,
+        "badgeColor": "red",
+        "type": "award"
+      },
+      {
+        "id": 7,
+        "title": "Speaker at India's First Immersive Digital Technologies Summit",
+        "organization": "India Tech Summit",
+        "date": "2020-09-23",
+        "category": "Industry Recognition",
+        "description": "Selected as a featured speaker at India's first immersive digital technologies summit, recognized as 'a 19-year-old tech entrepreneur who is more digital than most CTOs, CMOs and CEOs'.",
+        "image": "/images-webp/news/linkedin_nimit_article_digital.webp",
+        "url": "https://www.linkedin.com/pulse/why-bruno-moya-19-year-old-tech-entrepreneur-more-digital-nimit-doshi/",
+        "featured": false,
+        "badgeColor": "indigo",
+        "type": "recognition"
+      },
+      {
+        "id": 8,
+        "title": "Computer Vision Certification",
+        "organization": "Computer Vision Center",
+        "date": "2018-07-01",
+        "category": "Technical Competence",
+        "description": "Obtained certification in computer vision technologies after successfully completing an internship at the Computer Vision Center.",
+        "image": "/images-webp/experience/experience-CVC.webp",
+        "featured": false,
+        "badgeColor": "green",
+        "type": "certificate"
+      },
+      {
+        "id": 9,
+        "title": "Hackathon Most Creative Project Winner",
+        "organization": "NTT DATA (Everis)",
+        "date": "2020-01-01",
+        "category": "Hackathon",
+        "description": "My role as a computer engineering student has opened my mind to develop more scientific projects, having won the most creative project award with my 'Whatshate' application, sponsored by Everis, which fights directly and simply against cyberbullying.",
+        "image": "/images-webp/awards/mamuthack.webp",
+        "url": "https://www.linkedin.com/posts/glassear-bruno_mamut-activity-6652701039374008321-5aP-",
+        "featured": true,
+        "badgeColor": "blue",
+        "type": "award"
+      },
+      {
+        "id": 10,
+        "title": "Maker of Merit",
+        "organization": "Maker Faire Barcelona",
+        "date": "2018-06-16",
+        "category": "Maker Excellence",
+        "description": "One of only 4 special awards given by the organization to the most interesting Maker of the event. I received a special recognition signed by David Cuartielles, co-founder of Arduino.",
+        "image": "/images-webp/awards/davidcuartielles.webp",
+        "featured": false,
+        "badgeColor": "orange",
+        "imageStyle": "contain",
+        "type": "award"
+      },
+      {
+        "id": 11,
+        "title": "GlassFood - Final Degree Project with AR Poster Experience",
+        "organization": "UAB Barcelona",
+        "date": "2023-06-30",
+        "category": "Academic Excellence",
+        "description": "I received an exceptional grade (9.8/10) for my Final Degree Project that combines mixed reality technology, computer vision, and deep learning to create a health-focused application for the Glassear headset that detects ingredients and suggests healthy recipes with nutritional information through an immersive 3D interface. The project included an AR poster experience displayed in the university hallway.",
+        "image": "/images-webp/awards/glassfood.webp",
+        "url": "https://github.com/elblogbruno/tfg-poster-ar-experience/tree/main",
+        "featured": true,
+        "badgeColor": "green",
+        "type": "award"
+      },
+      {
+        "id": 12,
+        "title": "Create an Augmented Reality App in One Hour with Bruno Moya",
+        "organization": "Maker Faire Galicia",
+        "date": "2021-04-01",
+        "category": "Education",
+        "description": "One-hour online course where I teach the fundamentals of developing an Augmented Reality application using Unity 3D and ARFoundation.",
+        "url": "https://www.youtube.com/watch?v=ATbX1UutpJU",
+        "image": "/images-webp/talks/talk-taller-1hora-maker-faire-2020.webp",
+        "featured": false,
+        "badgeColor": "green",
+        "type": "publication"
+      },
+      {
+        "id": 13,
+        "title": "Glassear, Mixed Reality for Everyone",
+        "organization": "3D Printing Design",
+        "date": "2020-09-01",
+        "category": "Media",
+        "description": "Article written for the virtual magazine about 3D printing in a special edition dedicated to mixed and virtual reality.",
+        "url": "http://www.3dprintingdesign.es/revista/9/#page/12",
+        "image": "/images-webp/news/articulo-3d-printing-design.webp",
+        "featured": false,
+        "badgeColor": "blue",
+        "type": "publication"
+      }
+      ],
+      "contactText": "Would you like to know more about my achievements or invite me to participate in an event?",
+      "featuredAchievements": "Featured Achievements",
+      "viewDetails": "View details",
+      "close": "Close",
+      "typesAwards": "Awards",
+      "typesPublications": "Publications",
+      "typesCertifications": "Certifications",
+      "typesRecognitions": "Recognitions",
+      "typesPublication": "Publication",
+      "typesCertificate": "Certificate",
+      "typesRecognition": "Recognition",
+      "readPublication": "Read publication",
+      "seeRecognition": "See recognition",
+      "viewCertificate": "View certificate",
+      "contactMe": "Contact me"
+    },
+    "education": {
+      "title": "Education",
+      "items": [
+        {
+          "degree": "Computer Science",
+          "institution": "UAB Barcelona",
+          "year": "2019-2023",
+          "description": "I form part of the University's entrepreneurship club and I have given a speech there.",
+          "image": "/images-webp/education/uab-school-logo.webp"
+        },
+        {
+          "degree": "Winter Session",
+          "institution": "École de technologie supérieure (ÉTS) - Montreal, Quebec, Canada",
+          "year": "2023",
+          "description": "I finished my last year at ÉTS University in Montreal, Canada (5 months) ÉTS is one of the largest universities in Quebec.",
+          "image": "/images-webp/education/ets-montreal-logo.webp"
+        },
+        {
+          "degree": "Double French Spanish baccalaureate (Bachibac)",
+          "institution": "Ins Gerbert D'Aurillac",
+          "year": "2016-2019",
+          "description": "TDR: 'Le casque de réalité augmentée abordable' Mark : 10. Due to this I have the Spanish BACHELOR and French BACHELOR, that means a B2 level of French.",
+          "image": "/images-webp/education/Logo-Institut-Gerbert-dAurillac-01.webp"
+        },
+        {
+          "degree": "ESO Certificate (High School) - Primary School",
+          "institution": "Escola Llissach",
+          "year": "2004-2016",
+          "description": "",
+          "image": "/images-webp/education/escola-llissach-logo.webp"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "Get in Touch",
+      "email": "bruno@glassear.com",
+      "location": "Barcelona, Spain",
+      "resume_link": "/cv-english.pdf",
+      "locationTitle": "Location",
+      "emailTitle": "Email",
+      "resumeTitle": "Resume",
+      "viewResume": "View my resume",
+      "followMe": "Follow me on social media",
+      "social": [
+        {
+          "platform": "Twitter",
+          "url": "https://x.com/brunomoya6",
+          "icon": "twitter"
+        },
+        {
+          "platform": "GitHub",
+          "url": "https://github.com/elblogbruno",
+          "icon": "github"
+        },
+        {
+          "platform": "LinkedIn",
+          "url": "https://www.linkedin.com/in/glassear-bruno/",
+          "icon": "linkedin"
+        }
+      ],
+      "cta": {
+        "title": "Did I Catch Your Attention?",
+        "description": "Let's discuss how we can work together to bring your vision to life.",
+        "button": "Get in Touch Now"
+      },
+      "form": {
+        "title": "Send Message",
+        "namePlaceholder": "Your Name",
+        "emailLabel": "Email",
+        "emailPlaceholder": "Your Email",
+        "subjectLabel": "Subject",
+        "subjectPlaceholder": "What's this about?",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Your message here...",
+        "submitButton": "Send Message",
+        "successMessage": "Message sent successfully! I'll get back to you soon.",
+        "errorMessage": "Oops! Something went wrong. Please try again later.",
+        "errors": {
+          "nameRequired": "Please enter your name",
+          "emailRequired": "Please enter your email",
+          "emailInvalid": "Please enter a valid email",
+          "subjectRequired": "Please enter a subject",
+          "messageRequired": "Please enter your message"
+        }
+      }
+    },
+    "timemachine": [
+      {
+        "name": "Youtube Channel",
+        "year": "2011",
+        "image": "/images-webp/time-machine/youtube-channel.webp",
+        "url": "https://www.youtube.com/@Betech21blog/videos",
+        "description": "My first YouTube channel where I shared technology tutorials and reviews as a young tech enthusiast."
+      },
+      {
+        "name": "Portfolio v1",
+        "year": "2016",
+        "image": "/images-webp/time-machine/portfolio-2016.webp",
+        "url": "https://web.archive.org/web/20160817020718/http://www.elblogdebruno.com/",
+        "description": "My first professional portfolio website showcasing early projects and experiments with web development."
+      },
+      {
+        "name": "Portfolio v2",
+        "year": "2017",
+        "image": "/images-webp/time-machine/portfolio-2017.webp",
+        "url": "https://web.archive.org/web/20170925102947/http://www.elblogdebruno.com/",
+        "description": "Second iteration of my portfolio with improved design and updated projects focusing on AR/VR development."
+      },
+      {
+        "name": "Portfolio v3",
+        "year": "2018",
+        "image": "/images-webp/time-machine/portfolio-2018.webp",
+        "url": "https://web.archive.org/web/20180823061603/http://www.elblogdebruno.com/",
+        "description": "Third version featuring Glassear projects and my growing expertise in mixed reality technologies."
+      },
+      {
+        "name": "Portfolio v4",
+        "year": "2020",
+        "image": "/images-webp/time-machine/portfolio-2020.webp",
+        "url": "https://brunomoya.com/old",
+        "description": "Professional portfolio redesign highlighting my entrepreneurial journey and major speaking engagements."
+      } 
+    ],
+    "timeMachine": {
+      "altText": "Time machine",
+      "buttonLabel": "Time machine",
+      "title": "Time Machine",
+      "closeButtonTitle": "Close time machine",
+      "description": "Explore previous versions of my portfolio over the years. Each version represents a different stage of my professional journey and evolution as a developer.",
+      "viewButton": "Visit",
+      "coordinatesText": "Temporal coordinates set",
+      "versionText": "Current portfolio v5.0 (2025)",
+      "inspiredBy": "Design inspired by",
+      "portalEffectCredit": "Portal effect adapted from",
+      "portalEffectAuthor": "Jason Smith"
+    },
+    "newsletter": {
+      "title": "Join Our Newsletter",
+      "placeholder": "Enter your email",
+      "button": "Subscribe"
+    },
+    "language": {
+      "switchToSpanish": "Switch to Spanish",
+      "switchToEnglish": "Switch to English"
+    },
+    "navigation": {
+      "home": "Home",
+      "about": "About Me",
+      "experience": "Experience",
+      "projects": "Projects",
+      "talks": "Talks",
+      "news": "News",
+      "education": "Education",
+      "contact": "Contact",
+      "awards": "Awards"
+    },
+    "mobileTour": {
+      "title": "Website Guide",
+      "skipTour": "Skip guide",
+      "skipButton": "Skip",
+      "nextButton": "Next",
+      "gotItButton": "Got it!",
+      "step1": {
+        "title": "Discover My Elevator Pitch",
+        "description": "Each floor represents a different section of my professional journey."
+      },
+      "step2": {
+        "title": "Look for the Elevator Button",
+        "description": "Find the elevator button at the bottom right corner to navigate through sections."
+      },
+      "step3": {
+        "title": "Select a Floor to Navigate",
+        "description": "Try the immersive elevator experience to navigate between sections as if you were inside a building."
+      },
+      "step4": {
+        "title": "Try Desktop Version",
+        "description": "Visit on a desktop device to experience the full 3D elevator with an interactive assistant!"
+      },
+      "step5": {
+        "title": "Time Machine",
+        "description": "Don't miss the time machine to explore previous versions of my portfolio over the years."
+      }
+    },
+    "footer": {
+      "portfolio": "Bruno Moya",
+      "developerEntrepreneur": "AR/VR/MR Developer and Entrepreneur",
+      "light": "Light",
+      "dark": "Dark",
+      "navigation": "Navigation",
+      "contact": "Contact",
+      "viewResume": "View Resume",
+      "allRightsReserved": "All Rights Reserved",
+      "madeWithLove": "Made with ❤️ in Barcelona",
+      "visit": "Visit",
+      "profile": "profile",
+      "sendEmail": "Send email"
+    }
+}

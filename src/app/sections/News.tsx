@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface NewsItem {
   id: number;
@@ -12,15 +13,11 @@ interface NewsItem {
 }
 
 interface NewsProps {
-  data: {
-    title: string;
-    items: NewsItem[];
-    contactText: string;
-  };
   theme?: 'dark' | 'light';
 }
 
-const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
+const News: React.FC<NewsProps> = ({ theme = 'dark' }) => {
+  const { t } = useTranslation();
   const isLight = theme === 'light';
   
   // Configuración para paginación
@@ -30,14 +27,23 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
   const [visibleNewsCount, setVisibleNewsCount] = useState(INITIAL_NEWS_COUNT);
   const [expandedView, setExpandedView] = useState(false);
   
+  // Obtener datos directamente de las traducciones
+  const newsData = useMemo(() => {
+    return {
+      title: t('news.title'),
+      items: t('news.items', { returnObjects: true }) as NewsItem[],
+      contactText: t('news.contactText')
+    };
+  }, [t]);
+  
   // Parsear y ordenar las noticias
   const sortedNews = useMemo(() => {
-    return [...data.items].sort((a, b) => {
+    return [...newsData.items].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       return dateB - dateA;
     });
-  }, [data.items]);
+  }, [newsData.items]);
 
   const featuredNews = useMemo(() => {
     return sortedNews.filter(item => item.featured);
@@ -78,7 +84,7 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
 
   return (
     <div className={`py-12`}>
-      <h2 className={`text-4xl font-bold mb-8 ${isLight ? 'text-gray-800' : 'text-white'}`}>{data.title}</h2>
+      <h2 className={`text-4xl font-bold mb-8 ${isLight ? 'text-gray-800' : 'text-white'}`}>{newsData.title}</h2>
       
       {/* Noticias destacadas */}
       {featuredNews.length > 0 && (
@@ -105,7 +111,7 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
                   <div className={`inline-block px-3 py-1 rounded-full text-sm mb-3 ${
                     isLight ? 'bg-blue-100 text-blue-600' : 'bg-blue-500/20 text-blue-300'
                   }`}>
-                    Featured
+                    {t('news.featured')}
                   </div>
                   <div className={`flex items-center text-sm mb-2 ${
                     isLight ? 'text-blue-600' : 'text-blue-400'
@@ -128,7 +134,7 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
                       isLight ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-600/70 hover:bg-blue-700/70'
                     }`}
                   >
-                    Leer artículo completo
+                    {t('news.readFullArticle')}
                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
@@ -143,7 +149,7 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
       {/* Título para noticias regulares */}
       {regularNews.length > 0 && (
         <h3 className={`text-xl font-semibold mb-6 ${isLight ? 'text-gray-700' : 'text-gray-300'}`}>
-          {featuredNews.length > 0 ? 'Más noticias' : 'Todas las noticias'}
+          {featuredNews.length > 0 ? t('news.moreNews') : t('news.allNews')}
         </h3>
       )}
       
@@ -188,7 +194,7 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
             <div className={`inline-flex items-center transition-colors mt-auto ${
               isLight ? 'text-blue-600 hover:text-blue-500' : 'text-blue-400 hover:text-blue-300'
             }`}>
-              Leer más
+              {t('news.readMore')}
               <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -209,7 +215,7 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
                   : 'bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 hover:border-blue-600'
               }`}
             >
-              <span>Mostrar más noticias</span>
+              <span>{t('news.showMoreNews')}</span>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -223,7 +229,7 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
                   : 'bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 hover:border-blue-600'
               }`}
             >
-              <span>Ocultar noticias</span>
+              <span>{t('news.hideNews')}</span>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
               </svg>
@@ -235,15 +241,15 @@ const News: React.FC<NewsProps> = ({ data, theme = 'dark' }) => {
       {/* Mensaje que muestra cuántas noticias se están mostrando */}
       {allNewsLoaded && regularNews.length > INITIAL_NEWS_COUNT && expandedView && (
         <div className={`text-center mt-4 ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
-          <p>Mostrando todas las {regularNews.length} noticias</p>
+          <p>{t('news.showingAllNews', { count: regularNews.length })}</p>
         </div>
       )}
       
       <div className="mt-10 text-center">
         <p className={`italic ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
-          {data.contactText} <a href="#contact" className={`underline ${
+          {newsData.contactText} <a href="#contact" className={`underline ${
             isLight ? 'text-blue-600 hover:text-blue-500' : 'text-blue-400 hover:text-blue-300'
-          }`}>¡Contáctame!</a>
+          }`}>{t('news.contactMe')}</a>
         </p>
       </div>
     </div>

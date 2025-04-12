@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SkillsFilterProps } from './types';
 import { getSkillsForCategory } from './utils';
 
@@ -10,6 +11,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
   categories,
   theme 
 }) => {
+  const { t } = useTranslation();
   const SKILLS_PER_PAGE = 20; // Limit skills displayed at once
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -55,12 +57,17 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
     <div className={`${theme === 'light' ? 'bg-white/90 border-gray-200' : 'bg-gray-900/50 border-gray-700/80'} p-5 rounded-xl border mb-6 shadow-lg backdrop-blur-sm`}>
       <div className="flex justify-between items-center mb-3">
         <h4 className={`${theme === 'light' ? 'text-gray-800' : 'text-white'} font-medium`}>
-          {categoryFilter !== 'all' ? `${categoryName} skills:` : 'All skills:'}
+          {categoryFilter !== 'all' 
+            ? t('projects.categorySkills', { category: categoryName }) 
+            : t('projects.allSkills')}
         </h4>
         {filteredSkills.length > SKILLS_PER_PAGE && (
           <div className={`text-sm ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
-            Showing {Math.min(filteredSkills.length, currentPage * SKILLS_PER_PAGE - SKILLS_PER_PAGE + 1)}-
-            {Math.min(currentPage * SKILLS_PER_PAGE, filteredSkills.length)} of {filteredSkills.length}
+            {t('projects.showingSkills', {
+              start: Math.min(filteredSkills.length, currentPage * SKILLS_PER_PAGE - SKILLS_PER_PAGE + 1),
+              end: Math.min(currentPage * SKILLS_PER_PAGE, filteredSkills.length),
+              total: filteredSkills.length
+            })}
           </div>
         )}
       </div>
@@ -85,7 +92,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
           ))
         ) : (
           <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'} text-sm italic`}>
-            No skills found for this category
+            {t('projects.noSkillsFound')}
           </p>
         )}
       </div>
@@ -102,10 +109,10 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
                 : theme === 'light' ? 'hover:bg-gray-200' : 'hover:bg-gray-800'
             }`}
           >
-            ← Prev
+            {t('projects.prev')}
           </button>
           <span className="px-3 py-1">
-            Page {currentPage} of {totalPages}
+            {t('projects.pageInfo', { current: currentPage, total: totalPages })}
           </span>
           <button 
             onClick={goToNextPage} 
@@ -116,7 +123,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
                 : theme === 'light' ? 'hover:bg-gray-200' : 'hover:bg-gray-800'
             }`}
           >
-            Next →
+            {t('projects.next')}
           </button>
         </div>
       )}
