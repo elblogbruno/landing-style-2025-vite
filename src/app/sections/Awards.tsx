@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -931,4 +931,4 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
   );
 };
 
-export default Awards;
+export default memo(Awards);

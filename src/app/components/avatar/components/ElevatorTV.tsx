@@ -1,7 +1,7 @@
 import React from 'react';
-// import { Text, Html } from '@react-three/drei';
 import { Text } from '@react-three/drei';
 import { SectionKey } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface ElevatorTVProps {
   currentSection: SectionKey;
@@ -12,37 +12,6 @@ interface ElevatorTVProps {
   isTransitioning: boolean;
 }
 
-// Componente para mostrar el contenido HTML dentro de la TV
-// const TVContent = ({ currentSection, theme, pitchLines }: { 
-//   currentSection: SectionKey; 
-//   theme: "dark" | "light";
-//   pitchLines: Record<SectionKey, string>;
-// }) => {
-//   const ElevatorSlides = React.lazy(() => import('../ElevatorSlides')); 
-
-//   return ( 
-//     <Html
-//       transform 
-//       occlude    
-//       position={[0, 0, 0.1]} 
-//     >
-//       <div style={{ 
-//         width: '1600px', 
-//         height: '600px', 
-//         transform: 'scale(2.55)', 
-//         transformOrigin: 'center center',
-//         willChange: 'transform' // Mejora de rendimiento
-//       }}>
-//         <ElevatorSlides 
-//           currentSection={currentSection}
-//           theme={theme}
-//           pitchLines={pitchLines}
-//         />
-//       </div>
-//     </Html> 
-//   );
-// };
-
 const ElevatorTV: React.FC<ElevatorTVProps> = ({ 
   currentSection, 
   theme, 
@@ -51,6 +20,8 @@ const ElevatorTV: React.FC<ElevatorTVProps> = ({
   currentFloor, 
   isTransitioning 
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <group position={[0, 0.9, -2.4]} rotation={[0, 0, 0]}>
       {/* Marco de la TV más grande */}
@@ -82,15 +53,6 @@ const ElevatorTV: React.FC<ElevatorTVProps> = ({
           opacity={1}
         />
       </mesh>
-      
-      {/* Pantalla del TV más grande - aseguramos que esté detrás del HTML */}
-      {/* <group position={[0, 0, 0.1]}> 
-        <TVContent 
-          currentSection={currentSection}
-          theme={theme}
-          pitchLines={pitchLines}
-        /> 
-      </group> */}
 
       {/* Efecto de reflejo en la pantalla - ahora completamente transparente */}
       <mesh position={[0, 0, 0.23]} rotation={[0, 0, 0]} renderOrder={100}>
@@ -134,7 +96,6 @@ const ElevatorTV: React.FC<ElevatorTVProps> = ({
       </mesh>
       
       {/* Texto del pitch con estilo de TV - más grande y central */}
-      {/* <mesh position={[0, -0.3, 0.12]}> */}
       <mesh position={[0, 0, 0.12]}>
         <Text
           color="#ffffff"
@@ -181,7 +142,7 @@ const ElevatorTV: React.FC<ElevatorTVProps> = ({
             anchorX="left"
             anchorY="middle"
           >
-            FLOOR {currentFloor}
+            {t('elevator.floor')} {currentFloor}
           </Text>
         </mesh>
         
@@ -209,7 +170,7 @@ const ElevatorTV: React.FC<ElevatorTVProps> = ({
             anchorX="right"
             anchorY="middle"
           >
-            MOVING...
+            {t('elevator.moving')}
           </Text>
         </mesh>
       )}

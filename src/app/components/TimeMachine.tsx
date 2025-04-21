@@ -333,7 +333,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
                           <p 
                             className={`text-xs md:text-sm ${
                               theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'
-                            } line-clamp-2`}
+                            }`}
                             title={version.description}
                           >
                             {version.description}

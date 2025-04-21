@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import { track } from '../../../utils/umami-analytics';
 import { useTranslation } from 'react-i18next';
+import '../elevator-doors.css';
 
 type ElevatorDoorsProps = {
   isOpen: boolean;
@@ -15,72 +16,62 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, theme }) => {
   const [doorState, setDoorState] = useState<DoorState>(isOpen ? 'open' : 'closed');
   const previousOpenState = useRef(isOpen);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const doorMovementKey = useRef(0);
+  const doorMovementKey = useRef(Math.random()); // Use random key to force re-renders
   const transitionInProgressRef = useRef(false);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Esta función gestiona los cambios de estado de las puertas con debounce
+  // Force visible log to help debug
+  useEffect(() => {
+    console.log(`ElevatorDoors rendered - isOpen: ${isOpen}, doorState: ${doorState}`);
+  }, [isOpen, doorState]);
+  
+  // This function manages the door state changes without debounce
   const handleDoorStateChange = (newIsOpen: boolean) => {
-    // Limpieza de cualquier temporizador de debounce existente
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
+    console.log(`Door state change requested: ${newIsOpen ? 'open' : 'close'}`);
+    
+    // Always create a new key to force Framer Motion to recreate animations
+    doorMovementKey.current = Math.random();
+    
+    // Clear previous animations
+    if (animationTimeoutRef.current) {
+      clearTimeout(animationTimeoutRef.current);
+      animationTimeoutRef.current = null;
     }
     
-    // Solo permitir un cambio de estado si no hay una transición en progreso
-    if (transitionInProgressRef.current) {
-      return;
-    }
+    // Mark that a transition is in progress
+    transitionInProgressRef.current = true;
     
-    // Sólo iniciar una nueva transición si el estado ha cambiado
-    if (previousOpenState.current !== newIsOpen) {
-      // Marcar que hay una transición en progreso
-      transitionInProgressRef.current = true;
+    // Set the new door state
+    if (newIsOpen) {
+      setDoorState('opening');
       
-      // Incrementar key para forzar que Framer Motion recree las animaciones
-      doorMovementKey.current += 1;
+      // Set a timer to complete the animation
+      animationTimeoutRef.current = setTimeout(() => {
+        setDoorState('open');
+        previousOpenState.current = newIsOpen;
+        transitionInProgressRef.current = false;
+      }, 1600); // Animation duration
+    } else {
+      setDoorState('closing');
       
-      // Configurar el nuevo estado de las puertas
-      if (newIsOpen) {
-        setDoorState('opening');
-        
-        // Configurar un temporizador para completar la animación
-        animationTimeoutRef.current = setTimeout(() => {
-          setDoorState('open');
-          
-          // Actualizar el estado previo y marcar que no hay transición en progreso
-          previousOpenState.current = newIsOpen;
-          transitionInProgressRef.current = false;
-        }, 1600); // Duración de la animación
-      } else {
-        setDoorState('closing');
-        
-        // Configurar un temporizador para completar la animación
-        animationTimeoutRef.current = setTimeout(() => {
-          setDoorState('closed');
-          
-          // Actualizar el estado previo y marcar que no hay transición en progreso
-          previousOpenState.current = newIsOpen;
-          transitionInProgressRef.current = false;
-        }, 1600); // Duración de la animación
-      }
+      // Set a timer to complete the animation
+      animationTimeoutRef.current = setTimeout(() => {
+        setDoorState('closed');
+        previousOpenState.current = newIsOpen;
+        transitionInProgressRef.current = false;
+      }, 1600); // Animation duration
     }
   };
 
-  // Controlador para cambios en la prop isOpen con debounce para evitar eventos rápidos repetidos
-  useEffect(() => {
-    // Aplicar debounce para evitar múltiples transiciones rápidas
-    debounceTimerRef.current = setTimeout(() => {
-      handleDoorStateChange(isOpen);
-    }, 100);
+  // Handle changes to the isOpen prop - use layout effect for synchronous updates
+  useLayoutEffect(() => {
+    console.log(`isOpen changed to: ${isOpen}`);
     
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
+    // Always update when isOpen changes
+    handleDoorStateChange(isOpen);
+    
   }, [isOpen]);
   
-  // Registrar eventos de animación para analíticas
+  // Track door animation events for analytics
   useEffect(() => {
     track({
       category: 'ElevatorDoors',
@@ -89,14 +80,11 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, theme }) => {
     });
   }, [doorState, theme]);
   
-  // Limpiar timeouts al desmontar
+  // Clean up timeouts on unmount
   useEffect(() => {
     return () => {
       if (animationTimeoutRef.current) {
         clearTimeout(animationTimeoutRef.current);
-      }
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
       }
     };
   }, []);
@@ -104,13 +92,13 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, theme }) => {
   const isMoving = doorState === 'opening' || doorState === 'closing';
   const isLight = theme === "light";
   
-  // Colores basados en el tema
+  // Theme-based colors
   const doorBgColor = isLight ? 'bg-gray-200' : 'bg-gray-800';
   const doorBorderColor = isLight ? 'border-gray-300' : 'border-gray-600';
   const doorFrameColor = isLight ? 'bg-gray-400' : 'bg-gray-900';
   const panelBgColor = isLight ? 'bg-gray-100' : 'bg-gray-700';
   
-  // Función para determinar la posición de las puertas según el estado
+  // Function to determine door position based on state
   const getDoorPosition = (side: 'left' | 'right', state: DoorState) => {
     if (side === 'left') {
       return (state === 'opening' || state === 'open') ? "-100%" : "0%";
@@ -119,7 +107,7 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, theme }) => {
     }
   };
 
-  // Texto del estado de las puertas para accesibilidad
+  // Door state text for accessibility
   const getDoorStateText = (state: DoorState) => {
     switch (state) {
       case 'closing': return t('elevator.doors.closing');
@@ -130,39 +118,39 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, theme }) => {
   };
 
   return (
-    <div className="absolute inset-0 z-50 flex overflow-hidden pointer-events-none">
-      {/* Marco de la puerta */}
+    <div className="absolute inset-0 z-50 flex overflow-hidden pointer-events-none elevator-doors-container">
+      {/* Door frame */}
       <div className={`absolute inset-0 p-[3px] ${isMoving ? 'frame-glow' : ''}`}>
         <div className="absolute inset-0 flex">
-          {/* Bordes del marco */}
+          {/* Frame borders */}
           <div className={`absolute top-0 left-0 right-0 h-3 ${doorFrameColor} border-b ${doorBorderColor}`}></div>
           <div className={`absolute bottom-0 left-0 right-0 h-3 ${doorFrameColor} border-t ${doorBorderColor}`}></div>
           <div className={`absolute top-0 bottom-0 left-0 w-2 ${doorFrameColor} border-r ${doorBorderColor}`}></div>
           <div className={`absolute top-0 bottom-0 right-0 w-2 ${doorFrameColor} border-l ${doorBorderColor}`}></div>
           
-          {/* Puerta izquierda */}
+          {/* Left door */}
           <motion.div 
             key={`left-door-${doorMovementKey.current}`}
             className={`w-1/2 h-full ${doorBgColor} border-r ${doorBorderColor} relative shadow-lg`}
-            initial={{ x: "0%" }}
+            initial={{ x: isOpen ? "-100%" : "0%" }}
             animate={{ x: getDoorPosition('left', doorState) }}
             transition={{ duration: 1.6, ease: "easeInOut" }}
           >
             <div className={`absolute inset-[20px] border ${doorBorderColor} ${panelBgColor}`}></div>
           </motion.div>
           
-          {/* Puerta derecha */}
+          {/* Right door */}
           <motion.div
             key={`right-door-${doorMovementKey.current}`} 
             className={`w-1/2 h-full ${doorBgColor} border-l ${doorBorderColor} relative shadow-lg`}
-            initial={{ x: "0%" }}
+            initial={{ x: isOpen ? "100%" : "0%" }}
             animate={{ x: getDoorPosition('right', doorState) }}
             transition={{ duration: 1.6, ease: "easeInOut" }}
           >
             <div className={`absolute inset-[20px] border ${doorBorderColor} ${panelBgColor}`}></div>
           </motion.div>
           
-          {/* Indicador de piso cuando se mueve */}
+          {/* Floor indicator when doors are moving */}
           {isMoving && (
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60]">
               <div className={`text-center p-3 rounded-lg ${isLight ? 'bg-white/90' : 'bg-black/90'} shadow-lg border`}>

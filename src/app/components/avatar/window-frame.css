@@ -380,6 +380,18 @@ aside {
   height: 600px;
   transform-origin: center center;
   will-change: transform;
+  transition: opacity 0.3s ease;
+  overflow: visible; /* Changed from hidden to visible to ensure doors show */
+}
+
+/* Make sure the doors are visible */
+.elevator-frame .elevator-doors-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999; /* Higher z-index to ensure it's above everything */
 }
 
 /* Applied when elevator is vibrating */
@@ -390,6 +402,11 @@ aside {
 /* General styles for the elevator UI */
 .elevator-text {
   transition: all 0.3s ease-out;
+}
+
+/* Elevator indicator line - prevents flash during initial load */
+.elevator-indicator {
+  transition: opacity 0.5s ease-out;
 }
 
 .floor-indicator {

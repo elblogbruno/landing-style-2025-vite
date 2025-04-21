@@ -1,6 +1,20 @@
 /* filepath: d:\Desktop\Proyectos\Web Development\2025\landing-style-2025-vite\src\app\components\avatar\elevator-doors.css */
 /* Elevator door animation effects */
 
+/* Make sure the doors container is properly visible */
+.elevator-doors-container {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  pointer-events: none;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 @keyframes doorShake {
   0% { transform: translateX(0); }
   10% { transform: translateX(-1px); }

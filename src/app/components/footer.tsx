@@ -184,7 +184,7 @@ export const FooterComponent = React.memo(({ setIsDarkMode, isDarkMode }: Footer
   // Navigation sections based on the page structure - memoizado
   const navigationSections = useMemo(() => [
     [
-      { name: t('navigation.home'), href: "#hero" },
+      { name: t('navigation.hero'), href: "#hero" },
       { name: t('navigation.about'), href: "#about" },
       { name: t('navigation.experience'), href: "#experience" },
       { name: t('navigation.projects'), href: "#projects" },

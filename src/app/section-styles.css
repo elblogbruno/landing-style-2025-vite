@@ -85,3 +85,35 @@ button.elevator-passing {
   }
 }
 
+/* Prevents elevator indicator line from flashing on initial load */
+.elevator-line-container {
+  opacity: 0; 
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+  will-change: opacity, visibility;
+  transform: translateZ(0);
+}
+
+/* Elevator specific styles */
+.elevator-transition-active {
+  overflow: hidden !important;
+}
+
+@keyframes elevator-current-floor-blink {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.8); }
+}
+
+.elevator-current-floor-blink {
+  animation: elevator-current-floor-blink 0.5s ease-in-out;
+}
+
+.floor-indicator-active {
+  background-color: #3b82f6;
+  transform: scale(1.2);
+}
+
+.elevator-target-floor-pulse {
+  animation: pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+

@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React, { memo } from 'react'; 
 import { FeaturedProjectProps } from './types';
  
 const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSkillClick }) => {
@@ -137,4 +137,5 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSki
   );
 };
 
-export default FeaturedProject;
+// Memoize the component to prevent unnecessary re-renders
+export default memo(FeaturedProject);

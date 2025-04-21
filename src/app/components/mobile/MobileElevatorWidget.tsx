@@ -3,54 +3,55 @@ import { track } from '../../utils/umami-analytics';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionKey } from '../avatar/types';
 import { useTranslation } from 'react-i18next';
+import { useElevatorNavigation } from '../../hooks/useElevatorNavigation';
  
 interface MobileElevatorWidgetProps {
   currentSection: SectionKey;
   theme: "dark" | "light";
   floors: string[];
-  onFloorSelect: (floor: string) => void;
   highlightOnMount?: boolean;
-  onTransitionChange?: (isTransitioning: boolean) => void;
-  isButtonTriggered?: boolean;
+  onTransitionChange?: (isTransitioning: boolean) => void; 
 }
 
 const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
   currentSection,
   theme,
   floors,
-  onFloorSelect,
-  highlightOnMount = false 
+  highlightOnMount = false,
+  onTransitionChange, 
 }) => {
   const { t } = useTranslation();
   
-  // Definir floorMap a nivel de componente para que esté disponible en todo el código
-  const floorMap: Record<string, number> = {
-    hero: 6,
-    about: 5,
-    experience: 4,
-    projects: 3,
-    talks: 2,
-    news: 1,
-    awards: 0,
-    education: -1,
-    contact: -2
-  };
+  // Use the shared elevator navigation hook
+  const {
+    isTransitioning,
+    currentFloor,
+    doorsState,
+    transitionStatus,
+    targetSection,
+    floorsInTransition,
+    handleFloorClick,
+    getCurrentFloorNumber
+  } = useElevatorNavigation({
+    currentSection,
+    sections: floors as SectionKey[],
+    onTransitionChange
+  });
 
+  // State management
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [currentFloor, setCurrentFloor] = useState(getCurrentFloorNumber());
   const [dingSound, setDingSound] = useState<HTMLAudioElement | null>(null);
   const [movingSound, setMovingSound] = useState<HTMLAudioElement | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isHighlighted, setIsHighlighted] = useState(highlightOnMount);
   const [showDoors, setShowDoors] = useState(false);
-  const [doorsState, setDoorsState] = useState<'closed' | 'opening' | 'closing' | 'open'>('open');
-  const widgetRef = useRef<HTMLDivElement>(null);
+  // const [doorAnimation, setDoorAnimation] = useState<'opening' | 'closing' | null>(null);
   
-  // Get current floor number based on section
-  function getCurrentFloorNumber(): number {
-    return floorMap[currentSection] || 0;
-  }
+  // Refs
+  const widgetRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<number | null>(null);
+  const isScrolling = useRef(false);
+  const doorAnimationTimerRef = useRef<number | null>(null);
   
   // Initialize audio elements
   useEffect(() => {
@@ -73,8 +74,19 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
     };
     
     document.addEventListener('mousedown', handleClickOutside);
+    
+    // Cleanup on unmount
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      
+      // Clear any lingering timeouts
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      // Reset any body styles
+      document.body.style.overflow = '';
+      document.body.classList.remove('elevator-transition-active');
     };
   }, []);
   
@@ -90,234 +102,84 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
     }
   }, [highlightOnMount]);
   
-  // Handle floor changes
+  // Handle sounds based on state changes
   useEffect(() => {
-    const newFloor = getCurrentFloorNumber();
-    if (currentFloor !== newFloor && isExpanded) {
-      setIsTransitioning(true);
-      
-      // Play elevator moving sound
+    // Handle sounds for elevator arrival and transitions
+    if (isTransitioning) {
       if (!isMuted && movingSound) {
-        movingSound.play().catch(err => console.error('Error playing elevator sound:', err));
-      }
-      
-      // Simulate elevator movement time
-      const timeout = setTimeout(() => {
-        setCurrentFloor(newFloor);
-        setIsTransitioning(false);
+        // Play elevator movement sound
+        movingSound.play().catch(err => console.error(t('elevator.errors.soundPlay', 'Error playing elevator sound:'), err));
         
-        // Stop moving sound and play ding
-        if (!isMuted) {
-          if (movingSound) movingSound.pause();
-          if (dingSound) dingSound.play().catch(err => console.error('Error playing elevator ding:', err));
-        }
-      }, 1000);
-      
-      return () => clearTimeout(timeout);
-    }
-  }, [currentSection, isExpanded, isMuted, dingSound, movingSound, getCurrentFloorNumber, currentFloor]);
-  
-  // Handle section change with door animation and synchronized scroll
-  const handleFloorClick = (floor: string) => {
-    if (floor === currentSection || isTransitioning) return;
-    
-    // Solo registramos la interacción explícita del usuario con el elevador móvil
-    track({
-      category: 'MobileElevator',
-      action: 'FloorSelected',
-      label: floor
-    });
-
-    // Iniciar transición y cerrar puertas
-    setShowDoors(true);
-    setDoorsState('closing');
-    setIsTransitioning(true);
-    
-    // Minimizar widget durante transición
-    setIsExpanded(false);
-    
-    // Reproducir sonido de elevador en movimiento
-    if (!isMuted && movingSound) {
-      movingSound.play().catch(err => console.error('Error playing elevator sound:', err));
-    }
-
-    // Tiempo de cierre de puertas
-    const doorCloseTime = 800;
-    
-    // Esperar a que las puertas se cierren completamente
-    setTimeout(() => {
-      setDoorsState('closed');
-      
-      // Determinar duración del movimiento según distancia
-      const currentFloorIndex = floors.indexOf(currentSection);
-      const targetFloorIndex = floors.indexOf(floor);
-      const floorDistance = Math.abs(targetFloorIndex - currentFloorIndex);
-      const moveDuration = Math.min(2000 + (floorDistance * 500), 3500);
-      
-      // Obtener elemento destino y calcular posición
-      const targetElement = document.getElementById(floor);
-      if (targetElement) {
-        const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - 70;
-        
-        // Bloquear scroll durante la transición
-        document.body.style.overflow = 'hidden';
-        
-        // Animar el scroll simultáneamente con el movimiento del elevador
-        const startPosition = window.pageYOffset;
-        const distance = offsetPosition - startPosition;
-        const startTime = performance.now();
-        
-        // Calcular alturas de sección para determinar cambios de piso
-        const sectionHeights: {section: string, top: number, bottom: number, floorNum: number}[] = [];
-        floors.forEach(sectionId => {
-          const sectionElement = document.getElementById(sectionId);
-          if (sectionElement) {
-            const sectionRect = sectionElement.getBoundingClientRect();
-            sectionHeights.push({
-              section: sectionId,
-              top: sectionElement.offsetTop - 100, // Offset para detectar cambio un poco antes
-              bottom: sectionElement.offsetTop + sectionRect.height,
-              floorNum: floorMap[sectionId] || 0
-            });
+        // Setup event listener for arrival to play ding sound
+        const handleElevatorArrived = () => {
+          if (movingSound) {
+            movingSound.pause();
+            movingSound.currentTime = 0;
           }
-        });
-        
-        // Ordenar por posición vertical
-        sectionHeights.sort((a, b) => a.top - b.top);
-        
-        // Target floor number
-        const targetFloorNum = floorMap[floor] || 0;
-        const currentFloorNum = floorMap[currentSection] || 0;
-        
-        const animateScroll = (currentTime: number) => {
-          const elapsedTime = currentTime - startTime;
-          const progress = Math.min(elapsedTime / moveDuration, 1);
-          
-          // Easing para simular movimiento de elevador
-          let easedProgress;
-          if (progress < 0.2) {
-            // Aceleración inicial
-            easedProgress = (progress / 0.2) * (progress / 0.2) * 0.2;
-          } else if (progress > 0.8) {
-            // Desaceleración final
-            const decelProgress = (1 - progress) / 0.2;
-            easedProgress = 0.8 + (1 - (decelProgress * decelProgress)) * 0.2;
-          } else {
-            // Velocidad constante en medio
-            easedProgress = 0.2 + (progress - 0.2) * (0.6 / 0.6);
-          }
-          
-          // Calcular posición actual
-          const currentPosition = startPosition + distance * easedProgress;
-          window.scrollTo(0, currentPosition);
-          
-          // Determinar piso actual basado en la posición de scroll
-          let displayFloor = currentFloorNum;
-          
-          // Si nos movemos hacia arriba (floor num aumenta)
-          if (targetFloorNum > currentFloorNum) {
-            // Encontrar el piso correspondiente a la posición actual
-            for (let i = 0; i < sectionHeights.length; i++) {
-              if (currentPosition >= sectionHeights[i].top && 
-                  (i === sectionHeights.length - 1 || currentPosition < sectionHeights[i + 1].top)) {
-                displayFloor = sectionHeights[i].floorNum;
-                break;
-              }
-            }
-          } 
-          // Si nos movemos hacia abajo (floor num disminuye)
-          else {
-            // Recorrer pisos en orden inverso
-            for (let i = sectionHeights.length - 1; i >= 0; i--) {
-              if (currentPosition <= sectionHeights[i].bottom && 
-                  (i === 0 || currentPosition > sectionHeights[i - 1].bottom)) {
-                displayFloor = sectionHeights[i].floorNum;
-                break;
-              }
-            }
-          }
-          
-          // Actualizar piso actual para visualización
-          setCurrentFloor(displayFloor);
-          
-          if (progress < 1) {
-            requestAnimationFrame(animateScroll);
-          } else {
-            // Al finalizar el scroll y el movimiento
-            // Restaurar scroll normal
-            document.body.style.overflow = '';
-            
-            // Detener sonido de movimiento y reproducir ding
-            if (!isMuted) {
-              if (movingSound) movingSound.pause();
-              if (dingSound) dingSound.play().catch(err => console.error('Error playing elevator ding:', err));
-            }
-            
-            // Abrir puertas en destino
-            setDoorsState('opening');
-            
-            // Esperar a que se abran las puertas
-            setTimeout(() => {
-              setDoorsState('open');
-              setShowDoors(false);
-              setIsTransitioning(false);
-              setIsExpanded(true);
-            }, 800);
+          if (dingSound) {
+            dingSound.play().catch(err => console.error(t('elevator.errors.dingPlay', 'Error playing elevator ding:'), err));
           }
         };
         
-        // Iniciar la animación de scroll simultáneamente con el movimiento del elevador
-        requestAnimationFrame(animateScroll);
-      } else {
-        // Si no se encuentra el elemento, usar método alternativo
-        onFloorSelect(floor);
+        window.addEventListener('elevator-arrived', handleElevatorArrived);
         
-        // Simular el cambio de pisos durante la animación
-        const targetFloorNum = floorMap[floor] || 0;
-        const currentFloorNum = floorMap[currentSection] || 0;
-        const isAscending = targetFloorNum > currentFloorNum;
-        const floorsToPass = Math.abs(targetFloorNum - currentFloorNum);
-        
-        // Si hay pisos para pasar, hacer una animación de cambio de piso
-        if (floorsToPass > 0) {
-          let passedFloors = 0;
-          const floorChangeInterval = Math.min(moveDuration / (floorsToPass + 1), 800);
-          
-          const floorChangeTimer = setInterval(() => {
-            passedFloors++;
-            if (passedFloors <= floorsToPass) {
-              // Calcular el piso actual basado en la dirección
-              const newFloor = isAscending 
-                ? currentFloorNum + passedFloors
-                : currentFloorNum - passedFloors;
-              setCurrentFloor(newFloor);
-            }
-            
-            if (passedFloors >= floorsToPass) {
-              clearInterval(floorChangeTimer);
-            }
-          }, floorChangeInterval);
-        }
-        
-        // Limpiar después de un tiempo equivalente al movimiento
-        setTimeout(() => {
-          if (!isMuted) {
-            if (movingSound) movingSound.pause();
-            if (dingSound) dingSound.play().catch(err => console.error('Error playing elevator ding:', err));
+        return () => {
+          window.removeEventListener('elevator-arrived', handleElevatorArrived);
+          if (movingSound) {
+            movingSound.pause();
+            movingSound.currentTime = 0;
           }
-          
-          setDoorsState('opening');
-          setTimeout(() => {
-            setDoorsState('open');
-            setShowDoors(false);
-            setIsTransitioning(false);
-            setIsExpanded(true);
-            document.body.style.overflow = '';
-          }, 800);
-        }, moveDuration);
+        };
       }
-    }, doorCloseTime);
-  };
+    } else {
+      // Play a quick ding when section changes by scrolling (not during transitions)
+      if (!isTransitioning && !isMuted && dingSound) {
+        dingSound.play().catch(err => console.error('Error playing elevator ding:', err));
+      }
+    }
+  }, [dingSound, isTransitioning, isMuted, movingSound, t]);
+
+  // Update doors visibility and animation based on doorState
+  useEffect(() => {
+    setShowDoors(isTransitioning);
+
+    // If transitioning and doors are visible, update door animation state
+    if (showDoors) {
+      // Apply door state animations from the shared hook
+      if (doorAnimationTimerRef.current) {
+        clearTimeout(doorAnimationTimerRef.current);
+      }
+      
+      // if (doorsState === 'opening' || doorsState === 'closing') {
+      //   // Door animation in progress - keep the doors visible
+      //   setDoorAnimation(doorsState);
+      // } else if (doorsState === 'open') {
+      //   // If doors should be fully open, make them visible but fully open
+      //   setDoorAnimation('opening');
+      // } else if (doorsState === 'closed') {
+      //   // If doors should be fully closed, make them visible but fully closed
+      //   setDoorAnimation('closing');
+      // }
+    }
+  }, [isTransitioning, doorsState, showDoors]);
+
+  // Add a scroll listener to prevent conflicts
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isTransitioning) {
+        // If user tries to scroll while transitioning, block it
+        if (isScrolling.current) {
+          return;
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: false });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isTransitioning]);
 
   // Toggle sound effects
   const toggleSound = () => {
@@ -343,11 +205,39 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
       });
     }
   };
+
+  // Get transition status message
+  const getTransitionStatusMessage = () => {
+    switch (transitionStatus) {
+      case 'preparing': return t('elevator.mobile.preparing', 'PREPARING');
+      case 'scrolling': return t('elevator.mobile.travelling', 'TRAVELLING');
+      case 'arriving': return t('elevator.mobile.arriving', 'ARRIVING');
+      default: return t('elevator.mobile.stopped', 'STOPPED');
+    }
+  };
   
   const isLight = theme === "light";
   
   return (
     <>
+      {/* Status overlay during transitions */}
+      <AnimatePresence>
+        {isTransitioning && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed top-0 left-0 right-0 z-[98] pointer-events-none"
+          >
+            <div className={`mx-auto mt-4 max-w-xs text-center p-2 rounded-lg ${isLight ? 'bg-white/90' : 'bg-black/90'} shadow-lg`}>
+              <div className={`text-xs font-mono ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
+                {getTransitionStatusMessage()}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    
       {/* Elevator doors overlay */}
       <AnimatePresence>
         {showDoors && (
@@ -355,12 +245,11 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
             <div className="w-full h-full flex">
               {/* Left door */}
               <motion.div 
+                key={`mobile-left-door-${Date.now()}`}
                 className={`w-1/2 h-full ${isLight ? 'bg-gray-200' : 'bg-gray-800'} border-r ${isLight ? 'border-gray-300' : 'border-gray-600'}`}
-                initial={{ x: doorsState === 'opening' ? "0%" : "-50%" }}
-                animate={{ 
-                  x: doorsState === 'closing' || doorsState === 'closed' ? "0%" : "-50%" 
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                initial={{ x: doorsState === 'open' || doorsState === 'opening' ? "-50%" : "0%" }}
+                animate={{ x: doorsState === 'open' || doorsState === 'opening' ? "-50%" : "0%" }}
+                transition={{ duration: 1.6, ease: "easeInOut", type: "tween" }}
               >
                 <div className="h-full flex items-center justify-end pr-1">
                   <div className={`h-[80%] w-2 rounded-l ${isLight ? 'bg-gray-300' : 'bg-gray-700'}`}></div>
@@ -369,12 +258,11 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
               
               {/* Right door */}
               <motion.div 
+                key={`mobile-right-door-${Date.now()}`}
                 className={`w-1/2 h-full ${isLight ? 'bg-gray-200' : 'bg-gray-800'} border-l ${isLight ? 'border-gray-300' : 'border-gray-600'}`}
-                initial={{ x: doorsState === 'opening' ? "0%" : "50%" }}
-                animate={{ 
-                  x: doorsState === 'closing' || doorsState === 'closed' ? "0%" : "50%" 
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                initial={{ x: doorsState === 'open' || doorsState === 'opening' ? "50%" : "0%" }}
+                animate={{ x: doorsState === 'open' || doorsState === 'opening' ? "50%" : "0%" }}
+                transition={{ duration: 1.6, ease: "easeInOut", type: "tween" }}
               >
                 <div className="h-full flex items-center justify-start pl-1">
                   <div className={`h-[80%] w-2 rounded-r ${isLight ? 'bg-gray-300' : 'bg-gray-700'}`}></div>
@@ -386,20 +274,24 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none">
               <div className={`text-center p-3 rounded-lg ${isLight ? 'bg-white' : 'bg-black'} shadow-lg`}>
                 <div className={`text-xs font-mono ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
-                  {isTransitioning ? 'MOVING TO FLOOR' : 'CURRENT FLOOR'}
+                  {transitionStatus === 'arriving' 
+                    ? t('elevator.mobile.arriving', 'ARRIVING AT FLOOR') 
+                    : transitionStatus === 'preparing'
+                      ? t('elevator.mobile.preparing', 'PREPARING') 
+                      : t('elevator.mobile.movingToFloor', 'MOVING TO FLOOR')}
                 </div>
                 <div className={`text-4xl font-mono font-bold ${isLight ? 'text-blue-600' : 'text-blue-400'}`}
                   style={{ transition: isTransitioning ? 'none' : 'all 0.3s ease-in-out' }}>
-                  {currentFloor >= 0 ? currentFloor : `-${Math.abs(currentFloor)}`}
-                  <span className={`text-lg ${isLight ? 'text-gray-500' : 'text-gray-500'}`}>
-                    {currentFloor >= 0 ? 'F' : 'B'}
-                  </span>
+                  {currentFloor}
+                  <span className={`text-lg ${isLight ? 'text-gray-500' : 'text-gray-500'}`}></span>
                 </div>
                 <div className={`text-sm font-medium ${isLight ? 'text-gray-700' : 'text-gray-300'}`}
                   style={{ transition: isTransitioning ? 'none' : 'all 0.3s ease-in-out' }}>
                   {isTransitioning 
-                    ? "PASSING THROUGH" 
-                    : currentSection.toUpperCase()}
+                    ? transitionStatus === 'arriving' 
+                      ? targetSection ? t(`navigation.${targetSection}`, targetSection.toUpperCase()) : ''
+                      : t('elevator.mobile.passingThrough', 'PASSING THROUGH')
+                    : t(`navigation.${currentSection}`, currentSection.toUpperCase())}
                 </div>
                 {isTransitioning && (
                   <div className="flex justify-center mt-1 gap-1">
@@ -422,13 +314,13 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
           ${isLight ? 'bg-white' : 'bg-gray-900'} 
           rounded-xl
           shadow-lg border ${isLight ? 'border-gray-200' : 'border-gray-700'}
-          ${isHighlighted ? 'animate-bounce shadow-2xl ring-4 ring-blue-500 ring-opacity-60' : ''}`}
+          ${isHighlighted ? 'animate-bounce shadow-2xl ring-4 ring-blue-500 ring-opacity-60' : ''}
+          ${isTransitioning ? 'opacity-90 elevator-transitioning' : ''}`}
         style={{
           borderRadius: isExpanded ? '0.75rem' : '9999px',
           transition: 'border-radius 300ms ease-in-out, width 300ms ease-in-out, height 300ms ease-in-out, bottom 300ms ease-in-out, left 300ms ease-in-out, right 300ms ease-in-out'
         }}
       >
-        {/* Collapsed state - just an elevator icon */}
         {!isExpanded ? (
           <button 
             onClick={toggleExpanded}
@@ -447,8 +339,16 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
               {/* Current floor indicator */}
               <div className={`absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs
                 ${isLight ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white'}`}>
-                {currentFloor >= 0 ? Math.abs(currentFloor) : `-${Math.abs(currentFloor)}`}
+                {currentFloor}
               </div>
+              
+              {/* Status indicator */}
+              {isTransitioning && (
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-auto px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white whitespace-nowrap">
+                  {transitionStatus === 'arriving' ? 'ARRIVING' : 'MOVING'}
+                </div>
+              )}
+              
               {/* Pulse effect to indicate current section */}
               <div className={`absolute inset-0 rounded-full ${isLight ? 'bg-blue-500' : 'bg-blue-600'} animate-ping opacity-20`}></div>
             </div>
@@ -465,7 +365,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                   <path d="M16 14l-4 4-4-4" />
                 </svg>
                 <h3 className={`text-lg font-medium ${isLight ? 'text-gray-800' : 'text-white'}`}>
-                  Elevator Pitch
+                  {isTransitioning ? 'Traveling...' : 'Elevator Pitch'}
                 </h3>
               </div>
               <div className="flex items-center gap-2">
@@ -481,7 +381,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                     </svg>
                   ) : (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.414 0A5.983 5.983 0 0115 10a5.983 5.983 0 01-1.758 4.243a1 1 0 01-1.414-1.414A3.984 3.984 0 0013 10a3.984 3.984 0 00-1.172-2.828a1 1 0 010-1.414z" clipRule="evenodd" />
+                      <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.414 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.414-1.414A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   )}
                 </button>
@@ -505,10 +405,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                 <div>
                   <div className={`text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>CURRENT FLOOR</div>
                   <div className={`text-2xl font-mono font-bold ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
-                    {currentFloor >= 0 ? currentFloor : `-${Math.abs(currentFloor)}`}
-                    <span className={`text-sm ${isLight ? 'text-gray-500' : 'text-gray-500'}`}>
-                      {currentFloor >= 0 ? 'F' : 'B'}
-                    </span>
+                    {currentFloor}
                   </div>
                 </div>
                 <div>
@@ -516,7 +413,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                   <div className={`font-mono ${isTransitioning ? 'text-amber-500' : isLight ? 'text-green-600' : 'text-green-500'}`}>
                     {isTransitioning ? (
                       <span className="inline-flex items-center">
-                        MOVING
+                        {getTransitionStatusMessage()}
                         <span className="ml-1 flex space-x-1">
                           <span className="h-1.5 w-1.5 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
                           <span className="h-1.5 w-1.5 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
@@ -587,36 +484,54 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
             {/* Elevator buttons */}
             <div className="grid grid-cols-4 gap-2">
               {floors.map((floor) => {
-                // Calculate floor number
-                const floorNum = floorMap[floor] || 0;
+                // Calculate floor number from the floorMap in the shared hook
+                const floorNum = getCurrentFloorNumber(floor);
                 const isCurrentFloor = floor === currentSection;
+                const isTargetFloor = targetSection === floor;
                 
                 return (
                   <button
                     key={floor}
-                    onClick={() => handleFloorClick(floor)}
+                    onClick={() => handleFloorClick(floor as SectionKey)}
                     disabled={(isCurrentFloor && !isTransitioning) || isTransitioning}
                     className={`
                       aspect-square p-1 rounded-lg flex flex-col items-center justify-center
                       transition-all duration-200 relative
                       ${isCurrentFloor 
                         ? `${isLight ? 'bg-blue-100 text-blue-800' : 'bg-blue-900 text-blue-200'} ring-2 ${isLight ? 'ring-blue-500' : 'ring-blue-500'}` 
-                        : `${isLight ? 'bg-gray-200 text-gray-800 hover:bg-gray-300' : 'bg-gray-800 text-gray-200 hover:bg-gray-700'}`
+                        : isTargetFloor && isTransitioning
+                          ? `${isLight ? 'bg-amber-100 text-amber-800' : 'bg-amber-900 text-amber-200'} ring-2 ${isLight ? 'ring-amber-500' : 'ring-amber-500'}`
+                          : `${isLight ? 'bg-gray-200 text-gray-800 hover:bg-gray-300' : 'bg-gray-800 text-gray-200 hover:bg-gray-700'}`
                       }
-                      ${isTransitioning && 'opacity-60 cursor-not-allowed'}
+                      ${isTransitioning && !isTargetFloor && 'opacity-60 cursor-not-allowed'}
+                      ${isTransitioning && isTargetFloor && 'elevator-target-floor-pulse'}
                     `}
                     title={`Go to ${floor.charAt(0).toUpperCase() + floor.slice(1)}`}
                   >
-                    <span className={`text-lg font-mono font-bold ${isCurrentFloor ? (isLight ? 'text-blue-800' : 'text-blue-300') : ''}`}>
-                      {floorNum >= 0 ? floorNum : `-${Math.abs(floorNum)}`}
+                    <span className={`text-lg font-mono font-bold 
+                      ${isCurrentFloor ? (isLight ? 'text-blue-800' : 'text-blue-300') : 
+                        isTargetFloor && isTransitioning ? (isLight ? 'text-amber-800' : 'text-amber-300') : ''}
+                    `}>
+                      {floorNum}
                     </span>
                     <span className="text-[10px] uppercase leading-tight">{floor}</span>
                     
-                    {isCurrentFloor && (
+                    {/* Show current floor indicator */}
+                    {isCurrentFloor && !isTransitioning && (
                       <span className="absolute inset-0 border-2 rounded-lg animate-pulse opacity-60" 
                         style={{
                           borderColor: isLight ? 'rgb(59 130 246)' : 'rgb(96 165 250)',
                           animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                        }}
+                      ></span>
+                    )}
+                    
+                    {/* Show target floor indicator */}
+                    {isTargetFloor && isTransitioning && (
+                      <span className="absolute inset-0 border-2 rounded-lg animate-pulse opacity-80" 
+                        style={{
+                          borderColor: isLight ? 'rgb(245 158 11)' : 'rgb(252 211 77)',
+                          animation: 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
                         }}
                       ></span>
                     )}

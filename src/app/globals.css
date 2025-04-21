@@ -87,17 +87,21 @@
 /* Estilos base para html y body */
 html, body {
   font-family: var(--font-family);
-  transition: scroll-behavior 0.3s ease;
+  transition: scroll-behavior 0s ease;
 }
 
 html {
   scroll-behavior: smooth;
   height: 100%;
+  overscroll-behavior: none; /* Prevenir rebote en algunos navegadores */
 }
 
 body {
   scroll-behavior: smooth !important;
   overscroll-behavior: contain;
+  height: 100%;
+  /* Añadir esta propiedad para prevenir cambios bruscos en la altura del documento */
+  min-height: 100vh;
 }
 
 * {

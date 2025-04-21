@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState, useMemo, useCallback, Suspense, useRef } from 'react'; 
+import { useTranslation } from 'react-i18next';
+import { useElevatorNavigation } from './hooks/useElevatorNavigation';
 
 import { FooterComponent } from './components/footer';
 import SectionObserver from './components/SectionObserver'; 
@@ -14,6 +16,7 @@ import siteData from '../data/site-data.json';
 import ToggleBtn from './components/tglbutton';
 import { SectionKey } from './components/avatar/types';
 import { useInView } from 'react-intersection-observer';
+import ElevatorPlaceholder from './components/avatar/ElevatorPlaceholder';
 
 // Componente de fallback optimizado
 const LoadingFallback = () => (
@@ -40,87 +43,10 @@ const MobileElevatorWidget = lazyWithPreload(() => import('./components/mobile/M
 const MobileWelcomeTour = lazyWithPreload(() => import('./components/mobile/MobileWelcomeTour'), 1200, 'low');
 const AudioManager = lazyWithPreload(() => import('./components/avatar/AudioManager'), 2000, 'low');
 
-// Componente para renderizar secciones solo cuando están próximas a la vista
-const SectionWithVisibility: React.FC<{
-  id: string;
-  currentSection: string;
-  visibilityBuffer?: number;
-  children: React.ReactNode;
-}> = React.memo(({ id, currentSection, visibilityBuffer = 1, children }) => {
-  // Guardar en referencia para evitar re-renders
-  const sectionsRef = useRef<string[]>([]);
-  // Guardamos el resultado del cálculo en una ref para evitar recálculos innecesarios
-  const shouldRenderRef = useRef<boolean>(true);
-  
-  useEffect(() => {
-    // Solo necesitamos cargar esto una vez
-    const sections = ['hero', 'about', 'experience', 'projects', 'talks', 'news', 'awards', 'education', 'contact'];
-    sectionsRef.current = sections;
-  }, []);
-
-  // Actualizamos el shouldRenderRef solo cuando cambia la sección actual
-  useEffect(() => {
-    const sections = sectionsRef.current;
-    if (sections.length === 0) {
-      shouldRenderRef.current = true;
-      return;
-    }
-    
-    // Si es la sección actual, siempre mostrar
-    if (id === currentSection) {
-      shouldRenderRef.current = true;
-      return;
-    }
-
-    const currentIndex = sections.indexOf(currentSection);
-    const sectionIndex = sections.indexOf(id);
-    
-    // Si no se encuentra en la lista, siempre mostrar (por seguridad)
-    if (currentIndex === -1 || sectionIndex === -1) {
-      shouldRenderRef.current = true;
-      return;
-    }
-    
-    // Renderizar si está dentro del buffer de visibilidad (antes o después)
-    shouldRenderRef.current = Math.abs(currentIndex - sectionIndex) <= visibilityBuffer;
-  }, [id, currentSection, visibilityBuffer]);
-  
-  // Usamos un único IntersectionObserver con config optimizada
-  const [ref, inView] = useInView({
-    triggerOnce: false,
-    rootMargin: '300px', // Aumentamos el margen para detectar secciones con más anticipación
-    threshold: 0.05 // Reducimos el umbral para mejorar rendimiento
-  });
-
-  // Memoizamos el estado de visibilidad para evitar re-renders innecesarios
-  const isInView = useRef(false);
-  
-  // Cuando está en vista pero no está renderizado, guardar para renderizado futuro
-  useEffect(() => {
-    isInView.current = inView;
-  }, [inView]);
-  
-  // Utilizamos useMemo para calcular si debemos renderizar el contenido
-  // Esto evita recálculos en cada renderizado
-  const shouldRender = useMemo(() => {
-    return shouldRenderRef.current || isInView.current;
-  }, [currentSection, inView]); // Solo recalcular cuando cambia la sección o el estado de visibilidad
-  
-  // Optimización de renderizado condicional para componentes pesados
-  return (
-    <section
-      ref={ref}
-      id={id}
-      className="section-container scroll-mt-16"
-      data-section-id={id}
-    >
-      {/* Solo renderizar el contenido cuando sea necesario */}
-      {shouldRender && children}
-    </section>
-  );
-});
-
 const Portfolio = () => {  
+  // Access translation functions
+  const { t } = useTranslation();
+
   // Estado para el tema (modo oscuro) - simplificado
   const [darkMode, setDarkMode] = useState(() => 
     document.documentElement.classList.contains('dark')
@@ -141,6 +67,9 @@ const Portfolio = () => {
   
   // Estado para controlar el rendimiento
   const [highPerformanceMode, setHighPerformanceMode] = useState(false);
+  
+  // Estado para forzar renderizado de secciones (por ejemplo, al usar el elevador)
+  const [forceRenderSections, setForceRenderSections] = useState<Set<SectionKey>>(new Set());
   
   // Referencias para evitar dependencias circulares
   const currentSectionRef = React.useRef<SectionKey>('hero');
@@ -395,150 +324,44 @@ const Portfolio = () => {
     }
   }, []);
 
-  // Función optimizada para click en pisos con caché de elementos DOM
-  const elementCache = React.useRef<Record<string, HTMLElement | null>>({});
+  // Actualizar estado de transición del elevador
+  const handleElevatorTransition = useCallback((isTransitioning: boolean) => {
+    setElevatorTransitioning(isTransitioning);
+  }, []);
+
+  // Use the shared elevator navigation hook
+  const {
+    isTransitioning,
+    currentFloor,
+    doorsState,
+    transitionStatus,
+    targetSection,
+    floorsInTransition: floorsInTransitionState,
+    handleFloorClick: handleElevatorNavigation
+  } = useElevatorNavigation({
+    currentSection,
+    sections,
+    onTransitionChange: handleElevatorTransition,
+    isButtonTriggered: buttonTriggeredNavigation
+  });
+  
+  // Define floorsInTransition ref before using it
   const floorsInTransition = React.useRef<(SectionKey)[]>([]);
   
+  // Keep the floorsInTransition ref in sync with the hook's state
+  useEffect(() => {
+    floorsInTransition.current = floorsInTransitionState;
+  }, [floorsInTransitionState]);
+
+  // Función optimizada para click en pisos con caché de elementos DOM
+  const elementCache = React.useRef<Record<string, HTMLElement | null>>({});
+  
+  // Use the shared elevator navigation logic to handle floor clicks
   const handleFloorClick = useCallback((floor: SectionKey) => {
-    // Evitar navegación si ya estamos en esa sección o en transición
-    if (floor === currentSectionRef.current || elevatorTransitioningRef.current) return;
-    
+    // Let the elevator navigation hook handle everything
     setButtonTriggeredNavigation(true);
-    
-    // Usar caché de elementos para mejorar rendimiento
-    if (!elementCache.current[floor]) {
-      elementCache.current[floor] = document.getElementById(floor);
-    }
-    const targetElement = elementCache.current[floor];
-    if (!targetElement) return;
-    
-    // Trackear interacción
-    try {
-      track({
-        category: 'navigation',
-        action: 'elevator_button_click',
-        label: floor
-      });
-    } catch {
-      // Ignorar errores de tracking
-    }
-    
-    // Bloquear scroll durante la transición
-    document.body.classList.add('elevator-transition-active');
-    
-    // Calcular duración basada en la distancia entre pisos
-    const currentFloorIndex = sections.indexOf(currentSectionRef.current);
-    const targetFloorIndex = sections.indexOf(floor);
-    const floorDistance = Math.abs(targetFloorIndex - currentFloorIndex);
-    const direction = targetFloorIndex > currentFloorIndex ? 'down' : 'up';
-    
-    // Tiempos optimizados para la transición del elevador
-    const doorCloseTime = 1500;
-    const baseDuration = 1800; 
-    const additionalTimePerFloor = 600;
-    const moveDuration = Math.min(baseDuration + (floorDistance * additionalTimePerFloor), 4500);
-    const pauseBeforeOpen = 500;
-    const doorOpenTime = 1600;
-    
-    // Cambiar sección inmediatamente
-    setCurrentSection(floor);
-    
-    // Calcular posición de destino
-    const offsetPosition = targetElement.getBoundingClientRect().top + window.scrollY - 100;
-    const startPosition = window.scrollY;
-    const distance = offsetPosition - startPosition;
-    
-    // Efecto visual de recorrido por pisos intermedios (iluminando botones)
-    floorsInTransition.current = [];
-    if (floorDistance > 1) {
-      // Crear lista de pisos intermedios
-      const intermediateFloors: SectionKey[] = [];
-      // Si vamos hacia abajo, recorrer los pisos en orden descendente
-      if (direction === 'down') {
-        for (let i = currentFloorIndex + 1; i < targetFloorIndex; i++) {
-          intermediateFloors.push(sections[i] as SectionKey);
-        }
-      } 
-      // Si vamos hacia arriba, recorrer los pisos en orden ascendente
-      else {
-        for (let i = currentFloorIndex - 1; i > targetFloorIndex; i--) {
-          intermediateFloors.push(sections[i] as SectionKey);
-        }
-      }
-      
-      // Guardar referencia de los pisos en transición
-      floorsInTransition.current = [...intermediateFloors, floor];
-      
-      // Iluminar los botones de los pisos intermedios secuencialmente
-      const timePerFloor = moveDuration / floorDistance;
-      intermediateFloors.forEach((intermediateFloor, idx) => {
-        setTimeout(() => {
-          // Efecto visual temporal en botón
-          const button = document.querySelector(`button[aria-label="Ir al piso ${intermediateFloor}"]`);
-          if (button) {
-            button.classList.add('elevator-passing');
-            setTimeout(() => {
-              button.classList.remove('elevator-passing');
-            }, timePerFloor * 0.8);
-          }
-        }, doorCloseTime + (timePerFloor * (idx + 0.5)));
-      });
-    } else {
-      floorsInTransition.current = [floor];
-    }
-    
-    // Diferir la animación para permitir que las puertas se cierren primero
-    setTimeout(() => {
-      const startTime = performance.now();
-      
-      // Función de animación con rendimiento optimizado y física más realista
-      const animateScroll = (currentTime: number) => {
-        const elapsedTime = currentTime - startTime;
-        const progress = Math.min(elapsedTime / moveDuration, 1);
-        
-        // Función de easing con 3 fases: aceleración, velocidad constante, desaceleración
-        // Ajustar la proporción de cada fase según la distancia del viaje
-        const accelerationPhase = floorDistance > 3 ? 0.15 : 0.2;
-        const decelerationPhase = floorDistance > 3 ? 0.15 : 0.2;
-        const constantPhase = 1 - accelerationPhase - decelerationPhase;
-        
-        let easedProgress;
-        if (progress < accelerationPhase) {
-          // Fase de aceleración: movimiento cuadrático
-          const accelProgress = progress / accelerationPhase;
-          easedProgress = (accelProgress * accelProgress) * accelerationPhase;
-        } else if (progress > (1 - decelerationPhase)) {
-          // Fase de desaceleración: desaceleración cuadrática
-          const decelStart = 1 - decelerationPhase;
-          const decelProgress = (progress - decelStart) / decelerationPhase;
-          const invDecelProgress = 1 - decelProgress;
-          easedProgress = 1 - (invDecelProgress * decelerationPhase);
-        } else {
-          // Fase de velocidad constante
-          const constStart = accelerationPhase;
-          const constProgress = (progress - constStart) / constantPhase;
-          easedProgress = accelerationPhase + (constProgress * constantPhase);
-        }
-        
-        window.scrollTo({
-          top: startPosition + distance * easedProgress,
-          behavior: 'auto' // Usar 'auto' para evitar conflictos con scroll-behavior
-        });
-        
-        if (progress < 1) {
-          requestAnimationFrame(animateScroll);
-        } else {
-          // Eliminar bloqueo de scroll después de que las puertas se abran completamente
-          setTimeout(() => {
-            document.body.classList.remove('elevator-transition-active');
-            setButtonTriggeredNavigation(false);
-          }, pauseBeforeOpen + doorOpenTime);
-        }
-      };
-      
-      requestAnimationFrame(animateScroll);
-    }, doorCloseTime);
-  }, [sections]);
+    handleElevatorNavigation(floor);
+  }, [handleElevatorNavigation]);
 
   // Gestionar transición del elevador (bloqueo de scroll)
   useEffect(() => {
@@ -546,6 +369,7 @@ const Portfolio = () => {
       document.body.classList.add('elevator-transition-active');
     } else {
       document.body.classList.remove('elevator-transition-active');
+      setButtonTriggeredNavigation(false);
     }
   }, [elevatorTransitioning]);
 
@@ -566,10 +390,24 @@ const Portfolio = () => {
     }
   }, []);
 
-  // Actualizar estado de transición del elevador
-  const handleElevatorTransition = useCallback((isTransitioning: boolean) => {
-    setElevatorTransitioning(isTransitioning);
-  }, []);
+  // Listen for section change events from the mobile elevator
+  useEffect(() => {
+    const handleSectionChangeEvent = (event: CustomEvent) => {
+      const { section } = event.detail;
+      if (section && sections.includes(section as SectionKey)) {
+        // Update the current section state directly
+        setCurrentSection(section as SectionKey);
+      }
+    };
+
+    // Add event listener for the custom event
+    window.addEventListener('section-change', handleSectionChangeEvent as EventListener);
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('section-change', handleSectionChangeEvent as EventListener);
+    };
+  }, [sections]);
 
   // Memoizar todos los props para componentes
   const heroProps = useMemo(() => ({
@@ -583,12 +421,14 @@ const Portfolio = () => {
     sections,
     currentSection,
     onSectionChange: handleSectionChange,
-    performanceMode: highPerformanceMode
-  }), [sections, currentSection, handleSectionChange, highPerformanceMode]);
+    performanceMode: highPerformanceMode,
+    disabled: elevatorTransitioning || buttonTriggeredNavigation // Disable observer during transitions
+  }), [sections, currentSection, handleSectionChange, highPerformanceMode, elevatorTransitioning, buttonTriggeredNavigation]);
   
   const elevatorProps = useMemo(() => ({
     currentSection,
     theme: themeValue,
+    floors: sections as string[],
     onTransitionChange: handleElevatorTransition,
     isButtonTriggered: buttonTriggeredNavigation
   }), [currentSection, themeValue, handleElevatorTransition, buttonTriggeredNavigation]);
@@ -599,7 +439,14 @@ const Portfolio = () => {
     floors: sections as string[],
     highlightOnMount: highlightElevator
   }), [currentSection, themeValue, sections, highlightElevator]);
- 
+
+  const [elevatorLoaded, setElevatorLoaded] = useState(false);
+  
+  // Handler for when the elevator placeholder signals that it's ready to load the real elevator
+  const handleElevatorLoad = useCallback(() => {
+    setElevatorLoaded(true);
+  }, []);
+
   return (
     <div className="scroll-smooth relative">
       {/* Audio (carga diferida para evitar bloqueos) */}
@@ -640,94 +487,68 @@ const Portfolio = () => {
                 <Hero {...heroProps} />
               </section>
               
-              {/* Usamos renderizado condicional basado en proximidad para cada sección */}
-              <SectionWithVisibility
-                id="about"
-                currentSection={currentSection}
-                visibilityBuffer={1} // Renderizar si estamos 1 sección antes o después
-              >
+              {/* All other sections loaded directly without complex visibility tracking */}
+              <section id="about" className="section-container scroll-mt-16" data-section-id="about">
                 <Suspense fallback={<LoadingFallback />}>
                   <About theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
               
-              <SectionWithVisibility
-                id="experience"
-                currentSection={currentSection}
-                visibilityBuffer={1}
-              >
+              <section id="experience" className="section-container scroll-mt-16" data-section-id="experience">
                 <Suspense fallback={<LoadingFallback />}>
                   <Experience theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
               
-              <SectionWithVisibility
-                id="projects"
-                currentSection={currentSection}
-                visibilityBuffer={1}
-              >
+              <section id="projects" className="section-container scroll-mt-16" data-section-id="projects">
                 <Suspense fallback={<LoadingFallback />}>
                   <Projects theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
               
-              <SectionWithVisibility
-                id="talks"
-                currentSection={currentSection}
-                visibilityBuffer={1}
-              >
+              <section id="talks" className="section-container scroll-mt-16" data-section-id="talks">
                 <Suspense fallback={<LoadingFallback />}>
                   <Talks theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
               
-              <SectionWithVisibility
-                id="news"
-                currentSection={currentSection}
-                visibilityBuffer={1}
-              >
+              <section id="news" className="section-container scroll-mt-16" data-section-id="news">
                 <Suspense fallback={<LoadingFallback />}>
                   <News theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
               
-              {/* Añadir sección Awards */}
-              <SectionWithVisibility
-                id="awards"
-                currentSection={currentSection}
-                visibilityBuffer={1}
-              >
+              <section id="awards" className="section-container scroll-mt-16" data-section-id="awards">
                 <Suspense fallback={<LoadingFallback />}>
                   <Awards theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
               
-              <SectionWithVisibility
-                id="education"
-                currentSection={currentSection}
-                visibilityBuffer={1}
-              >
+              <section id="education" className="section-container scroll-mt-16" data-section-id="education">
                 <Suspense fallback={<LoadingFallback />}>
                   <Education theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
               
-              <SectionWithVisibility
-                id="contact"
-                currentSection={currentSection}
-                visibilityBuffer={1}
-              >
+              <section id="contact" className="section-container scroll-mt-16" data-section-id="contact">
                 <Suspense fallback={<LoadingFallback />}>
                   <Contact theme={themeValue} />
                 </Suspense>
-              </SectionWithVisibility>
+              </section>
             </main>
           </div>
           
           {/* Columna lateral con el elevador (solo en desktop) */} 
           {isMobile == false && ( <div className="hidden md:block relative mt-40">
             {/* Indicadores de piso */}
-            <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-[80%] bg-gray-800/40 rounded-full flex flex-col justify-between py-2">
+            <div 
+              className={`absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-[80%] bg-gray-800/40 rounded-full flex flex-col justify-between py-2 elevator-indicator elevator-line-container ${isMounted ? 'opacity-100' : 'opacity-0 invisible'}`}
+              style={{ 
+                visibility: isMounted ? 'visible' : 'hidden',
+                pointerEvents: isMounted ? 'auto' : 'none',
+                transitionDelay: '300ms' 
+              }}
+            >
               {sections.map((section) => (
                 <div 
                   key={section}
@@ -742,19 +563,51 @@ const Portfolio = () => {
             
             {/* Elevador 3D (carga diferida para no bloquear) */}
             
-              <div className="sticky top-20 flex flex-col gap-6 ml-6 sm:hidden md:flex">
+              <div className="sticky top-20 flex flex-col gap-6 ml-6 sm:hidden md:flex"
+                style={{ 
+                  opacity: isMounted ? 1 : 0, 
+                  transition: 'opacity 0.3s ease-out',
+                  // Prevent layout shifts by setting fixed dimensions
+                  height: '600px',
+                  width: '100%'
+                }}
+              >
                 {!highPerformanceMode && (
-                  <div className="window-frame elevator-frame">
-                    <Suspense fallback={
-                      <div className="flex items-center justify-center h-[600px] w-full bg-gray-900 rounded-lg">
-                        <div className="text-center">
-                          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                          <p className="text-gray-400 text-sm">Cargando elevador...</p>
+                  <div className="window-frame elevator-frame" style={{ position: 'relative' }}>
+                    {/* Use placeholder until the main content loads */}
+                    <div style={{ 
+                      position: !elevatorLoaded ? 'relative' : 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      visibility: !elevatorLoaded ? 'visible' : 'hidden',
+                      zIndex: !elevatorLoaded ? 2 : 0,
+                      transition: 'visibility 0.1s'
+                    }}>
+                      <ElevatorPlaceholder theme={themeValue} onLoad={handleElevatorLoad} />
+                    </div>
+                    
+                    {/* Optimize rendering by avoiding conditional mounting/unmounting */}
+                    <div style={{ 
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      visibility: elevatorLoaded ? 'visible' : 'hidden',
+                      zIndex: elevatorLoaded ? 2 : 0
+                    }}>
+                      <Suspense fallback={
+                        <div className="flex items-center justify-center h-[600px] w-full bg-gray-900 rounded-lg">
+                          <div className="text-center">
+                            <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <p className="text-gray-400 text-sm">{t('elevator.loading', 'Cargando elevador...')}</p>
+                          </div>
                         </div>
-                      </div>
-                    }>
-                      <AvatarBox {...elevatorProps} />
-                    </Suspense>
+                      }>
+                        {/* Only render AvatarBox if elevatorLoaded to avoid unnecessary work */}
+                        {elevatorLoaded && <AvatarBox {...elevatorProps} />}
+                      </Suspense>
+                    </div>
                   </div>
                 )}
               
@@ -769,7 +622,7 @@ const Portfolio = () => {
                     <button
                       onClick={() => handleFloorClick(floor)}
                       className={`w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 text-sm font-mono
-                        ${currentSection === floor 
+                        ${(currentSection === floor || (isTransitioning && (targetSection === floor || floorsInTransition.current.includes(floor))))
                           ? 'bg-blue-500 text-white' 
                           : darkMode 
                             ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
@@ -788,7 +641,7 @@ const Portfolio = () => {
                       )}
                     </button>
                     <div className={`absolute top-1/2 -translate-y-1/2 left-[calc(100%+8px)] px-2 py-1 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 ${darkMode ? 'bg-black text-white' : 'bg-white text-black border border-gray-200'}`}>
-                      {floor.charAt(0).toUpperCase() + floor.slice(1)}
+                      {t(`navigation.${floor}`)}
                     </div>
                   </div>
                 ))}
@@ -805,8 +658,8 @@ const Portfolio = () => {
       {isMobile && isMounted && (
         <Suspense fallback={null}>
           <MobileElevatorWidget 
-            {...mobileElevatorProps} 
-            onFloorSelect={(section: string) => handleFloorClick(section as SectionKey)}
+            {...mobileElevatorProps}
+            onTransitionChange={handleElevatorTransition}
           />
         </Suspense>
       )}
