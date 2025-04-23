@@ -87,26 +87,26 @@
 /* Estilos base para html y body */
 html, body {
   font-family: var(--font-family);
-  transition: scroll-behavior 0s ease;
+  /* transition: scroll-behavior 0s ease; */
 }
 
-html {
+/* html {
   scroll-behavior: smooth;
   height: 100%;
-  overscroll-behavior: none; /* Prevenir rebote en algunos navegadores */
-}
+  overscroll-behavior: none; Prevenir rebote en algunos navegadores
+} */
 
 body {
-  scroll-behavior: smooth !important;
-  overscroll-behavior: contain;
+  /* scroll-behavior: smooth !important; */
+  /* overscroll-behavior: contain; */
   height: 100%;
   /* Añadir esta propiedad para prevenir cambios bruscos en la altura del documento */
   min-height: 100vh;
 }
 
-* {
+/* * {
   font-family: inherit;
-}
+} */
  
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -154,5 +154,26 @@ body.elevator-transition-active {
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: rgba(96, 165, 250, 0.7);
+}
+
+/* Animación para elementos flotantes en el fondo */
+@keyframes float {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(-45%, -55%) rotate(120deg) scale(1.05);
+  }
+  66% {
+    transform: translate(-55%, -45%) rotate(240deg) scale(0.95);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(1);
+  }
+}
+
+/* Prevenir parpadeos en transiciones */
+.fixed {
+  backface-visibility: hidden;
 }
 

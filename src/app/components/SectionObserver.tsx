@@ -86,7 +86,7 @@ const SectionObserver: FC<SectionObserverProps> = memo(({
   }, [sections]);
 
   // Handler optimizado para eventos de scroll
-  const handleScroll = useCallback(throttle(() => {
+  const throttledScrollHandler = throttle(() => {
     // Skip processing if observation is disabled (during elevator transitions)
     if (isDisabledRef.current) {
       return;
@@ -133,7 +133,11 @@ const SectionObserver: FC<SectionObserverProps> = memo(({
         pendingSectionRef.current = null;
       }
     }, 150);
-  }, performanceMode ? 250 : 100), [onSectionChange, performanceMode]);
+  }, performanceMode ? 250 : 100);
+
+  const handleScroll = useCallback(() => {
+    throttledScrollHandler();
+  }, [throttledScrollHandler]);
 
   // Create stable callbacks for each section
   const visibilityCallbacks = useRef<Record<string, (ratio: number) => void>>({});
@@ -175,11 +179,12 @@ const SectionObserver: FC<SectionObserverProps> = memo(({
       
       // Update section if we have one with sufficient visibility
       if (maxSection && maxRatio > 0.15 && maxSection !== currentSectionRef.current) {
-        if (isScrolling) {
-          pendingSectionRef.current = maxSection;
-        } else {
-          onSectionChange(maxSection);
-        }
+        // Solo actualizar la referencia visual sin cambiar el hash de la URL
+        // Esto evita los saltos automáticos durante el desplazamiento normal
+        onSectionChange(maxSection);
+        
+        // Eliminamos cualquier código que manipule la URL o history
+        // Esto es lo que estaba causando los saltos al navegar
       }
     }
   }, [sectionVisibility, isScrolling, onSectionChange]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimelineAnimation } from '../components/timeline';
+import { TimelineAnimation } from './timeline';
 import { useTranslation } from 'react-i18next';
 
 interface AboutProps {

@@ -3,16 +3,47 @@
 
 /* Make sure the doors container is properly visible */
 .elevator-doors-container {
-  position: absolute;
-  inset: 0;
-  z-index: 50;
-  display: flex;
+  will-change: transform;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important; /* Asegurar que esté por encima de otros elementos */
   pointer-events: none;
+  display: flex;
   overflow: hidden;
   width: 100%;
   height: 100%;
   visibility: visible !important;
   opacity: 1 !important;
+}
+
+/* Estilos para las puertas del elevador */
+.elevator-doors-container {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  pointer-events: none;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Asegurarse que las puertas tienen un color más notable */
+.elevator-door {
+  position: absolute !important;
+  top: 0;
+  bottom: 0;
+  width: 50% !important;
+  height: 100% !important;
+  z-index: 1001;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6) !important;
+  transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  /* Asegurar que las puertas siempre tengan un contenido visible */
+  border-width: 2px;
 }
 
 @keyframes doorShake {
@@ -121,4 +152,94 @@
 
 .frame-glow {
   animation: frameGlow 2s infinite;
+  box-shadow: 0 0 15px rgba(64, 159, 255, 0.7);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Asegura que las puertas sean visibles durante las transiciones */
+[data-door-state="closing"] .elevator-door,
+[data-door-state="opening"] .elevator-door {
+  opacity: 1;
+}
+
+/* Estado de transición */
+[data-transition="scrolling"] .elevator-door,
+[data-transition="preparing"] .elevator-door {
+  opacity: 1;
+}
+
+/* Efecto de estado de las puertas */
+.elevator-doors-container[data-door-state="opening"] {
+  animation: doorFlash 0.3s ease-in-out;
+}
+
+.elevator-doors-container[data-door-state="closing"] {
+  animation: doorFlash 0.3s ease-in-out;
+}
+
+@keyframes doorFlash {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+}
+
+/* Estilo para las puertas */
+.elevator-door {
+  position: absolute !important;
+  top: 0;
+  bottom: 0;
+  width: 50% !important;
+  height: 100% !important;
+  z-index: 1001;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Asegurar que las puertas siempre sean visibles */
+[data-door-state="opening"] .elevator-door,
+[data-door-state="closing"] .elevator-door,
+[data-door-state="open"] .elevator-door,
+[data-door-state="closed"] .elevator-door {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Estados de transición específicos */
+[data-transition="scrolling"] .elevator-door,
+[data-transition="preparing"] .elevator-door,
+[data-transition="arriving"] .elevator-door {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Efecto de transición de puertas */
+.elevator-doors-container[data-door-state="closing"] .elevator-door,
+.elevator-doors-container[data-door-state="opening"] .elevator-door {
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)) !important;
+}
+
+/* Modo debug para asegurar que las puertas sean muy visibles */
+.elevator-debug .elevator-door {
+  border: 3px solid red !important;
+  opacity: 0.8 !important;
+}
+
+/* Estilos para puertas en modo debug */
+.elevator-debug .door-left,
+.elevator-debug .door-right {
+  opacity: 0.9 !important;
+  visibility: visible !important;
+}
+
+/* Efecto de animación durante las transiciones */
+@keyframes doorFlash {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+
+.elevator-doors-container[data-door-state="opening"],
+.elevator-doors-container[data-door-state="closing"] {
+  animation: doorFlash 0.5s ease-in-out;
 }

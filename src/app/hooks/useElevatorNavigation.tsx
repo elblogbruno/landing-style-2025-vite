@@ -15,9 +15,10 @@ export const floorMap: Record<string, number> = {
   contact: -2
 };
 
+const DEBUG_ELEVATOR = false;
+
 interface UseElevatorNavigationProps {
-  currentSection: SectionKey;
-  sections: SectionKey[];
+  currentSection: SectionKey; 
   onTransitionChange?: (isTransitioning: boolean) => void;
   isButtonTriggered?: boolean;
 }
@@ -71,13 +72,22 @@ function easeInOutCubic(t: number): number {
     : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+// Utility function for debugging
+const elevatorLog = (message: string, important = false) => {
+  if (DEBUG_ELEVATOR) {
+    const style = important 
+      ? 'background:#a83232;color:white;padding:3px;border-radius:2px;'
+      : 'background:#0f3a65;color:#ffffcc;padding:2px;';
+    console.log(`%c [ELEVATOR HOOK] ${message}`, style);
+  }
+};
+
 /**
  * A shared hook for elevator navigation logic that can be used by both
  * desktop and mobile components
  */
 export function useElevatorNavigation({
-  currentSection,
-  sections,
+  currentSection, 
   onTransitionChange,
   isButtonTriggered = false
 }: UseElevatorNavigationProps): UseElevatorNavigationReturn {
@@ -93,6 +103,28 @@ export function useElevatorNavigation({
   const floorsInTransitionRef = useRef<SectionKey[]>([]);
   const elementCache = useRef<Record<string, HTMLElement | null>>({});
   const doorTimerRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Referencia para rastrear si la navegación fue iniciada por botón
+  const isButtonNavigationRef = useRef(isButtonTriggered);
+
+  // Actualizar la referencia cuando cambia isButtonTriggered
+  useEffect(() => {
+    isButtonNavigationRef.current = isButtonTriggered;
+    
+    // Si es navegación por botón, realizar acciones adicionales
+    if (isButtonTriggered && !isTransitioning) {
+      elevatorLog("Navegación iniciada por botón detectada", true);
+      
+      // Emitir evento para notificar que se iniciará una transición por botón
+      const buttonNavEvent = new CustomEvent('elevator-button-navigation', {
+        detail: {
+          isButtonTriggered: true,
+          currentSection
+        }
+      });
+      window.dispatchEvent(buttonNavEvent);
+    }
+  }, [isButtonTriggered, isTransitioning, currentSection]);
 
   // Keep currentSectionRef updated
   useEffect(() => {
@@ -101,7 +133,8 @@ export function useElevatorNavigation({
     
     // When section changes by scrolling (not by button click),
     // we need to make sure doors are open
-    if (!isTransitioning && doorsState !== 'open') {
+    if (!isTransitioning && doorsState !== 'open' && !isButtonNavigationRef.current) {
+      elevatorLog("Cambio de sección por scroll, abriendo puertas", true);
       setDoorsState('opening');
       
       // Reset doors to open state after animation completes
@@ -127,41 +160,65 @@ export function useElevatorNavigation({
   // Function to complete the transition process
   const completeTransition = useCallback(() => {
     // Final phase: Clean up and restore normal state
-    console.log("Transition complete, opening doors");
-    setDoorsState('opening');
+    elevatorLog("Transition complete, opening doors", true);
     
-    // Doors should be fully open after animation finishes
+    // Simplificar el proceso: primero actualizar estado interno, luego emitir un único evento
+    setDoorsState('opening');
+    setTransitionStatus('arriving');
+    
+    // Enviar un único evento fuerte y claro para abrir las puertas
+    const forceDoorEvent = new CustomEvent('elevator-force-door-action', { 
+      detail: { 
+        action: 'force-open',
+        source: 'transition-complete',
+        floor: currentSectionRef.current
+      } 
+    });
+    window.dispatchEvent(forceDoorEvent);
+    
+    // Limpiar timers existentes
     if (doorTimerRef.current) {
       clearTimeout(doorTimerRef.current);
     }
     
+    // Programar la finalización de la transición
     doorTimerRef.current = setTimeout(() => {
-      console.log("Doors fully opened, transition complete");
+      elevatorLog("Doors fully opened, transition complete", true);
+      
+      // Actualizar estados finales
       setDoorsState('open');
       setIsTransitioning(false);
       setTransitionStatus('inactive');
-      document.body.style.overflow = ''; // Restore scrolling
+      
+      // Restaurar scroll
+      document.body.style.overflow = '';
       document.body.classList.remove('elevator-transition-active');
       
-      // Force update current floor based on the current section
+      // Resetear referencias
+      isButtonNavigationRef.current = false;
+      
+      // Actualizar el piso actual
       setCurrentFloor(floorMap[currentSectionRef.current] || 0);
       
-      // Notify parent that transition is complete
+      // Notificar al componente padre
       if (onTransitionChange) {
         onTransitionChange(false);
       }
       
-      // Clear target section
+      // Limpiar sección objetivo
       targetSectionRef.current = null;
-      
       doorTimerRef.current = null;
-    }, 1600); // Time for doors to fully open - match the animation duration
-  }, [onTransitionChange]);
+    }, 1800); // Tiempo extendido para asegurar que la animación se complete
+  }, [onTransitionChange, currentSectionRef]);
 
   // Handle section change with door animation and synchronized scroll
   const handleFloorClick = useCallback((floor: SectionKey) => {
+    // Log para debugging
+    elevatorLog(`handleFloorClick called with floor: ${floor}`, true);
+    
     // Prevent navigation if already on current floor or transitioning
     if (floor === currentSectionRef.current || isTransitioning) {
+      elevatorLog(`Navigation prevented: ${floor === currentSectionRef.current ? 'already on this floor' : 'transition in progress'}`);
       // Provide visual feedback if trying to navigate to current floor
       if (floor === currentSectionRef.current) {
         const button = document.querySelector(`button[aria-label="Ir al piso ${floor}"], button[title="Go to ${floor.charAt(0).toUpperCase() + floor.slice(1)}"]`);
@@ -185,22 +242,38 @@ export function useElevatorNavigation({
     // Store target section
     targetSectionRef.current = floor;
     
-    // Start transition sequence - FIRST close doors
-    console.log("Closing doors before transition");
+    // SIMPLIFICACIÓN: Un único evento fuerte para forzar el cierre de puertas
+    const forceDoorEvent = new CustomEvent('elevator-force-door-action', { 
+      detail: { 
+        action: 'force-close',
+        source: 'floor-navigation',
+        floor: floor,
+        important: true
+      } 
+    });
+    window.dispatchEvent(forceDoorEvent);
+    
+    // Actualizar estados internos
     setDoorsState('closing');
     setIsTransitioning(true);
     setTransitionStatus('preparing');
     
-    // Notify parent component about transition
+    // Notificar al componente padre
     if (onTransitionChange) {
       onTransitionChange(true);
     }
     
-    // Calculate distance and direction for visual effects
-    const currentFloorIndex = sections.indexOf(currentSectionRef.current);
-    const targetFloorIndex = sections.indexOf(floor);
-    const floorDistance = Math.abs(targetFloorIndex - currentFloorIndex);
-    const direction = targetFloorIndex > currentFloorIndex ? 'down' : 'up';
+     
+    
+    // Fallback a los valores numéricos de piso si los índices no están disponibles
+    const currentFloorNumber = floorMap[currentSectionRef.current] || 0;
+    const targetFloorNumber = floorMap[floor] || 0;
+    
+    // Determinar la dirección basada en los números de piso (más confiable)
+    const direction = targetFloorNumber > currentFloorNumber ? 'down' : 'up';
+    
+    // Calcular la distancia absoluta entre pisos para efectos visuales
+    const floorDistance = Math.abs(targetFloorNumber - currentFloorNumber);
     
     // Block normal scrolling during transition
     document.body.style.overflow = 'hidden';
@@ -214,83 +287,176 @@ export function useElevatorNavigation({
     // Wait for doors to close fully before initiating scrolling
     setTimeout(() => {
       // Update door state to fully closed
-      console.log("Doors closed, starting scroll transition");
+      elevatorLog("Doors closed, starting scroll transition", true);
+      
+      // Verificar que las puertas se hayan actualizado correctamente
+      if (doorsState !== 'closed') {
+        elevatorLog(`Forzando actualización de estado de puertas a 'closed'`, true);
+        setDoorsState('closed');
+      }
+      
+      // Emitir otro evento para confirmar que las puertas están cerradas
+      const doorClosedEvent = new CustomEvent('elevator-doors-closed');
+      window.dispatchEvent(doorClosedEvent);
+      
       setDoorsState('closed'); 
       setTransitionStatus('scrolling');
       
-      // Calculate floors in transition (for visual effects)
-      let intermediateFloors: SectionKey[] = [];
+      // Reiniciar el array de pisos en transición
+      floorsInTransitionRef.current = [];
       
-      // If going through multiple floors, determine the intermediate floors
-      if (floorDistance > 1) {
-        // Going down or up through floors
-        if (direction === 'down') {
-          for (let i = currentFloorIndex + 1; i < targetFloorIndex; i++) {
-            intermediateFloors.push(sections[i]);
+      // Crear un array con todos los pisos intermedios usando números de piso en lugar de índices
+      const getAllIntermediateFloors = (): SectionKey[] => {
+        const result: SectionKey[] = [];
+        
+        // Determinar el rango de pisos a recorrer
+        const startFloor = currentFloorNumber;
+        const endFloor = targetFloorNumber;
+        
+        // Crear una lista ordenada de todos los pisos por recorrer (incluido el destino)
+        if (direction === 'down') { // Bajando (números de piso decrecientes)
+          for (let i = startFloor - 1; i >= endFloor; i--) {
+            // Encontrar la sección que corresponde a este número de piso
+            // Usar el comodín ',' para indicar claramente que no usamos la primera parte
+            const floorSection = Object.entries(floorMap).find(([, value]) => value === i)?.[0] as SectionKey;
+            if (floorSection) {
+              result.push(floorSection);
+            }
           }
-        } else {
-          for (let i = currentFloorIndex - 1; i > targetFloorIndex; i--) {
-            intermediateFloors.push(sections[i]);
+        } else { // Subiendo (números de piso crecientes)
+          for (let i = startFloor + 1; i <= endFloor; i++) {
+            // Encontrar la sección que corresponde a este número de piso
+            // Eliminar el guion bajo ',' para evitar la advertencia de ESLint
+            const floorSection = Object.entries(floorMap).find(([, value]) => value === i)?.[0] as SectionKey;
+            if (floorSection) {
+              result.push(floorSection);
+            }
           }
         }
-      }
+        
+        return result;
+      };
       
-      // Create a sequence of floor highlights instead of highlighting all at once
-      floorsInTransitionRef.current = []; // Start with empty array
+      // Obtener todos los pisos intermedios ordenados correctamente
+      const intermediateFloors = getAllIntermediateFloors();
+      elevatorLog(`Pisos intermedios calculados: ${JSON.stringify(intermediateFloors)}`, true);
       
-      // Function to sequentially highlight floors with realistic timing
+      // Función mejorada para iluminar los pisos de manera secuencial
       const highlightFloorsSequentially = () => {
-        if (intermediateFloors.length > 0) {
-          // Add floors one by one with delays
-          const highlightNextFloor = (index: number) => {
-            if (index < intermediateFloors.length) {
-              // Update the floors in transition array
-              floorsInTransitionRef.current = [...floorsInTransitionRef.current, intermediateFloors[index]];
-              
-              // Force a re-render by updating a state
-              setCurrentFloor(prev => {
-                // This is just to trigger a re-render, the actual value doesn't change
-                setTimeout(() => setCurrentFloor(prev), 0);
-                return prev;
-              });
-              
-              // Calculate dynamic delay based on distance between floors
-              // This creates a more realistic effect where the elevator slows down between floors
-              const baseDelay = 300; // ms
-              const accelDelay = Math.max(150, 300 - (index * 30)); // Elevator accelerates as it moves
-              
-              // Schedule the next floor highlight
-              setTimeout(() => highlightNextFloor(index + 1), accelDelay);
-            } else {
-              // Finally add the target floor after a slightly longer delay
-              setTimeout(() => {
-                floorsInTransitionRef.current = [...floorsInTransitionRef.current, floor];
-                // Force another re-render
-                setCurrentFloor(prev => {
-                  setTimeout(() => setCurrentFloor(prev), 0);
-                  return prev;
-                });
-              }, 250);
-            }
-          };
-          
-          // Start the sequence with the first floor after a small initial delay
-          setTimeout(() => highlightNextFloor(0), 200);
-        } else {
-          // If there are no intermediate floors, just highlight the target
-          // with a small delay to simulate movement
+        // Limpiar el estado actual - importante para evitar iluminaciones aleatorias
+        floorsInTransitionRef.current = [];
+        
+        // Siempre empezamos con el piso actual
+        floorsInTransitionRef.current = [currentSectionRef.current];
+        
+        // Debug para verificar que los pisos intermedios son correctos
+        elevatorLog(`Iniciando secuencia de iluminación. Pisos intermedios: ${JSON.stringify(intermediateFloors)}`, true);
+        
+        // Forzar re-renderizado inicial
+        setCurrentFloor(prev => {
+          setTimeout(() => setCurrentFloor(prev), 0);
+          return prev;
+        });
+        
+        // Si no hay pisos intermedios, simplemente iluminar el destino después de un breve retraso
+        if (intermediateFloors.length === 0) {
           setTimeout(() => {
-            floorsInTransitionRef.current = [floor];
-            // Force a re-render
+            floorsInTransitionRef.current = [currentSectionRef.current, floor];
+            elevatorLog(`No hay pisos intermedios, iluminando solo destino: ${floor}`, true);
+            // Forzar un re-renderizado
             setCurrentFloor(prev => {
               setTimeout(() => setCurrentFloor(prev), 0);
               return prev;
             });
           }, 300);
+          return;
         }
+        
+        // Función para iluminar el siguiente piso y acumularlos
+        const highlightNextFloor = (index: number) => {
+          if (index < intermediateFloors.length) {
+            const nextFloor = intermediateFloors[index];
+            
+            // Protección contra valores undefined o nulos
+            if (!nextFloor) {
+              elevatorLog(`ERROR: Piso intermedio inválido en índice ${index}`, true);
+              return;
+            }
+            
+            // IMPORTANTE: Crear un nuevo array en cada paso para evitar mutaciones no deseadas
+            // Incluimos siempre el piso actual como punto de partida
+            const updatedFloors = [currentSectionRef.current, ...intermediateFloors.slice(0, index + 1)];
+            floorsInTransitionRef.current = updatedFloors;
+            
+            // Debug
+            elevatorLog(`Iluminando piso ${nextFloor} (índice ${index}). Array actual: ${JSON.stringify(updatedFloors)}`, false);
+            
+            // Emitir un evento para el efecto de sonido del piso
+            const floorPassEvent = new CustomEvent('elevator-floor-pass', { 
+              detail: { 
+                floor: nextFloor,
+                index: index,
+                total: intermediateFloors.length
+              } 
+            });
+            window.dispatchEvent(floorPassEvent);
+            
+            // Forzar un re-renderizado
+            setCurrentFloor(prev => {
+              setTimeout(() => setCurrentFloor(prev), 0);
+              return prev;
+            });
+            
+            // Calcular un retraso dinámico basado en la distancia total
+            // Esto crea un efecto más realista donde el ascensor acelera y luego desacelera
+            let delay: number;
+            
+            if (floorDistance <= 2) {
+              // Para distancias cortas, usar un delay constante
+              delay = 400;
+            } else {
+              // Para distancias largas, acelerar en el medio y desacelerar al final
+              const normalizedPosition = index / (intermediateFloors.length - 1); // 0 a 1
+              
+              if (normalizedPosition < 0.3) {
+                // Fase de aceleración: retrasos decrecientes
+                delay = 400 - (normalizedPosition * 200);
+              } else if (normalizedPosition > 0.7) {
+                // Fase de desaceleración: retrasos crecientes
+                delay = 300 + ((normalizedPosition - 0.7) * 400);
+              } else {
+                // Velocidad máxima en el medio del recorrido
+                delay = 200;
+              }
+            }
+            
+            // Programar el resaltado del siguiente piso
+            setTimeout(() => highlightNextFloor(index + 1), delay);
+          } else {
+            // Asegurarnos de que el último estado incluya el piso de destino
+            const finalFloors = [...floorsInTransitionRef.current];
+            
+            // Verificar si ya incluye el piso destino para evitar duplicados
+            if (!finalFloors.includes(floor)) {
+              finalFloors.push(floor);
+              floorsInTransitionRef.current = finalFloors;
+              
+              // Forzar un último re-renderizado
+              setCurrentFloor(prev => {
+                setTimeout(() => setCurrentFloor(prev), 0);
+                return prev;
+              });
+              
+              elevatorLog(`Secuencia de iluminación completada. Estado final: ${JSON.stringify(finalFloors)}`, true);
+            }
+          }
+        };
+        
+        // Iniciar la secuencia después de un pequeño retraso inicial para permitir que las puertas se cierren completamente
+        setTimeout(() => highlightNextFloor(0), 300);
       };
-      
-      // Start the sequential highlighting
+
+      // Iniciar la secuencia de iluminación
       highlightFloorsSequentially();
 
       // Emit events for door status and movement
@@ -313,11 +479,21 @@ export function useElevatorNavigation({
         const yOffset = -50;
         const targetY = targetSection.getBoundingClientRect().top + window.scrollY + yOffset;
         
+        // Ajustar la duración del scroll para simular un movimiento más natural como un ascensor
+        // Aceleración inicial, velocidad constante en el medio y desaceleración al final
+        const baseDuration = 800; // Duración base para distancias cortas
+        const maxDuration = 3000; // Duración máxima para distancias largas
+        const accelerationFactor = 1.5; // Factor de aceleración/desaceleración
+        const scrollDuration = Math.min(
+          maxDuration,
+          baseDuration + Math.pow(floorDistance, accelerationFactor) * 100
+        );
+        
         // Custom smooth scrolling with natural easing
-        smoothScrollTo(targetY, 1200, () => {
+        smoothScrollTo(targetY, scrollDuration, () => {
           // Schedule transition status update for a more natural timing
           setTimeout(() => {
-            console.log("Scroll completed, arriving at destination");
+            elevatorLog("Scroll completed, arriving at destination", true);
             setTransitionStatus('arriving');
             
             // Emit arrived event
@@ -336,8 +512,8 @@ export function useElevatorNavigation({
         console.error(`Could not find target element with ID: ${floor}`);
         completeTransition(); // Clean up if there was an error
       }
-    }, 1600); // Time for doors to fully close - match the animation duration
-  }, [completeTransition, currentSectionRef, isTransitioning, onTransitionChange, sections]);
+    }, 1800); // Tiempo extendido para asegurar el cierre completo
+  }, [completeTransition, currentSectionRef, isTransitioning, doorsState, onTransitionChange]);
 
   // Cleanup timers on unmount
   useEffect(() => {
@@ -357,6 +533,6 @@ export function useElevatorNavigation({
     floorsInTransition: floorsInTransitionRef.current,
     handleFloorClick,
     getCurrentFloorNumber,
-    completeTransition
+    completeTransition, 
   };
 }

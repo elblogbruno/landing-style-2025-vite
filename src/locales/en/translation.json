@@ -9,7 +9,15 @@
     "resumeButton": "Resume",
     "scrollDown": "Scroll down to explore"
   },
+  "common":
+  {
+    "tapToSeeMore": "Tap to see more",
+    "hoverToSeeMore": "Hover to see more"
+  },
   "elevator": {
+    "loading": "Loading elevator...",
+    "floor": "Floor",
+    "moving": "Moving",
     "overlay": {
       "title": "My Elevator Pitch",
       "enterButton": "Enter the elevator",
@@ -127,6 +135,10 @@
       "travelling": "TRAVELLING",
       "preparing": "PREPARING",
       "arriving": "ARRIVING"
+    },
+    "placeholder": {
+      "loading": "Elevator Loading",
+      "description": "The interactive elevator will load after the main content"
     }
   },
   "about": {
@@ -476,7 +488,7 @@
         "featured": true,
         "date": "2014-07-01",
         "startDate": "2014-07-01",
-        "endDate": null
+        "endDate": "Present"
       },
       {
         "id": 2,
@@ -510,7 +522,7 @@
         "featured": true,
         "date": "2016-06-06",
         "startDate": "2016-06-06",
-        "endDate": null
+        "endDate": "Present"
       },
       {
         "id": 4,
@@ -670,6 +682,7 @@
           "Gamejam"
         ],
         "demoUrl": "https://www.linkedin.com/posts/glassear-bruno_doctor-strange-ar-filter-activity-6803581386037985280-Ykzs",
+        "githubUrl": "",
         "featured": false,
         "date": "2021-07-05",
         "startDate": "2021-07-05",
@@ -705,7 +718,8 @@
         "featured": false,
         "date": "2023-03-31",
         "startDate": "2023-03-31",
-        "endDate": "2023-05-31"
+        "endDate": "2023-05-31",
+        "githubUrl": null
       },
       {
         "id": 17,

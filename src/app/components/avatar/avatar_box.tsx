@@ -13,6 +13,7 @@ import { SectionKey } from './types';
 
 import ElevatorControls from './components/ElevatorControls';
 import WelcomeOverlay from './components/WelcomeOverlay';
+import ElevatorButtons from './components/ElevatorButtons';
 import './window-frame.css';
 
 extend({ Mesh, BoxGeometry, MeshStandardMaterial, Fog, AmbientLight, DirectionalLight });
@@ -49,14 +50,28 @@ const AvatarBox: React.FC<ElevatorProps> = ({
       transitionStatus,
       targetSection,
       floorsInTransition,
-      handleFloorClick,
-      getCurrentFloorNumber
+      handleFloorClick, 
     } = useElevatorNavigation({
-      currentSection,
-      sections: sections as SectionKey[],
+      currentSection, 
       onTransitionChange,
       isButtonTriggered
     });
+
+    // Función para obtener el número de piso
+    const getFloorNumber = useCallback((section: string): number => {
+      const floorMap: Record<string, number> = {
+        hero: 6,
+        about: 5,
+        experience: 4,
+        projects: 3,
+        talks: 2,
+        news: 1,
+        awards: 0,
+        education: -1,
+        contact: -2
+      };
+      return floorMap[section] || 0;
+    }, []);
 
     // Use the elevator sound hook
     const { isMuted, toggleMute } = useElevatorSound(isTransitioning);
@@ -232,12 +247,9 @@ const AvatarBox: React.FC<ElevatorProps> = ({
 
     // Handle overlay visibility based on current section
     useEffect(() => {
-      if (currentSection !== 'hero' && showOverlay) {
-        setShowOverlay(false);
-      } else if (currentSection === 'hero' && !showOverlay && !isTransitioning) {
-        setShowOverlay(true);
-      }
-    }, [currentSection, showOverlay, isTransitioning]);
+      // Mostrar overlay solo cuando estamos en la sección 'hero' y no estamos en transición
+      setShowOverlay(currentSection === 'hero' && !isTransitioning);
+    }, [currentSection, isTransitioning]);
 
     // Update camera position based on current section
     useEffect(() => {
@@ -246,100 +258,151 @@ const AvatarBox: React.FC<ElevatorProps> = ({
       }
     }, [currentSection, floors]);
 
-    // Create a ref to track door animation state and a local state to force re-renders
-    const doorAnimationState = useRef<'opening' | 'closing' | null>(null);
-    const [doorsOpen, setDoorsOpen] = useState(true);
+    // Crear un estado para forzar actualizaciones de las puertas
+    const [doorForceUpdate, setDoorForceUpdate] = useState(0);
 
-    // Handle door state in sync with transitions - directly synchronize with doorsState
+    // Simplificado: una única función de manejo de eventos para el elevador
     useEffect(() => {
-        // When transitioning, match door state to the hook's doorsState
-        if (isTransitioning) {
-            const shouldBeOpen = doorsState === 'open' || doorsState === 'opening';
-            setDoorsOpen(shouldBeOpen);
-            doorAnimationState.current = shouldBeOpen ? 'opening' : 'closing';
-        } else {
-            // When not transitioning, doors should always be open
-            setDoorsOpen(true);
-            doorAnimationState.current = 'opening';
-        }
+        // Función para manejar todos los eventos del elevador
+        const handleElevatorEvent = (e: Event) => {
+            const eventType = e.type;
+            
+            // Registrar evento en consola
+            console.log(`%c ELEVATOR EVENT: ${eventType}`, 'background:#3498db;color:white;padding:2px');
+            
+            // Actualizar forzadamente el componente de puertas
+            setDoorForceUpdate(Date.now());
+        };
         
-        console.log(`Door state updated: ${doorsOpen}, transition: ${isTransitioning}, doorsState: ${doorsState}`);
-    }, [isTransitioning, doorsState]);
-
-    // Ensure we're passing the correct boolean value to ElevatorDoors
-    const shouldDoorsBeOpen = doorsOpen;
+        // Lista simplificada de eventos a escuchar
+        const eventTypes = [
+            'elevator-force-door-action',
+            'elevator-doors-action'
+        ];
+        
+        // Registrar escuchas para todos los eventos
+        eventTypes.forEach(eventType => {
+            window.addEventListener(eventType, handleElevatorEvent);
+        });
+        
+        // Limpiar todas las escuchas
+        return () => {
+            eventTypes.forEach(eventType => {
+                window.removeEventListener(eventType, handleElevatorEvent);
+            });
+        };
+    }, []);
+    
+    // Actualizado: Seguimiento del estado de las puertas
+    useEffect(() => {
+        console.log(`%c AVATAR BOX: Door state = ${doorsState}, Transition = ${transitionStatus}`, 
+            'background:#2c3e50;color:#3498db;padding:2px');
+    }, [doorsState, transitionStatus]);
 
     return (
-        <div 
-            className={`window-frame elevator-frame ${elevatorVibration > 0 ? 'vibrating' : ''}`} 
-            ref={elevatorContainerRef}
-            style={{
-                transition: elevatorVibration > 0 ? 'none' : 'transform 0.3s ease-out'
-            }}
-        >
-            {loading && <LoadingIndicator theme={theme} />}
-            
-            {/* Make sure WelcomeOverlay comes BEFORE the ElevatorDoors in the DOM to ensure proper z-index stacking */}
-            <WelcomeOverlay 
-                show={showOverlay} 
-                theme={theme} 
-                onStart={handleStartTrip} 
-            />
-
-            {/* Updated: directly pass the boolean without negation */}
-            <ElevatorDoors 
-                isOpen={shouldDoorsBeOpen} 
-                theme={theme}
-            />
-
-            <Canvas 
-                shadows
-                gl={{ antialias: true }}
-                camera={{ 
-                    fov: 60,
-                    position: [0, 1, 5.5],
-                    near: 0.1,
-                    far: 50
-                }} 
-                style={{ background: colors.background }}
-            > 
-                <fog attach="fog" args={[colors.fogColor, 30, 70]} />
-                <ambientLight intensity={theme === "dark" ? 0.8 : 0.8} />
-                <directionalLight position={[0, 1, 2]} intensity={theme === "dark" ? 5.0 : 0.8} castShadow />
+        <div className="relative">
+            <div 
+                className={`window-frame elevator-frame ${elevatorVibration > 0 ? 'vibrating' : ''}`} 
+                ref={elevatorContainerRef}
+                style={{
+                    transition: elevatorVibration > 0 ? 'none' : 'transform 0.3s ease-out',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderTopRightRadius: 0,      // Esquina superior derecha plana
+                    borderBottomRightRadius: 0    // Esquina inferior derecha plana
+                }}
+            >
+                {loading && <LoadingIndicator theme={theme} />}
                 
-                <group position={[0, cameraRef.current.y - floors[currentSection].y, 0]}>
-                    <ElevatorCabin 
-                        currentSection={currentSection}
-                        theme={theme}
-                        floors={floors}
-                        currentFloor={currentFloor}
-                        floorDescription={floorDescription}
-                        isTransitioning={isTransitioning}
-                        onModelLoaded={handleModelLoaded}
-                    />
-                </group>
-            </Canvas>
+                {/* Make sure WelcomeOverlay comes BEFORE the ElevatorDoors in the DOM to ensure proper z-index stacking */}
+                <WelcomeOverlay 
+                    show={showOverlay} 
+                    theme={theme} 
+                    onStart={handleStartTrip} 
+                />
 
-            <ElevatorControls 
-                theme={theme}
-                currentFloor={currentFloor} 
-                floorDescription={floorDescription}
-                isMuted={isMuted} 
-                toggleMute={toggleMute}
-                isFullscreen={isFullscreen}
-                toggleFullscreen={() => {
-                    if (elevatorContainerRef.current) {
-                        if (!document.fullscreenElement) {
-                            elevatorContainerRef.current.requestFullscreen();
-                        } else {
-                            document.exitFullscreen();
+                {/* Always render doors with transition state */}
+                <ElevatorDoors 
+                    key={`elevator-doors-${doorForceUpdate}`}
+                    isOpen={doorsState === 'open' || doorsState === 'opening'} 
+                    doorsState={doorsState} // Pasando el estado original de las puertas
+                    theme={theme}
+                    transitionStatus={transitionStatus}
+                />
+
+                <Canvas 
+                    shadows
+                    gl={{ antialias: true }}
+                    camera={{ 
+                        fov: 60,
+                        position: [0, 1, 5.5],
+                        near: 0.1,
+                        far: 50
+                    }} 
+                    style={{ background: colors.background }}
+                > 
+                    <fog attach="fog" args={[colors.fogColor, 30, 70]} />
+                    <ambientLight intensity={theme === "dark" ? 0.8 : 0.8} />
+                    <directionalLight position={[0, 1, 2]} intensity={theme === "dark" ? 5.0 : 0.8} castShadow />
+                    
+                    <group position={[0, cameraRef.current.y - floors[currentSection].y, 0]}>
+                        <ElevatorCabin 
+                            currentSection={currentSection}
+                            theme={theme}
+                            floors={floors}
+                            currentFloor={currentFloor}
+                            floorDescription={floorDescription}
+                            isTransitioning={isTransitioning}
+                            onModelLoaded={handleModelLoaded}
+                        />
+                    </group>
+                </Canvas>
+
+                <ElevatorControls 
+                    theme={theme}
+                    currentFloor={currentFloor} 
+                    floorDescription={floorDescription}
+                    isMuted={isMuted} 
+                    toggleMute={toggleMute}
+                    isFullscreen={isFullscreen}
+                    toggleFullscreen={() => {
+                        if (elevatorContainerRef.current) {
+                            if (!document.fullscreenElement) {
+                                elevatorContainerRef.current.requestFullscreen();
+                            } else {
+                                document.exitFullscreen();
+                            }
+                            setIsFullscreen(!isFullscreen);
                         }
-                        setIsFullscreen(!isFullscreen);
-                    }
-                }}
-                enableAudio={() => {
-                    // Function stub to satisfy interface
-                }}
+                    }}
+                    enableAudio={() => {
+                        // Function stub to satisfy interface
+                    }}
+                />
+                
+                {/* Botones del elevador integrados dentro del marco principal */}
+                <ElevatorButtons 
+                    sections={sections as SectionKey[]}
+                    currentSection={currentSection}
+                    isTransitioning={isTransitioning}
+                    targetSection={targetSection ?? 'hero'}
+                    floorsInTransition={floorsInTransition}
+                    darkMode={theme === "dark"}
+                    handleElevatorNavigation={handleFloorClick}
+                    getFloorNumber={getFloorNumber}
+                />
+            </div>
+            
+            {/* Panel de botones del elevador - fuera del marco del elevador */}
+            <ElevatorButtons 
+                sections={sections as SectionKey[]}
+                currentSection={currentSection}
+                isTransitioning={isTransitioning}
+                targetSection={targetSection ?? 'hero'}
+                floorsInTransition={floorsInTransition}
+                darkMode={theme === "dark"}
+                handleElevatorNavigation={handleFloorClick}
+                getFloorNumber={getFloorNumber}
             />
         </div>
     );

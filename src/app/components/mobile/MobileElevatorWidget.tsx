@@ -28,13 +28,11 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
     currentFloor,
     doorsState,
     transitionStatus,
-    targetSection,
-    floorsInTransition,
+    targetSection, 
     handleFloorClick,
     getCurrentFloorNumber
   } = useElevatorNavigation({
-    currentSection,
-    sections: floors as SectionKey[],
+    currentSection, 
     onTransitionChange
   });
 

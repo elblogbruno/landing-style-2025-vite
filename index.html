@@ -10,6 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="A 23-year-old tech enthusiast from Barcelona, founder of Glassear, dedicated to making Augmented-Reality technology accessible to everyone." />
     
+    <!-- Enlaces alternativos para diferentes idiomas -->
+    <link rel="alternate" hreflang="es" href="https://www.brunomoya.com/" />
+    <link rel="alternate" hreflang="en" href="https://www.brunomoya.com/en" />
+    <link rel="alternate" hreflang="x-default" href="https://www.brunomoya.com/" />
+    
     <!-- Precargar recursos críticos para mejorar LCP -->
     <link rel="preload" href="/fonts/montserrat/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/montserrat/Montserrat-Medium.woff2" as="font" type="font/woff2" crossorigin>
@@ -32,13 +37,25 @@
         } else {
           document.documentElement.classList.remove('dark');
         }
+
+        // Detectar idioma basado en la URL y actualizar el atributo lang
+        const path = window.location.pathname;
+        if (path.includes('/en')) {
+          document.documentElement.lang = 'en';
+        } else {
+          document.documentElement.lang = 'es';
+        }
       })();
     </script>
-    <!-- Estilo inline para prevenir flash -->
+    <!-- Estilo inline para prevenir flash de fondo negro -->
     <style>
       html.dark {
         color-scheme: dark;
+        background-color: #121212; /* Fondo oscuro predeterminado */
       }
+      html {
+        background-color: #f8f9fa; /* Fondo claro predeterminado */
+      } 
     </style>
 
     <link rel="stylesheet" href="/src/app/globals.css" />

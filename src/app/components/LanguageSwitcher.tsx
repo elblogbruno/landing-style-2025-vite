@@ -11,12 +11,27 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = React.memo(({ theme })
   
   // Memoizar las clases para evitar recalcularlas en cada render
   const classes = useMemo(() => {
-    const activeClass = isLight ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white';
-    const inactiveClass = isLight ? 'bg-gray-200 text-gray-800 hover:bg-gray-300' : 'bg-gray-800 text-gray-200 hover:bg-gray-700';
+    const containerClass = isLight 
+      ? 'bg-gray-100 shadow-sm border border-gray-200' 
+      : 'bg-gray-800 border border-gray-700';
+    
+    const baseButtonClass = 'py-1.5 px-3 text-sm font-medium transition-all duration-200 relative z-10';
+    
+    const activeClass = isLight 
+      ? 'text-blue-600 font-semibold' 
+      : 'text-blue-400 font-semibold';
+    
+    const inactiveClass = isLight 
+      ? 'text-gray-600 hover:text-gray-800' 
+      : 'text-gray-400 hover:text-gray-200';
     
     return {
-      es: `px-2 py-1 text-sm rounded-md transition-colors ${i18n.language === 'es' ? activeClass : inactiveClass}`,
-      en: `px-2 py-1 text-sm rounded-md transition-colors ${i18n.language === 'en' ? activeClass : inactiveClass}`
+      container: `flex items-center rounded-full p-1 relative ${containerClass}`,
+      indicator: isLight 
+        ? 'bg-white rounded-full shadow-md absolute transition-all duration-300 ease-in-out' 
+        : 'bg-gray-700 rounded-full shadow-inner absolute transition-all duration-300 ease-in-out',
+      es: `${baseButtonClass} ${i18n.language === 'es' ? activeClass : inactiveClass}`,
+      en: `${baseButtonClass} ${i18n.language === 'en' ? activeClass : inactiveClass}`
     };
   }, [i18n.language, isLight]);
   
@@ -46,8 +61,23 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = React.memo(({ theme })
     }
   }, [i18n]);
   
+  // Calcular la posición del indicador de una manera más confiable
+  const indicatorStyle = {
+    width: 'calc(50% - 4px)',
+    height: 'calc(100% - 8px)',
+    top: '4px',
+    left: i18n.language === 'es' ? '4px' : 'calc(50% + 0px)',
+    transform: i18n.language === 'en' ? 'translateX(-4px)' : 'none'
+  };
+  
   return (
-    <div className="flex items-center space-x-2">
+    <div className={classes.container}>
+      {/* Indicador visual de selección */}
+      <div 
+        className={classes.indicator} 
+        style={indicatorStyle}
+      ></div>
+      
       <button
         onClick={changeToSpanish}
         className={classes.es}

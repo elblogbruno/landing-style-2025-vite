@@ -9,7 +9,15 @@
     "resumeButton": "CV",
     "scrollDown": "Desplázate hacia abajo para explorar"
   },
+  "common":
+  {
+    "tapToSeeMore": "Toca para ver más",
+    "hoverToSeeMore": "Pasa el cursor para ver más"
+  },
   "elevator": {
+    "loading": "Cargando...",
+    "floor": "Piso",
+    "moving":"EN MOVIMIENTO",
     "overlay": {
       "title": "Mi Discurso de Ascensor",
       "enterButton": "Accede al Ascensor",
@@ -127,6 +135,10 @@
       "preparing": "PREPARANDO",
       "travelling": "MOVIENDO",
       "arriving": "LLEGANDO"
+    },
+    "placeholder": {
+      "title": "Cargando el Elevador",
+      "description": "El elevador interactivo se cargará después del contenido principal"
     }
   },
   "about": {
@@ -203,7 +215,8 @@
         "companyUrl": "https://patient73.org/",
         "period": "Jul 2022 - Ene 2025",
         "location": "Barcelona, España",
-        "description": "Colaboración con la organización sin ánimo de lucro Fecamm (Federació Catalana de malalties minoritàries), en el proceso de introducir juegos en su plataforma para que personas con enfermedades raras puedan jugar. En relación con esto, hemos organizado una GameJam de un mes de duración en colaboración con UAB, UPC y varios hospitales"
+        "description": "Colaboración con la organización sin ánimo de lucro Fecamm (Federació Catalana de malalties minoritàries), en el proceso de introducir juegos en su plataforma para que personas con enfermedades raras puedan jugar. En relación con esto, hemos organizado una GameJam de un mes de duración en colaboración con UAB, UPC y varios hospitales. En la segunda edición (2024), coordiné un evento que contó con más de 100 participantes de todo el mundo y un premio total de 11.000 €. Compartimos todos los videojuegos creados con hospitales de toda España para ofrecer momentos de diversión y aprendizaje a niños con enfermedades raras.",
+        "moreInfo": ""
       },
       {
         "logo": "/images-webp/experience/hess.svg",
@@ -475,7 +488,7 @@
         "featured": true,
         "date": "2014-07-01",
         "startDate": "2014-07-01",
-        "endDate": null
+        "endDate": ""
       },
       {
         "id": 2,
@@ -509,7 +522,7 @@
         "featured": true,
         "date": "2016-06-06",
         "startDate": "2016-06-06",
-        "endDate": null
+        "endDate": ""
       },
       {
         "id": 4,
@@ -669,6 +682,7 @@
           "Gamejam"
         ],
         "demoUrl": "https://www.linkedin.com/posts/glassear-bruno_doctor-strange-ar-filter-activity-6803581386037985280-Ykzs",
+        "githubUrl": "",
         "featured": false,
         "date": "2021-07-05",
         "startDate": "2021-07-05",
@@ -704,7 +718,8 @@
         "featured": false,
         "date": "2023-03-31",
         "startDate": "2023-03-31",
-        "endDate": "2023-05-31"
+        "endDate": "2023-05-31",
+        "githubUrl": null
       },
       {
         "id": 17,
@@ -717,7 +732,7 @@
           "FastAPI",
           "APIs"
         ],
-        "githubUrl": null,
+        "githubUrl": "null",
         "featured": true,
         "date": "2025-03-01",
         "startDate": "2025-03-01",
@@ -1266,7 +1281,7 @@
     "subtitle": "Ponte en Contacto",
     "email": "bruno@glassear.com",
     "location": "Barcelona, España",
-    "resume_link": "/cv-english.pdf",
+    "resume_link": "/cv-español.pdf",
     "locationTitle": "Ubicación",
     "emailTitle": "Correo Electrónico",
     "resumeTitle": "Currículum",

@@ -1,18 +1,15 @@
 "use client";
-import { useMemo, useState, useEffect, memo } from "react";
+import { useMemo, useState, useEffect, memo, useRef } from "react";
 import styles from './AnimatedBackground.module.css';
 
 interface AnimatedBackgroundProps {
   theme: "light" | "dark";
-}
+  onLoad?: () => void; // Añadimos la prop onLoad
+} 
 
-// Definimos la estructura de la propiedad animation
-interface AnimationValues {
-  x: string[];
-  y: string[];
-}
-
-function AnimatedBackground({ theme }: AnimatedBackgroundProps) {
+const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ theme, onLoad }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   // Detectar si es mobile para simplificar animaciones
   const [isMobile, setIsMobile] = useState(false);
   // Usar state para detectar prefers-reduced-motion
@@ -50,7 +47,7 @@ function AnimatedBackground({ theme }: AnimatedBackgroundProps) {
     // Reduced number of orbs and simplified positioning
     // Orb 1 - Púrpura/Naranja
     {
-      size: "40vw",
+      size: "40vw" as string | { width: string; height: string },
       blur: "60px",
       position: { top: "30%", left: "50%" },
       animationClass: !prefersReducedMotion && !isMobile ? styles.orb1 : '',
@@ -60,7 +57,7 @@ function AnimatedBackground({ theme }: AnimatedBackgroundProps) {
     },
     // Orb 2 - Azul/Púrpura
     {
-      size: "35vw",
+      size: "35vw" as string | { width: string; height: string },
       blur: "80px",
       position: { top: "50%", left: "40%" },
       animationClass: !prefersReducedMotion && !isMobile ? styles.orb2 : '',
@@ -70,7 +67,7 @@ function AnimatedBackground({ theme }: AnimatedBackgroundProps) {
     },
     // Orb 3 - Púrpura/Amarillo-rojo
     {
-      size: "45vw",
+      size: "45vw" as string | { width: string; height: string },
       blur: "70px",
       position: { top: "70%", left: "30%" },
       animationClass: !prefersReducedMotion && !isMobile ? styles.orb3 : '',
@@ -97,8 +94,31 @@ function AnimatedBackground({ theme }: AnimatedBackgroundProps) {
       : "linear-gradient(145deg, #f5f8ff 0%, #e4ecff 50%, #dce6ff 100%)",
   [theme]);
 
+  useEffect(() => {
+    if (!isInitialized) {
+      setIsInitialized(true);
+      
+      // Notificar que el componente está listo para ser mostrado
+      if (onLoad) {
+        // Pequeño retraso para permitir que los estilos se apliquen
+        setTimeout(onLoad, 100);
+      }
+    }
+    
+    // Asegurar que el fondo permanezca con la opacidad correcta
+    const container = containerRef.current;
+    if (container) {
+      container.style.opacity = '1';
+    }
+    
+    return () => {
+      // No desmontamos el componente de fondo - solo cambiamos su tema
+    };
+  }, [theme, onLoad, isInitialized]);
+
   return (
     <div
+      ref={containerRef}
       className="fixed inset-0 -z-10 overflow-hidden"
       style={{
         background: baseBackground,

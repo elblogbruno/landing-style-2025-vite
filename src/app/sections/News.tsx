@@ -100,7 +100,10 @@ const News: React.FC<NewsProps> = ({ theme = 'dark' }) => {
                   <div className="rounded-lg overflow-hidden max-h-[240px]">
                     <img 
                       src={item.image} 
-                      alt={item.title} 
+                      alt={item.title}  
+                      sizes="(max-width: 768px) 100vw, 500px"
+                      width="600"
+                      height="400"
                       className="w-full h-full object-cover"
                       loading="lazy"
                       decoding="async"
@@ -172,6 +175,9 @@ const News: React.FC<NewsProps> = ({ theme = 'dark' }) => {
                 <img 
                   src={item.image} 
                   alt={item.title} 
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  width="400"
+                  height="300" 
                   className="w-full h-full object-cover transform transition-transform hover:scale-105 duration-300"
                   loading="lazy"
                   decoding="async"

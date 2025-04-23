@@ -77,9 +77,22 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
             <div className="mb-4 md:mb-7">
               <div className={`overflow-hidden rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border-2 ${isLight ? 'border-gray-200' : 'border-gray-700'} p-0.5`} style={{contain: 'layout paint'}}>
                 <picture> 
+                  <source
+                    type="image/webp"
+                    srcSet={`
+                      ${profileImage.replace(/\.(jpg|jpeg|png)$/i, '.webp')}?size=144 144w,
+                      ${profileImage.replace(/\.(jpg|jpeg|png)$/i, '.webp')}?size=288 288w
+                    `}
+                    sizes="(max-width: 640px) 7rem, (max-width: 768px) 8rem, 9rem"
+                  />
                   <img 
                     ref={imageRef}
                     src={profileImage} 
+                    srcSet={`
+                      ${profileImage}?size=144 144w,
+                      ${profileImage}?size=288 288w
+                    `}
+                    sizes="(max-width: 640px) 7rem, (max-width: 768px) 8rem, 9rem"
                     alt="Profile" 
                     className={`object-cover w-full h-full rounded-full ${imageLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
                     loading="eager"
