@@ -6,7 +6,7 @@ import React, { useEffect, useState, useMemo, useCallback, Suspense } from 'reac
 
 import { FooterComponent } from './components/footer';
 import SectionObserver from './components/SectionObserver'; 
-import { track } from './utils/umami-analytics';
+import { track, trackPageView } from './utils/umami-analytics';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import { lazyWithPreload, throttle } from './utils/lazy-loading';
 
@@ -164,11 +164,8 @@ const Portfolio = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
-        track({
-          category: 'page',
-          action: 'view',
-          label: 'Portfolio'
-        });
+        console.log(`%c [page.tsx] Tracking page view for Portfolio`, 'background:#8a2be2;color:white;padding:3px;');
+        trackPageView();
       } catch {
         // Ignorar errores de tracking
       }

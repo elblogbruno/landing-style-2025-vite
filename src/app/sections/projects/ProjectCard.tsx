@@ -31,6 +31,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, theme, activeFilter,
             </svg>
             Featured
           </div>
+        )}        {project.etsProject && (
+          <a 
+            href="#education" 
+            className="absolute top-2 left-2 bg-white rounded-full p-1 shadow-lg flex items-center justify-center w-10 h-10 hover:scale-110 transition-transform cursor-pointer"
+            title="Proyecto realizado durante mi estancia en ÉTS Montreal. Haz clic para más información sobre mi educación."
+            aria-label="Ver información de ÉTS Montreal en la sección de Educación"
+          >
+            <img 
+              src="/images-webp/education/ets-montreal-logo.webp" 
+              alt="ÉTS Montreal" 
+              className="w-8 h-8 object-contain" 
+            />
+          </a>
         )}
       </div>
       

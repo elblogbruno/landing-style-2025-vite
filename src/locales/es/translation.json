@@ -732,7 +732,7 @@
           "FastAPI",
           "APIs"
         ],
-        "githubUrl": "null",
+        "githubUrl": "https://github.com/malfon67/PayRetailersUAB/",
         "featured": true,
         "date": "2025-03-01",
         "startDate": "2025-03-01",
@@ -774,6 +774,103 @@
         "date": "2024-05-05",
         "startDate": "2024-05-05",
         "endDate": "2024-05-07"
+      }, 
+      {
+        "id": 20,
+        "title": "Teachable Machine Unity",
+        "description": "Integra Teachable Machine de Google con el juego Roll-A-Ball de Unity, permitiendo el control mediante gestos de la mano.",
+        "imageUrl": "/images-webp/projects/teachable-machine-unity-thumbnail.webp",
+        "skills": ["IA", "Machine Learning", "Unity", "Unity3D", "Desarrollo de Juegos"],
+        "demoUrl": "https://github.com/elblogbruno/teachable-machine-unity",
+        "featured": false,
+        "date": "2023-03-01",
+        "startDate": "2023-03-01",
+        "endDate": "2023-06-01",
+        "etsProject": true
+      },
+      {
+        "id": 21,
+        "title": "TFG Poster AR Experience",
+        "description": "Una experiencia Web AR para el póster de mi Trabajo de Fin de Grado, que permite a los usuarios ver vídeos e imágenes relacionadas.",
+        "imageUrl": "/images-webp/projects/tfg-poster-ar-experience-thumbnail.webp",
+        "skills": ["AR", "Desarrollo Web"],
+        "githubUrl": "https://github.com/elblogbruno/tfg-poster-ar-experience",
+        "featured": false,
+        "date": "2023-05-01",
+        "startDate": "2023-05-01",
+        "endDate": "2023-07-01"
+      },
+      {
+        "id": 22,
+        "title": "LuciRobot",
+        "description": "Robot rastreador de personas diseñado para entornos hostiles, con reconocimiento de voz y procesamiento de imágenes.",
+        "imageUrl": "/images-webp/projects/lucirobot-thumbnail.webp",
+        "skills": ["Hardware", "IoT", "IA", "Visión por Computador"],
+        "githubUrl": "https://github.com/marcgarrofe/LuciRobot",
+        "featured": false,
+        "date": "2022-09-01",
+        "startDate": "2022-09-01",
+        "endDate": "2023-01-01"
+      },
+      {
+        "id": 23,
+        "title": "VC Video Stabilizer",
+        "description": "Herramienta de estabilización de vídeo que utiliza técnicas de visión por computador para mejorar la calidad del vídeo.",
+        "imageUrl": "/images-webp/projects/vc-video-stabilizer-thumbnail.webp",
+        "skills": ["Visión por Computador", "OpenCV"],
+        "githubUrl": "https://github.com/marcgarrofe/VC-VideoStabilizer",
+        "featured": false,
+        "date": "2023-02-01",
+        "startDate": "2023-02-01",
+        "endDate": "2023-04-01"
+      },
+      {
+        "id": 109,
+        "title": "RFID Hackathon SM",
+        "description": "Sistema de pago y estadísticas para transporte público usando tarjetas RFID y una app móvil, desarrollado durante el Hackathon de Sistemas Multimedia 2021–2022.",
+        "imageUrl": "/images-webp/projects/rfid-hackathon-sm-thumbnail.webp",
+        "skills": ["IoT", "Hardware", "Móvil", "Python", "Flutter"],
+        "githubUrl": "https://github.com/elblogbruno/rfid-hackaton-sm",
+        "featured": true,
+        "date": "2022-06-01",
+        "startDate": "2021-09-01",
+        "endDate": "2022-06-01"
+      },      {
+        "id": 25,
+        "title": "JoyRun 3D",
+        "description": "Juego infinito en 3D donde usas los Joy-Con de Nintendo Switch como mandos. Desarrollado como proyecto de laboratorio, incluye jugabilidad sin fin y mecánicas interactivas.",
+        "imageUrl": "/images-webp/projects/joyrun-3d-thumbnail.webp",
+        "skills": ["Desarrollo de Juegos", "Unity3D"],
+        "demoUrl": "https://www.youtube.com/watch?v=JYZFjRz1l2Q",
+        "featured": true,
+        "date": "2023-04-01",
+        "startDate": "2023-04-01",
+        "endDate": "2023-06-01",
+        "etsProject": true
+      },      {
+        "id": 26,
+        "title": "Metrics Dashboard",
+        "description": "Interfaz web para visualizar métricas de tareas y pull requests de proyectos de GitHub.",
+        "imageUrl": "/images-webp/projects/metrics-dashboard-thumbnail.webp",
+        "skills": ["Desarrollo Web", "DevOps"],
+        "githubUrl": "https://github.com/damiendesvent/metrics_LOG680-01_H2023_EQ12",
+        "featured": false,
+        "date": "2023-03-01",
+        "startDate": "2023-03-01",
+        "endDate": "2023-05-01",
+        "etsProject": true
+      },      {
+        "id": 27,
+        "title": "HVAC Management System",
+        "description": "Aplicación servidor para la gestión de sistemas HVAC, desarrollada en el contexto de un curso de DevOps.",
+        "imageUrl": "/images-webp/projects/hvac-management-system-thumbnail.webp",
+        "skills": ["Backend", "DevOps", "Python"],
+        "githubUrl": "https://github.com/damiendesvent/hvac_LOG680-01_H2023_EQ12",
+        "featured": false,
+        "date": "2023-02-01",
+        "startDate": "2023-02-01",
+        "endDate": "2023-04-01",
+        "etsProject": true
       }
     ]
   },

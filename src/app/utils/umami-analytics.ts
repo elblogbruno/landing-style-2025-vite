@@ -9,7 +9,7 @@ export const track = ({ category, action, label }: TrackEventProps): void => {
  
   // Log event in development
   if (process.env.NODE_ENV === 'development') {
-    // console.log('Umami event:', category, ':', action, ':', label);
+    console.log('Umami event:', category, ':', action, ':', label);
   }
   
   // Track event with Umami
@@ -19,6 +19,13 @@ export const track = ({ category, action, label }: TrackEventProps): void => {
   
   if (window.umami) {
     window.umami.track(eventName, eventData);
+  }
+
+};
+
+export const trackPageView = (): void => {
+  if (window.umami) {
+    window.umami.track();
   }
 };
 

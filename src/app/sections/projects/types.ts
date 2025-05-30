@@ -20,6 +20,7 @@ export interface Project {
   date: string;
   startDate?: string | null;
   endDate?: string | null;
+  etsProject?: boolean; // Indica si el proyecto pertenece a la época en ÉTS Montreal
 }
 
 export interface ProjectsData {

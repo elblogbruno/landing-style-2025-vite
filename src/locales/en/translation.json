@@ -312,6 +312,10 @@
         "category": "frontend"
       },
       {
+        "name": "Flutter ",
+        "category": "frontend"
+      },
+      {
         "name": "React",
         "category": "frontend"
       },
@@ -488,7 +492,7 @@
         "featured": true,
         "date": "2014-07-01",
         "startDate": "2014-07-01",
-        "endDate": "Present"
+        "endDate": ""
       },
       {
         "id": 2,
@@ -522,7 +526,7 @@
         "featured": true,
         "date": "2016-06-06",
         "startDate": "2016-06-06",
-        "endDate": "Present"
+        "endDate": ""
       },
       {
         "id": 4,
@@ -732,7 +736,7 @@
           "FastAPI",
           "APIs"
         ],
-        "githubUrl": null,
+        "githubUrl": "https://github.com/malfon67/PayRetailersUAB/",
         "featured": true,
         "date": "2025-03-01",
         "startDate": "2025-03-01",
@@ -774,6 +778,103 @@
         "date": "2024-05-05",
         "startDate": "2024-05-05",
         "endDate": "2024-05-07"
+      },      
+      {
+        "id": 20,
+        "title": "Teachable Machine Unity",
+        "description": "Integrates Google's Teachable Machine with Unity's Roll-A-Ball game, enabling control through hand gestures.",
+        "imageUrl": "/images-webp/projects/teachable-machine-unity-thumbnail.webp",
+        "skills": ["AI", "Machine Learning", "Unity", "Unity3D", "Game Development"],
+        "demoUrl": "https://github.com/elblogbruno/teachable-machine-unity",
+        "featured": false,
+        "date": "2023-03-01",
+        "startDate": "2023-03-01",
+        "endDate": "2023-06-01",
+        "etsProject": true
+      },
+      {
+        "id": 21,
+        "title": "TFG Poster AR Experience",
+        "description": "A Web AR experience for my final degree project poster, allowing users to view related videos and images.",
+        "imageUrl": "/images-webp/projects/tfg-poster-ar-experience-thumbnail.webp",
+        "skills": ["AR", "Web Development"],
+        "githubUrl": "https://github.com/elblogbruno/tfg-poster-ar-experience",
+        "featured": false,
+        "date": "2023-05-01",
+        "startDate": "2023-05-01",
+        "endDate": "2023-07-01"
+      },
+      {
+        "id": 22,
+        "title": "LuciRobot",
+        "description": "A human-seeking robot designed for hostile environments, featuring speech recognition and image processing capabilities.",
+        "imageUrl": "/images-webp/projects/lucirobot-thumbnail.webp",
+        "skills": ["Hardware", "IoT", "AI", "Computer Vision"],
+        "githubUrl": "https://github.com/marcgarrofe/LuciRobot",
+        "featured": false,
+        "date": "2022-09-01",
+        "startDate": "2022-09-01",
+        "endDate": "2023-01-01"
+      },
+      {
+        "id": 23,
+        "title": "VC Video Stabilizer",
+        "description": "A video stabilization tool utilizing computer vision techniques to enhance video quality.",
+        "imageUrl": "/images-webp/projects/vc-video-stabilizer-thumbnail.webp",
+        "skills": ["Computer Vision", "OpenCV"],
+        "githubUrl": "https://github.com/marcgarrofe/VC-VideoStabilizer",
+        "featured": false,
+        "date": "2023-02-01",
+        "startDate": "2023-02-01",
+        "endDate": "2023-04-01"
+      },
+      {
+        "id": 109,
+        "title": "RFID Hackathon SM",
+        "description": "A public transport payment and statistics system using RFID cards and a mobile app, developed during the 2021–2022 Multimedia Systems Hackathon.",
+        "imageUrl": "/images-webp/projects/rfid-hackathon-sm-thumbnail.webp",
+        "skills": ["IoT", "Hardware", "Mobile", "Python", "Flutter"],
+        "githubUrl": "https://github.com/elblogbruno/rfid-hackaton-sm",
+        "featured": true,
+        "date": "2022-06-01",
+        "startDate": "2021-09-01",
+        "endDate": "2022-06-01"
+      },      {
+        "id": 25,
+        "title": "JoyRun 3D",
+        "description": "An infinite 3D game where you use Nintendo Switch Joy-Cons as controllers. Developed as a lab project, it features endless gameplay and interactive mechanics.",
+        "imageUrl": "/images-webp/projects/joyrun-3d-thumbnail.webp",
+        "skills": ["Game Development", "Unity3D"],
+        "demoUrl": "https://www.youtube.com/watch?v=JYZFjRz1l2Q",
+        "featured": true,
+        "date": "2023-04-01",
+        "startDate": "2023-04-01",
+        "endDate": "2023-06-01",
+        "etsProject": true
+      },      {
+        "id": 26,
+        "title": "Metrics Dashboard",
+        "description": "A web interface for visualizing task and pull request metrics from GitHub projects.",
+        "imageUrl": "/images-webp/projects/metrics-dashboard-thumbnail.webp",
+        "skills": ["Web Development", "DevOps"],
+        "githubUrl": "https://github.com/damiendesvent/metrics_LOG680-01_H2023_EQ12",
+        "featured": false,
+        "date": "2023-03-01",
+        "startDate": "2023-03-01",
+        "endDate": "2023-05-01",
+        "etsProject": true
+      },      {
+        "id": 27,
+        "title": "HVAC Management System",
+        "description": "A server application for managing HVAC systems, developed within a DevOps course context.",
+        "imageUrl": "/images-webp/projects/hvac-management-system-thumbnail.webp",
+        "skills": ["Backend", "DevOps", "Python"],
+        "githubUrl": "https://github.com/damiendesvent/hvac_LOG680-01_H2023_EQ12",
+        "featured": false,
+        "date": "2023-02-01",
+        "startDate": "2023-02-01",
+        "endDate": "2023-04-01",
+        "etsProject": true
       }
     ]
   },
