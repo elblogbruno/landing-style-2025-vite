@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionKey } from '../types';
 
@@ -24,12 +24,16 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
   getFloorNumber
 }) => {
   const { t } = useTranslation();
-  // Referencia para rastrear las transiciones anteriores y evitar reacciones aleatorias
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+
+  // Referencia para rastrear las transiciones anteriores
   const previousFloorsRef = useRef<SectionKey[]>([]);
   
+  // References for each button to position tooltips
+  const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+
   // Efecto para controlar la consistencia de los pisos en transición
   useEffect(() => {
-    // Detectar cambios importantes en la transición
     if (isTransitioning) {
       console.log('Pisos en transición:', floorsInTransition);
       previousFloorsRef.current = floorsInTransition;
@@ -39,9 +43,10 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
     }
   }, [isTransitioning, floorsInTransition]);
 
-  // Colores coincidentes con la imagen de referencia
-  const bgColor = darkMode ? 'bg-slate-400/10' : 'bg-slate-300/80';
-  const textColor = darkMode ? 'text-blue-300' : 'text-blue-600';
+  // Colores más sofisticados y neutrales para un aspecto más profesional
+  const bgColor = darkMode ? 'bg-zinc-800/90' : 'bg-zinc-200/90';
+  const textColor = darkMode ? 'text-zinc-300' : 'text-zinc-700';
+  const borderColor = darkMode ? 'border-zinc-700' : 'border-zinc-300';
   
   // Función para determinar si un botón debe estar iluminado
   const shouldButtonHighlight = (floor: SectionKey): boolean => {
@@ -93,91 +98,109 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
   
   return (
     <div 
-      className={`elevator-buttons-panel ${bgColor} rounded-r-lg overflow-hidden shadow-lg border-t border-r border-b ${darkMode ? 'border-slate-600' : 'border-slate-400'}`}
+      className={`elevator-buttons-panel ${bgColor} rounded-r-lg overflow-visible shadow-md ${borderColor} border-t border-r border-b`}
       style={{
         position: 'absolute',
         top: '0px',
         bottom: '0px',
-        right: '-54px',
-        width: '54px',
+        right: '-80px',
+        width: '80px',
         zIndex: 100,
         backgroundImage: darkMode 
-          ? 'linear-gradient(to right, rgba(100,116,139,0.7), rgba(71,85,105,0.8))' 
-          : 'linear-gradient(to right, rgba(203,213,225,0.9), rgba(226,232,240,0.95))'
+          ? 'linear-gradient(to right, rgba(30,41,59,0.9), rgba(39,49,66,0.95))' 
+          : 'linear-gradient(to right, rgba(241,245,249,0.9), rgba(248,250,252,0.95))'
       }}
     >
-      {/* Cabecera del panel, opcional */}
-      <div className="text-center py-2">
-        <span className={`text-xs uppercase tracking-wide font-bold ${textColor}`}>
+      {/* Cabecera del panel minimalista */}
+      <div className={`text-center py-2 border-b ${borderColor}`}>
+        <span className={`text-xs uppercase tracking-wide font-medium ${textColor} opacity-80`}>
           {t('elevator.floor')}
         </span>
       </div>
       
-      {/* Nuevo indicador de piso actual */}
-      <div className={`mx-auto mb-3 w-11 h-11 rounded-lg border ${darkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-300 bg-white'} 
-        flex flex-col items-center justify-center transition-all duration-300 font-mono shadow-inner`}>
+      {/* Indicador de piso actual con estilo minimalista */}
+      <div className={`mx-auto my-3 w-16 h-16 rounded-lg ${darkMode ? 'bg-zinc-900' : 'bg-white'} 
+        flex flex-col items-center justify-center transition-all duration-300 ${borderColor} border shadow-md`}>
         <div className="flex items-baseline">
-          <span className={`text-xl font-bold ${darkMode ? 'text-amber-500' : 'text-blue-600'} transition-all duration-300`}>
-            {currentDisplayFloor.number}
+          <span className={`text-2xl font-bold ${darkMode ? 'text-zinc-200' : 'text-zinc-800'} transition-all duration-300`}>
+        {currentDisplayFloor.number}
           </span>
-          <span className={`text-xs ml-0.5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            {currentDisplayFloor.number >= 0 ? 'F' : 'B'}
+          <span className={`text-sm ml-1 ${darkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>
+        {currentDisplayFloor.number >= 0 ? 'F' : 'B'}
           </span>
         </div>
-        <span className={`text-[10px] mt-0.5 font-semibold ${darkMode ? 'text-blue-300' : 'text-blue-500'}`}>
+        <span className={`text-sm mt-1 font-semibold ${darkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>
           {currentDisplayFloor.letter}
         </span>
       </div>
       
-      {/* Área de botones - usando flex y espacio automático para distribuir los botones */}
-      <div className="flex flex-col items-center justify-evenly h-[calc(100%-110px)] py-2 px-1">
+      {/* Área de botones con diseño minimalista */}
+      <div className="flex flex-col items-center justify-start gap-3 h-[calc(100%-100px)] py-4">
         {sections.map((floor) => {
           // Determinar si este botón debe estar iluminado
           const isHighlighted = shouldButtonHighlight(floor);
+          const floorNum = getFloorNumber(floor);
+          const isTooltipActive = activeTooltip === floor;
           
           return (
-            <div className="relative group" key={floor}>
+            <div className="relative" key={floor}>
               <button
+                ref={el => buttonRefs.current[floor] = el}
                 onClick={() => handleElevatorNavigation(floor)}
-                className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all duration-300
+                onMouseEnter={() => setActiveTooltip(floor)}
+                onMouseLeave={() => setActiveTooltip(null)}
+                className={`w-9 h-9 rounded-md flex items-center justify-center transition-all duration-300
                   ${isHighlighted
-                    ? 'bg-blue-500 text-white ring-2 ring-blue-300/50' 
+                    ? darkMode 
+                      ? 'bg-zinc-700 text-zinc-200 ring-1 ring-zinc-500/30' 
+                      : 'bg-zinc-200 text-zinc-800 ring-1 ring-zinc-300/50'
                     : darkMode 
-                      ? 'bg-gray-200 text-gray-800 hover:bg-gray-100' 
-                      : 'bg-white text-gray-800 hover:bg-gray-100'
-                  }`}
-                aria-label={`Ir al piso ${floor}`}
-                style={{
-                  boxShadow: (currentSection === floor) ? '0 0 8px rgba(59, 130, 246, 0.6)' : ''
-                }}
-                // Añadir un atributo de datos para depuración
+                      ? 'bg-zinc-900/80 text-zinc-400 hover:bg-zinc-800' 
+                      : 'bg-white text-zinc-600 hover:bg-zinc-100'
+                  } ${borderColor} border`}
+                aria-label={`Go to floor ${floor}`}
                 data-floor={floor}
                 data-highlighted={isHighlighted}
               >
                 <div className="flex flex-col items-center">
-                  <span className="text-xs leading-none font-bold">
-                    {getFloorNumber(floor)}
-                    <span className="text-[8px]">{getFloorNumber(floor) >= 0 ? 'F' : 'B'}</span>
+                  <span className={`text-xs leading-none font-medium ${isHighlighted ? (darkMode ? 'text-zinc-200' : 'text-zinc-800') : ''}`}>
+                    {floorNum}
+                    <span className="text-[8px] ml-px opacity-70">{floorNum >= 0 ? 'F' : 'B'}</span>
                   </span>
-                  <span className="text-[9px] leading-none mt-0.5">
+                  <span className={`text-[9px] leading-none mt-1 ${isHighlighted ? 'opacity-90' : 'opacity-70'}`}>
                     {floor[0].toUpperCase()}
                   </span>
                 </div>
               </button>
               
-              {/* Tooltip que aparece a la izquierda */}
-              <div className={`absolute top-1/2 -translate-y-1/2 right-full mr-2 px-2 py-1 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 ${darkMode ? 'bg-black text-white' : 'bg-white text-black border border-gray-200'}`}>
-                {t(`navigation.${floor}`)}
-              </div>
+              {/* Tooltip positioned next to its corresponding button */}
+              {isTooltipActive && (
+                <div 
+                  className={`absolute px-3 py-1.5 text-xs rounded-md shadow-lg 
+                    ${darkMode ? 'bg-zinc-800 text-zinc-100 border border-zinc-700' : 'bg-white text-zinc-800 border border-zinc-200'}`}
+                  style={{
+                    zIndex: 20000,
+                    left: '54px', // Position right next to the button
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    whiteSpace: 'nowrap',
+                    pointerEvents: 'none',
+                    fontWeight: 'medium',
+                    backdropFilter: 'blur(4px)',
+                  }}
+                >
+                  {t(`navigation.${floor}`)}
+                </div>
+              )}
             </div>
           );
         })}
       </div>
       
-      {/* Elementos decorativos en la parte inferior */}
-      <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1">
-        <div className={`w-2 h-2 rounded-full ${darkMode ? 'bg-amber-500' : 'bg-amber-500'}`}></div>
-        <div className={`w-2 h-2 rounded-full ${darkMode ? 'bg-red-500' : 'bg-red-500'}`}></div>
+      {/* Indicadores minimalistas de servicio */}
+      <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+        <div className={`w-1.5 h-1.5 rounded-full ${darkMode ? 'bg-zinc-600' : 'bg-zinc-300'}`}></div>
+        <div className={`w-1.5 h-1.5 rounded-full ${darkMode ? 'bg-zinc-600' : 'bg-zinc-300'}`}></div>
       </div>
     </div>
   );

@@ -318,7 +318,8 @@ const AvatarBox: React.FC<ElevatorProps> = ({
                 <WelcomeOverlay 
                     show={showOverlay} 
                     theme={theme} 
-                    onStart={handleStartTrip} 
+                    onStart={handleStartTrip}
+                    handleFloorClick={handleFloorClick}
                 />
 
                 {/* Always render doors with transition state */}

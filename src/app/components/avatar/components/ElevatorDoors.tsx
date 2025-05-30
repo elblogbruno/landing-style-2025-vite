@@ -147,13 +147,13 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, doorsState, theme
   // Determinar si las puertas están en movimiento
   const isMoving = doorState === 'opening' || doorState === 'closing';
   
-  // Estilos según tema
+  // Estilos según tema - Modernizados para un aspecto más minimalista
   const isLight = theme === "light";
-  const doorBgColor = isLight ? 'bg-slate-300' : 'bg-slate-800'; // Más metálico
-  const doorBorderColor = isLight ? 'border-slate-400' : 'border-slate-600'; // Más metálico
-  const doorFrameColor = isLight ? 'bg-slate-500' : 'bg-slate-900'; // Marco metálico
-  const panelBgColor = isLight ? 'bg-slate-200' : 'bg-slate-700'; // Panel interior
-  const accentColor = isLight ? 'bg-amber-500' : 'bg-amber-600'; // Color de acento/indicador
+  const doorBgColor = isLight ? 'bg-zinc-200' : 'bg-zinc-800'; // Tono más neutral y sofisticado
+  const doorBorderColor = isLight ? 'border-zinc-300' : 'border-zinc-700'; // Bordes más sutiles
+  const doorFrameColor = isLight ? 'bg-zinc-400' : 'bg-zinc-900'; // Marco más sutil
+  const panelBgColor = isLight ? 'bg-zinc-100' : 'bg-zinc-800'; // Panel interior más limpio
+  const accentColor = isLight ? 'bg-slate-400' : 'bg-slate-700'; // Acento más sobrio
 
   return (
     <div 
@@ -174,17 +174,17 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, doorsState, theme
       <div className="absolute inset-0">
         <div className="absolute inset-0">
           {/* Bordes del marco - con esquina derecha plana */}
-          <div className={`absolute top-0 left-0 right-0 h-5 ${doorFrameColor} border-b-[3px] ${doorBorderColor}`}></div>
-          <div className={`absolute bottom-0 left-0 right-0 h-5 ${doorFrameColor} border-t-[3px] ${doorBorderColor}`}></div>
-          <div className={`absolute top-0 bottom-0 left-0 w-4 ${doorFrameColor} border-r-[3px] ${doorBorderColor}`}></div>
+          <div className={`absolute top-0 left-0 right-0 h-4 ${doorFrameColor} border-b ${doorBorderColor}`}></div>
+          <div className={`absolute bottom-0 left-0 right-0 h-4 ${doorFrameColor} border-t ${doorBorderColor}`}></div>
+          <div className={`absolute top-0 bottom-0 left-0 w-4 ${doorFrameColor} border-r ${doorBorderColor}`}></div>
           
           {/* Borde derecho ajustado para ser plano y conectar con los botones */}
-          <div className={`absolute top-0 bottom-0 right-0 w-4 ${doorFrameColor} border-r-[3px] ${doorBorderColor}`}
+          <div className={`absolute top-0 bottom-0 right-0 w-4 ${doorFrameColor} border-r ${doorBorderColor}`}
               style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}></div>
  
-          {/* Puerta izquierda */}
+          {/* Puerta izquierda - Diseño más minimalista */}
           <div 
-            className={`door-left ${doorBgColor} border-r-[3px] ${doorBorderColor}`}
+            className={`door-left ${doorBgColor} border-r ${doorBorderColor}`}
             style={{ 
               position: 'absolute',
               top: 0,
@@ -193,41 +193,37 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, doorsState, theme
               width: '50%',
               transform: `translateX(${leftPosition})`,
               transition: 'transform 1.6s cubic-bezier(0.25, 1, 0.5, 1)',
-              boxShadow: isMoving ? '0 0 20px rgba(255, 215, 0, 0.5)' : '0 0 15px rgba(0, 0, 0, 0.5)',
+              boxShadow: isMoving ? '0 0 10px rgba(0, 0, 0, 0.3)' : '0 0 5px rgba(0, 0, 0, 0.2)',
               zIndex: 10000,
               backgroundImage: isLight 
-                ? 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 100%)'
-                : 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 100%)'
+                ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 100%)'
+                : 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.1) 100%)'
             }}
           >
-            <div className={`absolute inset-[15px] border-2 ${doorBorderColor} ${panelBgColor}`}
+            <div className={`absolute inset-[15px] border ${doorBorderColor} ${panelBgColor}`}
                  style={{
                    backgroundImage: isLight 
-                     ? 'linear-gradient(0deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%)'
-                     : 'linear-gradient(0deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%)'
+                     ? 'linear-gradient(0deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 100%)'
+                     : 'linear-gradient(0deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 100%)'
                  }}>
-              {/* Líneas verticales decorativas */}
+              {/* Líneas decorativas - más sutiles */}
               <div className="absolute inset-1 flex flex-col justify-between">
-                <div className={`h-[1px] w-full ${isLight ? 'bg-slate-400/50' : 'bg-slate-500/50'}`}></div>
-                <div className={`h-[1px] w-full ${isLight ? 'bg-slate-400/50' : 'bg-slate-500/50'}`}></div>
+                <div className={`h-[1px] w-full ${isLight ? 'bg-zinc-300/30' : 'bg-zinc-600/30'}`}></div>
+                <div className={`h-[1px] w-full ${isLight ? 'bg-zinc-300/30' : 'bg-zinc-600/30'}`}></div>
               </div>
-              <div className="absolute top-[15%] bottom-[15%] left-[15%] w-[1px] bg-slate-400/30"></div>
-              <div className="absolute top-[15%] bottom-[15%] right-[15%] w-[1px] bg-slate-400/30"></div>
               
-              {/* Sensor de seguridad */}
-              <div className="absolute bottom-4 right-4 w-3 h-10 flex flex-col space-y-1">
-                <div className={`w-full h-2 rounded-full ${accentColor}`}></div>
-                <div className={`w-full h-2 rounded-full ${accentColor}`}></div>
-                <div className={`w-full h-2 rounded-full ${accentColor}`}></div>
+              {/* Sensor de seguridad - más sutil y moderno */}
+              <div className="absolute bottom-4 right-4 flex space-x-1">
+                <div className={`w-4 h-1 ${accentColor} opacity-70`}></div>
               </div>
               
               {DEBUG_MODE && <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold text-black bg-white p-1">LEFT</span>}
             </div>
           </div>
           
-          {/* Puerta derecha */}
+          {/* Puerta derecha - Diseño más minimalista */}
           <div
-            className={`door-right ${doorBgColor} border-l-[3px] ${doorBorderColor}`}
+            className={`door-right ${doorBgColor} border-l ${doorBorderColor}`}
             style={{ 
               position: 'absolute',
               top: 0,
@@ -236,32 +232,29 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, doorsState, theme
               width: '50%',
               transform: `translateX(${rightPosition})`,
               transition: 'transform 1.6s cubic-bezier(0.25, 1, 0.5, 1)',
-              boxShadow: isMoving ? '0 0 20px rgba(255, 215, 0, 0.5)' : '0 0 15px rgba(0, 0, 0, 0.5)',
+              boxShadow: isMoving ? '0 0 10px rgba(0, 0, 0, 0.3)' : '0 0 5px rgba(0, 0, 0, 0.2)',
               zIndex: 10000,
               backgroundImage: isLight 
-                ? 'linear-gradient(-135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 100%)'
-                : 'linear-gradient(-135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 100%)'
+                ? 'linear-gradient(-135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 100%)'
+                : 'linear-gradient(-135deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.1) 100%)'
             }}
           >
-            <div className={`absolute inset-[15px] border-2 ${doorBorderColor} ${panelBgColor}`}
+            <div className={`absolute inset-[15px] border ${doorBorderColor} ${panelBgColor}`}
                  style={{
                    backgroundImage: isLight 
-                     ? 'linear-gradient(0deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%)'
-                     : 'linear-gradient(0deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%)'
+                     ? 'linear-gradient(0deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 100%)'
+                     : 'linear-gradient(0deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 100%)'
                  }}>
-              {/* Líneas verticales decorativas */}
+              {/* Líneas decorativas - más sutiles */}
               <div className="absolute inset-1 flex flex-col justify-between">
-                <div className={`h-[1px] w-full ${isLight ? 'bg-slate-400/50' : 'bg-slate-500/50'}`}></div>
-                <div className={`h-[1px] w-full ${isLight ? 'bg-slate-400/50' : 'bg-slate-500/50'}`}></div>
+                <div className={`h-[1px] w-full ${isLight ? 'bg-zinc-300/30' : 'bg-zinc-600/30'}`}></div>
+                <div className={`h-[1px] w-full ${isLight ? 'bg-zinc-300/30' : 'bg-zinc-600/30'}`}></div>
               </div>
-              <div className="absolute top-[15%] bottom-[15%] right-[15%] w-[1px] bg-slate-400/30"></div>
-              <div className="absolute top-[15%] bottom-[15%] left-[15%] w-[1px] bg-slate-400/30"></div>
               
-              {/* Panel de control del elevador */}
-              <div className="absolute bottom-4 left-4 w-8 h-16 bg-slate-800/80 rounded-sm border border-slate-700 flex flex-col justify-center items-center p-1 space-y-1">
-                <div className={`w-4 h-4 rounded-full ${isLight ? 'bg-amber-500' : 'bg-amber-600'}`}></div>
-                <div className={`w-4 h-4 rounded-full ${isLight ? 'bg-red-500' : 'bg-red-600'}`}></div>
-                <div className={`w-4 h-4 rounded-full ${isLight ? 'bg-green-500' : 'bg-green-600'}`}></div>
+              {/* Panel de control del elevador - más minimalista y moderno */}
+              <div className="absolute bottom-4 left-4 w-6 h-12 bg-zinc-900/80 rounded-sm border border-zinc-800 flex flex-col justify-center items-center p-1 space-y-1">
+                <div className={`w-3 h-1 ${isLight ? 'bg-zinc-400' : 'bg-zinc-600'}`}></div>
+                <div className={`w-3 h-1 ${isLight ? 'bg-zinc-400' : 'bg-zinc-600'}`}></div>
               </div>
               
               {DEBUG_MODE && <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold text-black bg-white p-1">RIGHT</span>}
@@ -270,19 +263,19 @@ const ElevatorDoors: React.FC<ElevatorDoorsProps> = ({ isOpen, doorsState, theme
           
           {/* Línea central cuando las puertas están cerradas (junta) */}
           {(doorState === 'closed' || doorState === 'closing') && (
-            <div className="absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-[6px] pointer-events-none"
+            <div className="absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-[2px] pointer-events-none"
                  style={{
-                   background: isLight ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.3)',
-                   boxShadow: '0 0 5px rgba(0,0,0,0.1)',
+                   background: isLight ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.2)',
+                   boxShadow: '0 0 2px rgba(0,0,0,0.05)',
                    opacity: doorState === 'closing' ? 0.5 : 1,
                    transition: 'opacity 0.3s ease'
                  }}></div>
           )}
           
-          {/* Indicador de estado */}
-          {(isMoving || DEBUG_MODE) && (
+          {/* Indicador de estado - solo en modo debug */}
+          {(DEBUG_MODE && isMoving) && (
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ zIndex: 10001 }}>
-              <div className={`text-center p-2 rounded-lg ${isLight ? 'bg-white/80' : 'bg-black/80'} shadow-lg border-2 border-yellow-500`}>
+              <div className={`text-center p-2 rounded-lg ${isLight ? 'bg-white/80' : 'bg-black/80'} shadow-lg border ${isLight ? 'border-zinc-300' : 'border-zinc-700'}`}>
                 <div className={`text-sm font-mono ${isLight ? 'text-black' : 'text-white'}`}>
                   {doorState}
                 </div>
