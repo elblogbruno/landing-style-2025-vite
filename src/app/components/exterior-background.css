@@ -1,0 +1,270 @@
+/* A fixed exterior; the street and nearby buildings move together with altitude. */
+.exterior {
+  --sky-top: #78a9c9;
+  --sky-bottom: #e7dfcf;
+  --building: #b3ad9f;
+  --building-alt: #899ca1;
+  --building-warm: #c1ae99;
+  --window: #577888;
+  --window-lit: #d9c9a5;
+  --soil: #645449;
+  --ground-base: 86vh;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(var(--sky-top), var(--sky-bottom) 90%);
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+.exterior[data-theme="dark"] {
+  --sky-top: #091426;
+  --sky-bottom: #48576b;
+  --building: #293747;
+  --building-alt: #263e4b;
+  --building-warm: #41424b;
+  --window: #172a38;
+  --window-lit: #d7b77c;
+  --soil: #292624;
+}
+.exterior__sun {
+  position: absolute;
+  top: 12%; right: 12%;
+  width: 65px; height: 65px;
+  border-radius: 50%;
+  background: #fff1cd;
+  box-shadow: 0 0 70px 30px #ffedbb55, 0 0 220px 100px #ffe6b122;
+}
+[data-theme="dark"] .exterior__sun {
+  width: 40px; height: 40px;
+  background: #e7edf0;
+  box-shadow: inset -10px -4px #b5c6d5, 0 0 60px 15px #d2e3ff20;
+}
+.exterior__stars {
+  position: absolute; inset: 0; opacity: 0;
+  background: radial-gradient(1px 1px at 17% 14%, #e9f4ff 98%, transparent),
+    radial-gradient(1px 1px at 72% 28%, #e9f4ff 98%, transparent),
+    radial-gradient(1.5px 1.5px at 91% 39%, #e9f4ff 98%, transparent),
+    radial-gradient(1px 1px at 44% 8%, #e9f4ff 98%, transparent);
+  background-size: 430px 310px;
+}
+[data-theme="dark"] .exterior__stars { opacity: .7; }
+.exterior__cloud {
+  position: absolute;
+  width: 48vw; height: 12vh;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 30% 70%, #ffffff80, transparent 60%),
+    radial-gradient(ellipse at 65% 40%, #ffffff70, transparent 65%);
+  filter: blur(12px);
+}
+.exterior__cloud--one { top: 16%; left: -12%; }
+.exterior__cloud--two { top: 33%; right: -18%; width: 55vw; opacity: .6; }
+[data-theme="dark"] .exterior__cloud { opacity: .12; }
+.exterior__distance {
+  position: absolute; inset: 47% 0 0;
+  transform: translateY(var(--distant-shift));
+  transition: transform 1.6s ease-in-out;
+}
+.exterior__hills { position: absolute; bottom: 0; width: 100%; height: 100%; fill: #849b9e; opacity: .5; }
+.exterior__hills path + path { fill: #69858f; }
+.exterior__skyline {
+  position: absolute; inset: 36% 0 0;
+  background: #7d949b;
+  opacity: .45;
+  clip-path: polygon(0 30%, 4% 30%, 4% 50%, 10% 50%, 10% 15%, 13% 15%, 13% 40%, 19% 40%, 19% 0, 24% 0, 24% 55%, 35% 55%, 35% 28%, 43% 28%, 43% 47%, 54% 47%, 54% 10%, 60% 10%, 60% 40%, 73% 40%, 73% 20%, 79% 20%, 79% 50%, 89% 50%, 89% 5%, 94% 5%, 94% 35%, 100% 35%, 100% 100%, 0 100%);
+}
+[data-theme="dark"] .exterior__distance { opacity: .45; }
+.exterior__world {
+  position: absolute; inset: 0 0 auto; height: 140vh;
+  transform: translateY(calc(var(--ground-base, 86vh) + var(--altitude-shift, 0vh)));
+  transition: transform 1.6s cubic-bezier(.22, .61, .36, 1);
+}
+.exterior__buildings { position: absolute; inset: 0; }
+.exterior__building {
+  position: absolute; bottom: 100%;
+  background: linear-gradient(90deg, #ffffff12, transparent 30%, #0000001a 82%, #00000035 83%), var(--building);
+  border-top: 6px solid #677681;
+  box-shadow: 7px 0 12px #172c3b20;
+}
+.exterior__building::before {
+  content: ''; position: absolute; top: -18px; left: 16%; width: 44%; height: 12px;
+  background: inherit; border-top: 3px solid #667781;
+}
+.exterior__building::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 39px, #14233125 40px 42px);
+}
+.exterior__building--1 { background-color: var(--building-alt); border-top-width: 3px; }
+.exterior__building--2 { background-color: var(--building-warm); }
+.exterior__windows {
+  position: absolute; inset: 16px 22% 12px 12%;
+  background: repeating-linear-gradient(0deg, transparent 0 17px, var(--building) 18px 40px),
+    repeating-linear-gradient(90deg, var(--window) 0 12px, transparent 13px 23px);
+}
+[data-theme="dark"] .exterior__windows {
+  background: repeating-linear-gradient(0deg, transparent 0 17px, var(--building) 18px 40px),
+    repeating-linear-gradient(90deg, var(--window-lit) 0 12px, transparent 13px 23px);
+  opacity: .65;
+}
+[data-theme="dark"] .exterior__building--1 .exterior__windows { opacity: .25; }
+.exterior__haze {
+  position: absolute; inset: -110vh 0 0;
+  background: linear-gradient(transparent, #e7dfcf35 55%, #e7dfcf75);
+}
+[data-theme="dark"] .exterior__haze { background: linear-gradient(transparent, #17283c55); }
+.exterior__trees { position: absolute; bottom: 100%; width: 100%; height: 22vh; }
+.exterior__trees i {
+  position: absolute; bottom: 0; left: 4%; width: 8px; height: 85%;
+  background: #565343;
+}
+.exterior__trees i::before {
+  content: ''; position: absolute; bottom: 24%; left: -42px; width: 95px; height: 120px;
+  border-radius: 45% 55% 48% 40%;
+  background: radial-gradient(ellipse at 30% 25%, #8c9b67, #4c7054 65%, #385642);
+  box-shadow: 17px 6px 0 -9px #466c51;
+}
+.exterior__trees i:nth-child(2) { left: 22%; height: 70%; }
+.exterior__trees i:nth-child(3) { left: 53%; height: 90%; }
+.exterior__trees i:nth-child(4) { left: 77%; height: 75%; }
+.exterior__trees i:nth-child(5) { left: 96%; height: 95%; }
+[data-theme="dark"] .exterior__trees { filter: brightness(.45); }
+.exterior__street {
+  position: absolute; inset: -5px 0 auto; height: 55px;
+  background: linear-gradient(#afb0a6 0 8px, #737d80 9px 13px, #4c5860 14px 45px, #a6a79e 46px);
+  border-top: 3px solid #c5c4b6;
+  overflow: hidden;
+}
+.exterior__street::after {
+  content: ''; position: absolute; inset: 28px 0 auto; height: 2px;
+  background: repeating-linear-gradient(90deg, #e4deba88 0 35px, transparent 35px 75px);
+}
+.exterior__car {
+  position: absolute;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.exterior__car--west {
+  top: 15px;
+  animation: exterior-drive-west linear infinite;
+}
+.exterior__car--east {
+  top: 31px;
+  animation: exterior-drive-east linear infinite;
+}
+@keyframes exterior-drive-east {
+  0% {
+    transform: translateX(-120px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 120px));
+  }
+}
+@keyframes exterior-drive-west {
+  0% {
+    transform: translateX(calc(100vw + 120px)) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-120px) scaleX(-1);
+  }
+}
+.exterior .exterior__car-beam {
+  opacity: 0.18;
+  transition: opacity 0.5s ease;
+}
+.exterior[data-theme="dark"] .exterior__car-beam {
+  opacity: 0.75;
+}
+.exterior[data-theme="dark"] .exterior__car-headlight {
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 5px #fffde7);
+}
+.exterior[data-theme="dark"] .exterior__car-taillight {
+  filter: drop-shadow(0 0 2px #ef4444) drop-shadow(0 0 4px #ef4444);
+}
+.exterior[data-theme="dark"] .exterior__car-beacon {
+  filter: drop-shadow(0 0 3px #ffffff);
+}
+/* Planes in the sky */
+.exterior__planes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.exterior__plane {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+.exterior__plane--east {
+  animation: exterior-flight-east linear infinite;
+}
+.exterior__plane--west {
+  animation: exterior-flight-west linear infinite;
+}
+@keyframes exterior-flight-east {
+  0% {
+    transform: translateX(-220px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 220px));
+  }
+}
+@keyframes exterior-flight-west {
+  0% {
+    transform: translateX(calc(100vw + 220px)) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-220px) scaleX(-1);
+  }
+}
+.exterior__plane-beacon {
+  animation: exterior-plane-blink 1.2s ease-in-out infinite;
+}
+@keyframes exterior-plane-blink {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+.exterior[data-theme="dark"] .exterior__plane-beacon {
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 5px #ffffff);
+}
+.exterior[data-theme="dark"] .exterior__plane-nav-red {
+  filter: drop-shadow(0 0 2.5px #ef4444) drop-shadow(0 0 4px #ef4444);
+}
+.exterior[data-theme="dark"] .exterior__plane-nav-green {
+  filter: drop-shadow(0 0 2.5px #22c55e) drop-shadow(0 0 4px #22c55e);
+}
+.exterior[data-theme="dark"] .exterior__plane-contrail {
+  opacity: 0.3;
+}
+.exterior__soil {
+  position: absolute; inset: 50px 0 0;
+  background: radial-gradient(ellipse at 20% 30%, #b29a7630 0 2px, transparent 3px) 0 0 / 37px 29px,
+    repeating-linear-gradient(175deg, transparent 0 80px, #201e2333 85px 95px, transparent 100px 160px),
+    linear-gradient(var(--soil), #211f23);
+  border-top: 16px solid #44413c;
+}
+.exterior__pipe {
+  position: absolute; top: 170px; left: 0; width: 100%; height: 13px;
+  background: linear-gradient(#424b4b, #78827a 35%, #313c3b 80%);
+  border-block: 1px solid #232e2c;
+  box-shadow: 0 5px 8px #0004;
+}
+.exterior__vignette { position: absolute; inset: 0; box-shadow: inset 0 0 150px #14233125; }
+@media (prefers-reduced-motion: reduce) {
+  .exterior__world, .exterior__distance { transition: none; }
+  .exterior__car { animation-play-state: paused !important; }
+  .exterior__plane { animation-play-state: paused !important; }
+}
+@media (max-width: 767px) {
+  .exterior {
+    /* On mobile, place the street in the open space between the contact buttons and the bottom elevator bar */
+    --ground-base: 77vh;
+  }
+  .exterior__building { min-width: 55px; }
+  .exterior__sun { right: 5%; width: 40px; height: 40px; }
+  .exterior__cloud { filter: none; }
+}

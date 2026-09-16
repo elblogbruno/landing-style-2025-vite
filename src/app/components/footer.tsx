@@ -185,13 +185,13 @@ export const FooterComponent = React.memo(({ setIsDarkMode, isDarkMode }: Footer
   const navigationSections = useMemo(() => [
     [
       { name: t('navigation.hero'), href: "#hero" },
-      { name: t('navigation.about'), href: "#about" },
       { name: t('navigation.experience'), href: "#experience" },
       { name: t('navigation.projects'), href: "#projects" },
+      { name: t('navigation.about'), href: "#about" },
     ],
     [
       { name: t('navigation.talks'), href: "#talks" },
-      { name: t('navigation.news'), href: "#news" },
+      { name: t('navigation.awards'), href: "#awards" },
       { name: t('navigation.education'), href: "#education" },
       { name: t('navigation.contact'), href: "#contact" },
     ]

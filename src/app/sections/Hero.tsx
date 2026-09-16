@@ -61,20 +61,29 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
   const profileImage = data.profileImage;
   
   return (
-    <section className="py-4 md:py-32 min-h-[80vh] md:min-h-[90vh] w-full flex items-center justify-center relative">
+    <section className="pt-2 pb-8 md:pt-6 md:pb-16 min-h-0 md:min-h-[75vh] w-full flex items-center justify-center relative">
       {/* Background elements con menor impacto en el rendimiento */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute top-20 md:top-1/4 right-1/4 w-[15rem] md:w-[30rem] h-[15rem] md:h-[30rem] rounded-full ${isLight ? 'bg-blue-50/40' : 'bg-blue-900/10'} blur-3xl opacity-30`} style={{willChange: 'auto'}}></div>
+        <div className={`absolute top-12 md:top-1/4 right-1/4 w-[15rem] md:w-[30rem] h-[15rem] md:h-[30rem] rounded-full ${isLight ? 'bg-blue-50/40' : 'bg-blue-900/10'} blur-3xl opacity-30`} style={{willChange: 'auto'}}></div>
         <div className={`absolute bottom-1/3 left-1/3 w-[10rem] md:w-[20rem] h-[10rem] md:h-[20rem] rounded-full ${isLight ? 'bg-green-50/40' : 'bg-green-900/10'} blur-3xl opacity-30`} style={{willChange: 'auto'}}></div>
         <div className={`absolute bottom-1/4 left-1/4 w-[12rem] md:w-[24rem] h-[12rem] md:h-[24rem] rounded-full ${isLight ? 'bg-purple-50/40' : 'bg-indigo-900/10'} blur-3xl opacity-30`} style={{willChange: 'auto'}}></div>
       </div>
       
       {/* Main content */}
-      <div className="container mx-auto z-10 px-4 md:px-6 pt-4 md:pt-0">
+      <div className="container mx-auto z-10 px-4 md:px-6 pt-1 md:pt-0">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           {/* Profile photo optimizada para LCP */}
-          <div className="mb-6 md:mb-12 flex flex-col items-center">
-            <div className="mb-4 md:mb-7">
+          <div className="mb-4 md:mb-8 flex flex-col items-center w-full max-w-2xl px-4 py-4 md:p-0 rounded-2xl md:rounded-none bg-white/75 dark:bg-gray-950/75 md:bg-transparent md:dark:bg-transparent backdrop-blur-md md:backdrop-blur-none border border-white/40 dark:border-white/10 md:border-none shadow-lg shadow-black/5 md:shadow-none">
+            {/* Floor Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 dark:bg-blue-400/15 border border-blue-500/25 dark:border-blue-400/25 text-blue-600 dark:text-blue-300 text-xs font-semibold tracking-wide mb-3">
+              <span className="flex h-1.5 w-1.5 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+              </span>
+              <span>{t('hero.badge', 'Planta 0 · Vestíbulo')}</span>
+            </div>
+
+            <div className="mb-3 md:mb-5">
               <div className={`overflow-hidden rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border-2 ${isLight ? 'border-gray-200' : 'border-gray-700'} p-0.5`} style={{contain: 'layout paint'}}>
                 <picture> 
                   <source
@@ -108,7 +117,9 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
 
             {/* Optimized heading for LCP con valores width/height explícitos */}
             <h1 
-              className={`text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-3 md:mb-4 tracking-tight ${isLight ? 'text-gray-800' : 'text-white'}`}
+              className={`text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-3 md:mb-4 tracking-tight ${
+                isLight ? 'text-gray-900 drop-shadow-[0_1px_4px_rgba(255,255,255,0.8)]' : 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]'
+              }`}
               style={{
                 contentVisibility: 'auto',
                 containIntrinsicSize: '0 60px',
@@ -117,24 +128,30 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
             />
             
             <h2 
-              className={`text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 md:mb-6 ${isLight ? 'text-gray-600' : 'text-gray-300'}`}
+              className={`text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 md:mb-6 font-medium ${
+                isLight ? 'text-gray-700 drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)]' : 'text-gray-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]'
+              }`}
             >
               {t('hero.subtitle')}
             </h2>
           </div>
           
-          {/* Description con mejor rendimiento */}
-            <div 
-            className={`max-w-3xl mx-auto mb-10 md:mb-16 p-5 sm:p-6 md:p-8 rounded-xl ${isLight ? 'bg-white/60 backdrop-blur-sm border border-gray-100' : 'bg-gray-800/30 backdrop-blur-sm border border-gray-800'}`}
+          {/* Description con mejor rendimiento y alta legibilidad en móvil */}
+          <div 
+            className={`max-w-3xl mx-auto mb-5 md:mb-10 p-4 sm:p-5 md:p-7 rounded-2xl ${
+              isLight 
+                ? 'bg-white/85 backdrop-blur-md border border-gray-200/90 shadow-xl shadow-gray-200/40' 
+                : 'bg-gray-950/85 backdrop-blur-md border border-gray-800/90 shadow-xl shadow-black/40'
+            }`}
             style={{
               contentVisibility: 'auto',
               containIntrinsicSize: '0 150px',
             }}
-            >
-            <p className={`text-base sm:text-lg md:text-xl leading-relaxed ${isLight ? 'text-gray-700' : 'text-gray-200'}`}>
+          >
+            <p className={`text-base sm:text-lg md:text-xl leading-relaxed ${isLight ? 'text-gray-800' : 'text-gray-100'}`}>
               {t('hero.description').replace('{{age}}', String(getCurrentAge()))}
             </p>
-            </div>
+          </div>
 
           {/* Mobile contact & resume buttons con lazy mounting */}
           {typeof window !== 'undefined' && (
@@ -144,33 +161,28 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6, type: "tween" }}
             >
-              <div className="flex justify-center gap-3">
+              <div className="flex flex-wrap justify-center gap-2.5">
                 <a 
-                  href="#contact" 
-                  onClick={() => handleButtonClick('Contact', '#contact')}
-                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all ${
-                    isLight 
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white' 
-                    : 'bg-blue-600 hover:bg-blue-500 text-white'
-                  } shadow-md`}
+                  href="#experience" 
+                  onClick={() => handleButtonClick('StartPitch', '#experience')}
+                  className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all bg-blue-600 hover:bg-blue-500 text-white shadow-md active:scale-95"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
                   </svg>
-                  {t('contact.title')}
+                  {t('hero.startPitch', 'Empezar recorrido')}
                 </a>
-                
+
                 {data.resumeUrl && (
                   <a 
                     href={data.resumeUrl}
                     target="_blank" 
                     rel="noopener noreferrer"
                     onClick={() => handleButtonClick('Resume', data.resumeUrl || '')}
-                    className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all ${
+                    className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all ${
                     isLight 
-                      ? 'bg-gray-200 hover:bg-gray-300 text-gray-800' 
-                      : 'bg-gray-700 hover:bg-gray-600 text-white'
+                      ? 'bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-200' 
+                      : 'bg-gray-800/80 hover:bg-gray-700 text-white border border-gray-700'
                     }`}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -179,6 +191,22 @@ const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
                     {t('hero.resumeButton')}
                   </a>
                 )}
+
+                <a 
+                  href="#contact" 
+                  onClick={() => handleButtonClick('Contact', '#contact')}
+                  className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all ${
+                    isLight 
+                    ? 'bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-200' 
+                    : 'bg-gray-800/80 hover:bg-gray-700 text-white border border-gray-700'
+                  }`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                  </svg>
+                  {t('contact.title')}
+                </a>
               </div>
             </motion.div>
           )}

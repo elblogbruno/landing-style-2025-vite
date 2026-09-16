@@ -1,17 +1,20 @@
-import React, { lazy, LazyExoticComponent, ComponentType } from 'react';
+import {
+  lazy,
+  type ComponentType,
+  type LazyExoticComponent,
+} from 'react';
 
-// Definición de tipo personalizado para componentes con precarga
-export interface PreloadableComponent<T = any> extends LazyExoticComponent<ComponentType<T>> {
-  preload: () => Promise<any> | void;
+export interface PreloadableComponent<Props = Record<string, never>>
+  extends LazyExoticComponent<ComponentType<Props>> {
+  preload: () => Promise<unknown> | void;
 }
 
-// Función para throttle que limita la frecuencia de ejecución
-export function throttle<T extends (...args: any[]) => any>(
-  func: T, 
+export function throttle<Args extends unknown[], Result>(
+  func: (...args: Args) => Result,
   limit: number
-): (...args: Parameters<T>) => void {
+): (...args: Args) => void {
   let lastCall = 0;
-  return (...args: Parameters<T>) => {
+  return (...args: Args) => {
     const now = Date.now();
     if (now - lastCall >= limit) {
       lastCall = now;
@@ -20,34 +23,22 @@ export function throttle<T extends (...args: any[]) => any>(
   };
 }
 
-// Sistema optimizado de carga diferida para componentes
-// Utiliza un sistema de prioridades para cargar primero lo más importante
-export function lazyWithPreload<T extends React.ComponentType<any>>(
-  factory: () => Promise<{ default: T }>, 
-  delay = 0, 
+export function lazyWithPreload<Props>(
+  factory: () => Promise<{ default: ComponentType<Props> }>,
+  delay = 0,
   priority = 'low'
-): PreloadableComponent<React.ComponentProps<T>> {
-  // Componente con carga diferida
-  const Component = lazy(() => {
-    return new Promise(resolve => {
-      const timer = setTimeout(() => {
-        // Carga con diferentes prioridades usando requestIdleCallback si está disponible
-        if (priority === 'low' && 'requestIdleCallback' in window) {
-          // Cargar en tiempo de inactividad para componentes de baja prioridad
-          window.requestIdleCallback(() => resolve(factory()));
-        } else if (priority === 'medium') {
-          // Usar setTimeout para componentes de prioridad media
-          resolve(factory());
-        } else {
-          // Cargar inmediatamente componentes de alta prioridad
-          resolve(factory());
-        }
-        clearTimeout(timer);
-      }, delay);
-    });
-  }) as PreloadableComponent;
+): PreloadableComponent<Props> {
+  const Component = lazy(() => new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      if (priority === 'low' && 'requestIdleCallback' in window) {
+        window.requestIdleCallback(() => resolve(factory()));
+      } else {
+        resolve(factory());
+      }
+      clearTimeout(timer);
+    }, delay);
+  })) as PreloadableComponent<Props>;
 
-  // Método para precargar el componente cuando sea conveniente
   Component.preload = () => {
     if ('requestIdleCallback' in window) {
       window.requestIdleCallback(() => factory());

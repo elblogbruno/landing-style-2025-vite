@@ -1,0 +1,96 @@
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - button "Cambiar a español" [ref=e8]: ES
+      - button "Cambiar a inglés" [ref=e9]: EN
+    - button "Cambiar tema" [ref=e10] [cursor=pointer]: Cambiar a modo oscuro
+  - generic [ref=e16]:
+    - main [ref=e18]:
+      - generic [ref=e19]:
+        - generic [aria-hidden]:
+          - generic: "06"
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - img "Profile" [ref=e27]
+            - heading "Hola, soy Bruno Moya." [level=1] [ref=e28]
+            - heading "AI-Native Software Engineer · Technical Founder · XR Engineer" [level=2] [ref=e29]
+          - paragraph [ref=e31]: Ingeniero de software y emprendedor de 25 años de Barcelona. CTO en TopBrokers.io y creador de Glassear, construyendo sistemas en producción que unen agentes de IA, arquitectura backend y computación espacial.
+      - generic [ref=e32]:
+        - generic [aria-hidden]:
+          - generic: "05"
+      - generic [ref=e35]:
+        - generic [aria-hidden]:
+          - generic: "04"
+      - generic [ref=e38]:
+        - generic [aria-hidden]:
+          - generic: "03"
+      - generic [ref=e41]:
+        - generic [aria-hidden]:
+          - generic: "02"
+      - generic [ref=e44]:
+        - generic [aria-hidden]:
+          - generic: "01"
+      - generic [ref=e47]:
+        - generic [aria-hidden]:
+          - generic: "00"
+      - generic [ref=e50]:
+        - generic [aria-hidden]:
+          - generic: "-1"
+    - generic [ref=e59]:
+      - generic [ref=e72]: Descripción del piso
+      - generic [ref=e85]: 0F
+      - generic [ref=e88]:
+        - generic [ref=e89]: 33%
+        - generic [ref=e93]: Iniciando elevador...
+        - generic [ref=e94]: Preparando sistemas
+  - contentinfo [ref=e96]:
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - heading "Hola" [level=3] [ref=e100]
+          - paragraph [ref=e101]: AI-Native Software Engineer · Technical Founder · XR Engineer
+          - generic [ref=e102]:
+            - generic [ref=e103]: Claro
+            - button "Cambiar tema" [ref=e104] [cursor=pointer]: Cambiar a modo oscuro
+            - generic [ref=e109]: Oscuro
+        - generic [ref=e110]:
+          - heading "Navegación" [level=3] [ref=e111]
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - link "Inicio" [ref=e114] [cursor=pointer]:
+                - /url: "#hero"
+              - link "Experiencia" [ref=e115] [cursor=pointer]:
+                - /url: "#experience"
+              - link "Proyectos" [ref=e116] [cursor=pointer]:
+                - /url: "#projects"
+              - link "Sobre Mí" [ref=e117] [cursor=pointer]:
+                - /url: "#about"
+            - generic [ref=e118]:
+              - link "Charlas & Medios" [ref=e119] [cursor=pointer]:
+                - /url: "#talks"
+              - link "Premios" [ref=e120] [cursor=pointer]:
+                - /url: "#awards"
+              - link "Formación" [ref=e121] [cursor=pointer]:
+                - /url: "#education"
+              - link "Contacto" [ref=e122] [cursor=pointer]:
+                - /url: "#contact"
+        - generic [ref=e123]:
+          - heading "Contacto" [level=3] [ref=e124]
+          - navigation [ref=e125]:
+            - link "bruno@glassear.com" [ref=e126] [cursor=pointer]:
+              - /url: mailto:bruno@glassear.com
+            - paragraph [ref=e130]: Barcelona, España
+            - link "Ver Currículum" [ref=e131] [cursor=pointer]:
+              - /url: /cv-español.pdf
+      - separator [ref=e136]
+      - generic [ref=e137]:
+        - paragraph [ref=e139]: © 2026 Bruno Moya. Todos los Derechos Reservados•Hecho con ❤️ en Barcelona
+        - generic [ref=e140]:
+          - link "Visitar Twitter perfil" [ref=e141] [cursor=pointer]:
+            - /url: https://x.com/brunomoya6
+          - link "Visitar GitHub perfil" [ref=e144] [cursor=pointer]:
+            - /url: https://github.com/elblogbruno
+          - link "Visitar LinkedIn perfil" [ref=e147] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/glassear-bruno/
+          - link "Enviar correo" [ref=e150] [cursor=pointer]:
+            - /url: mailto:bruno@glassear.com

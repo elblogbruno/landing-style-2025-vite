@@ -1,0 +1,96 @@
+/* Architectural rooms, sharing the same structural slabs. */
+.section-container:has(> .floor-room) { padding: 6rem clamp(1rem, 3vw, 2.5rem); }
+.floor-room { --wall: #e9edf0; --ink: #405163; background: var(--wall); border-inline: 1px solid #71809640; }
+.floor-room--dark { --wall: #121b26; --ink: #b5c5d7; }
+.floor-room__architecture { position: absolute; inset: 0; }
+.floor-room__ceiling { position: absolute; inset: 0 0 auto; height: 28px; z-index: 2; background: linear-gradient(#647080, #242d38 35%, #101822 40%, #465360 70%, #202a36); border-bottom: 3px solid #8196a7; box-shadow: 0 10px 22px #0003; }
+.floor-room__number { position: absolute; top: 42px; right: 22px; z-index: 2; color: var(--ink); font: 500 15px/1 monospace; letter-spacing: .18em; padding: 9px 12px; background: var(--wall); border: 1px solid #71809680; border-left: 3px solid #8196a7; }
+.floor-room__ground { position: absolute; inset: auto 0 0; height: 48px; border-top: 5px solid #71809660; background: repeating-linear-gradient(100deg, transparent 0 100px, #64708030 101px 102px), linear-gradient(#0002, transparent); }
+/* Street-level lobby: glazed entrance and door handles (transparent to reveal the street and cars). */
+.floor-room--hero,
+.floor-room--hero.floor-room--dark {
+  background: transparent !important;
+}
+.floor-room--hero .floor-room__ground {
+  opacity: 0.15;
+}
+.floor-room--hero .floor-room__architecture { inset: 70px 24px 75px; border: 6px solid #68849850; background: repeating-linear-gradient(90deg, transparent 0 calc(33.333% - 5px), #68849850 calc(33.333% - 5px) 33.333%), linear-gradient(#71b6e52b, #adc8e012 65%, #718aab40); }
+.floor-room--hero .floor-room__architecture::after { content: ""; position: absolute; top: 48%; left: calc(50% - 14px); width: 28px; height: 80px; border-inline: 5px solid #7d909e80; border-radius: 3px; }
+/* Office: glass partitions and suspended lighting. */
+.floor-room--experience .floor-room__architecture { background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 2px), #55828c25 calc(25% - 2px) 25%); border-top: 65px solid #598d9820; }
+.floor-room--experience .floor-room__architecture::before { content: ''; position: absolute; top: 0; left: 12%; width: 65%; height: 4px; background: #c4eced; box-shadow: 0 5px 24px #7ee8ff70; }
+/* Workshop: pegboard and conduit. */
+.floor-room--projects { --wall: #eeeaf1; }
+.floor-room--projects.floor-room--dark { --wall: #201b29; }
+.floor-room--projects .floor-room__architecture { background: radial-gradient(circle, #88709840 1.5px, transparent 2px) 0 0 / 22px 22px; box-shadow: inset 14px 0 #75608025, inset -14px 0 #75608025; }
+.floor-room--projects .floor-room__architecture::after { content: ''; position: absolute; inset: 46px 12% auto; height: 22px; border: 3px solid #9784a54a; border-top: 0; border-radius: 0 0 10px 10px; }
+/* Lounge: timber and an arched alcove. */
+.floor-room--about { --wall: #f0e7dc; }
+.floor-room--about.floor-room--dark { --wall: #292119; }
+.floor-room--about .floor-room__architecture { background: repeating-linear-gradient(90deg, #97704214 0 18px, #72513432 19px 21px, transparent 22px 27px); }
+.floor-room--about .floor-room__architecture::after { content: ''; position: absolute; top: 100px; right: 5%; width: 42%; height: 450px; border-radius: 200px 200px 0 0; border: 12px solid #a4855c25; background: radial-gradient(ellipse at top, #ffc36e25, transparent 75%); }
+/* Auditorium: acoustic panels, spotlights and stage steps. */
+.floor-room--talks .floor-room__architecture { background: repeating-linear-gradient(90deg, #52708d12 0 12px, #172a4426 13px 16px); }
+.floor-room--talks .floor-room__architecture::before, .floor-room--talks .floor-room__architecture::after { content: ''; position: absolute; top: 32px; width: 65%; height: 640px; background: linear-gradient(#82d5ff30, transparent); clip-path: polygon(48% 0, 52% 0, 100% 100%, 0 100%); }
+.floor-room--talks .floor-room__architecture::before { left: -15%; transform: rotate(-12deg); }
+.floor-room--talks .floor-room__architecture::after { right: -15%; transform: rotate(12deg); }
+.floor-room--talks .floor-room__ground { background: repeating-linear-gradient(0deg, #344355 0 8px, #1d2a38 9px 12px); }
+/* Gallery: brass-edged display niches. */
+.floor-room--awards { --wall: #eeeadd; }
+.floor-room--awards.floor-room--dark { --wall: #26231b; }
+.floor-room--awards .floor-room__architecture { inset: 95px 22px 70px; background: repeating-linear-gradient(90deg, transparent 0 calc(33.333% - 2px), #b5964540 calc(33.333% - 2px) 33.333%); border: 1px solid #b5964540; box-shadow: inset 0 15px 35px #e4bc4920; }
+/* Library: shelving and book spines. */
+.floor-room--education { --wall: #e5ece4; }
+.floor-room--education.floor-room--dark { --wall: #17251f; }
+.floor-room--education .floor-room__architecture { background: repeating-linear-gradient(0deg, transparent 0 155px, #70847225 156px 163px, #00000012 164px 174px); border-inline: 18px solid #66837320; }
+.floor-room--education .floor-room__architecture::after { content: ''; position: absolute; inset: 80px 0 48px auto; width: 22px; background: repeating-linear-gradient(0deg, #829c7040 0 24px, #ac9c6840 25px 32px, #56877a40 33px 60px, transparent 61px 72px); }
+/* Rooftop terrace: open sky, glass railing and timber decking. */
+.floor-room--contact { --wall: #dce9ed; background: linear-gradient(#b7d3e4, var(--wall) 70%); }
+.floor-room--contact.floor-room--dark { --wall: #152735; background: linear-gradient(#142238, var(--wall) 70%); }
+.floor-room--contact .floor-room__architecture { inset: auto 20px 48px; height: 32%; border-top: 7px solid #8b9ca8; background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 4px), #80949d70 calc(25% - 4px) 25%), linear-gradient(#b5dbe52b, #789cac40); border-bottom: 5px solid #80949d70; }
+.floor-room--contact .floor-room__ceiling { height: 12px; background: #889da7; border-bottom: 0; box-shadow: 0 5px 20px #0002; }
+.floor-room--contact .floor-room__ground { height: 48px; border-top: 5px solid #92816c; background: repeating-linear-gradient(95deg, #9e8b7140 0 50px, #645b5140 51px 53px); }
+@media (max-width: 768px) {
+  .section-container:has(> .floor-room) { padding: 5rem .5rem 3rem; }
+  .floor-room__number { top: 38px; right: 12px; font-size: 12px; }
+  .floor-room--hero .floor-room__architecture { inset-inline: 10px; opacity: 0.15; }
+  .floor-room--hero .floor-room__architecture::after { display: none; }
+  .floor-room--hero .floor-room__ground { display: none; }
+  .floor-room--hero {
+    background: linear-gradient(
+      to bottom,
+      rgba(248, 250, 252, 0.65) 0%,
+      rgba(248, 250, 252, 0.35) 45%,
+      transparent 72%
+    ) !important;
+  }
+  .floor-room--hero.floor-room--dark {
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 16, 32, 0.55) 0%,
+      rgba(11, 16, 32, 0.30) 45%,
+      transparent 72%
+    ) !important;
+  }
+  .floor-room:not(.floor-room--hero) {
+    background: rgba(233, 237, 240, 0.72) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .floor-room--dark:not(.floor-room--hero) {
+    background: rgba(18, 27, 38, 0.75) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  @media (max-width: 768px) {
+    .floor-room:not(.floor-room--hero) {
+      background: rgba(233, 237, 240, 0.90) !important;
+    }
+    .floor-room--dark:not(.floor-room--hero) {
+      background: rgba(18, 27, 38, 0.92) !important;
+    }
+  }
+}

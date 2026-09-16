@@ -1,0 +1,449 @@
+{
+  "schemaVersion": "1.0",
+  "lastUpdated": "2026-09-16",
+  "person": {
+    "name": "Bruno Moya",
+    "headline": "Software Developer & Glassear Founder",
+    "description": "Software developer based in Barcelona. Creator of Glassear and CTO at TopBrokers.io, working across web applications, backend systems, infrastructure and mixed reality.",
+    "location": "Barcelona, Spain",
+    "email": "bruno@glassear.com",
+    "currentRoles": [
+      "CTO at TopBrokers.io",
+      "Founder & Software Developer at Glassear"
+    ],
+    "languages": [
+      "Spanish",
+      "English",
+      "French"
+    ]
+  },
+  "links": {
+    "website": "https://brunomoya.com/",
+    "github": "https://github.com/elblogbruno",
+    "linkedin": "https://www.linkedin.com/in/glassear-bruno/",
+    "x": "https://x.com/brunomoya6",
+    "resume": "/cv-english.pdf",
+    "resumeSpanish": "/cv-español.pdf",
+    "contact": "mailto:bruno@glassear.com"
+  },
+  "positioning": {
+    "intro": "I started programming at 13. Building Glassear took me into optics, electronics and mixed reality; internships, university and professional projects broadened that work into web applications and production systems.",
+    "principle": "From the first prototype to software people can use."
+  },
+  "experience": [
+    {
+      "id": "topbrokers-cto",
+      "company": "TopBrokers.io",
+      "role": "CTO",
+      "startDate": "2025-11",
+      "endDate": null,
+      "location": "Barcelona, Spain",
+      "companyUrl": "https://topbrokers.io/",
+      "summary": "Hands-on technical ownership of production software and infrastructure, from architecture and implementation to deployment, validation and operations.",
+      "highlights": [
+        "Architect and build backend systems, APIs, automation platforms and distributed services.",
+        "Operate PostgreSQL, Docker, Linux, networking, backups, monitoring and cloud/on-premise infrastructure.",
+        "Design fleet and device management, browser/device automation and communication workflow systems.",
+        "Lead infrastructure migrations and optimization work focused on reliability and cost efficiency.",
+        "Make architecture decisions and deliver production systems as both technical leader and hands-on engineer."
+      ],
+      "technologies": [
+        "Python",
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Docker",
+        "Linux",
+        "REST APIs",
+        "Networking",
+        "AI agents"
+      ]
+    },
+    {
+      "id": "glassear-founder",
+      "company": "Glassear",
+      "role": "Founder & Software Developer",
+      "startDate": "2015-05",
+      "endDate": null,
+      "location": "Barcelona, Spain",
+      "companyUrl": "https://www.glassear.com/",
+      "summary": "Founded Glassear to build accessible mixed-reality glasses, working across custom hardware, computer vision, Unity and web applications.",
+      "highlights": [
+        "Build Glassear Studio, a platform that uses AI to turn natural-language instructions into interactive XR applications.",
+        "Designed AI Planner, Intent Graph, agent/tool and MCP integrations, structured scene modifications and runtime synchronization.",
+        "Combine deterministic execution and validation with LLM reasoning across a Unity runtime and web platform.",
+        "Develop software and hardware for XR, including computer vision, Android device protocols and custom headset integrations.",
+        "Own product direction, architecture and implementation across TypeScript, React, Node.js, Unity, Python and PostgreSQL-based systems."
+      ],
+      "technologies": [
+        "TypeScript",
+        "React",
+        "Node.js",
+        "Unity",
+        "Python",
+        "PostgreSQL",
+        "MCP",
+        "LLM APIs",
+        "XR",
+        "Computer Vision"
+      ]
+    },
+    {
+      "id": "evalua-lo",
+      "company": "Evalua-lo.com",
+      "role": "Freelance Developer",
+      "startDate": "2024-09",
+      "endDate": "2025-02",
+      "location": "Remote",
+      "companyUrl": "https://cianeconsulting.com/hess-test/es/?page=0",
+      "summary": "Built the Hess Test web application for psychological evaluation in recruitment, with a React interface and a WordPress/PHP backend.",
+      "highlights": [
+        "Implemented data storage, user management and automated email delivery.",
+        "Used processing queues to run reliably within shared-hosting constraints and supported multiple devices and browsers."
+      ],
+      "technologies": [
+        "React",
+        "PHP",
+        "WordPress",
+        "Databases",
+        "Processing queues"
+      ]
+    },
+    {
+      "id": "patient73",
+      "company": "Patient73 / FECAMM",
+      "role": "Technical Lead",
+      "startDate": "2022-07",
+      "endDate": "2025-01",
+      "location": "Barcelona, Spain",
+      "companyUrl": "https://patient73.org/",
+      "summary": "Supported FECAMM, a rare-disease non-profit, in bringing accessible games to the Patient73 platform.",
+      "highlights": [
+        "Helped organize month-long game jams with UAB, UPC and participating hospitals."
+      ],
+      "technologies": [
+        "Technical leadership",
+        "Game development",
+        "Accessibility"
+      ]
+    },
+    {
+      "id": "manomotion",
+      "company": "ManoMotion",
+      "role": "Hand Tracking AR/VR Intern",
+      "startDate": "2018-12",
+      "endDate": "2019-06",
+      "location": "Stockholm, Sweden",
+      "companyUrl": "https://www.manomotion.com/",
+      "summary": "Built and optimized AR applications and interfaces using ManoMotion hand tracking, Unity and computer-vision techniques.",
+      "highlights": [],
+      "technologies": [
+        "Unity",
+        "AR",
+        "Hand Tracking",
+        "OpenCV",
+        "Neural Networks"
+      ]
+    },
+    {
+      "id": "cvc",
+      "company": "Computer Vision Center",
+      "role": "Computer Vision Intern",
+      "startDate": "2018-05",
+      "endDate": "2018-07",
+      "location": "Barcelona, Spain",
+      "companyUrl": "https://www.cvc.uab.es/",
+      "summary": "Developed an Android application in Java for pose, face and object tracking during an internship at the Computer Vision Center.",
+      "highlights": [],
+      "technologies": [
+        "Java",
+        "Android",
+        "Computer Vision",
+        "OpenCV"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "jobagent",
+      "name": "JobAgent",
+      "title": "JobAgent - Autonomous AI Job Search & Application System",
+      "featured": true,
+      "category": "AI & Agentic Systems",
+      "repository": "https://github.com/elblogbruno/JobAgent",
+      "url": "/projects/jobagent/",
+      "role": "Creator and engineer",
+      "outcome": "I use JobAgent to manage my own job search.",
+      "problem": "Job discovery and application management combine semantic judgment with workflows that must remain accurate, traceable and under candidate control.",
+      "description": "An autonomous, agentic job-search platform for role discovery, semantic matching, job analysis, CV tailoring and controlled browser-assisted applications.",
+      "architecture": "FastAPI and Celery services coordinate PostgreSQL-backed workflows with a React/TypeScript interface and Docker deployment. The application lifecycle is represented as an explicit state machine with observability and audit trails.",
+      "aiComponent": "LLMs analyze role fit, tailor CV content and support agent workflows through an OpenAI, Anthropic and Gemini abstraction. Reactive Resume is integrated through REST and MCP.",
+      "deterministicComponent": "Playwright automation, approval gates, the Candidate Answer Vault, application state transitions and anti-hallucination safeguards keep actions repeatable and reviewable.",
+      "principle": "LLMs are used where semantic reasoning is useful; deterministic software is used where reliability, integrity and repeatability matter.",
+      "highlights": [
+        "Multi-source job discovery",
+        "Semantic job matching",
+        "Human-in-the-loop approval",
+        "Telegram notifications",
+        "Observability and auditability"
+      ],
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Celery",
+        "PostgreSQL",
+        "React",
+        "TypeScript",
+        "Docker",
+        "Playwright",
+        "MCP",
+        "OpenAI",
+        "Anthropic",
+        "Gemini"
+      ]
+    },
+    {
+      "id": "talent-gap-analyzer",
+      "name": "TalentGapAnalyzer",
+      "title": "TalentGapAnalyzer - AI Workforce Intelligence",
+      "featured": true,
+      "category": "AI & Agentic Systems",
+      "repository": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack",
+      "url": "/projects/talent-gap-analyzer/",
+      "role": "Team project contributor",
+      "outcome": "Winner - UAB The Hack 2025",
+      "problem": "Organizations need a defensible way to understand skill gaps, role compatibility and workforce development opportunities.",
+      "description": "AI-powered workforce intelligence and talent gap analysis platform built as a team project at UAB The Hack 2025.",
+      "architecture": "A Python/FastAPI analysis backend uses Pandas and Scikit-learn, with a React interface, provider fallback, caching and cost/token tracking.",
+      "aiComponent": "OpenAI, Anthropic and Gemini generate career recommendations, development plans, organizational insights and explainable narratives.",
+      "deterministicComponent": "Structured compatibility analysis, caching, cost tracking, bias checks, guardrails and audit data constrain and explain generated output.",
+      "principle": "Model-generated recommendations are paired with measurable analysis, safeguards and explainability.",
+      "highlights": [
+        "Employee skill-gap analysis",
+        "Employee/role compatibility",
+        "AI-generated development plans",
+        "Bias detection and guardrails",
+        "Multi-provider fallback"
+      ],
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Pandas",
+        "Scikit-learn",
+        "React",
+        "OpenAI",
+        "Anthropic",
+        "Gemini"
+      ]
+    },
+    {
+      "id": "glassear-studio",
+      "name": "Glassear Studio",
+      "title": "Glassear Studio - Natural Language to Interactive XR",
+      "featured": true,
+      "category": "AI & XR",
+      "repository": null,
+      "url": "/projects/glassear-studio/",
+      "role": "Founder, architect and hands-on engineer",
+      "outcome": "An AI-native platform for building and modifying interactive XR applications across a web authoring environment and Unity runtime.",
+      "problem": "Creating interactive XR applications normally requires specialized tooling and manual coordination between authoring systems and runtime state.",
+      "description": "Glassear Studio translates natural-language intent into structured, synchronized changes to interactive XR applications.",
+      "architecture": "An AI Planner and Intent Graph coordinate tool-based operations, MCP integrations, structured scene patches and runtime synchronization between a TypeScript/React/Node.js web platform and Unity.",
+      "aiComponent": "LLMs interpret intent and plan tool calls within explicit system constraints.",
+      "deterministicComponent": "Typed operations, validation, reconciliation and runtime acknowledgements control how planned changes become scene state.",
+      "principle": "Reasoning proposes changes; deterministic contracts validate, apply and synchronize them.",
+      "highlights": [
+        "Natural-language-to-application workflows",
+        "AI Planner and Intent Graph",
+        "Agent and MCP tool architecture",
+        "Structured scene/runtime modifications",
+        "Hybrid deterministic and LLM architecture"
+      ],
+      "technologies": [
+        "TypeScript",
+        "React",
+        "Node.js",
+        "Unity",
+        "Python",
+        "PostgreSQL",
+        "MCP",
+        "LLM APIs",
+        "XR"
+      ]
+    }
+  ],
+  "broaderProjects": [
+    {
+      "name": "GlassFood",
+      "description": "Final degree project combining mixed reality, computer vision and deep learning to detect ingredients and present recipe and nutrition information in an immersive interface.",
+      "url": "https://github.com/elblogbruno/tfg-poster-ar-experience",
+      "technologies": [
+        "Unity",
+        "Computer Vision",
+        "Deep Learning",
+        "XR"
+      ]
+    },
+    {
+      "name": "SeiVoice",
+      "description": "Voice-controlled supermarket purchasing and management assistant built during HackUPC 2024.",
+      "url": "https://github.com/elblogbruno/seidor-hackupc",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "LLMs",
+        "Raspberry Pi"
+      ]
+    },
+    {
+      "name": "OpenCV Detectors",
+      "description": "Android application for pose, face and object tracking built during the Computer Vision Center internship.",
+      "url": "https://github.com/elblogbruno/OpenCV-Detectors",
+      "technologies": [
+        "Java",
+        "Android",
+        "OpenCV",
+        "Computer Vision"
+      ]
+    }
+  ],
+  "aiNativeEngineering": {
+    "title": "AI-assisted development",
+    "statement": "I use AI tools for implementation, exploration and testing alongside my work in software, hardware and XR.",
+    "trajectory": [
+      "GitHub Copilot",
+      "Conversational AI",
+      "Coding agents",
+      "Autonomous and agentic workflows",
+      "MCP and tool use",
+      "Multi-agent engineering"
+    ],
+    "tools": [
+      "Claude Code",
+      "OpenAI Codex",
+      "GitHub Copilot",
+      "ChatGPT",
+      "LLM APIs",
+      "MCP",
+      "Custom agents",
+      "Tool calling",
+      "Structured outputs",
+      "Agentic workflows"
+    ],
+    "agentsFor": [
+      "Codebase exploration",
+      "Implementation",
+      "Debugging",
+      "Testing",
+      "Refactoring",
+      "Infrastructure work",
+      "Architecture analysis",
+      "Documentation",
+      "Parallel exploration of technical approaches"
+    ],
+    "ownership": [
+      "Architecture",
+      "System design",
+      "Constraints",
+      "Validation",
+      "Testing",
+      "Production decisions"
+    ]
+  },
+  "skills": {
+    "Backend & Distributed Systems": [
+      "Python",
+      "FastAPI",
+      "Node.js",
+      "TypeScript",
+      "REST APIs",
+      "PostgreSQL",
+      "Supabase",
+      "Celery",
+      "RabbitMQ"
+    ],
+    "Frontend": [
+      "React",
+      "Next.js",
+      "Vite",
+      "Tailwind CSS"
+    ],
+    "Infrastructure": [
+      "Linux",
+      "Docker",
+      "Proxmox",
+      "PostgreSQL operations",
+      "Networking",
+      "Reverse proxies",
+      "Cloud infrastructure",
+      "Backup systems"
+    ],
+    "XR & Spatial Computing": [
+      "Unity",
+      "AR Foundation",
+      "XR Interaction Toolkit",
+      "OpenXR",
+      "WebXR",
+      "Computer Vision",
+      "Custom XR hardware"
+    ],
+    "AI tools & integration": [
+      "Claude Code",
+      "OpenAI Codex",
+      "GitHub Copilot",
+      "LLM APIs",
+      "Agentic Workflows",
+      "Tool Calling",
+      "MCP",
+      "Structured Outputs",
+      "Prompt and System Instruction Design",
+      "Multi-Agent Workflows"
+    ]
+  },
+  "education": [
+    {
+      "institution": "Universitat Autònoma de Barcelona",
+      "degree": "Computer Science",
+      "startDate": "2019",
+      "endDate": "2023",
+      "location": "Barcelona, Spain"
+    },
+    {
+      "institution": "École de technologie supérieure (ÉTS)",
+      "degree": "Winter session",
+      "startDate": "2023",
+      "endDate": "2023",
+      "location": "Montreal, Canada"
+    },
+    {
+      "institution": "Institut Gerbert d’Aurillac",
+      "degree": "Double French-Spanish Baccalaureate (Bachibac)",
+      "startDate": "2016",
+      "endDate": "2019",
+      "location": "Barcelona, Spain"
+    }
+  ],
+  "awards": [
+    {
+      "name": "Winner - UAB The Hack 2025",
+      "organization": "UAB The Hack",
+      "date": "2025",
+      "project": "TalentGapAnalyzer",
+      "url": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack"
+    },
+    {
+      "name": "Maker Faire Galicia Industry 4.0 Award",
+      "organization": "Maker Faire Galicia",
+      "date": "2018",
+      "project": "Glassear",
+      "url": "https://www.youtube.com/watch?v=ygmnUNxPn1Q"
+    },
+    {
+      "name": "GlassFood Final Degree Project - 9.8/10",
+      "organization": "Universitat Aut-noma de Barcelona",
+      "date": "2023",
+      "project": "GlassFood",
+      "url": "https://github.com/elblogbruno/tfg-poster-ar-experience"
+    }
+  ]
+}

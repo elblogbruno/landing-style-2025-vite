@@ -1,5 +1,6 @@
 import React from 'react';
 import { SectionKey } from './types';
+import { FLOOR_METRICS } from '../../utils/elevator-altitude';
 
 interface ElevatorButtonsPlaceholderProps {
   theme: "dark" | "light";
@@ -14,18 +15,7 @@ const ElevatorButtonsPlaceholder: React.FC<ElevatorButtonsPlaceholderProps> = ({
 }) => {
   // Función para obtener el número de piso
   const getFloorNumber = (section: string): number => {
-    const floorMap: Record<string, number> = {
-      hero: 6,
-      about: 5,
-      experience: 4,
-      projects: 3,
-      talks: 2,
-      news: 1,
-      awards: 0,
-      education: -1,
-      contact: -2
-    };
-    return floorMap[section] || 0;
+      return FLOOR_METRICS[section]?.floorNumber ?? 0;
   };
 
   // Calcular la posición del piso actual para el indicador de línea

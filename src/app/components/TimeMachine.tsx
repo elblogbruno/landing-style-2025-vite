@@ -40,7 +40,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
         action: 'Open',
         label: 'User opened TimeMachine'
       });
-    } catch (_) {
+    } catch {
       // Ignore tracking errors
     }
     
@@ -59,7 +59,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
         action: 'Close',
         label: 'User closed TimeMachine'
       });
-    } catch (_) {
+    } catch {
       // Ignore tracking errors
     }
     
@@ -74,7 +74,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
         action: 'VersionClick',
         label: url
       });
-    } catch (_) {
+    } catch {
       // Ignore tracking errors
     }
     
@@ -110,7 +110,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
   useEffect(() => {
     try {
       localStorage.setItem('timeMachine.visited', 'true');
-    } catch (_) {
+    } catch {
       // Silenciar error si localStorage no está disponible
     }
   }, []);
@@ -120,7 +120,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
     <>
       {/* Botón de TimeMachine con animación más simple */}
       <motion.button
-        className="fixed bottom-4 md:bottom-12 right-6 md:right-12 z-40 overflow-visible bg-transparent border-none p-0 outline-none"
+        className="time-machine-trigger fixed bottom-4 md:bottom-12 right-6 md:right-12 z-40 overflow-visible bg-transparent border-none p-0 outline-none"
         onClick={handleOpen}
         whileHover={{ scale: 1.05 }} // Animación reducida
         whileTap={{ scale: 0.95 }}

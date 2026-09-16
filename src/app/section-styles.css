@@ -3,19 +3,27 @@
   padding-top: 4rem;
   padding-bottom: 4rem;
   position: relative;
-  /* min-height: 70vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* scroll-margin-top: 1rem; */
+}
+
+.section-container > *:not(.floor-room) {
+  position: relative;
+  z-index: 1;
 }
 
 /* Estilos específicos para el layout de grid */
 .grid-layout {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: minmax(0, 1fr) 400px;
   gap: 2rem;
   width: 100%;
+  max-width: 100%;
+}
+
+.grid-layout > * {
+  min-width: 0;
   max-width: 100%;
 }
 
@@ -36,7 +44,7 @@
     gap: 0.5rem;
     width: 100%;
     margin: 0 auto;
-    padding: 0 0.5rem;
+    padding: 0;
   }
   
   /* Mejora para elementos hijos del grid en móviles */
@@ -56,34 +64,6 @@
     padding-right: 0.75rem;
   }
 } 
-
-/* Ensure smooth scrolling even on mobile browsers */
-/* .scroll-smooth {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; For iOS smooth scrolling
-} */
-
-/* Estilo para botones del elevador cuando está pasando por pisos intermedios */
-/* button.elevator-passing {
-  animation: elevator-passing 0.8s ease-in-out;
-  transform: scale(1.2);
-  box-shadow: 0 0 10px 3px rgba(59, 130, 246, 0.8), 0 0 15px rgba(59, 130, 246, 0.6);
-}
-
-@keyframes elevator-passing {
-  0% {
-    box-shadow: 0 0 0px rgba(59, 130, 246, 0);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.9), 0 0 25px rgba(59, 130, 246, 0.7);
-    transform: scale(1.3);
-  }
-  100% {
-    box-shadow: 0 0 3px rgba(59, 130, 246, 0.3);
-    transform: scale(1);
-  }
-} */
 
 /* Prevents elevator indicator line from flashing on initial load */
 .elevator-line-container {
@@ -123,3 +103,21 @@
   animation: pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* Hide scrollbars for horizontal filter scroll while keeping touch momentum */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile glassmorphism so the dynamic exterior city background peeks through cards */
+@media (max-width: 768px) {
+  .section-container [class*="rounded-xl"],
+  .section-container [class*="rounded-2xl"],
+  .section-container [class*="rounded-lg"] {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}

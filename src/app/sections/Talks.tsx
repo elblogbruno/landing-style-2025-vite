@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface Talk {
@@ -14,299 +14,504 @@ interface Talk {
   featured?: boolean;
 }
 
+interface NewsItem {
+  id: number;
+  title: string;
+  source: string;
+  date: string;
+  description: string;
+  url: string;
+  image?: string;
+  featured?: boolean;
+}
+
 interface TalksProps {
   theme?: 'dark' | 'light';
 }
 
-// Componente optimizado para evitar re-renderizados innecesarios
 const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
   const { t } = useTranslation();
-  // Configuración para paginación
-  const INITIAL_TALK_COUNT = 3; // Número inicial de charlas regulares a mostrar
-  const LOAD_MORE_COUNT = 3; // Número de charlas adicionales a cargar
-  
-  const [visibleTalkCount, setVisibleTalkCount] = useState(INITIAL_TALK_COUNT);
-  const [expandedView, setExpandedView] = useState(false);
-  
-  // Obtener datos directamente de las traducciones (memoizado)
+  const isDark = theme === 'dark';
+
+  // Paginación
+  const INITIAL_COUNT = 3;
+  const LOAD_MORE_COUNT = 3;
+
+  // Estado de pestaña activa: 'talks' o 'news'
+  const [activeTab, setActiveTab] = useState<'talks' | 'news'>('talks');
+  const [visibleTalkCount, setVisibleTalkCount] = useState(INITIAL_COUNT);
+  const [visibleNewsCount, setVisibleNewsCount] = useState(INITIAL_COUNT);
+  const [expandedTalks, setExpandedTalks] = useState(false);
+  const [expandedNews, setExpandedNews] = useState(false);
+
+  // Detectar ancla #news en URL para activar la pestaña correspondiente
+  useEffect(() => {
+    const handleHashCheck = () => {
+      if (typeof window !== 'undefined' && window.location.hash === '#news') {
+        setActiveTab('news');
+      }
+    };
+    handleHashCheck();
+    window.addEventListener('hashchange', handleHashCheck);
+    return () => window.removeEventListener('hashchange', handleHashCheck);
+  }, []);
+
+  // Datos de Charlas
   const talksData = useMemo(() => {
     return {
-      title: t('talks.title'),
-      items: t('talks.items', { returnObjects: true }) as Talk[],
-      contactText: t('talks.contactText')
+      title: t('talks.unifiedTitle', 'Charlas & Medios'),
+      subtitle: t('talks.unifiedSubtitle', 'Conferencias técnicas, ponencias magistrales y cobertura en medios'),
+      items: (t('talks.items', { returnObjects: true }) as Talk[]) || [],
+      contactText: t('talks.contactText', '¿Interesado en una charla o entrevista?')
     };
   }, [t]);
 
-  // Parsear y ordenar las charlas (memoizado)
+  // Datos de Noticias / Prensa
+  const newsData = useMemo(() => {
+    return {
+      items: (t('news.items', { returnObjects: true }) as NewsItem[]) || []
+    };
+  }, [t]);
+
+  // Charlas ordenadas y filtradas
   const sortedTalks = useMemo(() => {
     return [...talksData.items].sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
+      const dateA = new Date(a.date).getTime() || 0;
+      const dateB = new Date(b.date).getTime() || 0;
       return dateB - dateA;
     });
   }, [talksData.items]);
 
-  // Separar charlas destacadas y no destacadas (memoizado)
-  const featuredTalks = useMemo(() => {
-    return sortedTalks.filter(talk => talk.featured);
-  }, [sortedTalks]);
-  
-  const regularTalks = useMemo(() => {
-    return sortedTalks.filter(talk => !talk.featured);
-  }, [sortedTalks]);
-  
-  // Obtener solo las charlas regulares visibles según la paginación (memoizado)
-  const visibleRegularTalks = useMemo(() => {
-    return regularTalks.slice(0, visibleTalkCount);
-  }, [regularTalks, visibleTalkCount]);
-  
-  // Estado para saber si se han cargado todas las charlas (memoizado)
-  const allTalksLoaded = useMemo(() => {
-    return visibleTalkCount >= regularTalks.length;
-  }, [visibleTalkCount, regularTalks.length]);
-  
-  // Cargar más charlas (useCallback para evitar recreación)
-  const loadMoreTalks = useCallback(() => {
-    setVisibleTalkCount(prev => {
-      const newCount = prev + LOAD_MORE_COUNT;
-      if (newCount >= regularTalks.length) {
-        setExpandedView(true);
-      }
-      return newCount;
-    });
-  }, [regularTalks.length, LOAD_MORE_COUNT]);
-  
-  // Colapsar la vista y mostrar solo las charlas iniciales (useCallback para evitar recreación)
-  const collapseTalks = useCallback(() => {
-    setVisibleTalkCount(INITIAL_TALK_COUNT);
-    setExpandedView(false);
-    
-    // Scroll hacia la sección de charlas con comportamiento nativo
-    // para evitar bibliotecas de animación pesadas
-    const talksSection = document.getElementById('talks');
-    if (talksSection) {
-      // Usar scrollIntoView simple sin comportamiento suave para mejorar rendimiento
-      talksSection.scrollIntoView({ block: 'start' });
-    }
-  }, [INITIAL_TALK_COUNT]);
+  const featuredTalks = useMemo(() => sortedTalks.filter(t => t.featured), [sortedTalks]);
+  const regularTalks = useMemo(() => sortedTalks.filter(t => !t.featured), [sortedTalks]);
+  const visibleRegularTalks = useMemo(() => regularTalks.slice(0, visibleTalkCount), [regularTalks, visibleTalkCount]);
+  const allTalksLoaded = visibleTalkCount >= regularTalks.length;
 
-  // Tema condicional para colores
-  const isDark = theme === 'dark';
-  
-  // Estilos pre-calculados para reducir cálculos durante el renderizado
+  // Noticias ordenadas y filtradas
+  const sortedNews = useMemo(() => {
+    return [...newsData.items].sort((a, b) => {
+      const dateA = new Date(a.date).getTime() || 0;
+      const dateB = new Date(b.date).getTime() || 0;
+      return dateB - dateA;
+    });
+  }, [newsData.items]);
+
+  const featuredNews = useMemo(() => sortedNews.filter(n => n.featured), [sortedNews]);
+  const regularNews = useMemo(() => sortedNews.filter(n => !n.featured), [sortedNews]);
+  const visibleRegularNews = useMemo(() => regularNews.slice(0, visibleNewsCount), [regularNews, visibleNewsCount]);
+  const allNewsLoaded = visibleNewsCount >= regularNews.length;
+
+  // Estilos temáticos
   const themeStyles = useMemo(() => {
-    if (isDark) {
-      return {
-        mainHeading: 'text-white',
-        featureHeading: 'text-blue-300',
-        regularHeading: 'text-gray-300',
-        description: 'text-gray-300',
-        buttonBg: 'bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 hover:border-blue-600',
-        footerText: 'text-gray-400',
-        linkText: 'text-blue-400 hover:text-blue-300'
-      };
-    } else {
-      return {
-        mainHeading: 'text-gray-800',
-        featureHeading: 'text-blue-700',
-        regularHeading: 'text-gray-700',
-        description: 'text-gray-600',
-        buttonBg: 'bg-white border border-gray-200 text-gray-800 hover:bg-gray-50 hover:border-blue-300',
-        footerText: 'text-gray-500',
-        linkText: 'text-blue-600 hover:text-blue-500'
-      };
-    }
+    return isDark ? {
+      mainHeading: 'text-white',
+      subHeading: 'text-gray-400',
+      featureHeading: 'text-blue-400',
+      regularHeading: 'text-gray-200',
+      description: 'text-gray-300',
+      cardBg: 'bg-gray-900/70 border-gray-800 hover:border-blue-500/50',
+      featuredCardBg: 'bg-gradient-to-r from-blue-950/40 to-indigo-950/40 border-blue-600/40',
+      buttonBg: 'bg-gray-800 border border-gray-700 text-white hover:bg-gray-700',
+      tagBg: 'bg-blue-500/15 text-blue-300 border border-blue-500/30'
+    } : {
+      mainHeading: 'text-gray-900',
+      subHeading: 'text-gray-600',
+      featureHeading: 'text-blue-700',
+      regularHeading: 'text-gray-800',
+      description: 'text-gray-600',
+      cardBg: 'bg-white border-gray-200 hover:border-blue-400/60 shadow-sm',
+      featuredCardBg: 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-300',
+      buttonBg: 'bg-white border border-gray-300 text-gray-800 hover:bg-gray-50',
+      tagBg: 'bg-blue-100 text-blue-800 border border-blue-200'
+    };
   }, [isDark]);
 
-  // Componente de tarjeta de charla memoizado para evitar re-renderizados
-  const TalkCard = useCallback(({ talk, isFeatured }: { talk: Talk, isFeatured: boolean }) => {
-    // Estilos específicos de las tarjetas pre-calculados
-    const cardStyle = isFeatured 
-      ? (isDark 
-          ? 'bg-blue-900/40 border-blue-700 hover:border-blue-500' 
-          : 'bg-blue-50 border-blue-300 hover:border-blue-400'
-        )
-      : (isDark 
-          ? 'bg-gray-800/50 border-gray-700 hover:border-blue-500/50' 
-          : 'bg-white/90 border-gray-200 hover:border-blue-400/50'
-        );
-        
-    const layoutStyle = isFeatured ? 'md:col-span-2 lg:col-span-3' : '';
-    const gridStyle = isFeatured ? 'grid-cols-1 md:grid-cols-[1fr,2fr]' : 'grid-cols-1';
-    const titleSize = isFeatured ? 'md:text-2xl' : '';
-    
-    const subtitleStyle = isFeatured
-      ? (isDark ? 'text-blue-200' : 'text-blue-700')
-      : (isDark ? 'text-blue-300' : 'text-blue-600');
-      
-    const featuredBtnStyle = {
-      video: isFeatured ? 'bg-red-700/90 hover:bg-red-800/90' : 'bg-red-600/80 hover:bg-red-700/80',
-      slides: isFeatured ? 'bg-blue-700/90 hover:bg-blue-800/90' : 'bg-blue-600/80 hover:bg-blue-700/80'
-    };
-    
-    return (
-      <div
-        className={`
-          ${cardStyle} 
-          backdrop-blur-sm rounded-xl p-5 shadow-lg border transition-all duration-300
-          ${layoutStyle}
-        `}
-      >
-        <div className={`grid ${gridStyle} gap-5`}>
-          {talk.image ? (
-            <div className="rounded-lg overflow-hidden h-[150px]">
-              <img 
-                src={talk.image} 
-                alt={talk.title} 
-                className="w-full h-full object-cover transform hover:scale-[1.02] duration-300"
-                loading="lazy"
-                decoding="async"
-                width="300"
-                height="150"
-              />
-            </div>
-          ) : (
-            <div className={`${
-              isFeatured
-                ? isDark 
-                  ? 'bg-gradient-to-r from-blue-800 to-indigo-900' 
-                  : 'bg-gradient-to-r from-blue-200 to-indigo-200'
-                : isDark 
-                  ? 'bg-gradient-to-r from-blue-900 to-purple-900' 
-                  : 'bg-gradient-to-r from-blue-100 to-purple-100'
-            } rounded-lg flex items-center justify-center p-4 h-[150px]`}>
-              <svg className={`w-12 h-12 ${isDark ? 'text-blue-300' : 'text-blue-600'} opacity-70`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-            </div>
-          )}
-          
-          <div className="flex flex-col h-full">
-            <div className={`flex flex-wrap items-center text-sm ${isDark ? 'text-blue-400' : 'text-blue-600'} mb-1`}>
-              <span className="mr-2">{talk.date}</span>
-              <span className="hidden sm:inline mx-1">•</span>
-              <span className="sm:ml-1">{talk.location}</span>
-            </div>
-            
-            <h3 className={`text-xl ${titleSize} font-bold ${themeStyles.mainHeading} mb-1`}>
-              {talk.title}
-              {isFeatured && (
-                <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">{t('talks.featured')}</span>
-              )}
-            </h3>
-            <h4 className={`text-lg ${subtitleStyle} mb-2`}>{talk.event}</h4>
-            
-            <p className={`${themeStyles.description} mb-3 text-sm line-clamp-2`}>
-              {talk.description}
-            </p>
-            
-            <div className="flex flex-wrap gap-2 mt-auto">
-              {talk.videoUrl && (
-                <a 
-                  href={talk.videoUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className={`inline-flex items-center px-3 py-1 ${featuredBtnStyle.video} text-white rounded-lg transition-colors text-sm`}
-                >
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path>
-                  </svg>
-                  {t('talks.watchVideo')}
-                </a>
-              )}
-              
-              {talk.slidesUrl && (
-                <a 
-                  href={talk.slidesUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className={`inline-flex items-center px-3 py-1 ${featuredBtnStyle.slides} text-white rounded-lg transition-colors text-sm`}
-                >
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
-                  </svg>
-                  {t('talks.viewSlides')}
-                </a>
-              )}
-            </div>
-          </div>
+  // Handlers de paginación
+  const loadMoreTalks = useCallback(() => {
+    setVisibleTalkCount(prev => {
+      const next = prev + LOAD_MORE_COUNT;
+      if (next >= regularTalks.length) setExpandedTalks(true);
+      return next;
+    });
+  }, [regularTalks.length, LOAD_MORE_COUNT]);
+
+  const collapseTalks = useCallback(() => {
+    setVisibleTalkCount(INITIAL_COUNT);
+    setExpandedTalks(false);
+    const el = document.getElementById('talks');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, [INITIAL_COUNT]);
+
+  const loadMoreNews = useCallback(() => {
+    setVisibleNewsCount(prev => {
+      const next = prev + LOAD_MORE_COUNT;
+      if (next >= regularNews.length) setExpandedNews(true);
+      return next;
+    });
+  }, [regularNews.length, LOAD_MORE_COUNT]);
+
+  const collapseNews = useCallback(() => {
+    setVisibleNewsCount(INITIAL_COUNT);
+    setExpandedNews(false);
+    const el = document.getElementById('talks');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, [INITIAL_COUNT]);
+
+  return (
+    <div className="py-12">
+      {/* Anclas duales para compatibilidad de rutas */}
+      <span id="news" className="scroll-mt-24 block -mt-24 h-0" aria-hidden="true" />
+
+      {/* Cabecera de Sección Unificada */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <span className="text-xs font-mono font-semibold tracking-wider uppercase text-blue-500 mb-1.5 block">
+            // 04 · {t('talks.unifiedTitle', 'Charlas & Medios')}
+          </span>
+          <h2 className={`text-3xl sm:text-4xl font-bold tracking-tight ${themeStyles.mainHeading}`}>
+            {t('talks.unifiedTitle', 'Charlas & Medios')}
+          </h2>
+          <p className={`text-sm sm:text-base max-w-2xl mt-1.5 ${themeStyles.subHeading}`}>
+            {t('talks.unifiedSubtitle', 'Conferencias técnicas, ponencias magistrales y apariciones en prensa tecnológica')}
+          </p>
+        </div>
+
+        {/* Selector de Pestañas Segmentado */}
+        <div className={`inline-flex max-w-full p-1 rounded-xl border self-start md:self-auto ${
+          isDark ? 'bg-gray-900/90 border-gray-800' : 'bg-gray-100 border-gray-200'
+        }`}>
+          <button
+            onClick={() => setActiveTab('talks')}
+            className={`min-w-0 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1 sm:gap-2 ${
+              activeTab === 'talks'
+                ? 'bg-blue-600 text-white shadow-md'
+                : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
+            </svg>
+            <span>{t('talks.tabTalks', 'Charlas & Keynotes')}</span>
+            <span className="text-xs opacity-75 font-mono">({sortedTalks.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('news')}
+            className={`min-w-0 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1 sm:gap-2 ${
+              activeTab === 'news'
+                ? 'bg-blue-600 text-white shadow-md'
+                : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+            <span>{t('talks.tabNews', 'Noticias & Prensa')}</span>
+            <span className="text-xs opacity-75 font-mono">({sortedNews.length})</span>
+          </button>
         </div>
       </div>
-    );
-  }, [isDark, t, themeStyles]);
 
-  // Renderizar componente memoizado
-  return (
-    <div className="py-10">
-      <h2 className={`text-4xl font-bold mb-8 ${themeStyles.mainHeading}`}>{talksData.title}</h2>
-      
-      {/* Charlas destacadas */}
-      {featuredTalks.length > 0 && (
-        <div className="mb-8"> 
-          <h3 className={`text-xl font-semibold mb-4 ${themeStyles.featureHeading}`}>
-            {t('talks.featuredTalks')}
-          </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
-            {featuredTalks.map(talk => (
-              <TalkCard key={talk.id} talk={talk} isFeatured={true} />
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {/* Encabezado para charlas regulares */}
-      {regularTalks.length > 0 && (
-        <h3 className={`text-xl font-semibold mb-4 ${themeStyles.regularHeading}`}>
-          {featuredTalks.length > 0 ? t('talks.otherTalks') : t('talks.allTalks')}
-        </h3>
-      )}
-      
-      {/* Charlas regulares (paginadas) - optimizadas para evitar recálculos */}
-      {regularTalks.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"> 
-          {visibleRegularTalks.map(talk => (
-            <TalkCard key={talk.id} talk={talk} isFeatured={false} />
-          ))}
-        </div>
-      )}
-      
-      {/* Botones para mostrar más/colapsar */}
-      {regularTalks.length > INITIAL_TALK_COUNT && (
-        <div className="flex justify-center mt-10">
-          {!allTalksLoaded ? (
-            <button
-              onClick={loadMoreTalks}
-              className={`px-6 py-3 rounded-xl shadow-lg transition-all flex items-center space-x-2 ${themeStyles.buttonBg}`}
-            >
-              <span>{t('talks.showMoreTalks')}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          ) : expandedView && (
-            <button
-              onClick={collapseTalks}
-              className={`px-6 py-3 rounded-xl shadow-lg transition-all flex items-center space-x-2 ${themeStyles.buttonBg}`}
-            >
-              <span>{t('talks.hideTalks')}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-              </svg>
-            </button>
+      {/* VISTA DE CHARLAS */}
+      {activeTab === 'talks' && (
+        <div className="space-y-8 animate-fadeIn">
+          {/* Charlas destacadas */}
+          {featuredTalks.length > 0 && (
+            <div className="space-y-4">
+              <h3 className={`text-lg font-bold uppercase tracking-wider ${themeStyles.featureHeading}`}>
+                {t('talks.featuredTalks', 'Charlas Destacadas')}
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
+                {featuredTalks.map(talk => (
+                  <div
+                    key={talk.id}
+                    className={`rounded-xl p-5 shadow-lg border backdrop-blur-sm transition-all duration-300 md:col-span-2 lg:col-span-3 ${themeStyles.featuredCardBg}`}
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-[1fr,2fr] gap-5">
+                      {talk.image ? (
+                        <div className="rounded-lg overflow-hidden h-[180px] bg-black/40">
+                          <img 
+                            src={talk.image} 
+                            alt={talk.title} 
+                            className="w-full h-full object-cover transform hover:scale-[1.02] duration-300"
+                            loading="lazy"
+                          />
+                        </div>
+                      ) : (
+                        <div className="rounded-lg flex items-center justify-center p-4 h-[180px] bg-blue-900/30">
+                          <svg className="w-12 h-12 text-blue-400 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                      )}
+
+                      <div className="flex flex-col justify-between">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-blue-400 mb-1">
+                            <span>{talk.date}</span>
+                            <span>•</span>
+                            <span>{talk.location}</span>
+                            <span className="ml-auto px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-600 text-white">
+                              {t('talks.featured', 'Destacada')}
+                            </span>
+                          </div>
+
+                          <h4 className={`text-xl md:text-2xl font-bold ${themeStyles.mainHeading} mb-1`}>
+                            {talk.title}
+                          </h4>
+                          <p className="text-sm font-semibold text-blue-400 mb-2">{talk.event}</p>
+                          <p className={`text-sm leading-relaxed ${themeStyles.description}`}>
+                            {talk.description}
+                          </p>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-gray-700/40">
+                          {talk.videoUrl && (
+                            <a 
+                              href={talk.videoUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-red-600/90 hover:bg-red-700 text-white rounded-lg text-xs font-medium transition-colors"
+                            >
+                              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                              </svg>
+                              <span>{t('talks.watchVideo', 'Ver Vídeo')}</span>
+                            </a>
+                          )}
+
+                          {talk.slidesUrl && (
+                            <a 
+                              href={talk.slidesUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600/90 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition-colors"
+                            >
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                              </svg>
+                              <span>{t('talks.viewSlides', 'Ver Diapositivas')}</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Charlas regulares */}
+          {regularTalks.length > 0 && (
+            <div>
+              <h3 className={`text-base font-bold uppercase tracking-wider mb-4 ${themeStyles.regularHeading}`}>
+                {featuredTalks.length > 0 ? t('talks.otherTalks', 'Otras Conferencias') : t('talks.allTalks', 'Todas las Charlas')}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {visibleRegularTalks.map(talk => (
+                  <div 
+                    key={talk.id} 
+                    className={`rounded-xl p-5 border backdrop-blur-sm transition-all duration-300 flex flex-col justify-between ${themeStyles.cardBg}`}
+                  >
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-mono text-blue-400 mb-2">
+                        <span>{talk.date}</span>
+                        <span>•</span>
+                        <span>{talk.location}</span>
+                      </div>
+                      <h4 className={`text-lg font-bold mb-1 ${themeStyles.mainHeading}`}>{talk.title}</h4>
+                      <p className="text-xs font-semibold text-blue-400 mb-2">{talk.event}</p>
+                      <p className={`text-xs sm:text-sm leading-relaxed line-clamp-3 mb-4 ${themeStyles.description}`}>
+                        {talk.description}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-800/60 mt-auto">
+                      {talk.videoUrl && (
+                        <a 
+                          href={talk.videoUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex items-center gap-1 px-3 py-1 bg-red-600/80 hover:bg-red-700 text-white rounded-lg text-xs font-medium transition-colors"
+                        >
+                          <span>{t('talks.watchVideo', 'Vídeo')}</span>
+                        </a>
+                      )}
+                      {talk.slidesUrl && (
+                        <a 
+                          href={talk.slidesUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex items-center gap-1 px-3 py-1 bg-blue-600/80 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition-colors"
+                        >
+                          <span>{t('talks.viewSlides', 'Diapositivas')}</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Paginación de charlas */}
+          {regularTalks.length > INITIAL_COUNT && (
+            <div className="flex justify-center mt-6">
+              {!allTalksLoaded ? (
+                <button
+                  onClick={loadMoreTalks}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${themeStyles.buttonBg}`}
+                >
+                  {t('talks.showMoreTalks', 'Mostrar más charlas')}
+                </button>
+              ) : expandedTalks && (
+                <button
+                  onClick={collapseTalks}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${themeStyles.buttonBg}`}
+                >
+                  {t('talks.hideTalks', 'Colapsar')}
+                </button>
+              )}
+            </div>
           )}
         </div>
       )}
-      
-      {/* Mensaje que muestra cuántas charlas se están mostrando */}
-      {allTalksLoaded && regularTalks.length > INITIAL_TALK_COUNT && expandedView && (
-        <div className={`text-center mt-4 ${themeStyles.footerText}`}>
-          <p>{t('talks.showingAllTalks', { count: regularTalks.length })}</p>
+
+      {/* VISTA DE NOTICIAS & PRENSA */}
+      {activeTab === 'news' && (
+        <div className="space-y-8 animate-fadeIn">
+          {/* Noticias destacadas */}
+          {featuredNews.length > 0 && (
+            <div className="space-y-4">
+              <h3 className={`text-lg font-bold uppercase tracking-wider ${themeStyles.featureHeading}`}>
+                {t('news.featuredNews', 'Apariciones Destacadas')}
+              </h3>
+              <div className="grid grid-cols-1 gap-4">
+                {featuredNews.map(item => (
+                  <div
+                    key={item.id}
+                    className={`rounded-xl p-6 border backdrop-blur-sm shadow-lg transition-all ${themeStyles.featuredCardBg}`}
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-[1fr,1.8fr] gap-6">
+                      {item.image && (
+                        <div className="rounded-lg overflow-hidden max-h-[220px] bg-black/40">
+                          <img 
+                            src={item.image} 
+                            alt={item.title} 
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+                      <div className="flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center gap-2 text-xs font-mono text-blue-400 mb-1.5">
+                            <span className="font-semibold">{item.source}</span>
+                            <span>•</span>
+                            <span>{item.date}</span>
+                          </div>
+                          <h4 className={`text-xl sm:text-2xl font-bold mb-2 ${themeStyles.mainHeading}`}>
+                            {item.title}
+                          </h4>
+                          <p className={`text-sm leading-relaxed mb-4 ${themeStyles.description}`}>
+                            {item.description}
+                          </p>
+                        </div>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors self-start"
+                        >
+                          <span>{t('news.readFullArticle', 'Leer artículo completo')}</span>
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Noticias regulares */}
+          {regularNews.length > 0 && (
+            <div>
+              <h3 className={`text-base font-bold uppercase tracking-wider mb-4 ${themeStyles.regularHeading}`}>
+                {t('news.otherNews', 'Otras Coberturas en Prensa')}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {visibleRegularNews.map(item => (
+                  <div
+                    key={item.id}
+                    className={`rounded-xl p-5 border backdrop-blur-sm transition-all duration-300 flex flex-col justify-between ${themeStyles.cardBg}`}
+                  >
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-mono text-blue-400 mb-2">
+                        <span className="font-semibold">{item.source}</span>
+                        <span>•</span>
+                        <span>{item.date}</span>
+                      </div>
+                      <h4 className={`text-base sm:text-lg font-bold mb-2 ${themeStyles.mainHeading}`}>
+                        {item.title}
+                      </h4>
+                      <p className={`text-xs sm:text-sm leading-relaxed line-clamp-3 mb-4 ${themeStyles.description}`}>
+                        {item.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-gray-800/60 mt-auto">
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        <span>{t('news.readArticle', 'Leer en fuente original')}</span>
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Paginación de noticias */}
+          {regularNews.length > INITIAL_COUNT && (
+            <div className="flex justify-center mt-6">
+              {!allNewsLoaded ? (
+                <button
+                  onClick={loadMoreNews}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${themeStyles.buttonBg}`}
+                >
+                  {t('news.showMoreNews', 'Mostrar más noticias')}
+                </button>
+              ) : expandedNews && (
+                <button
+                  onClick={collapseNews}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${themeStyles.buttonBg}`}
+                >
+                  {t('news.hideNews', 'Colapsar')}
+                </button>
+              )}
+            </div>
+          )}
         </div>
       )}
-      
-      <div className="mt-10 text-center"> 
-        <p className={`${themeStyles.footerText} italic`}>
-          {talksData.contactText} <a href="#contact" className={`${themeStyles.linkText} underline`}>{t('talks.contactMe')}</a>
+
+      {/* Footer de sección */}
+      <div className="mt-12 text-center">
+        <p className={`text-xs sm:text-sm italic ${themeStyles.subHeading}`}>
+          {talksData.contactText}{' '}
+          <a href="#contact" className="text-blue-500 hover:underline font-medium">
+            {t('talks.contactMe', 'Contáctame')}
+          </a>
         </p>
       </div>
     </div>

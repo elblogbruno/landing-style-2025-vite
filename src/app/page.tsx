@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo, useCallback, Suspense } from 'react'; 
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 // import { useElevatorNavigation } from './hooks/useElevatorNavigation';
 
 import { FooterComponent } from './components/footer';
@@ -16,6 +16,7 @@ import siteData from '../data/site-data.json';
 import ToggleBtn from './components/tglbutton';
 import { SectionKey } from './components/avatar/types';
 import ElevatorPlaceholder from './components/avatar/ElevatorPlaceholder';
+import FloorAtmosphere from './components/FloorAtmosphere';
 // import ElevatorButtonsPlaceholder from './components/avatar/ElevatorButtonsPlaceholder';
 
 // Componente de fallback optimizado
@@ -30,7 +31,6 @@ const About = lazyWithPreload(() => import('./sections/About/About.tsx'), 200, '
 const Experience = lazyWithPreload(() => import('./sections/Experience'), 300, 'high');
 const Projects = lazyWithPreload(() => import('./sections/Projects'), 400, 'medium');
 const Talks = lazyWithPreload(() => import('./sections/Talks'), 500, 'medium');
-const News = lazyWithPreload(() => import('./sections/News'), 600, 'medium');
 const Awards = lazyWithPreload(() => import('./sections/Awards'), 650, 'medium');
 const Education = lazyWithPreload(() => import('./sections/Education'), 700, 'medium');
 const Contact = lazyWithPreload(() => import('./sections/Contact'), 800, 'medium');
@@ -40,7 +40,6 @@ const AvatarBox = lazyWithPreload(() => import('./components/avatar/avatar_box')
 const TimeMachine = lazyWithPreload(() => import('./components/TimeMachine'), 2500, 'low');
 const AnimatedBackground = lazyWithPreload(() =>  import('./components/AnimatedBackground'), 200, 'high'); // Aumentamos la prioridad para que cargue más rápido
 const MobileElevatorWidget = lazyWithPreload(() => import('./components/mobile/MobileElevatorWidget'), 1000, 'low');
-const MobileWelcomeTour = lazyWithPreload(() => import('./components/mobile/MobileWelcomeTour'), 1200, 'low');
 const AudioManager = lazyWithPreload(() => import('./components/avatar/AudioManager'), 2000, 'low');
 
 const Portfolio = () => {   
@@ -53,15 +52,14 @@ const Portfolio = () => {
   });
   
   // Estado para detectar si estamos en móvil
+  const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
   
   // Estado para la sección actual
   const [currentSection, setCurrentSection] = useState<SectionKey>('hero');
   
   // Estados UI
-  const [showMobileTour, setShowMobileTour] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [highlightElevator, setHighlightElevator] = useState(false);
   const [elevatorTransitioning, setElevatorTransitioning] = useState(false);
   const [buttonTriggeredNavigation, setButtonTriggeredNavigation] = useState(false);
   
@@ -70,6 +68,21 @@ const Portfolio = () => {
   
   // Agregamos estado para controlar la visibilidad del fondo animado
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+
+  // Estado para la vista de ciudad (ocultar contenido para contemplar el fondo)
+  const [cityViewActive, setCityViewActive] = useState(false);
+
+  // Sincronizar evento de vista ciudad
+  useEffect(() => {
+    const handleCityViewToggle = (e: Event) => {
+      const ce = e as CustomEvent<{ active: boolean }>;
+      if (ce.detail && typeof ce.detail.active === 'boolean') {
+        setCityViewActive(ce.detail.active);
+      }
+    };
+    window.addEventListener('toggle-city-view', handleCityViewToggle);
+    return () => window.removeEventListener('toggle-city-view', handleCityViewToggle);
+  }, []);
 
   // Referencias para evitar dependencias circulares
   const currentSectionRef = React.useRef<SectionKey>('hero');
@@ -97,7 +110,7 @@ const Portfolio = () => {
   
   // Memoizar secciones para evitar recreación en cada render
   const sections = useMemo<SectionKey[]>(() => 
-    ['hero', 'about', 'experience', 'projects', 'talks', 'news', 'awards', 'education', 'contact'],
+    ['hero', 'experience', 'projects', 'about', 'talks', 'awards', 'education', 'contact'],
     []
   ); 
 
@@ -199,32 +212,7 @@ const Portfolio = () => {
       }
     }
     
-    // Mostrar el tour solo en móvil y solo la primera vez
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      const hasSeenTour = localStorage.getItem('hasSeenMobileTour');
-      // No mostramos el tour inmediatamente, lo haremos después de que la página cargue
-      setShowMobileTour(false);
-      
-      // Mostrar el tour después de que la página se cargue completamente
-      if (!hasSeenTour) {
-        const onPageLoad = () => {
-          // Añadir un pequeño retraso para asegurar que toda la UI esté renderizada
-          setTimeout(() => {
-            setShowMobileTour(true);
-          }, 800);
-        };
-        
-        // Si la página ya está cargada, mostrar el tour
-        if (document.readyState === 'complete') {
-          onPageLoad();
-        } else {
-          // Si no, esperar a que se cargue
-          window.addEventListener('load', onPageLoad);
-          return () => window.removeEventListener('load', onPageLoad);
-        }
-      }
-    }
-    
+
     // Precargar el componente About después de la carga inicial
     if ('requestIdleCallback' in window) {
       window.requestIdleCallback(() => {
@@ -301,23 +289,6 @@ const Portfolio = () => {
   const handleElevatorTransition = useCallback((isTransitioning: boolean) => {
     setElevatorTransitioning(isTransitioning);
   }, []);
-
-  // Cerrar el tour de móvil
-  const handleCloseMobileTour = useCallback(() => {
-    setShowMobileTour(false);
-    setHighlightElevator(true);
-    localStorage.setItem('hasSeenMobileTour', 'true');
-    
-    try {
-      track({
-        category: 'MobileTour',
-        action: 'Closed',
-        label: 'User closed tour'
-      });
-    } catch {
-      // Ignorar errores de tracking
-    }
-  }, []);
  
   // Gestionar transición del elevador (bloqueo de scroll) - OPTIMIZADO
   useEffect(() => {
@@ -390,8 +361,8 @@ const Portfolio = () => {
     currentSection,
     theme: themeValue,
     floors: sections as string[],
-    highlightOnMount: highlightElevator
-  }), [currentSection, themeValue, sections, highlightElevator]);
+    highlightOnMount: false
+  }), [currentSection, themeValue, sections]);
 
   const [preloadingElevator, setPreloadingElevator] = useState(false);
   const [elevatorLoaded, setElevatorLoaded] = useState(false);
@@ -455,7 +426,7 @@ const Portfolio = () => {
             darkMode ? 'bg-[#121212]' : 'bg-[#f8f9fa]'
           }`} aria-hidden="true" />
         }>
-          <AnimatedBackground theme={themeValue} onLoad={handleBackgroundLoad} />
+          <AnimatedBackground theme={themeValue} currentSection={currentSection} onLoad={handleBackgroundLoad} />
         </Suspense>
       </div>
       
@@ -463,7 +434,7 @@ const Portfolio = () => {
       <SectionObserver {...sectionObserverProps} />
       
       {/* Controles de tema e idioma */}
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
+      <div className="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 flex items-center gap-2 sm:gap-3 p-1 sm:p-1.5 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-gray-200/60 dark:border-gray-700/60 shadow-sm transition-all duration-300">
         <LanguageSwitcher theme={themeValue} />
         <ToggleBtn  
           onChange={handleThemeChange}
@@ -473,64 +444,66 @@ const Portfolio = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className="relative w-full max-w-[1400px] mx-auto px-4 flex-grow">
+      <div className={`relative w-full max-w-[1400px] mx-auto px-4 flex-grow transition-all duration-500 ${cityViewActive ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100'}`}>
         <div className="grid-layout">
           {/* Columna principal con secciones */}
-          <div>
+          <div className="min-w-0 max-w-full">
             <main>
               {/* Hero cargado directamente (importante para LCP) */}
               <section 
                 id="hero" 
-                className="section-container"
+                className="section-container !pt-0 !pb-2 md:!pt-2 md:!pb-4"
                 data-section-id="hero"
               >
+                <FloorAtmosphere section="hero" theme={themeValue} showBadge={false} />
                 <Hero {...heroProps} />
               </section>
               
               {/* All other sections loaded directly without complex visibility tracking */}
-              <section id="about" className="section-container scroll-mt-16" data-section-id="about">
-                <Suspense fallback={<LoadingFallback />}>
-                  <About theme={themeValue} />
-                </Suspense>
-              </section>
-
               <section id="experience" className="section-container scroll-mt-16" data-section-id="experience">
+                <FloorAtmosphere section="experience" theme={themeValue} />
                 <Suspense fallback={<LoadingFallback />}>
                   <Experience theme={themeValue} />
                 </Suspense>
               </section>
               
-              <section id="projects" className="section-container" data-section-id="projects">
+              <section id="projects" className="section-container scroll-mt-16" data-section-id="projects">
+                <FloorAtmosphere section="projects" theme={themeValue} />
                 <Suspense fallback={<LoadingFallback />}>
                   <Projects theme={themeValue} />
                 </Suspense>
               </section>
+
+              <section id="about" className="section-container scroll-mt-16" data-section-id="about">
+                <FloorAtmosphere section="about" theme={themeValue} />
+                <Suspense fallback={<LoadingFallback />}>
+                  <About theme={themeValue} />
+                </Suspense>
+              </section>
               
-              <section id="talks" className="section-container" data-section-id="talks">
+              <section id="talks" className="section-container scroll-mt-16" data-section-id="talks">
+                <FloorAtmosphere section="talks" theme={themeValue} />
                 <Suspense fallback={<LoadingFallback />}>
                   <Talks theme={themeValue} />
                 </Suspense>
               </section>
               
-              <section id="news" className="section-container" data-section-id="news">
-                <Suspense fallback={<LoadingFallback />}>
-                  <News theme={themeValue} />
-                </Suspense>
-              </section>
-              
-              <section id="awards" className="section-container" data-section-id="awards">
+              <section id="awards" className="section-container scroll-mt-16" data-section-id="awards">
+                <FloorAtmosphere section="awards" theme={themeValue} />
                 <Suspense fallback={<LoadingFallback />}>
                   <Awards theme={themeValue} />
                 </Suspense>
               </section>
               
-              <section id="education" className="section-container" data-section-id="education">
+              <section id="education" className="section-container scroll-mt-16" data-section-id="education">
+                <FloorAtmosphere section="education" theme={themeValue} />
                 <Suspense fallback={<LoadingFallback />}>
                   <Education theme={themeValue} />
                 </Suspense>
               </section>
               
-              <section id="contact" className="section-container" data-section-id="contact">
+              <section id="contact" className="section-container scroll-mt-16" data-section-id="contact">
+                <FloorAtmosphere section="contact" theme={themeValue} />
                 <Suspense fallback={<LoadingFallback />}>
                   <Contact theme={themeValue} />
                 </Suspense>
@@ -539,10 +512,10 @@ const Portfolio = () => {
           </div>
           
           {/* Columna lateral con el elevador (solo en desktop) */} 
-          {isMobile == false && ( <div className="hidden md:block relative mt-40">
-            {/* Indicadores de piso */}
+          {isMobile == false && ( <div className="hidden md:block relative mt-16 lg:mt-20">
+            {/* Indicadores de piso (orden ascendente: piso 0 abajo, piso 7 arriba) */}
             {elevatorLoaded  && ( <div 
-              className={`absolute -left-6 top-1/2 -translate-y-1/2 w-4 h-[80%] bg-gray-800/70 dark:bg-gray-700/70 rounded-full flex flex-col justify-between py-2 elevator-indicator elevator-line-container ${isMounted ? 'opacity-100' : 'opacity-0 invisible'}`}
+              className={`absolute -left-6 top-1/2 -translate-y-1/2 w-4 h-[80%] bg-gray-800/70 dark:bg-gray-700/70 rounded-full flex flex-col-reverse justify-between py-2 elevator-indicator elevator-line-container ${isMounted ? 'opacity-100' : 'opacity-0 invisible'}`}
               style={{ 
                 visibility: isMounted ? 'visible' : 'hidden',
                 pointerEvents: isMounted ? 'auto' : 'none',
@@ -579,20 +552,22 @@ const Portfolio = () => {
                 {!highPerformanceMode && (
                   <div className="flex flex-col">
                     {/* Contenedor principal del elevador con transición coordinada */}
-                    <div className="window-frame elevator-frame relative">
+                    <div className="relative w-full h-[600px]">
                       {/* Placeholder del elevador con fade-out cuando se carga el real */}
                       <div style={{ 
                         position: 'absolute',
                         top: 0,
                         left: 0,
-                        width: '100%',
+                        width: 'calc(100% - 80px)',
                         height: '100%',
                         opacity: elevatorLoaded ? 0 : 1,
                         visibility: elevatorLoaded ? 'hidden' : 'visible',
                         zIndex: elevatorLoaded ? 0 : 2,
                         transition: 'opacity 0.8s ease-out, visibility 0.8s step-end'
                       }}>
-                        <ElevatorPlaceholder theme={themeValue} onLoad={handleElevatorLoad} />
+                        <div className="window-frame elevator-frame relative w-full h-full">
+                          <ElevatorPlaceholder theme={themeValue} onLoad={handleElevatorLoad} />
+                        </div>
                       </div>
                       
                       {/* Elevador real con fade-in */}
@@ -620,6 +595,28 @@ const Portfolio = () => {
         </div>
       </div>
 
+      {/* Botón flotante para restaurar contenido si la vista ciudad está activa */}
+      {cityViewActive && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
+          <button
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('toggle-city-view', { detail: { active: false } }));
+              if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+                try { navigator.vibrate(15); } catch {}
+              }
+            }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white text-sm font-semibold shadow-2xl backdrop-blur-md border border-white/20 transition-all hover:scale-105 active:scale-95"
+            aria-label={t('elevator.mobile.exitCityView', 'Volver al contenido')}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+            <span>{t('elevator.mobile.exitCityView', 'Volver al contenido')}</span>
+          </button>
+        </div>
+      )}
+
       {/* Footer con z-index explícito para que esté siempre visible */}
       <div className="relative z-10">
         <FooterComponent setIsDarkMode={setDarkMode} isDarkMode={darkMode} />
@@ -631,15 +628,6 @@ const Portfolio = () => {
           <MobileElevatorWidget 
             {...mobileElevatorProps}
             onTransitionChange={handleElevatorTransition}
-          />
-        </Suspense>
-      )}
-      
-      {isMobile && showMobileTour && (
-        <Suspense fallback={null}>
-          <MobileWelcomeTour 
-            theme={themeValue}
-            onClose={handleCloseMobileTour}
           />
         </Suspense>
       )}

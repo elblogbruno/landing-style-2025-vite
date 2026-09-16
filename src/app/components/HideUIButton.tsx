@@ -32,7 +32,7 @@ const HideUIButton: React.FC<HideUIButtonProps> = ({ onToggle, isUIHidden }) => 
     });
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
       const deltaX = startDragPos.x - e.clientX;
       const deltaY = startDragPos.y - e.clientY;
@@ -56,12 +56,12 @@ const HideUIButton: React.FC<HideUIButtonProps> = ({ onToggle, isUIHidden }) => 
   useEffect(() => {
     if (isDragging) {
       document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('mousemove', handleMouseMove as any);
+      document.addEventListener('mousemove', handleMouseMove);
     }
     
     return () => {
       document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mousemove', handleMouseMove as any);
+      document.removeEventListener('mousemove', handleMouseMove);
     };
   }, [isDragging]);
 

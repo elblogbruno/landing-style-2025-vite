@@ -6,7 +6,7 @@ import './i18n';
 import './app/section-styles.css';
 import './app/custom.css';
  
-import Portfolio from './app/page'  
+import Portfolio from './app/page.tsx'  
 // import About from './app/sections/About/About';
 // import Experience from './app/sections/Experience';
 

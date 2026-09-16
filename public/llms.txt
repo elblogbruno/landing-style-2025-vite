@@ -1,0 +1,35 @@
+# Bruno Moya
+
+> Software Developer & Glassear Founder. Software developer based in Barcelona. Creator of Glassear and CTO at TopBrokers.io, working across web applications, backend systems, infrastructure and mixed reality.
+
+Bruno Moya is based in Barcelona, Spain. He is CTO at TopBrokers.io and founder of Glassear. I started programming at 13. Building Glassear took me into optics, electronics and mixed reality; internships, university and professional projects broadened that work into web applications and production systems.
+
+## Current work
+- **CTO, TopBrokers.io** (2025-11 - Present): Hands-on technical ownership of production software and infrastructure, from architecture and implementation to deployment, validation and operations.
+- **Founder & Software Developer, Glassear** (2015-05 - Present): Founded Glassear to build accessible mixed-reality glasses, working across custom hardware, computer vision, Unity and web applications.
+
+## Selected projects
+- [JobAgent - Autonomous AI Job Search & Application System](https://brunomoya.com/projects/jobagent/): An autonomous, agentic job-search platform for role discovery, semantic matching, job analysis, CV tailoring and controlled browser-assisted applications. Outcome: I use JobAgent to manage my own job search. [Repository](https://github.com/elblogbruno/JobAgent)
+- [TalentGapAnalyzer - AI Workforce Intelligence](https://brunomoya.com/projects/talent-gap-analyzer/): AI-powered workforce intelligence and talent gap analysis platform built as a team project at UAB The Hack 2025. Outcome: Winner - UAB The Hack 2025 [Repository](https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack)
+- [Glassear Studio - Natural Language to Interactive XR](https://brunomoya.com/projects/glassear-studio/): Glassear Studio translates natural-language intent into structured, synchronized changes to interactive XR applications. Outcome: An AI-native platform for building and modifying interactive XR applications across a web authoring environment and Unity runtime.
+
+## Core skills
+- **Backend & Distributed Systems:** Python, FastAPI, Node.js, TypeScript, REST APIs, PostgreSQL, Supabase, Celery, RabbitMQ
+- **Frontend:** React, Next.js, Vite, Tailwind CSS
+- **Infrastructure:** Linux, Docker, Proxmox, PostgreSQL operations, Networking, Reverse proxies, Cloud infrastructure, Backup systems
+- **XR & Spatial Computing:** Unity, AR Foundation, XR Interaction Toolkit, OpenXR, WebXR, Computer Vision, Custom XR hardware
+- **AI tools & integration:** Claude Code, OpenAI Codex, GitHub Copilot, LLM APIs, Agentic Workflows, Tool Calling, MCP, Structured Outputs, Prompt and System Instruction Design, Multi-Agent Workflows
+
+## Canonical professional resources
+- [Human-readable resume](https://brunomoya.com/resume/)
+- [Experience](https://brunomoya.com/experience/)
+- [Projects](https://brunomoya.com/projects/)
+- [Structured professional profile](https://brunomoya.com/profile.json)
+- [Resume as Markdown](https://brunomoya.com/resume.md)
+- [Projects as Markdown](https://brunomoya.com/projects.md)
+- [GitHub](https://github.com/elblogbruno)
+- [LinkedIn](https://www.linkedin.com/in/glassear-bruno/)
+- [Resume PDF](https://brunomoya.com/cv-english.pdf)
+- [Professional contact](mailto:bruno@glassear.com)
+
+This file follows the emerging llms.txt convention; llms.txt is not an official universal web standard.

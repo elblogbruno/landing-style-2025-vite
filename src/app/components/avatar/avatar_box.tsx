@@ -10,6 +10,7 @@ import { Mesh, BoxGeometry, MeshStandardMaterial, Fog, AmbientLight, Directional
 import { track } from '../../utils/umami-analytics';
 import { useTranslation } from 'react-i18next';
 import { SectionKey } from './types';
+import { FLOOR_METRICS } from '../../utils/elevator-altitude';
 
 import ElevatorControls from './components/ElevatorControls';
 import WelcomeOverlay from './components/WelcomeOverlay';
@@ -59,18 +60,7 @@ const AvatarBox: React.FC<ElevatorProps> = ({
 
     // Función para obtener el número de piso
     const getFloorNumber = useCallback((section: string): number => {
-      const floorMap: Record<string, number> = {
-        hero: 6,
-        about: 5,
-        experience: 4,
-        projects: 3,
-        talks: 2,
-        news: 1,
-        awards: 0,
-        education: -1,
-        contact: -2
-      };
-      return floorMap[section] || 0;
+      return FLOOR_METRICS[section]?.floorNumber ?? 0;
     }, []);
 
     // Use the elevator sound hook
@@ -97,58 +87,58 @@ const AvatarBox: React.FC<ElevatorProps> = ({
         pitchLine: string; 
       }> = {
           'hero': { 
-            y: baseHeight, 
-            floor: 6, 
+            y: baseHeight + floorHeight * FLOOR_METRICS.hero.floorNumber,
+            floor: FLOOR_METRICS.hero.floorNumber,
             description: t('elevator.floors.hero.description'),
             pitchLine: t('elevator.floors.hero.pitchLine')
           },
-          'about': { 
-            y: baseHeight - floorHeight, 
-            floor: 5, 
-            description: t('elevator.floors.about.description'), 
-            pitchLine: t('elevator.floors.about.pitchLine')
-          },
           'experience': { 
-            y: baseHeight - (floorHeight * 2), 
-            floor: 4, 
+            y: baseHeight + floorHeight * FLOOR_METRICS.experience.floorNumber,
+            floor: FLOOR_METRICS.experience.floorNumber,
             description: t('elevator.floors.experience.description'), 
             pitchLine: t('elevator.floors.experience.pitchLine')
           },
           'projects': { 
-            y: baseHeight - (floorHeight * 3), 
-            floor: 3, 
+            y: baseHeight + floorHeight * FLOOR_METRICS.projects.floorNumber,
+            floor: FLOOR_METRICS.projects.floorNumber,
             description: t('elevator.floors.projects.description'), 
             pitchLine: t('elevator.floors.projects.pitchLine')
           },
+          'about': { 
+            y: baseHeight + floorHeight * FLOOR_METRICS.about.floorNumber,
+            floor: FLOOR_METRICS.about.floorNumber,
+            description: t('elevator.floors.about.description'), 
+            pitchLine: t('elevator.floors.about.pitchLine')
+          },
           'talks': { 
-            y: baseHeight - (floorHeight * 4), 
-            floor: 2, 
+            y: baseHeight + floorHeight * FLOOR_METRICS.talks.floorNumber,
+            floor: FLOOR_METRICS.talks.floorNumber,
             description: t('elevator.floors.talks.description'), 
             pitchLine: t('elevator.floors.talks.pitchLine')
           },
-          'news': { 
-            y: baseHeight - (floorHeight * 5), 
-            floor: 1, 
-            description: t('elevator.floors.news.description'), 
-            pitchLine: t('elevator.floors.news.pitchLine')
-          },
           'awards': { 
-            y: baseHeight - (floorHeight * 6), 
-            floor: 0, 
+            y: baseHeight + floorHeight * FLOOR_METRICS.awards.floorNumber,
+            floor: FLOOR_METRICS.awards.floorNumber,
             description: t('elevator.floors.awards.description'), 
             pitchLine: t('elevator.floors.awards.pitchLine')
           },
           'education': { 
-            y: baseHeight - (floorHeight * 7), 
-            floor: -1, 
+            y: baseHeight + floorHeight * FLOOR_METRICS.education.floorNumber,
+            floor: FLOOR_METRICS.education.floorNumber,
             description: t('elevator.floors.education.description'), 
             pitchLine: t('elevator.floors.education.pitchLine')
           },
           'contact': { 
-            y: baseHeight - (floorHeight * 8), 
-            floor: -2, 
+            y: baseHeight + floorHeight * FLOOR_METRICS.contact.floorNumber,
+            floor: FLOOR_METRICS.contact.floorNumber,
             description: t('elevator.floors.contact.description'), 
             pitchLine: t('elevator.floors.contact.pitchLine')
+          },
+          'news': { 
+            y: baseHeight + floorHeight * FLOOR_METRICS.news.floorNumber,
+            floor: FLOOR_METRICS.news.floorNumber,
+            description: t('elevator.floors.talks.description'), 
+            pitchLine: t('elevator.floors.talks.pitchLine')
           },
       };
       return floorsConfig;
@@ -239,9 +229,9 @@ const AvatarBox: React.FC<ElevatorProps> = ({
         label: 'From hero section'
       });
 
-      // Hide overlay and navigate to about section
+      // Hide overlay and navigate to experience section
       setShowOverlay(false);
-      handleFloorClick('about');
+      handleFloorClick('experience');
       
     }, [handleFloorClick]);
 
@@ -300,7 +290,7 @@ const AvatarBox: React.FC<ElevatorProps> = ({
     }, [doorsState, transitionStatus]);
 
     return (
-        <div className="relative">
+        <div className="relative w-full h-full">
             <div 
                 className={`window-frame elevator-frame ${elevatorVibration > 0 ? 'vibrating' : ''}`} 
                 ref={elevatorContainerRef}
@@ -308,6 +298,8 @@ const AvatarBox: React.FC<ElevatorProps> = ({
                     transition: elevatorVibration > 0 ? 'none' : 'transform 0.3s ease-out',
                     position: 'relative',
                     overflow: 'hidden',
+                    width: 'calc(100% - 80px)',
+                    height: '100%',
                     borderTopRightRadius: 0,      // Esquina superior derecha plana
                     borderBottomRightRadius: 0    // Esquina inferior derecha plana
                 }}
@@ -381,17 +373,6 @@ const AvatarBox: React.FC<ElevatorProps> = ({
                     }}
                 />
                 
-                {/* Botones del elevador integrados dentro del marco principal */}
-                <ElevatorButtons 
-                    sections={sections as SectionKey[]}
-                    currentSection={currentSection}
-                    isTransitioning={isTransitioning}
-                    targetSection={targetSection ?? 'hero'}
-                    floorsInTransition={floorsInTransition}
-                    darkMode={theme === "dark"}
-                    handleElevatorNavigation={handleFloorClick}
-                    getFloorNumber={getFloorNumber}
-                />
             </div>
             
             {/* Panel de botones del elevador - fuera del marco del elevador */}

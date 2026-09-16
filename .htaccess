@@ -1,43 +1,48 @@
-# Configuración para mejorar el acceso a archivos estáticos en /new
+DirectoryIndex index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  
-  # Si el archivo existe físicamente, servirlo directamente
-  RewriteCond %{REQUEST_FILENAME} -f
+
+  # One canonical origin: HTTPS without www.
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\.brunomoya\.com$ [NC]
+  RewriteRule ^ https://brunomoya.com%{REQUEST_URI} [R=301,L]
+
+  # Serve generated pages and machine-readable resources directly.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
-  
-  # Regla específica para PDFs y otros archivos estáticos en /new
-  RewriteCond %{REQUEST_URI} ^/new/.*\.(pdf|png|jpg|jpeg|webp|svg|ico|ttf|woff|woff2|mp3|glb|gltf|bin)$
-  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-  RewriteRule ^/new/(.*\.(pdf|png|jpg|jpeg|webp|svg|ico|ttf|woff|woff2|mp3|glb|gltf|bin))$ /new/$1 [L]
-  
-  # Para todas las demás URLs, reenviar al índice para la aplicación SPA
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(.*)$ /new/index.html [L]
+
+  # React fallback for unknown non-file routes.
+  RewriteRule ^ index.html [L]
 </IfModule>
 
-# Configurar explícitamente tipos MIME para archivos modulares JavaScript
 <IfModule mod_mime.c>
-  AddType application/javascript .mjs
-  AddType application/javascript .js
+  AddType application/javascript .js .mjs
+  AddType application/json .json
+  AddType text/plain .txt .md
+  AddType application/xml .xml
+  AddType application/pdf .pdf
 </IfModule>
 
-# Habilitar CORS para archivos PDF
 <IfModule mod_headers.c>
-  <FilesMatch "\.pdf$">
+  <FilesMatch "\.(pdf)$">
     Header set Access-Control-Allow-Origin "*"
-    Header set Content-Type "application/pdf"
+  </FilesMatch>
+  <FilesMatch "\.(json|txt|md|xml)$">
+    Header set X-Content-Type-Options "nosniff"
   </FilesMatch>
 </IfModule>
 
-# Ajustar caché para mejorar el rendimiento
 <IfModule mod_expires.c>
   ExpiresActive On
-  # Caché para PDF durante 1 día
-  ExpiresByType application/pdf "access plus 1 day"
-  # Caché para recursos estáticos durante 1 semana
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType application/json "access plus 1 hour"
+  ExpiresByType text/plain "access plus 1 hour"
+  ExpiresByType application/xml "access plus 1 hour"
   ExpiresByType image/webp "access plus 1 week"
   ExpiresByType image/png "access plus 1 week"
   ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/pdf "access plus 1 day"
 </IfModule>

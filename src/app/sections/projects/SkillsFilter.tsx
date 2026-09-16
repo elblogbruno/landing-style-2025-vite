@@ -78,8 +78,9 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
           paginatedSkills.map(skill => (
             <button
               key={skill.name}
+              type="button"
               onClick={() => onSkillClick(skill.name)}
-              className={`px-3 py-1 rounded-full text-sm transition-all ${
+              className={`px-3 py-1.5 rounded-full text-xs sm:text-sm transition-all touch-manipulation active:scale-95 ${
                 activeFilter === skill.name
                   ? 'bg-gradient-to-r from-blue-600 to-blue-400 text-white font-medium shadow-lg shadow-blue-500/20'
                   : theme === 'light'
@@ -101,26 +102,28 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
       {totalPages > 1 && (
         <div className={`flex justify-center mt-4 gap-2 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
           <button 
+            type="button"
             onClick={goToPrevPage} 
             disabled={currentPage === 1}
-            className={`px-3 py-1 rounded ${
+            className={`px-3 py-1.5 rounded text-sm touch-manipulation ${
               currentPage === 1 
                 ? theme === 'light' ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 cursor-not-allowed'
-                : theme === 'light' ? 'hover:bg-gray-200' : 'hover:bg-gray-800'
+                : theme === 'light' ? 'hover:bg-gray-200 active:scale-95' : 'hover:bg-gray-800 active:scale-95'
             }`}
           >
             {t('projects.prev')}
           </button>
-          <span className="px-3 py-1">
+          <span className="px-3 py-1.5 text-sm">
             {t('projects.pageInfo', { current: currentPage, total: totalPages })}
           </span>
           <button 
+            type="button"
             onClick={goToNextPage} 
             disabled={currentPage === totalPages}
-            className={`px-3 py-1 rounded ${
+            className={`px-3 py-1.5 rounded text-sm touch-manipulation ${
               currentPage === totalPages 
                 ? theme === 'light' ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 cursor-not-allowed'
-                : theme === 'light' ? 'hover:bg-gray-200' : 'hover:bg-gray-800'
+                : theme === 'light' ? 'hover:bg-gray-200 active:scale-95' : 'hover:bg-gray-800 active:scale-95'
             }`}
           >
             {t('projects.next')}

@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionKey } from '../types';
+import { getFloorAltitude } from '../../../utils/elevator-altitude';
 
 interface ElevatorButtonsProps {
   sections: SectionKey[];
@@ -76,26 +77,40 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
   };
   
   // Obtener el número del piso actual y el piso más recientemente iluminado en transición
-  const getCurrentDisplayFloor = (): { number: number, letter: string } => {
+  const getCurrentDisplayFloor = (): { number: number, letter: string, altitude: string } => {
     if (isTransitioning && floorsInTransition.length > 0) {
       // Durante una transición, mostrar el último piso por el que estamos pasando
       const lastActiveFloor = floorsInTransition[floorsInTransition.length - 1];
       return {
         number: getFloorNumber(lastActiveFloor),
-        letter: lastActiveFloor[0].toUpperCase()
+        letter: lastActiveFloor[0].toUpperCase(),
+        altitude: getFloorAltitude(lastActiveFloor)
       };
     }
     
     // En estado normal, mostrar el piso actual
     return {
       number: getFloorNumber(currentSection),
-      letter: currentSection[0].toUpperCase()
+      letter: currentSection[0].toUpperCase(),
+      altitude: getFloorAltitude(currentSection)
     };
   };
   
   // Obtener la información del piso actual para mostrar
   const currentDisplayFloor = getCurrentDisplayFloor();
   
+  // Invertir el orden de las secciones para la botonera física del ascensor:
+  // Piso 0 (lobby/hero) abajo del todo y el piso más alto arriba del todo.
+  const reversedSections = useMemo(() => [...sections].reverse(), [sections]);
+
+  // Dirección de movimiento durante la transición
+  const isMovingUp = isTransitioning && targetSection 
+    ? getFloorNumber(targetSection) > getFloorNumber(currentSection)
+    : false;
+  const isMovingDown = isTransitioning && targetSection 
+    ? getFloorNumber(targetSection) < getFloorNumber(currentSection)
+    : false;
+
   return (
     <div 
       className={`elevator-buttons-panel ${bgColor} rounded-r-lg overflow-visible shadow-md ${borderColor} border-t border-r border-b`}
@@ -103,7 +118,7 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
         position: 'absolute',
         top: '0px',
         bottom: '0px',
-        right: '-80px',
+        right: '0px',
         width: '80px',
         zIndex: 100,
         backgroundImage: darkMode 
@@ -118,25 +133,35 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
         </span>
       </div>
       
-      {/* Indicador de piso actual con estilo minimalista */}
-      <div className={`mx-auto my-3 w-16 h-16 rounded-lg ${darkMode ? 'bg-zinc-900' : 'bg-white'} 
-        flex flex-col items-center justify-center transition-all duration-300 ${borderColor} border shadow-md`}>
-        <div className="flex items-baseline">
-          <span className={`text-2xl font-bold ${darkMode ? 'text-zinc-200' : 'text-zinc-800'} transition-all duration-300`}>
-        {currentDisplayFloor.number}
+      {/* Indicador de piso actual con estilo de telemetría de ascensor */}
+      <div className={`mx-auto my-2.5 w-16 py-1.5 px-1 rounded-lg ${darkMode ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-300'} 
+        flex flex-col items-center justify-center transition-all duration-300 border shadow-md`}>
+        <div className="flex items-baseline gap-1">
+          {isTransitioning && (isMovingUp || isMovingDown) && (
+            <span 
+              className={`text-xs font-bold animate-pulse ${
+                isMovingUp ? (darkMode ? 'text-emerald-400' : 'text-emerald-600') : (darkMode ? 'text-amber-400' : 'text-amber-600')
+              }`}
+              title={isMovingUp ? 'Subiendo' : 'Bajando'}
+            >
+              {isMovingUp ? '▲' : '▼'}
+            </span>
+          )}
+          <span className={`text-2xl font-mono font-black ${darkMode ? 'text-zinc-100' : 'text-zinc-800'} transition-all duration-300`}>
+            {currentDisplayFloor.number}
           </span>
-          <span className={`text-sm ml-1 ${darkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>
-        {currentDisplayFloor.number >= 0 ? 'F' : 'B'}
+          <span className={`text-xs ml-0.5 font-mono font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+            {currentDisplayFloor.number >= 0 ? 'F' : 'B'}
           </span>
         </div>
-        <span className={`text-sm mt-1 font-semibold ${darkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>
-          {currentDisplayFloor.letter}
+        <span className={`text-[10px] font-mono font-bold tracking-tight mt-0.5 ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>
+          {currentDisplayFloor.altitude}
         </span>
       </div>
       
-      {/* Área de botones con diseño minimalista */}
+      {/* Área de botones con diseño minimalista (orden realista: 00 abajo, 07 arriba) */}
       <div className="flex flex-col items-center justify-start gap-3 h-[calc(100%-100px)] py-4">
-        {sections.map((floor) => {
+        {reversedSections.map((floor) => {
           // Determinar si este botón debe estar iluminado
           const isHighlighted = shouldButtonHighlight(floor);
           const floorNum = getFloorNumber(floor);
@@ -176,8 +201,8 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
               {/* Tooltip positioned next to its corresponding button */}
               {isTooltipActive && (
                 <div 
-                  className={`absolute px-3 py-1.5 text-xs rounded-md shadow-lg 
-                    ${darkMode ? 'bg-zinc-800 text-zinc-100 border border-zinc-700' : 'bg-white text-zinc-800 border border-zinc-200'}`}
+                  className={`absolute px-3 py-1.5 text-xs rounded-md shadow-lg flex items-center gap-2
+                    ${darkMode ? 'bg-zinc-900/95 text-zinc-100 border border-zinc-700' : 'bg-white text-zinc-800 border border-zinc-200'}`}
                   style={{
                     zIndex: 20000,
                     left: '54px', // Position right next to the button
@@ -186,10 +211,11 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
                     whiteSpace: 'nowrap',
                     pointerEvents: 'none',
                     fontWeight: 'medium',
-                    backdropFilter: 'blur(4px)',
+                    backdropFilter: 'blur(6px)',
                   }}
                 >
-                  {t(`navigation.${floor}`)}
+                  <span>{t(`navigation.${floor}`)}</span>
+                  <span className="text-[10px] font-mono opacity-60 font-semibold">({getFloorAltitude(floor)})</span>
                 </div>
               )}
             </div>

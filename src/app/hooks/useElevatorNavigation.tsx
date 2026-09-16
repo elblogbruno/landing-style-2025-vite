@@ -1,19 +1,12 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { track } from '../utils/umami-analytics';
 import { SectionKey } from '../components/avatar/types';
+import { FLOOR_METRICS } from '../utils/elevator-altitude';
 
 // Floor mapping shared between desktop and mobile
-export const floorMap: Record<string, number> = {
-  hero: 6,
-  about: 5,
-  experience: 4,
-  projects: 3,
-  talks: 2,
-  news: 1,
-  awards: 0,
-  education: -1,
-  contact: -2
-};
+export const floorMap: Record<string, number> = Object.fromEntries(
+  Object.entries(FLOOR_METRICS).filter(([key]) => key !== 'news').map(([key, metric]) => [key, metric.floorNumber])
+);
 
 const DEBUG_ELEVATOR = false;
 
@@ -270,7 +263,7 @@ export function useElevatorNavigation({
     const targetFloorNumber = floorMap[floor] || 0;
     
     // Determinar la dirección basada en los números de piso (más confiable)
-    const direction = targetFloorNumber > currentFloorNumber ? 'down' : 'up';
+    const direction = targetFloorNumber > currentFloorNumber ? 'up' : 'down';
     
     // Calcular la distancia absoluta entre pisos para efectos visuales
     const floorDistance = Math.abs(targetFloorNumber - currentFloorNumber);

@@ -1,28 +1,29 @@
 {
   "hero": {
+    "badge": "Planta 0 · Vestíbulo",
     "title": "Hola, soy Bruno Moya.",
-    "subtitle": "Desarrollador y Emprendedor de AR/VR/MR.",
-    "description": "Un entusiasta de la tecnología de {{age}} años de Barcelona, fundador de Glassear, dedicado a hacer la tecnología de Realidad Aumentada accesible para todos.",
+    "subtitle": "Desarrollador de software · Creador de Glassear",
+    "description": "Soy Bruno, tengo {{age}} años y vivo en Barcelona. Empecé a programar a los 13 y desde entonces he trabajado en aplicaciones web, gafas de realidad mixta y proyectos de visión artificial. Hoy soy CTO en TopBrokers.io y sigo construyendo Glassear. Aquí puedes conocer lo que hago y el camino que me ha traído hasta aquí.",
+    "startPitch": "Empezar recorrido",
     "profileImage": "/images-webp/hero/profile.webp",
     "coverImage": "/images-webp/hero/cover-better.webp",
     "resumeUrl": "/cv-español.pdf",
     "resumeButton": "CV",
-    "scrollDown": "Desplázate hacia abajo para explorar"
+    "scrollDown": "Desliza para subir a la siguiente planta"
   },
-  "common":
-  {
+  "common": {
     "tapToSeeMore": "Toca para ver más",
     "hoverToSeeMore": "Pasa el cursor para ver más"
   },
   "elevator": {
     "loading": "Cargando...",
     "floor": "Piso",
-    "moving":"EN MOVIMIENTO",
+    "moving": "EN MOVIMIENTO",
     "overlay": {
       "title": "Mi Discurso de Ascensor",
       "enterButton": "Accede al Ascensor",
       "divider": "o",
-      "subtitle": "Navega por mi historia, piso por piso. Explora mi trabajo y experiencia profesional de una manera única e inmersiva",
+      "subtitle": "Empieza en el vestíbulo y sube conmigo, planta a planta. Descubre mi trabajo y terminemos hablando en la terraza.",
       "buttons": [
         {
           "text": "Mi trabajo",
@@ -47,27 +48,27 @@
     "floors": {
       "hero": {
         "description": "Vestíbulo de Bienvenida",
-        "pitchLine": "¡Hola! Soy un desarrollador creativo apasionado por construir el futuro."
+        "pitchLine": "Desarrollador de software, creador de Glassear y CTO en TopBrokers.io."
       },
       "about": {
         "description": "Sobre Mí",
-        "pitchLine": "Combino experiencia técnica con resolución creativa de problemas."
+        "pitchLine": "Desde mis primeros proyectos a los 13 años hasta lo que construyo hoy."
       },
       "experience": {
         "description": "Experiencia Laboral",
-        "pitchLine": "He entregado soluciones innovadoras para líderes de la industria."
+        "pitchLine": "CTO en TopBrokers.io y fundador de Glassear, entregando software e infraestructura resilientes."
       },
       "projects": {
         "description": "Galería de Proyectos",
-        "pitchLine": "Échale un vistazo a estos ejemplos de mi mejor trabajo y creatividad."
+        "pitchLine": "Aplicaciones web, hardware, realidad mixta y automatización."
       },
       "talks": {
-        "description": "Presentaciones",
-        "pitchLine": "Comparto conocimiento a través de charlas y talleres atractivos."
+        "description": "Charlas & Medios",
+        "pitchLine": "Conferencias, presentaciones técnicas y cobertura en prensa tecnológica."
       },
       "news": {
-        "description": "Últimas Noticias",
-        "pitchLine": "Mantente actualizado con mis logros y anuncios recientes."
+        "description": "Charlas & Medios",
+        "pitchLine": "Conferencias, presentaciones técnicas y cobertura en prensa tecnológica."
       },
       "awards": {
         "description": "Reconocimientos y Premios",
@@ -78,7 +79,7 @@
         "pitchLine": "Mi formación académica me ha preparado para desafíos complejos."
       },
       "contact": {
-        "description": "Información de Contacto",
+        "description": "Terraza · Hablemos",
         "pitchLine": "Conectemos y exploremos cómo podemos trabajar juntos."
       }
     },
@@ -131,6 +132,9 @@
       "enableSound": "Activar sonido",
       "disableSound": "Desactivar sonido",
       "openNavigation": "Abrir navegación del ascensor",
+      "nextFloor": "Siguiente planta",
+      "viewFloors": "Ver plantas",
+      "backToLobby": "Volver al inicio",
       "closeNavigation": "Cerrar navegación del ascensor",
       "preparing": "PREPARANDO",
       "travelling": "MOVIENDO",
@@ -141,72 +145,222 @@
       "description": "El elevador interactivo se cargará después del contenido principal"
     }
   },
+  "directory": {
+    "level": "NIVEL",
+    "altitude": "ALT",
+    "wingNorth": "Ala Norte",
+    "wingSouth": "Ala Sur",
+    "status": "ESTADO",
+    "statusOperating": "OPERATIVO",
+    "statusLive": "EN VIVO",
+    "buildingHq": "TORRE BRUNO MOYA · HQ",
+    "floors": {
+      "hero": {
+        "title": "Vestíbulo de Bienvenida",
+        "subtitle": "Planta baja · El viaje empieza aquí",
+        "altitude": "±0.0m",
+        "wing1": "Recepción & Presentación",
+        "wing2": "Consola de Acceso & Perfil Ejecutivo",
+        "telemetry": "COBERTURA: GLOBAL · ESTADO: EN LÍNEA · SISTEMA: ACTIVO"
+      },
+      "experience": {
+        "title": "Planta Técnica & Liderazgo",
+        "subtitle": "Cluster de Ingeniería & Servidores",
+        "altitude": "+5.5m",
+        "wing1": "TopBrokers.io (Arquitectura & CTO)",
+        "wing2": "Glassear (I+D de Sistemas & HW)",
+        "telemetry": "PROD CLUSTER: 99.99% · LATENCIA: 12ms · 5+ AÑOS DIRIGIENDO EQUIPOS"
+      },
+      "projects": {
+        "title": "Taller de software & XR",
+        "subtitle": "Taller de Prototipado y Despliegue",
+        "altitude": "+14.0m",
+        "wing1": "Computación Espacial & Visión Artificial",
+        "wing2": "Aplicaciones web & Automatización",
+        "telemetry": "WORKSPACES: 10+ ACTIVOS · PIPELINES CI/CD: VERIFICADOS · REPOS: PRODUCCIÓN"
+      },
+      "about": {
+        "title": "Lounge Personal & Trayectoria",
+        "subtitle": "De los primeros proyectos hasta hoy",
+        "altitude": "+23.5m",
+        "wing1": "Mis comienzos & Glassear",
+        "wing2": "Aprendizaje & Proyectos compartidos",
+        "telemetry": "BARCELONA · PROGRAMANDO DESDE LOS 13 AÑOS"
+      },
+      "talks": {
+        "title": "Auditorio Principal & Medios",
+        "subtitle": "Sala de Prensa & Conferencias",
+        "altitude": "+33.0m",
+        "wing1": "Ponencias Técnicas & Keynotes",
+        "wing2": "Prensa, Entrevistas & Podcasts",
+        "telemetry": "AUDIENCIA: 5000+ ASISTENTES · MEDIOS: TECH PRESS & BROADCASTS · FEED: VIVO"
+      },
+      "news": {
+        "title": "Auditorio Principal & Medios",
+        "subtitle": "Sala de Prensa & Conferencias",
+        "altitude": "+33.0m",
+        "wing1": "Ponencias Técnicas & Keynotes",
+        "wing2": "Prensa, Entrevistas & Podcasts",
+        "telemetry": "AUDIENCIA: 5000+ ASISTENTES · MEDIOS: TECH PRESS & BROADCASTS · FEED: VIVO"
+      },
+      "awards": {
+        "title": "Sala de Honor & Reconocimientos",
+        "subtitle": "Galería de Premios & Logros",
+        "altitude": "+42.5m",
+        "wing1": "Premios de Innovación & Emprendimiento",
+        "wing2": "Hackathons, Reconocimientos & Menciones",
+        "telemetry": "PREMIOS: 1er PUESTO · SELECCIONADO TOP TALENT · CERTIFICACIONES DE HONOR"
+      },
+      "education": {
+        "title": "Campus Académico",
+        "subtitle": "Laboratorio de Investigación & Base",
+        "altitude": "+52.0m",
+        "wing1": "Ingeniería Informática & Especialización",
+        "wing2": "Formación Continua & Certificaciones",
+        "telemetry": "BASE: GRADO INGENIERÍA · ENFOQUE: COMPUTER SCIENCE · APRENDIZAJE ACTIVO"
+      },
+      "contact": {
+        "title": "Terraza & Punto de Encuentro",
+        "subtitle": "Última planta · Hablemos de tu proyecto",
+        "altitude": "+61.5m",
+        "wing1": "Línea Directa de Colaboración",
+        "wing2": "Redes Profesionales & Mensajería",
+        "telemetry": "CANAL: DISPONIBLE · RESPUESTA: <24H · PROTOCOLO: ABIERTO A PROYECTOS"
+      }
+    }
+  },
   "about": {
-    "title": "Mi Recorrido en Tecnología",
-    "subtitle": "De niño curioso a desarrollador de AR/VR y emprendedor",
-    "exploreTitle": "Exploremos mis proyectos y logros",
-    "exploreDescription": "¡Sigue desplazándote para descubrir lo que he estado creando!",
+    "title": "Todo empezó a los 13",
+    "subtitle": "Mi camino entre código, hardware y proyectos propios.",
+    "badge": "// 03 · Sobre Mí",
+    "floorBadge": "Planta 03 · Mi historia",
+    "exploreTitle": "Mi historia, paso a paso",
+    "exploreDescription": "Recorre las etapas desde mis primeros proyectos hasta hoy.",
+    "milestoneCount": "Hito {{current}} de {{total}}",
+    "previous": "Hito anterior",
+    "next": "Hito siguiente",
     "timeline": [
       {
-        "time": "2007",
-        "title": "La curiosidad enciende la llama",
-        "body": "Desde muy temprana edad, comencé a explorar el mundo digital, experimentando con ordenadores y creando mis primeras ideas.",
-        "imgSrc": "/images-webp/timeline/childhood.webp",
-        "icon": "start"
-      },
-      {
-        "time": "2013",
-        "title": "Descubriendo la programación",
-        "body": "A los 12/13 años, descubrí la programación y me enamoré de ella, creando mis primeros proyectos y aprendiendo a programar.",
-        "imgSrc": "/images-webp/timeline/programming.webp",
-        "icon": "start"
+        "time": "13 años",
+        "era": "Primeros pasos",
+        "title": "Empecé a programar a los 13 años",
+        "body": "Mis primeros proyectos fueron la forma de empezar a aprender programación. Ese fue el punto de partida de un camino que me llevaría del software al hardware, la realidad mixta y el desarrollo de productos.",
+        "imgSrc": "/images-webp/timeline/programming.webp"
       },
       {
         "time": "2015",
-        "title": "Nacimiento de Glassear",
-        "body": "A los 13 años, lancé Glassear, mi primer proyecto para llevar la realidad mixta a nuevas fronteras.",
+        "era": "Glassear",
+        "title": "Una idea que salió de la pantalla",
+        "body": "Creé Glassear para construir gafas de realidad mixta accesibles. El proyecto me llevó a trabajar con impresión 3D, óptica, electrónica y software: escribir código era solo una parte de conseguir que el conjunto funcionara.",
         "imgSrc": "/images-webp/timeline/glassear_inception.webp",
-        "link": "https://tustory.com/inception",
-        "btnText": "Ver Proyecto",
-        "icon": "headset"
+        "link": "https://glassear.com",
+        "btnText": "Conocer Glassear"
       },
       {
-        "time": "2018",
-        "title": "El momento decisivo",
-        "body": "Mis esfuerzos me llevaron a recibir reconocimiento en la Maker Faire Galicia, marcando un hito en mi carrera.",
-        "imgSrc": "/images-webp/timeline/breakthrough.webp",
-        "link": "https://tustory.com/breakthrough",
-        "btnText": "Ver Vídeo",
-        "icon": "targetPrize"
+        "time": "2018–2019",
+        "era": "Visión artificial",
+        "title": "Aprender también fuera de mis proyectos",
+        "body": "En el Computer Vision Center desarrollé una aplicación Android para detectar poses, caras y objetos. Después, en ManoMotion, trabajé con seguimiento de manos e interfaces de realidad aumentada en Unity.",
+        "imgSrc": "/images-webp/experience/experience-CVC.webp"
       },
       {
-        "time": "2019",
-        "title": "Compartiendo mi visión",
-        "body": "Comencé a participar en conferencias y charlas, inspirando a otros sobre el potencial de la realidad aumentada y virtual.",
-        "imgSrc": "/images-webp/timeline/vision.webp",
-        "link": "https://tustory.com/vision",
-        "btnText": "Ver Charla",
-        "icon": "publicSpeaker"
+        "time": "2018–2019",
+        "era": "Compartir el trabajo",
+        "title": "De construir a enseñarlo",
+        "body": "Glassear recibió el premio Industria 4.0 en Maker Faire Galicia en 2018. A esa etapa se sumaron charlas en eventos tecnológicos e institutos, donde pude mostrar el proyecto y explicar cómo lo estaba construyendo.",
+        "imgSrc": "/images-webp/davidcuartielles.webp",
+        "link": "https://www.youtube.com/watch?v=ygmnUNxPn1Q",
+        "btnText": "Ver la presentación"
+      },
+      {
+        "time": "2019–2023",
+        "era": "Universidad",
+        "title": "Barcelona, Montreal y GlassFood",
+        "body": "Estudié Ingeniería Informática en la UAB y pasé cinco meses de mi último curso en la ÉTS de Montreal. En mi trabajo de fin de grado, GlassFood, uní realidad mixta y visión artificial para reconocer ingredientes y mostrar recetas e información nutricional.",
+        "imgSrc": "/images-webp/education/ets-montreal-logo.webp",
+        "link": "https://github.com/elblogbruno/tfg-poster-ar-experience",
+        "btnText": "Ver GlassFood"
+      },
+      {
+        "time": "2022–2025",
+        "era": "Proyectos con otras personas",
+        "title": "Juegos accesibles y aplicaciones web",
+        "body": "Con Patient73 y FECAMM colaboré en llevar juegos accesibles a la plataforma y en organizar game jams con universidades y hospitales. Como freelance, desarrollé también la aplicación web del test de Hess para Evalua-lo.",
+        "imgSrc": "/images-webp/experience/experience-patient73.webp",
+        "link": "https://patient73.org/",
+        "btnText": "Conocer Patient73"
+      },
+      {
+        "time": "Hoy",
+        "era": "TopBrokers y Glassear",
+        "title": "Seguir construyendo, con más responsabilidad",
+        "body": "Hoy soy CTO en TopBrokers.io y sigo desarrollando Glassear. Mi trabajo abarca producto, aplicaciones web, backend, infraestructura y XR. También utilizo herramientas de IA y las integro en proyectos cuando aportan valor; forman parte de un recorrido que empezó mucho antes.",
+        "imgSrc": "/images-webp/hero/profile.webp",
+        "link": "https://github.com/elblogbruno",
+        "btnText": "Ver mis proyectos"
       }
-    ]
+    ],
+    "intro": "Empecé programando y, con Glassear, acabé trabajando también con óptica, electrónica y diseño de gafas. Después llegaron las prácticas, la universidad, los proyectos con otras personas y la responsabilidad de mantener software en producción. Estas son algunas de las etapas de ese recorrido."
   },
   "experience": {
     "title": "Experiencia",
     "showMore": "Mostrar más",
     "description": "Descripción",
     "moreInfo": "Más información",
-    "seeMoreDetails": "Ver más detalles",
+    "seeMoreDetails": "Ver arquitectura y detalles",
     "close": "Cerrar",
     "items": [
       {
+        "logo": "/images-webp/experience/topbrokers.svg",
+        "title": "CTO",
+        "company": "TopBrokers.io",
+        "companyUrl": "https://topbrokers.io/",
+        "period": "Nov 2025 - Present",
+        "location": "Barcelona, España",
+        "description": "Como CTO en TopBrokers.io, trabajo en la arquitectura y el desarrollo del software, las APIs y la automatización. También me encargo de la infraestructura, el despliegue y el mantenimiento de los sistemas en producción.",
+        "moreInfo": "Arquitectura y Sistemas: Diseño de microservicios backend y APIs REST para flujos transaccionales de alta fiabilidad e ingesta de datos en tiempo real.\n\nInfraestructura y Operaciones: Gestión de servidores Linux en cloud y bare-metal, contenedores Docker, virtualización Proxmox, redes, proxies inversos, estrategias de copias de seguridad automatizadas y monitorización centralizada.\n\nBases de Datos: Diseño de esquemas PostgreSQL, indexación, replicación y optimización de consultas.\n\nAutomatización y Flota: Construcción de sistemas de automatización distribuida y herramientas de gestión de flotas y dispositivos.",
+        "summary": "CTO hands-on responsable de la arquitectura de software, ingeniería de backend y operaciones de producción de alta disponibilidad.",
+        "highlights": [
+          "Diseño de microservicios distribuidos, APIs resilientes y pipelines de automatización en tiempo real",
+          "Gestión de servidores Linux en producción, Docker, PostgreSQL, redes y copias de seguridad automatizadas",
+          "Liderazgo técnico y desarrollo, desde las decisiones de arquitectura hasta el despliegue"
+        ],
+        "skills": [
+          "PostgreSQL",
+          "Docker",
+          "Linux",
+          "FastAPI",
+          "Python",
+          "Redes",
+          "Agentes IA",
+          "MCP"
+        ]
+      },
+      {
         "logo": "/images-webp/experience/experience-glassear.webp",
-        "title": "Ponente - Creador",
+        "title": "Fundador y desarrollador de Glassear",
         "company": "Glassear",
         "companyUrl": "https://www.glassear.com/",
         "period": "Mayo 2015 - Presente",
         "location": "Barcelona, España",
-        "description": "Desarrollo de software y hardware para RA utilizando Unity 3D y ARFoundation. He trabajado con protocolos Java en Android, como USB Accessory para conectar dispositivos externos y la API de Grabación de Pantalla para capturar y procesar contenido en tiempo real, optimizando la experiencia del usuario en entornos inmersivos.",
-        "moreInfo": "Implementación de algoritmos de visión por computador para experiencias interactivas. Uso de modelos de visión como Yolo y OpenCV, por ejemplo en mi TFG GlassFood. Desarrollo de interfaces web con HTML, CSS y React (Next.js). Ejemplo: www.glassear.com/music. Integración de APIs y optimización de rendimiento para una mejor experiencia de usuario. Presentaciones en eventos nacionales sobre RA y tecnología emergente. Premio Industria 4.0 en Maker Faire Galicia 2018. Miembro del jurado en Maker Faire Galicia 2019. Charlas en Google Developer Groups (GDG) en Zaragoza y Lleida."
+        "description": "Creé Glassear para hacer accesible la realidad mixta. He trabajado en el diseño de las gafas, óptica, electrónica, visión artificial y software en Unity. El proyecto incluye ahora Glassear Studio, una herramienta para crear y modificar aplicaciones XR mediante lenguaje natural.",
+        "moreInfo": "Hardware y XR: Diseño de sistemas ópticos AR/MR personalizados, chasis mecánicos en 3D, electrónica embebida e integración de sensores. Pipelines de visión por computador (OpenCV, YOLO) y protocolos Java para Android (USB Accessory, Screen Recording API) para comunicación de baja latencia. Arquitectura de runtime en Unity 3D y AR Foundation.\n\nGlassear Studio: Plataforma de creación mediante lenguaje natural con AI Planner, Intent Graph, especificación GLX, agentes con herramientas vía MCP y capas de validación deterministas sincronizadas con el runtime de Unity. Plataforma web en React, TypeScript y Node.js.\n\nReconocimientos: Premio Industria 4.0 en Maker Faire Galicia 2018, miembro del jurado en 2019, ponente en Google Developer Groups (GDG).",
+        "summary": "Gafas de realidad mixta y software XR, desde el diseño del hardware hasta las aplicaciones.",
+        "highlights": [
+          "Desarrollo de Glassear Studio para crear y modificar aplicaciones XR mediante lenguaje natural",
+          "Diseño de óptica para headset AR/MR, electrónica embebida y visión por computador en tiempo real (OpenCV, YOLO)",
+          "Desarrollo de protocolos Android Java de baja latencia (USB Accessory, Screen Recording) para Unity AR Foundation"
+        ],
+        "skills": [
+          "Unity 3D",
+          "C#",
+          "Visión por Computador",
+          "AR Foundation",
+          "MCP",
+          "AI Planner",
+          "TypeScript",
+          "React"
+        ]
       },
       {
         "logo": "/images-webp/experience/experience-patient73.webp",
@@ -216,7 +370,19 @@
         "period": "Jul 2022 - Ene 2025",
         "location": "Barcelona, España",
         "description": "Colaboración con la organización sin ánimo de lucro Fecamm (Federació Catalana de malalties minoritàries), en el proceso de introducir juegos en su plataforma para que personas con enfermedades raras puedan jugar. En relación con esto, hemos organizado una GameJam de un mes de duración en colaboración con UAB, UPC y varios hospitales. En la segunda edición (2024), coordiné un evento que contó con más de 100 participantes de todo el mundo y un premio total de 11.000 €. Compartimos todos los videojuegos creados con hospitales de toda España para ofrecer momentos de diversión y aprendizaje a niños con enfermedades raras.",
-        "moreInfo": ""
+        "moreInfo": "",
+        "summary": "Lideré la arquitectura técnica y la accesibilidad de una plataforma de juegos terapéuticos adaptados para pacientes con enfermedades minoritarias.",
+        "highlights": [
+          "Desarrollo de protocolos de integración y adaptadores de accesibilidad para periféricos adaptados",
+          "Coorganización de una GameJam de un mes con UAB, UPC y hospitales de referencia"
+        ],
+        "skills": [
+          "Arquitectura de Juegos",
+          "Accesibilidad",
+          "Unity",
+          "Integración Web",
+          "Liderazgo Técnico"
+        ]
       },
       {
         "logo": "/images-webp/experience/hess.svg",
@@ -226,7 +392,20 @@
         "period": "Sept 2024 - Feb 2025",
         "location": "Remoto",
         "description": "Desarrollo del Test Hess: Creación de una aplicación para evaluación psicológica en recursos humanos, con React en el frontend y PHP en el backend. La herramienta, validada científicamente por su creador, Gaspar, es utilizada por empresas del sector para selección y análisis de talento.",
-        "moreInfo": "Implementación de bases de datos, envío automatizado de correos y gestión de usuarios en un entorno basado en WordPress. Uso de colas de procesamiento para alto rendimiento en sistemas con recursos limitados, optimizando la ejecución en hosting compartido. Garantizar compatibilidad multiplataforma y optimización para diferentes dispositivos y navegadores. Desarrollo del backend como plugin de WordPress, facilitando la integración con otros sistemas."
+        "moreInfo": "Implementación de bases de datos, envío automatizado de correos y gestión de usuarios en un entorno basado en WordPress. Uso de colas de procesamiento para alto rendimiento en sistemas con recursos limitados, optimizando la ejecución en hosting compartido. Garantizar compatibilidad multiplataforma y optimización para diferentes dispositivos y navegadores. Desarrollo del backend como plugin de WordPress, facilitando la integración con otros sistemas.",
+        "summary": "Desarrollo y entrega en producción del Test Hess: sistema validado científicamente para evaluación psicológica en selección de talento de RRHH.",
+        "highlights": [
+          "Frontend interactivo en React con validación anti-manipulación y máquinas de estado para puntuación",
+          "Procesamiento asíncrono en colas y motor de emails transaccionales optimizado para hosting compartido"
+        ],
+        "skills": [
+          "React",
+          "TypeScript",
+          "PHP",
+          "WordPress API",
+          "MySQL",
+          "Colas de Procesamiento"
+        ]
       },
       {
         "logo": "/images-webp/experience/experience-CVC.webp",
@@ -236,7 +415,19 @@
         "period": "Mayo 2018 - Jul 2018",
         "location": "Barcelona, UAB",
         "description": "Desarrollo de IA aplicada al seguimiento de poses, seguimiento facial y seguimiento de objetos en una aplicación Android creada con Java.",
-        "moreInfo": "Mi tutor fue Edgar Riba, creador de Kornia, una biblioteca con más de 10.4k estrellas en Github. Cita, 'A veces olvidábamos lo joven que era cuando le asignábamos tareas'."
+        "moreInfo": "Mi tutor fue Edgar Riba, creador de Kornia, una biblioteca con más de 10.4k estrellas en Github. Cita, 'A veces olvidábamos lo joven que era cuando le asignábamos tareas'.",
+        "summary": "Desarrollo de modelos de visión por computador en tiempo real para estimación de pose 6-DoF, seguimiento facial y de objetos en dispositivos móviles.",
+        "highlights": [
+          "Tutorizado directamente por Edgar Riba (creador de Kornia, +10k estrellas en GitHub)",
+          "Optimización de inferencia de redes neuronales móviles y pipelines de cámara en Java y OpenCV"
+        ],
+        "skills": [
+          "Visión por Computador",
+          "OpenCV",
+          "Android Java",
+          "Seguimiento de Pose",
+          "Deep Learning"
+        ]
       },
       {
         "logo": "/images-webp/experience/experience-manomotion.webp",
@@ -246,12 +437,29 @@
         "period": "Dic 2018 - Jun 2019",
         "location": "Estocolmo, Suecia",
         "description": "Desarrollo de aplicaciones de RA para Glassear, utilizando el SDK de ManoMotion. Diseño de interfaces de RA y optimización de algoritmos de seguimiento de manos.",
-        "moreInfo": "Trabajo con OpenCV y redes neuronales para mejorar la detección de gestos. Certificado disponible en: https://www.linkedin.com/feed/update/urn:li:activity:6559408874229760001/"
+        "moreInfo": "Trabajo con OpenCV y redes neuronales para mejorar la detección de gestos. Certificado disponible en: https://www.linkedin.com/feed/update/urn:li:activity:6559408874229760001/",
+        "summary": "Integración del SDK de seguimiento de manos 3D de ManoMotion en el hardware de Glassear y runtime en Unity para interacción espacial gestual.",
+        "highlights": [
+          "Diseño de interfaces espaciales y pipelines de reconocimiento de gestos para realidad aumentada sin mandos",
+          "Filtrado con OpenCV y redes neuronales para mitigar el jitter de tracking en condiciones lumínicas adversas"
+        ],
+        "skills": [
+          "Seguimiento de Manos",
+          "Unity",
+          "AR/VR",
+          "C#",
+          "ManoMotion SDK",
+          "OpenCV"
+        ]
       }
-    ]
+    ],
+    "keyAchievements": "Responsabilidades e impacto clave",
+    "technologies": "Tecnologías y herramientas",
+    "current": "Rol actual"
   },
   "projects": {
     "title": "Proyectos",
+    "filterBy": "Categorías:",
     "featuredProjects": "Proyectos Destacados",
     "otherProjects": "Otros Proyectos",
     "showSkills": "Mostrar Habilidades",
@@ -470,21 +678,101 @@
       {
         "name": "Organización",
         "category": "other"
+      },
+      {
+        "name": "Claude Code",
+        "category": "ai-ml"
+      },
+      {
+        "name": "OpenAI Codex",
+        "category": "ai-ml"
+      },
+      {
+        "name": "GitHub Copilot",
+        "category": "ai-ml"
+      },
+      {
+        "name": "LLM APIs",
+        "category": "ai-ml"
+      },
+      {
+        "name": "Agentic AI",
+        "category": "ai-ml"
+      },
+      {
+        "name": "Tool Calling",
+        "category": "ai-ml"
+      },
+      {
+        "name": "MCP",
+        "category": "ai-ml"
+      },
+      {
+        "name": "Structured Outputs",
+        "category": "ai-ml"
+      },
+      {
+        "name": "Prompt Design",
+        "category": "ai-ml"
+      },
+      {
+        "name": "Multi-LLM",
+        "category": "ai-ml"
+      },
+      {
+        "name": "PostgreSQL",
+        "category": "backend"
+      },
+      {
+        "name": "Docker",
+        "category": "backend"
+      },
+      {
+        "name": "Linux",
+        "category": "backend"
+      },
+      {
+        "name": "Networking",
+        "category": "backend"
+      },
+      {
+        "name": "Celery",
+        "category": "backend"
+      },
+      {
+        "name": "AR Foundation",
+        "category": "ar-vr"
+      },
+      {
+        "name": "OpenXR",
+        "category": "ar-vr"
+      },
+      {
+        "name": "WebXR",
+        "category": "ar-vr"
+      },
+      {
+        "name": "XR Interaction Toolkit",
+        "category": "ar-vr"
       }
     ],
     "items": [
       {
         "id": 1,
-        "title": "Glassear",
-        "description": "El visor de realidad mixta asequible que compite con #Microsoft y #Google.",
+        "title": "Glassear y Glassear Studio",
+        "description": "Gafas de realidad mixta que combinan hardware propio y software XR. El proyecto incluye Glassear Studio, una herramienta para crear y modificar aplicaciones interactivas mediante lenguaje natural.",
         "imageUrl": "/images-webp/projects/glassear-thumbnail.webp",
         "skills": [
           "AR",
           "VR",
-          "Realidad Mixta",
-          "Hardware"
+          "Mixed Reality",
+          "Hardware",
+          "Agentic AI",
+          "MCP",
+          "Unity",
+          "TypeScript"
         ],
-        "demoUrl": "https://www.glassear.com/",
+        "demoUrl": "https://brunomoya.com/projects/glassear-studio/",
         "featured": true,
         "date": "2014-07-01",
         "startDate": "2014-07-01",
@@ -774,13 +1062,19 @@
         "date": "2024-05-05",
         "startDate": "2024-05-05",
         "endDate": "2024-05-07"
-      }, 
+      },
       {
         "id": 20,
         "title": "Teachable Machine Unity",
         "description": "Integra Teachable Machine de Google con el juego Roll-A-Ball de Unity, permitiendo el control mediante gestos de la mano.",
         "imageUrl": "/images-webp/projects/teachable-machine-unity-thumbnail.webp",
-        "skills": ["IA", "Machine Learning", "Unity", "Unity3D", "Desarrollo de Juegos"],
+        "skills": [
+          "IA",
+          "Machine Learning",
+          "Unity",
+          "Unity3D",
+          "Desarrollo de Juegos"
+        ],
         "demoUrl": "https://github.com/elblogbruno/teachable-machine-unity",
         "featured": false,
         "date": "2023-03-01",
@@ -793,7 +1087,10 @@
         "title": "TFG Poster AR Experience",
         "description": "Una experiencia Web AR para el póster de mi Trabajo de Fin de Grado, que permite a los usuarios ver vídeos e imágenes relacionadas.",
         "imageUrl": "/images-webp/projects/tfg-poster-ar-experience-thumbnail.webp",
-        "skills": ["AR", "Desarrollo Web"],
+        "skills": [
+          "AR",
+          "Desarrollo Web"
+        ],
         "githubUrl": "https://github.com/elblogbruno/tfg-poster-ar-experience",
         "featured": false,
         "date": "2023-05-01",
@@ -805,7 +1102,12 @@
         "title": "LuciRobot",
         "description": "Robot rastreador de personas diseñado para entornos hostiles, con reconocimiento de voz y procesamiento de imágenes.",
         "imageUrl": "/images-webp/projects/lucirobot-thumbnail.webp",
-        "skills": ["Hardware", "IoT", "IA", "Visión por Computador"],
+        "skills": [
+          "Hardware",
+          "IoT",
+          "IA",
+          "Visión por Computador"
+        ],
         "githubUrl": "https://github.com/marcgarrofe/LuciRobot",
         "featured": false,
         "date": "2022-09-01",
@@ -817,7 +1119,10 @@
         "title": "VC Video Stabilizer",
         "description": "Herramienta de estabilización de vídeo que utiliza técnicas de visión por computador para mejorar la calidad del vídeo.",
         "imageUrl": "/images-webp/projects/vc-video-stabilizer-thumbnail.webp",
-        "skills": ["Visión por Computador", "OpenCV"],
+        "skills": [
+          "Visión por Computador",
+          "OpenCV"
+        ],
         "githubUrl": "https://github.com/marcgarrofe/VC-VideoStabilizer",
         "featured": false,
         "date": "2023-02-01",
@@ -829,53 +1134,119 @@
         "title": "RFID Hackathon SM",
         "description": "Sistema de pago y estadísticas para transporte público usando tarjetas RFID y una app móvil, desarrollado durante el Hackathon de Sistemas Multimedia 2021–2022.",
         "imageUrl": "/images-webp/projects/rfid-hackathon-sm-thumbnail.webp",
-        "skills": ["IoT", "Hardware", "Móvil", "Python", "Flutter"],
+        "skills": [
+          "IoT",
+          "Hardware",
+          "Móvil",
+          "Python",
+          "Flutter"
+        ],
         "githubUrl": "https://github.com/elblogbruno/rfid-hackaton-sm",
         "featured": true,
         "date": "2022-06-01",
         "startDate": "2021-09-01",
         "endDate": "2022-06-01"
-      },      {
+      },
+      {
         "id": 25,
         "title": "JoyRun 3D",
         "description": "Juego infinito en 3D donde usas los Joy-Con de Nintendo Switch como mandos. Desarrollado como proyecto de laboratorio, incluye jugabilidad sin fin y mecánicas interactivas.",
         "imageUrl": "/images-webp/projects/joyrun-3d-thumbnail.webp",
-        "skills": ["Desarrollo de Juegos", "Unity3D"],
+        "skills": [
+          "Desarrollo de Juegos",
+          "Unity3D"
+        ],
         "demoUrl": "https://www.youtube.com/watch?v=JYZFjRz1l2Q",
         "featured": true,
         "date": "2023-04-01",
         "startDate": "2023-04-01",
         "endDate": "2023-06-01",
         "etsProject": true
-      },      {
+      },
+      {
         "id": 26,
         "title": "Metrics Dashboard",
         "description": "Interfaz web para visualizar métricas de tareas y pull requests de proyectos de GitHub.",
         "imageUrl": "/images-webp/projects/metrics-dashboard-thumbnail.webp",
-        "skills": ["Desarrollo Web", "DevOps"],
+        "skills": [
+          "Desarrollo Web",
+          "DevOps"
+        ],
         "githubUrl": "https://github.com/damiendesvent/metrics_LOG680-01_H2023_EQ12",
         "featured": false,
         "date": "2023-03-01",
         "startDate": "2023-03-01",
         "endDate": "2023-05-01",
         "etsProject": true
-      },      {
+      },
+      {
         "id": 27,
         "title": "HVAC Management System",
         "description": "Aplicación servidor para la gestión de sistemas HVAC, desarrollada en el contexto de un curso de DevOps.",
         "imageUrl": "/images-webp/projects/hvac-management-system-thumbnail.webp",
-        "skills": ["Backend", "DevOps", "Python"],
+        "skills": [
+          "Backend",
+          "DevOps",
+          "Python"
+        ],
         "githubUrl": "https://github.com/damiendesvent/hvac_LOG680-01_H2023_EQ12",
         "featured": false,
         "date": "2023-02-01",
         "startDate": "2023-02-01",
         "endDate": "2023-04-01",
         "etsProject": true
+      },
+      {
+        "id": 28,
+        "title": "JobAgent",
+        "description": "Sistema autónomo de búsqueda y postulación a empleo con arquitectura híbrida determinista + agéntica. Orquesta análisis de competencias, coincidencia semántica, adaptación de CV, automatización con Playwright y aprobaciones con intervención humana. El sistema que utilizo para gestionar mi propia búsqueda de empleo.",
+        "imageUrl": "/images-webp/projects/jobagent-thumbnail.svg",
+        "skills": [
+          "Python",
+          "FastAPI",
+          "Agentic AI",
+          "MCP",
+          "Playwright",
+          "PostgreSQL",
+          "React",
+          "Docker"
+        ],
+        "githubUrl": "https://github.com/elblogbruno/JobAgent",
+        "demoUrl": "https://brunomoya.com/projects/jobagent/",
+        "featured": true,
+        "date": "2025-10-01",
+        "startDate": "2025-08-01",
+        "endDate": null
+      },
+      {
+        "id": 29,
+        "title": "TalentGapAnalyzer (Ganador — UAB The Hack 2025)",
+        "description": "Plataforma de inteligencia de talento y análisis de brechas de competencias impulsada por IA, desarrollada en equipo durante UAB The Hack 2025. Incluye enrutamiento multi-proveedor de LLMs (OpenAI, Anthropic, Gemini), análisis de gaps y detección de sesgos.",
+        "imageUrl": "/images-webp/projects/talent-gap-analyzer-thumbnail.svg",
+        "skills": [
+          "AI & ML",
+          "Multi-LLM",
+          "Python",
+          "FastAPI",
+          "Pandas",
+          "Scikit-learn",
+          "React"
+        ],
+        "githubUrl": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack",
+        "demoUrl": "https://brunomoya.com/projects/talent-gap-analyzer/",
+        "featured": true,
+        "date": "2025-04-13",
+        "startDate": "2025-04-11",
+        "endDate": "2025-04-13"
       }
     ]
   },
   "talks": {
     "title": "Charlas y Conferencias",
+    "unifiedTitle": "Charlas & Medios",
+    "unifiedSubtitle": "Conferencias técnicas, ponencias magistrales y cobertura en medios",
+    "tabTalks": "Charlas & Keynotes",
+    "tabNews": "Noticias & Prensa",
     "featuredTalks": "Charlas destacadas",
     "otherTalks": "Otras charlas",
     "allTalks": "Todas las charlas",
@@ -1322,6 +1693,19 @@
         "featured": false,
         "badgeColor": "blue",
         "type": "publication"
+      },
+      {
+        "id": 14,
+        "title": "Ganador — UAB The Hack 2025 (TalentGapAnalyzer)",
+        "organization": "UAB The Hack / Universitat Autònoma de Barcelona",
+        "date": "2025-04-13",
+        "category": "Hackathon",
+        "description": "1er Premio con TalentGapAnalyzer, una plataforma de inteligencia laboral que analiza brechas de competencias y trayectorias profesionales con arquitectura multi-LLM (OpenAI, Anthropic, Gemini), fallback, detección de sesgos y caché. Desarrollado en equipo colaborativo.",
+        "image": "/images-webp/projects/talent-gap-analyzer-thumbnail.svg",
+        "url": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack",
+        "featured": true,
+        "badgeColor": "blue",
+        "type": "award"
       }
     ],
     "contactText": "¿Te gustaría saber más sobre mis logros o invitarme a participar en un evento?",
@@ -1384,6 +1768,11 @@
     "resumeTitle": "Currículum",
     "viewResume": "Ver mi currículum",
     "followMe": "Sígueme en redes sociales",
+    "bookCallTitle": "Agendar reunión de 15 min",
+    "bookCallDesc": "¿Tienes un proyecto en mente o quieres colaborar? Elige un hueco en mi calendario.",
+    "bookCallButton": "Reservar hueco en Cal.com",
+    "copyEmail": "Copiar",
+    "copied": "¡Copiado!",
     "social": [
       {
         "platform": "Twitter",
@@ -1402,9 +1791,11 @@
       }
     ],
     "cta": {
+      "badge": "Disponible para proyectos",
       "title": "¿Tienes un proyecto o idea?",
       "description": "Hablemos sobre cómo podemos trabajar juntos para hacer realidad tu visión.",
-      "button": "Contacta Ahora"
+      "bookCall": "Agendar llamada (15 min)",
+      "button": "Escribir Mensaje"
     },
     "form": {
       "title": "Enviar Mensaje",
@@ -1528,14 +1919,13 @@
   },
   "navigation": {
     "hero": "Inicio",
-    "about": "Sobre Mí",
     "experience": "Experiencia",
     "projects": "Proyectos",
-    "talks": "Charlas",
-    "news": "Noticias",
+    "about": "Sobre Mí",
+    "talks": "Charlas & Medios",
+    "awards": "Premios",
     "education": "Formación",
-    "contact": "Contacto",
-    "awards": "Premios"
+    "contact": "Contacto"
   },
   "footer": {
     "portfolio": "Bruno Moya",
@@ -1550,13 +1940,12 @@
     "profile": "perfil",
     "sendEmail": "Enviar correo",
     "home": "Inicio",
-    "about": "Sobre Mí",
     "experience": "Experiencia",
     "projects": "Proyectos",
-    "talks": "Charlas",
-    "news": "Noticias",
+    "about": "Sobre Mí",
+    "talks": "Charlas & Medios",
+    "awards": "Premios",
     "education": "Formación",
-    "contact": "Contacto",
-    "awards": "Premios"
+    "contact": "Contacto"
   }
 }

@@ -25,6 +25,13 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(contactData.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
   
   // Obtener datos desde las traducciones
   const contactData = {
@@ -155,22 +162,50 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
       <h2 className={styles.title}>{contactData.title}</h2>
       
       {/* Call to Action Banner */}
-      <div className={`mb-10 p-6 rounded-xl ${theme === 'light' ? 'bg-blue-100 text-blue-800' : 'bg-blue-900/40 text-blue-100'}`}>
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="mb-4 md:mb-0">
+      <div className={`mb-10 p-6 md:p-8 rounded-2xl border transition-all ${
+        theme === 'light' 
+          ? 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 text-blue-900 shadow-sm' 
+          : 'bg-gradient-to-r from-blue-950/40 via-indigo-950/30 to-purple-950/40 border-blue-500/20 text-blue-100 shadow-lg'
+      }`}>
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="text-center lg:text-left">
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase mb-2 ${
+              theme === 'light' ? 'bg-blue-100 text-blue-700' : 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
+            }`}>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              {t('contact.cta.badge', 'Disponible para proyectos')}
+            </span>
             <h3 className="text-xl md:text-2xl font-bold">{t('contact.cta.title')}</h3>
-            <p className="mt-1 text-sm md:text-base">{t('contact.cta.description')}</p>
+            <p className={`mt-1 text-sm md:text-base max-w-2xl ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+              {t('contact.cta.description')}
+            </p>
           </div>
-          <a 
-            href="#contact-form" 
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              theme === 'light' 
-                ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                : 'bg-blue-500 text-white hover:bg-blue-400'
-            }`}
-          >
-            {t('contact.cta.button')}
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
+            <a 
+              href="https://cal.com/brunomoya"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-5 py-3 rounded-xl font-semibold transition-all shadow-md bg-blue-600 hover:bg-blue-500 text-white hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {t('contact.cta.bookCall', 'Agendar llamada (15 min)')}
+            </a>
+            <a 
+              href="#contact-form" 
+              className={`inline-flex items-center justify-center px-5 py-3 rounded-xl font-medium transition-all border ${
+                theme === 'light' 
+                  ? 'bg-white hover:bg-gray-50 text-gray-700 border-gray-300' 
+                  : 'bg-gray-800/80 hover:bg-gray-700 text-gray-200 border-gray-700'
+              }`}
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              {t('contact.cta.button')}
+            </a>
+          </div>
         </div>
       </div>
       
@@ -179,6 +214,37 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
         <div className={styles.container}>
           <h3 className={styles.heading}>{contactData.subtitle}</h3>
           
+          {/* Tarjeta destacada de reserva Cal.com */}
+          <div className={`mb-6 p-4 rounded-xl border ${
+            theme === 'light'
+              ? 'bg-blue-50/70 border-blue-200'
+              : 'bg-blue-950/20 border-blue-500/20'
+          }`}>
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-blue-500">
+                {t('contact.bookCallTitle', 'Reunión rápida')}
+              </span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-medium border border-emerald-500/20">
+                15 min
+              </span>
+            </div>
+            <p className={`text-xs md:text-sm mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+              {t('contact.bookCallDesc', 'Hablemos de arquitectura de IA, consultoría técnica o liderazgo de proyectos.')}
+            </p>
+            <a
+              href="https://cal.com/brunomoya"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-lg text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm group"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {t('contact.bookCallButton', 'Reservar en Cal.com')}
+              <span className="ml-1 transition-transform group-hover:translate-x-0.5">↗</span>
+            </a>
+          </div>
+
           <div className="space-y-6">
             <div className="flex items-start space-x-4">
               <div className={styles.iconBg}>
@@ -194,19 +260,49 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
             
             <div className="flex items-start space-x-4">
               <div className={styles.iconBg}>
-              <svg className={`w-6 h-6 ${styles.iconColor}`} fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-              </svg>
+                <svg className={`w-6 h-6 ${styles.iconColor}`} fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
               </div>
-              <div>
-              <h4 className={styles.fieldTitle}>{t('contact.emailTitle')}</h4>
-              <a 
-                href={`mailto:${contactData.email}`} 
-                className={`${styles.fieldContent} underline hover:text-blue-500`}
-              >
-                {contactData.email}
-              </a>
+              <div className="flex-1 min-w-0">
+                <h4 className={styles.fieldTitle}>{t('contact.emailTitle')}</h4>
+                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                  <a 
+                    href={`mailto:${contactData.email}`} 
+                    className={`${styles.fieldContent} underline hover:text-blue-500 break-all`}
+                  >
+                    {contactData.email}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className={`inline-flex items-center px-2 py-0.5 text-xs rounded font-medium transition-colors ${
+                      copied 
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
+                        : theme === 'light'
+                          ? 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200'
+                          : 'bg-gray-700 hover:bg-gray-600 text-gray-200 border border-gray-600'
+                    }`}
+                    title={t('contact.copyEmail', 'Copiar')}
+                  >
+                    {copied ? (
+                      <>
+                        <svg className="w-3 h-3 mr-1 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {t('contact.copied', '¡Copiado!')}
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        {t('contact.copyEmail', 'Copiar')}
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
             

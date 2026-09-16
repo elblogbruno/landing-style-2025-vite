@@ -9,7 +9,9 @@
     "build:i18n": "npm run build && node scripts/generate-i18n.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "flowbite-react patch"
+    "postinstall": "flowbite-react patch",
+    "prebuild": "node scripts/generate-professional-pages.js",
+    "test": "node --test scripts/*.test.js"
   },
   "dependencies": {
     "@mui/icons-material": "^5.15.21",

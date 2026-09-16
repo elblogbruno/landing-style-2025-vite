@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="jaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="jaCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="jaCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="jaGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0.4" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="400" fill="url(#jaBg)" />
+
+  <!-- Grid overlay -->
+  <g opacity="0.1" stroke="#38bdf8" stroke-width="1">
+    <line x1="0" y1="80" x2="600" y2="80" />
+    <line x1="0" y1="160" x2="600" y2="160" />
+    <line x1="0" y1="240" x2="600" y2="240" />
+    <line x1="0" y1="320" x2="600" y2="320" />
+    <line x1="120" y1="0" x2="120" y2="400" />
+    <line x1="240" y1="0" x2="240" y2="400" />
+    <line x1="360" y1="0" x2="360" y2="400" />
+    <line x1="480" y1="0" x2="480" y2="400" />
+  </g>
+
+  <!-- Glowing background orbs -->
+  <circle cx="150" cy="120" r="140" fill="#0284c7" opacity="0.15" filter="blur(40px)" />
+  <circle cx="480" cy="280" r="160" fill="#6366f1" opacity="0.15" filter="blur(50px)" />
+
+  <!-- Agent Flow Diagram Box -->
+  <rect x="50" y="50" width="500" height="230" rx="16" fill="url(#jaCard)" stroke="#334155" stroke-width="1.5" />
+  
+  <!-- Window Header -->
+  <rect x="50" y="50" width="500" height="36" rx="16" fill="#0f172a" />
+  <circle cx="75" cy="68" r="5" fill="#ef4444" />
+  <circle cx="92" cy="68" r="5" fill="#f59e0b" />
+  <circle cx="109" cy="68" r="5" fill="#10b981" />
+  <text x="300" y="73" font-family="monospace" font-size="12" fill="#64748b" text-anchor="middle">jobagent-core // state-machine // mcp-runtime</text>
+
+  <!-- Flow nodes -->
+  <!-- Node 1: Job Discovery -->
+  <rect x="80" y="115" width="110" height="65" rx="10" fill="#0f172a" stroke="#0284c7" stroke-width="1.5" />
+  <text x="135" y="142" font-family="sans-serif" font-weight="700" font-size="12" fill="#38bdf8" text-anchor="middle">ROLE SEARCH</text>
+  <text x="135" y="162" font-family="monospace" font-size="10" fill="#94a3b8" text-anchor="middle">Semantic Scan</text>
+
+  <!-- Arrow 1 -->
+  <path d="M190 147 L230 147" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,2" />
+  <polygon points="230,143 238,147 230,151" fill="#38bdf8" />
+
+  <!-- Node 2: Agent Reasoning & Tailoring -->
+  <rect x="240" y="105" width="120" height="85" rx="10" fill="#1e1b4b" stroke="#818cf8" stroke-width="2" />
+  <text x="300" y="132" font-family="sans-serif" font-weight="800" font-size="12" fill="#a5b4fc" text-anchor="middle">AI AGENT CORE</text>
+  <text x="300" y="152" font-family="monospace" font-size="9.5" fill="#c7d2fe" text-anchor="middle">CV Tailoring</text>
+  <text x="300" y="168" font-family="monospace" font-size="9" fill="#818cf8" text-anchor="middle">Answer Vault</text>
+
+  <!-- Arrow 2 -->
+  <path d="M360 147 L400 147" stroke="#818cf8" stroke-width="2" stroke-dasharray="4,2" />
+  <polygon points="400,143 408,147 400,151" fill="#818cf8" />
+
+  <!-- Node 3: Deterministic Execution -->
+  <rect x="410" y="115" width="110" height="65" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+  <text x="465" y="142" font-family="sans-serif" font-weight="700" font-size="12" fill="#34d399" text-anchor="middle">PLAYWRIGHT</text>
+  <text x="465" y="162" font-family="monospace" font-size="10" fill="#94a3b8" text-anchor="middle">HITL Approval</text>
+
+  <!-- Bottom Terminal Status in Box -->
+  <rect x="80" y="208" width="440" height="48" rx="8" fill="#050811" />
+  <text x="95" y="232" font-family="monospace" font-size="11" fill="#10b981">✓ Hybrid deterministic + agentic architecture active</text>
+  <text x="95" y="247" font-family="monospace" font-size="10" fill="#64748b">  LLMs: semantic reasoning | Deterministic: integrity &amp; repeatability</text>
+
+  <!-- Main Title Banner -->
+  <text x="50" y="325" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="28" fill="#ffffff" letter-spacing="-0.5">JobAgent</text>
+  <text x="50" y="350" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="14" fill="#94a3b8">Autonomous AI Job Search &amp; Application System</text>
+  
+  <!-- Tech badges -->
+  <g transform="translate(50, 365)">
+    <rect x="0" y="0" width="60" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="30" y="15" font-family="monospace" font-size="10" fill="#38bdf8" text-anchor="middle">FastAPI</text>
+
+    <rect x="68" y="0" width="75" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="105" y="15" font-family="monospace" font-size="10" fill="#a5b4fc" text-anchor="middle">Playwright</text>
+
+    <rect x="151" y="0" width="45" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="173" y="15" font-family="monospace" font-size="10" fill="#34d399" text-anchor="middle">MCP</text>
+
+    <rect x="204" y="0" width="80" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="244" y="15" font-family="monospace" font-size="10" fill="#f59e0b" text-anchor="middle">PostgreSQL</text>
+
+    <rect x="292" y="0" width="60" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="322" y="15" font-family="monospace" font-size="10" fill="#60a5fa" text-anchor="middle">Docker</text>
+
+    <rect x="360" y="0" width="55" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="387" y="15" font-family="monospace" font-size="10" fill="#f43f5e" text-anchor="middle">Celery</text>
+  </g>
+</svg>

@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SectionKey } from '../avatar/types';
 import { useTranslation } from 'react-i18next';
 import { useElevatorNavigation } from '../../hooks/useElevatorNavigation';
+import { getFloorAltitude } from '../../utils/elevator-altitude';
+import './mobile-elevator.css';
  
 interface MobileElevatorWidgetProps {
   currentSection: SectionKey;
@@ -38,19 +40,80 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
 
   // State management
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isReading, setIsReading] = useState(false);
   const [dingSound, setDingSound] = useState<HTMLAudioElement | null>(null);
   const [movingSound, setMovingSound] = useState<HTMLAudioElement | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isHighlighted, setIsHighlighted] = useState(highlightOnMount);
   const [showDoors, setShowDoors] = useState(false);
+  const [isCityView, setIsCityView] = useState(false);
   // const [doorAnimation, setDoorAnimation] = useState<'opening' | 'closing' | null>(null);
   
   // Refs
   const widgetRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<number | null>(null);
   const isScrolling = useRef(false);
-  const doorAnimationTimerRef = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  // Haptic feedback utility (vibrate API with fallback)
+  const triggerHaptic = (pattern: number | number[] = 15) => {
+    if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate(pattern);
+      } catch {
+        // Safe fallback if permission is not granted
+      }
+    }
+  };
   
+  // Hide while scrolling in either direction, then restore after a short pause.
+  useEffect(() => {
+    let idleTimer: ReturnType<typeof setTimeout>;
+    setIsReading(false);
+    const onScroll = () => {
+      if (isExpanded || isTransitioning) return;
+      clearTimeout(idleTimer);
+      setIsReading(true);
+      if (typeof document !== 'undefined') {
+        document.body.classList.add('mobile-reading');
+      }
+      idleTimer = setTimeout(() => {
+        setIsReading(false);
+        if (typeof document !== 'undefined') {
+          document.body.classList.remove('mobile-reading');
+        }
+      }, 700);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      clearTimeout(idleTimer);
+      window.removeEventListener('scroll', onScroll);
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('mobile-reading');
+      }
+    };
+  }, [isExpanded, isTransitioning]);
+
+  // City view event listener synchronization
+  useEffect(() => {
+    const handleCityViewEvent = (e: Event) => {
+      const ce = e as CustomEvent<{ active: boolean }>;
+      if (ce.detail && typeof ce.detail.active === 'boolean') {
+        setIsCityView(ce.detail.active);
+      }
+    };
+    window.addEventListener('toggle-city-view', handleCityViewEvent);
+    return () => window.removeEventListener('toggle-city-view', handleCityViewEvent);
+  }, []);
+
+  // Haptic feedback on arrival
+  useEffect(() => {
+    if (transitionStatus === 'arriving') {
+      triggerHaptic([25, 45, 25]);
+    }
+  }, [transitionStatus]);
+
   // Initialize audio elements
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -85,9 +148,12 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
       // Reset any body styles
       document.body.style.overflow = '';
       document.body.classList.remove('elevator-transition-active');
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('mobile-reading');
+      }
     };
   }, []);
-  
+
   // Handle initial highlight animation
   useEffect(() => {
     if (highlightOnMount) {
@@ -117,6 +183,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
           if (dingSound) {
             dingSound.play().catch(err => console.error(t('elevator.errors.dingPlay', 'Error playing elevator ding:'), err));
           }
+          triggerHaptic([25, 45, 25]);
         };
         
         window.addEventListener('elevator-arrived', handleElevatorArrived);
@@ -137,29 +204,10 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
     }
   }, [dingSound, isTransitioning, isMuted, movingSound, t]);
 
-  // Update doors visibility and animation based on doorState
+  // Update doors visibility based on isTransitioning
   useEffect(() => {
     setShowDoors(isTransitioning);
-
-    // If transitioning and doors are visible, update door animation state
-    if (showDoors) {
-      // Apply door state animations from the shared hook
-      if (doorAnimationTimerRef.current) {
-        clearTimeout(doorAnimationTimerRef.current);
-      }
-      
-      // if (doorsState === 'opening' || doorsState === 'closing') {
-      //   // Door animation in progress - keep the doors visible
-      //   setDoorAnimation(doorsState);
-      // } else if (doorsState === 'open') {
-      //   // If doors should be fully open, make them visible but fully open
-      //   setDoorAnimation('opening');
-      // } else if (doorsState === 'closed') {
-      //   // If doors should be fully closed, make them visible but fully closed
-      //   setDoorAnimation('closing');
-      // }
-    }
-  }, [isTransitioning, doorsState, showDoors]);
+  }, [isTransitioning]);
 
   // Add a scroll listener to prevent conflicts
   useEffect(() => {
@@ -179,10 +227,75 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
     };
   }, [isTransitioning]);
 
+  // Touch gesture handling for mobile bottom sheet and bar
+  const handleExpandedTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleExpandedTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartY.current === null) return;
+    const diffY = e.changedTouches[0].clientY - touchStartY.current;
+    const diffX = Math.abs(e.changedTouches[0].clientX - (touchStartX.current || 0));
+    // Swipe down > 45px closes expanded bottom sheet
+    if (diffY > 45 && diffY > diffX) {
+      setIsExpanded(false);
+      triggerHaptic(10);
+    }
+    touchStartY.current = null;
+    touchStartX.current = null;
+  };
+
+  const handleBarTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleBarTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartY.current === null) return;
+    const diffY = e.changedTouches[0].clientY - touchStartY.current;
+    const diffX = (touchStartX.current || 0) - e.changedTouches[0].clientX;
+    
+    // Swipe UP opens sheet
+    if (diffY < -35 && Math.abs(diffY) > Math.abs(diffX)) {
+      setIsExpanded(true);
+      triggerHaptic(15);
+    }
+    // Swipe LEFT goes to next floor
+    else if (diffX > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (!isTransitioning) {
+        triggerHaptic(15);
+        handleFloorClick(destination);
+      }
+    }
+    // Swipe RIGHT goes to previous floor
+    else if (diffX < -45 && Math.abs(diffX) > Math.abs(diffY)) {
+      const currentIndex = floors.indexOf(currentSection);
+      const prevFloor = (currentIndex > 0 ? floors[currentIndex - 1] : floors[floors.length - 1]) as SectionKey;
+      if (!isTransitioning) {
+        triggerHaptic(15);
+        handleFloorClick(prevFloor);
+      }
+    }
+    touchStartY.current = null;
+    touchStartX.current = null;
+  };
+
+  // Toggle city view mode
+  const toggleCityView = () => {
+    const nextState = !isCityView;
+    setIsCityView(nextState);
+    triggerHaptic(15);
+    window.dispatchEvent(new CustomEvent('toggle-city-view', { detail: { active: nextState } }));
+    if (nextState) {
+      setIsExpanded(false);
+    }
+  };
+
   // Toggle sound effects
   const toggleSound = () => {
     setIsMuted(!isMuted);
-    
+    triggerHaptic(10);
     track({
       category: 'MobileElevator',
       action: isMuted ? 'SoundEnabled' : 'SoundDisabled',
@@ -195,7 +308,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
     if (!isTransitioning) { // Prevent toggling during transition
       setIsExpanded(!isExpanded);
       setIsHighlighted(false); // Turn off highlight when user interacts with widget
-      
+      triggerHaptic(10);
       track({
         category: 'MobileElevator',
         action: isExpanded ? 'Collapsed' : 'Expanded',
@@ -214,7 +327,13 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
     }
   };
   
+  useEffect(() => {
+    if (isExpanded) widgetRef.current?.querySelector<HTMLButtonElement>("[data-mobile-close]")?.focus();
+  }, [isExpanded]);
+
   const isLight = theme === "light";
+  const nextFloor = floors[floors.indexOf(currentSection) + 1];
+  const destination = (nextFloor || floors[0]) as SectionKey;
   
   return (
     <>
@@ -227,8 +346,8 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
             exit={{ opacity: 0 }}
             className="fixed top-0 left-0 right-0 z-[98] pointer-events-none"
           >
-            <div className={`mx-auto mt-4 max-w-xs text-center p-2 rounded-lg ${isLight ? 'bg-white/90' : 'bg-black/90'} shadow-lg`}>
-              <div className={`text-xs font-mono ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
+            <div className={`mx-auto mt-4 max-w-xs text-center p-2 rounded-lg ${isLight ? 'bg-white/90' : 'bg-black/90'} shadow-lg backdrop-blur-sm`}>
+              <div className={`text-xs font-mono font-semibold ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
                 {getTransitionStatusMessage()}
               </div>
             </div>
@@ -239,15 +358,16 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
       {/* Elevator doors overlay */}
       <AnimatePresence>
         {showDoors && (
-          <div className="fixed inset-0 z-[99] pointer-events-none flex items-center justify-center">
-            <div className="w-full h-full flex">
+          <div className="fixed inset-0 z-[99] pointer-events-none flex items-center justify-center overflow-hidden">
+            <div className="w-full h-full flex relative">
               {/* Left door */}
               <motion.div 
-                key={`mobile-left-door-${Date.now()}`}
-                className={`w-1/2 h-full ${isLight ? 'bg-gray-200' : 'bg-gray-800'} border-r ${isLight ? 'border-gray-300' : 'border-gray-600'}`}
-                initial={{ x: doorsState === 'open' || doorsState === 'opening' ? "-50%" : "0%" }}
-                animate={{ x: doorsState === 'open' || doorsState === 'opening' ? "-50%" : "0%" }}
-                transition={{ duration: 1.6, ease: "easeInOut", type: "tween" }}
+                key="mobile-left-door"
+                className={`w-1/2 h-full mobile-elevator-door mobile-elevator-door--left ${isLight ? 'bg-gray-200' : 'bg-gray-800'} border-r ${isLight ? 'border-gray-300' : 'border-gray-600'}`}
+                initial={{ x: "-100%" }}
+                animate={{ x: doorsState === 'open' || doorsState === 'opening' ? "-100%" : "0%" }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               >
                 <div className="h-full flex items-center justify-end pr-1">
                   <div className={`h-[80%] w-2 rounded-l ${isLight ? 'bg-gray-300' : 'bg-gray-700'}`}></div>
@@ -256,11 +376,12 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
               
               {/* Right door */}
               <motion.div 
-                key={`mobile-right-door-${Date.now()}`}
-                className={`w-1/2 h-full ${isLight ? 'bg-gray-200' : 'bg-gray-800'} border-l ${isLight ? 'border-gray-300' : 'border-gray-600'}`}
-                initial={{ x: doorsState === 'open' || doorsState === 'opening' ? "50%" : "0%" }}
-                animate={{ x: doorsState === 'open' || doorsState === 'opening' ? "50%" : "0%" }}
-                transition={{ duration: 1.6, ease: "easeInOut", type: "tween" }}
+                key="mobile-right-door"
+                className={`w-1/2 h-full mobile-elevator-door mobile-elevator-door--right ${isLight ? 'bg-gray-200' : 'bg-gray-800'} border-l ${isLight ? 'border-gray-300' : 'border-gray-600'}`}
+                initial={{ x: "100%" }}
+                animate={{ x: doorsState === 'open' || doorsState === 'opening' ? "100%" : "0%" }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               >
                 <div className="h-full flex items-center justify-start pl-1">
                   <div className={`h-[80%] w-2 rounded-r ${isLight ? 'bg-gray-300' : 'bg-gray-700'}`}></div>
@@ -269,19 +390,34 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
             </div>
 
             {/* Floor indicator */}
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none">
-              <div className={`text-center p-3 rounded-lg ${isLight ? 'bg-white' : 'bg-black'} shadow-lg`}>
-                <div className={`text-xs font-mono ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ 
+                opacity: doorsState === 'closed' || doorsState === 'closing' ? 1 : 0,
+                scale: doorsState === 'closed' || doorsState === 'closing' ? 1 : 0.95
+              }}
+              transition={{ duration: 0.35 }}
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none"
+            >
+              <div className={`text-center p-4 rounded-xl ${isLight ? 'bg-white/95 text-gray-900 border border-gray-200/80 shadow-2xl' : 'bg-gray-950/95 text-white border border-gray-800 shadow-2xl'} backdrop-blur-md min-w-[200px]`}>
+                <div className={`text-[11px] font-mono font-medium tracking-wide uppercase ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
                   {transitionStatus === 'arriving' 
                     ? t('elevator.mobile.arriving', 'ARRIVING AT FLOOR') 
                     : transitionStatus === 'preparing'
                       ? t('elevator.mobile.preparing', 'PREPARING') 
                       : t('elevator.mobile.movingToFloor', 'MOVING TO FLOOR')}
                 </div>
-                <div className={`text-4xl font-mono font-bold ${isLight ? 'text-blue-600' : 'text-blue-400'}`}
+                <div className={`text-4xl font-mono font-bold my-1 ${isLight ? 'text-blue-600' : 'text-blue-400'}`}
                   style={{ transition: isTransitioning ? 'none' : 'all 0.3s ease-in-out' }}>
                   {currentFloor}
-                  <span className={`text-lg ${isLight ? 'text-gray-500' : 'text-gray-500'}`}></span>
+                </div>
+                {/* Altimeter indicator during movement */}
+                <div className="mb-1">
+                  <span className={`text-[11px] font-mono font-semibold px-2 py-0.5 rounded border inline-block ${
+                    isLight ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-emerald-950/60 text-emerald-400 border-emerald-500/40'
+                  }`}>
+                    {targetSection ? getFloorAltitude(targetSection) : getFloorAltitude(currentSection)}
+                  </span>
                 </div>
                 <div className={`text-sm font-medium ${isLight ? 'text-gray-700' : 'text-gray-300'}`}
                   style={{ transition: isTransitioning ? 'none' : 'all 0.3s ease-in-out' }}>
@@ -292,14 +428,14 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                     : t(`navigation.${currentSection}`, currentSection.toUpperCase())}
                 </div>
                 {isTransitioning && (
-                  <div className="flex justify-center mt-1 gap-1">
+                  <div className="flex justify-center mt-2 gap-1.5">
                     <span className="h-2 w-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
                     <span className="h-2 w-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
                     <span className="h-2 w-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           </div>
         )}
       </AnimatePresence>
@@ -307,52 +443,48 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
       {/* Main elevator widget */}
       <div 
         ref={widgetRef}
-        className={`fixed ${isExpanded ? 'bottom-4 left-4 right-4' : 'bottom-20 right-4 w-16 h-16'} 
-          z-50 transition-all duration-300 ease-in-out
-          ${isLight ? 'bg-white' : 'bg-gray-900'} 
-          rounded-xl
-          shadow-lg border ${isLight ? 'border-gray-200' : 'border-gray-700'}
-          ${isHighlighted ? 'animate-bounce shadow-2xl ring-4 ring-blue-500 ring-opacity-60' : ''}
-          ${isTransitioning ? 'opacity-90 elevator-transitioning' : ''}`}
-        style={{
-          borderRadius: isExpanded ? '0.75rem' : '9999px',
-          transition: 'border-radius 300ms ease-in-out, width 300ms ease-in-out, height 300ms ease-in-out, bottom 300ms ease-in-out, left 300ms ease-in-out, right 300ms ease-in-out'
-        }}
+        className={`mobile-elevator ${isReading && !isExpanded && !isTransitioning ? "mobile-elevator--reading" : ""} ${isExpanded ? "mobile-elevator--expanded" : ""} ${isLight ? "bg-white text-gray-900" : "bg-gray-900 text-white"} ${isHighlighted ? "ring-2 ring-blue-500" : ""}`}
+        onKeyDown={event => { if (event.key === "Escape") { setIsExpanded(false); requestAnimationFrame(() => widgetRef.current?.querySelector<HTMLButtonElement>("[data-mobile-floor-toggle]")?.focus()); } }}
       >
         {!isExpanded ? (
-          <button 
-            onClick={toggleExpanded}
-            className="w-full h-full flex items-center justify-center"
-            aria-label="Open elevator navigation"
-            disabled={isTransitioning}
+          <nav 
+            className="mobile-elevator__bar" 
+            aria-label={t('elevator.mobile.title')}
+            onTouchStart={handleBarTouchStart}
+            onTouchEnd={handleBarTouchEnd}
           >
-            <div className="relative w-10 h-10">
-              {/* Elevator icon */}
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke={isLight ? "#1e293b" : "#e2e8f0"} strokeWidth="2">
-                <rect x="4" y="2" width="16" height="20" rx="2" />
-                <line x1="12" y1="6" x2="12" y2="18" />
-                <path d="M8 10l4-4 4 4" />
-                <path d="M16 14l-4 4-4-4" />
-              </svg>
-              {/* Current floor indicator */}
-              <div className={`absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs
-                ${isLight ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white'}`}>
-                {currentFloor}
-              </div>
-              
-              {/* Status indicator */}
-              {isTransitioning && (
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-auto px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white whitespace-nowrap">
-                  {transitionStatus === 'arriving' ? 'ARRIVING' : 'MOVING'}
-                </div>
-              )}
-              
-              {/* Pulse effect to indicate current section */}
-              <div className={`absolute inset-0 rounded-full ${isLight ? 'bg-blue-500' : 'bg-blue-600'} animate-ping opacity-20`}></div>
-            </div>
-          </button>
+            <button data-mobile-floor-toggle onClick={toggleExpanded}
+              className="mobile-elevator__current" aria-expanded={false}
+              aria-controls="mobile-floor-selector" disabled={isTransitioning}>
+              <span className="mobile-elevator__number" aria-hidden="true">{currentFloor}</span>
+              <span className="mobile-elevator__label">
+                <span className="mobile-elevator__caption">{isTransitioning ? getTransitionStatusMessage() : t('elevator.mobile.viewFloors')}</span>
+                <strong>{t(`navigation.${currentSection}`)}</strong>
+              </span>
+            </button>
+            <button className="mobile-elevator__next" data-mobile-next
+              disabled={isTransitioning}
+              onClick={() => {
+                triggerHaptic(15);
+                handleFloorClick(destination);
+              }}
+              aria-label={t(nextFloor ? 'elevator.mobile.nextFloor' : 'elevator.mobile.backToLobby') + ': ' + t(`navigation.${destination}`)}>
+              <span aria-hidden="true">{nextFloor ? '↑' : '↓'}</span>
+              <span>{t(nextFloor ? 'elevator.mobile.nextFloor' : 'elevator.mobile.backToLobby')}</span>
+            </button>
+          </nav>
         ) : (
-          <div className="p-4 h-full">
+          <div 
+            id="mobile-floor-selector" 
+            className="p-4" 
+            role="region" 
+            aria-label={t("elevator.mobile.title")}
+            onTouchStart={handleExpandedTouchStart}
+            onTouchEnd={handleExpandedTouchEnd}
+          >
+            {/* Grabber handle bar for thumb drag down */}
+            <div className="w-10 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-3 cursor-grab opacity-70" />
+
             {/* Expanded widget header */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
@@ -363,15 +495,33 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                   <path d="M16 14l-4 4-4-4" />
                 </svg>
                 <h3 className={`text-lg font-medium ${isLight ? 'text-gray-800' : 'text-white'}`}>
-                  {isTransitioning ? 'Traveling...' : 'Elevator Pitch'}
+                  {isTransitioning ? getTransitionStatusMessage() : t("elevator.mobile.title")}
                 </h3>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                {/* City view toggle button */}
+                <button 
+                  onClick={toggleCityView}
+                  className={`p-2 rounded-full transition-colors ${
+                    isCityView 
+                      ? 'bg-blue-600 text-white' 
+                      : isLight 
+                        ? 'hover:bg-gray-100 text-gray-700' 
+                        : 'hover:bg-gray-800 text-gray-300'
+                  }`}
+                  aria-label={isCityView ? t("elevator.mobile.exitCityView", "Cerrar vista ciudad") : t("elevator.mobile.viewCity", "Ver ciudad")}
+                  title={isCityView ? t("elevator.mobile.exitCityView", "Cerrar vista ciudad") : t("elevator.mobile.viewCity", "Ver ciudad")}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
                 {/* Sound toggle button */}
                 <button 
                   onClick={toggleSound}
                   className={`p-2 rounded-full ${isLight ? 'hover:bg-gray-100' : 'hover:bg-gray-800'}`}
-                  aria-label={isMuted ? "Enable sound" : "Disable sound"}
+                  aria-label={t(isMuted ? "elevator.mobile.enableSound" : "elevator.mobile.disableSound")}
                 >
                   {isMuted ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -387,7 +537,8 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                 <button 
                   onClick={toggleExpanded}
                   className={`p-2 rounded-full ${isLight ? 'hover:bg-gray-100' : 'hover:bg-gray-800'}`}
-                  aria-label="Close elevator navigation"
+                  aria-label={t("elevator.mobile.closeNavigation")}
+                  data-mobile-close
                   disabled={isTransitioning}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -401,13 +552,20 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
             <div className={`mb-4 p-3 rounded-lg ${isLight ? 'bg-gray-100' : 'bg-black'}`}>
               <div className="flex justify-between items-center">
                 <div>
-                  <div className={`text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>CURRENT FLOOR</div>
-                  <div className={`text-2xl font-mono font-bold ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
-                    {currentFloor}
+                  <div className={`text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{t("elevator.mobile.currentFloor")}</div>
+                  <div className="flex items-baseline gap-2">
+                    <span className={`text-2xl font-mono font-bold ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
+                      {currentFloor}
+                    </span>
+                    <span className={`text-[11px] font-mono font-bold px-1.5 py-0.5 rounded border ${
+                      isLight ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-emerald-950/60 text-emerald-400 border-emerald-500/40'
+                    }`}>
+                      {getFloorAltitude(currentSection)}
+                    </span>
                   </div>
                 </div>
                 <div>
-                  <div className={`text-right text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>STATUS</div>
+                  <div className={`text-right text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{t("elevator.mobile.status")}</div>
                   <div className={`font-mono ${isTransitioning ? 'text-amber-500' : isLight ? 'text-green-600' : 'text-green-500'}`}>
                     {isTransitioning ? (
                       <span className="inline-flex items-center">
@@ -419,60 +577,14 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                         </span>
                       </span>
                     ) : (
-                      <>STOPPED</>
+                      <>{t("elevator.mobile.stopped")}</>
                     )}
                   </div>
                 </div>
               </div>
 
-              {/* TV Display with your avatar face */}
-              <div className="mt-4 relative">
-                {/* TV Frame */}
-                <div className={`rounded-lg overflow-hidden ${isLight ? 'bg-slate-200' : 'bg-gray-800'} p-1`}>
-                  {/* TV Screen */}
-                  <div className={`relative overflow-hidden rounded ${isLight ? 'bg-blue-100' : 'bg-blue-900/30'} aspect-video flex items-center justify-center`}>
-                    {/* Static/Scanlines Effect */}
-                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
-                      backgroundImage: `repeating-linear-gradient(0deg, ${isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)'} 0px, transparent 1px, transparent 2px)`,
-                      backgroundSize: '100% 3px',
-                      animation: 'scanlines 0.5s linear infinite'
-                    }}></div>
-
-                    {/* Avatar image and content */}
-                    <div className="flex items-center justify-center p-2 w-full">
-                      {/* Avatar Face */}
-                      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/50 mr-3 flex-shrink-0">
-                        <img 
-                          src="/images-webp/hero/profile.webp" 
-                          alt="Profile Avatar" 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      
-                      {/* Speech bubble with pitch line */}
-                      <div className={`relative p-2 rounded-lg flex-grow ${isLight ? 'bg-white/80' : 'bg-gray-700/80'}`}>
-                        {/* Speech bubble pointer */}
-                        <div className={`absolute left-[-8px] top-1/2 transform -translate-y-1/2 w-0 h-0 
-                          border-t-[8px] border-t-transparent 
-                          border-r-[8px] ${isLight ? 'border-r-white/80' : 'border-r-gray-700/80'} 
-                          border-b-[8px] border-b-transparent`}>
-                        </div>
-
-                        {/* Pitch line text */}
-                        <p className={`text-xs italic ${isLight ? 'text-gray-600' : 'text-gray-200'}`}>
-                          "{t(`elevator.floors.${currentSection}.pitchLine`, "Welcome to my elevator pitch!")}" 
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* TV Reflection overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
-                  </div>
-                </div>
-              </div>
-
               <div className="mt-4">
-                <div className={`text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>LOCATION</div>
+                <div className={`text-xs font-medium ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{t("elevator.mobile.location")}</div>
                 <div className={`font-medium ${isLight ? 'text-gray-800' : 'text-gray-100'}`}>
                   {t(`elevator.floors.${currentSection}.description`, currentSection.toUpperCase())}
                 </div>
@@ -480,7 +592,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
             </div>
             
             {/* Elevator buttons */}
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               {floors.map((floor) => {
                 // Calculate floor number from the floorMap in the shared hook
                 const floorNum = getCurrentFloorNumber(floor);
@@ -490,10 +602,16 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                 return (
                   <button
                     key={floor}
-                    onClick={() => handleFloorClick(floor as SectionKey)}
+                    onClick={() => {
+                      triggerHaptic(15);
+                      setIsExpanded(false);
+                      handleFloorClick(floor as SectionKey);
+                    }}
+                    data-mobile-floor={floor}
+                    aria-current={isCurrentFloor ? "location" : undefined}
                     disabled={(isCurrentFloor && !isTransitioning) || isTransitioning}
                     className={`
-                      aspect-square p-1 rounded-lg flex flex-col items-center justify-center
+                      min-h-16 p-2 rounded-lg flex flex-col items-center justify-center
                       transition-all duration-200 relative
                       ${isCurrentFloor 
                         ? `${isLight ? 'bg-blue-100 text-blue-800' : 'bg-blue-900 text-blue-200'} ring-2 ${isLight ? 'ring-blue-500' : 'ring-blue-500'}` 
@@ -504,7 +622,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                       ${isTransitioning && !isTargetFloor && 'opacity-60 cursor-not-allowed'}
                       ${isTransitioning && isTargetFloor && 'elevator-target-floor-pulse'}
                     `}
-                    title={`Go to ${floor.charAt(0).toUpperCase() + floor.slice(1)}`}
+                    title={t(`navigation.${floor}`)}
                   >
                     <span className={`text-lg font-mono font-bold 
                       ${isCurrentFloor ? (isLight ? 'text-blue-800' : 'text-blue-300') : 
@@ -512,7 +630,8 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
                     `}>
                       {floorNum}
                     </span>
-                    <span className="text-[10px] uppercase leading-tight">{floor}</span>
+                    <span className="text-[10px] uppercase leading-tight font-medium">{t(`navigation.${floor}`)}</span>
+                    <span className="text-[9px] font-mono opacity-65 leading-tight">{getFloorAltitude(floor)}</span>
                     
                     {/* Show current floor indicator */}
                     {isCurrentFloor && !isTransitioning && (

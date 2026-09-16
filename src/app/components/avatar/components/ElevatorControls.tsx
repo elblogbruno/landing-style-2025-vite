@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { track } from '../../../utils/umami-analytics';
 import { useTranslation } from 'react-i18next';
+import { getFloorByNumber } from '../../../utils/elevator-altitude';
 
 interface ElevatorControlsProps {
   theme: "dark" | "light";
@@ -47,18 +48,27 @@ const ElevatorControls: React.FC<ElevatorControlsProps> = React.memo(({
   };
   
   // Memorizamos los elementos que dependen de currentFloor y floorDescription
-  // Ya no necesitamos el indicador de piso aquí, se ha movido a los botones del ascensor
-  const floorDescriptionElement = useMemo(() => (
-    <div className={`absolute top-6 left-6 ${theme === "dark" ? "bg-gray-900/90" : "bg-white/90"} 
-      px-4 py-3 rounded-lg text-sm border max-w-[220px] backdrop-blur-sm
-      ${theme === "dark" ? "border-gray-700 text-white" : "border-gray-300 text-gray-800"}
-      shadow-lg transition-all duration-300`}>
-      <div className={`text-xs ${theme === "dark" ? "text-blue-400" : "text-blue-600"} uppercase tracking-wider font-semibold`}>
-        {t('elevator.controls.currentFloor')}
+  const floorDescriptionElement = useMemo(() => {
+    const metric = getFloorByNumber(currentFloor);
+    return (
+      <div className={`absolute top-6 left-6 ${theme === "dark" ? "bg-gray-900/90" : "bg-white/90"} 
+        px-4 py-2.5 rounded-xl text-sm border max-w-[240px] backdrop-blur-md
+        ${theme === "dark" ? "border-gray-700/80 text-white shadow-black/40" : "border-gray-200 text-gray-800 shadow-slate-200/50"}
+        shadow-lg transition-all duration-300`}>
+        <div className="flex items-center justify-between gap-2">
+          <div className={`text-[11px] font-mono font-bold ${theme === "dark" ? "text-blue-400" : "text-blue-600"} uppercase tracking-wider`}>
+            {t('elevator.floor')} {currentFloor >= 0 ? `0${currentFloor}`.slice(-2) : currentFloor}
+          </div>
+          <div className={`text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded border ${
+            theme === "dark" ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-400" : "bg-emerald-50 border-emerald-300 text-emerald-700"
+          }`}>
+            {metric.altitude}
+          </div>
+        </div>
+        <div className="font-bold text-xs sm:text-sm mt-1 truncate">{floorDescription}</div>
       </div>
-      <div className="font-bold mt-1">{floorDescription}</div>
-    </div>
-  ), [floorDescription, theme, t]);
+    );
+  }, [floorDescription, theme, currentFloor, t]);
 
   // Agrupar controles en una barra
   const controlsBar = useMemo(() => (

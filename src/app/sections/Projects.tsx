@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActiveFilterBadge from './projects/ActiveFilterBadge';
 import FilterCategories from './projects/FilterCategories';
@@ -26,10 +26,16 @@ const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'd
   const [showSkillsFilter, setShowSkillsFilter] = useState(() => {
     // Check if window is available (client-side)
     if (typeof window !== 'undefined') {
-      return window.innerWidth >= 768; // Show by default on tablet/desktop (md breakpoint)
+      if (window.innerWidth < 768) {
+        return false; // Default to hidden on mobile
+      }
+      return !localStorage.getItem('skillsFilterHidden'); // Show on desktop unless explicitly hidden
     }
     return false; // Default to hidden on server-side rendering
   });
+
+  const userToggledRef = useRef(false);
+  const wasDesktopRef = useRef(typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
 
   // Obtener datos de proyectos desde las traducciones con conversiones de tipo explícitas
   const projectsData = useMemo(() => {
@@ -90,36 +96,36 @@ const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'd
     return [...featured, ...regular];
   }, []);
 
-  // Add effect to update showSkillsFilter state when window is resized - optimized with throttling
+  // Update showSkillsFilter when crossing desktop/mobile breakpoint without overriding user manual actions
   useEffect(() => {
     let resizeTimer: number;
     const handleResize = () => {
       clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
-        if (window.innerWidth >= 768) {
-          // On desktop/tablet, show skills filter by default unless explicitly hidden by user
-          if (showSkillsFilter === false && !localStorage.getItem('skillsFilterHidden')) {
-            setShowSkillsFilter(true);
+        const isDesktop = window.innerWidth >= 768;
+        const wasDesktop = wasDesktopRef.current;
+        wasDesktopRef.current = isDesktop;
+
+        // Only react if we crossed the breakpoint and user hasn't explicitly interacted
+        if (wasDesktop !== isDesktop && !userToggledRef.current) {
+          if (isDesktop) {
+            if (!localStorage.getItem('skillsFilterHidden')) {
+              setShowSkillsFilter(true);
+            }
+          } else {
+            setShowSkillsFilter(false);
           }
-        } else {
-          // On mobile, hide skills filter by default
-          setShowSkillsFilter(false);
         }
-      }, 150); // Throttle resize events
+      }, 150);
     };
 
-    // Set initial state
-    handleResize();
-
-    // Add event listener
     window.addEventListener('resize', handleResize, { passive: true });
     
-    // Clean up
     return () => {
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', handleResize);
     };
-  }, [showSkillsFilter]);
+  }, []);
 
   useEffect(() => {
     // Sort and prioritize featured projects
@@ -195,6 +201,7 @@ const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'd
 
   // Toggle skills filter visibility and remember preference
   const toggleSkillsFilter = useCallback(() => {
+    userToggledRef.current = true;
     setShowSkillsFilter(prevState => {
       const newState = !prevState;
       
@@ -268,45 +275,42 @@ const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'd
     <div className="md:py-16">
       <h2 className={`text-3xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>{projectsData.title}</h2>
 
-      <div className="flex flex-wrap justify-between items-center mb-6">
-        <div className="flex-grow mr-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <div className="flex-grow">
           <FilterCategories {...filterCategoriesProps} />
         </div>
         
-        <button 
-          onClick={toggleSkillsFilter}
-          className={`px-4 py-2 mt-4 sm:mt-0 rounded-lg transition-all flex items-center ${
-            theme === 'light'
-              ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
-              : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
-          }`}
-        >
-          {/* Add icon based on whether skills are showing */}
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="h-5 w-5 mr-2" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
+        <div className="shrink-0 self-start sm:self-auto">
+          <button 
+            type="button"
+            onClick={toggleSkillsFilter}
+            aria-expanded={showSkillsFilter}
+            className={`px-4 py-2.5 rounded-lg transition-all flex items-center font-medium text-sm shadow-sm active:scale-95 touch-manipulation ${
+              showSkillsFilter
+                ? 'bg-blue-600 text-white shadow-blue-500/20'
+                : theme === 'light'
+                  ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+            }`}
           >
-            {showSkillsFilter ? (
+            {/* Add icon based on whether skills are showing */}
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className={`h-4 w-4 mr-2 transition-transform duration-200 ${showSkillsFilter ? 'rotate-180' : ''}`} 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
               <path 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
                 strokeWidth={2} 
                 d="M19 9l-7 7-7-7" 
               />
-            ) : (
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M9 5l7 7-7 7" 
-              />
-            )}
-          </svg>
-          {showSkillsFilter ? t('projects.hideSkills') : t('projects.showSkills')}
-        </button>
+            </svg>
+            {showSkillsFilter ? t('projects.hideSkills') : t('projects.showSkills')}
+          </button>
+        </div>
       </div>
 
       {activeFilter && (

@@ -11,7 +11,7 @@ const AudioManager = () => {
     // Inicializar audio al interactuar con la página
     const enableAudio = () => {
       if (!audioEnabled) {
-        const context = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const context = new (window.AudioContext || (window as Window & typeof globalThis & { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
         
         // Crear un oscilador silencioso y reproducirlo brevemente para habilitar el audio
         const oscillator = context.createOscillator();
