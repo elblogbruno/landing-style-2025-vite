@@ -1,40 +1,40 @@
 {
   "hero": {
-    "title": "Hi, I'm Bruno Moya.",
-    "subtitle": "AR/VR/MR Developer and Entrepreneur.",
-    "description": "A 23-year-old tech enthusiast from Barcelona, founder of Glassear, dedicated to making Augmented-Reality technology accessible to everyone.",
+    "title": "I turn emerging technology into real products.",
+    "subtitle": "Founder at Glassear · CTO at TopBrokers",
+    "description": "I have been building Glassear since 2015. Today that means AI systems, spatial computing and the software and infrastructure that keep them working outside a demo.",
     "profileImage": "/images-webp/hero/profile.webp",
     "coverImage": "/images-webp/hero/cover-better.webp",
     "resumeUrl": "/cv-english.pdf"
   },
-  "about": { 
+  "about": {
     "timeline": [
-    {
-      "imgSrc": "/images-webp/timeline/childhood.webp", 
-      "icon": "start"
-    },
-    {
-      "imgSrc": "/images-webp/timeline/programming.webp", 
-      "icon": "start"
-    },
-    {
-      "imgSrc": "/images-webp/timeline/glassear_inception.webp",
-      "link": "https://tustory.com/inception",
-      "btnText": "View Project",
-      "icon": "headset"
-    },
-    {
-      "imgSrc": "/images-webp/timeline/breakthrough.webp",
-      "link": "https://tustory.com/breakthrough",
-      "btnText": "Watch Video",
-      "icon": "targetPrize"
-    },
-    {
-      "imgSrc": "/images-webp/timeline/vision.webp",
-      "link": "https://tustory.com/vision",
-      "btnText": "Watch Talk",
-      "icon": "publicSpeaker"
-    }
-  ]
-  } 
+      {
+        "imgSrc": "/images-webp/timeline/childhood.webp",
+        "icon": "start"
+      },
+      {
+        "imgSrc": "/images-webp/timeline/programming.webp",
+        "icon": "start"
+      },
+      {
+        "imgSrc": "/images-webp/timeline/glassear_inception.webp",
+        "link": "https://tustory.com/inception",
+        "btnText": "View Project",
+        "icon": "headset"
+      },
+      {
+        "imgSrc": "/images-webp/timeline/breakthrough.webp",
+        "link": "https://tustory.com/breakthrough",
+        "btnText": "Watch Video",
+        "icon": "targetPrize"
+      },
+      {
+        "imgSrc": "/images-webp/timeline/vision.webp",
+        "link": "https://tustory.com/vision",
+        "btnText": "Watch Talk",
+        "icon": "publicSpeaker"
+      }
+    ]
+  }
 }

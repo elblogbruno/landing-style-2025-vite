@@ -1,0 +1,23 @@
+
+/* University classroom: chalkboard, study sheets and timber desks. */
+.education-room { --paper: #f5efdc; --paper-ink: #303c37; position: relative; padding: 24px clamp(12px, 2vw, 28px) 50px; }
+.education-room__board { position: relative; margin: 0 0 64px; padding: clamp(28px, 5vw, 64px) 24px; color: #f4f1df; text-align: center; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: .025em; background: radial-gradient(ellipse at 30% 40%, #ffffff09, transparent 65%), repeating-linear-gradient(175deg, #ffffff02 0 1px, transparent 1px 6px), #203f35; border: 9px solid #8c7050; outline: 1px solid #b29a71; box-shadow: inset 0 0 25px #0005, 0 12px 0 #514332, 0 18px 25px #0003; }
+.education-room__board::before { content: ''; position: absolute; bottom: -6px; right: 18%; width: 38px; height: 5px; border-radius: 2px; background: #eee9d9; box-shadow: -48px 0 #e5cb84; transform: rotate(-2deg); }
+.education-room__board::after { content: ''; position: absolute; bottom: -5px; right: 8%; width: 45px; height: 14px; background: #b39267; border-bottom: 5px solid #383f38; border-radius: 2px; }
+.education-room .education-room__paper { position: relative; border: 1px solid #d5cab2; border-radius: 2px; padding: 26px; background: repeating-linear-gradient(0deg, transparent 0 27px, #6c897e09 28px 29px), var(--paper); color: var(--paper-ink); box-shadow: 4px 4px 0 #dfd6c3, 5px 5px 0 #9b927e, 0 12px 22px #0003; }
+.education-room__paper::before { content: ''; position: absolute; top: -8px; left: calc(50% - 20px); width: 40px; height: 15px; border: 2px solid #9caa9d; border-radius: 5px 5px 2px 2px; background: linear-gradient(#bfc8bd, #778678); box-shadow: 0 2px 3px #0003; }
+.education-room__paper::after { content: ''; position: absolute; inset: auto -12px -25px; height: 14px; background: linear-gradient(#a8875a, #80603c); border-bottom: 4px solid #4d3d2c; border-radius: 3px; box-shadow: 0 12px 0 -4px #39433e, 0 18px 18px -9px #0008; }
+.education-room .education-room__paper h3 { color: #253c32; text-shadow: none; }
+.education-room .education-room__paper p,
+.education-room .education-room__paper button { color: #4b574e; }
+.education-room .education-room__paper p.font-bold { color: #285c49; }
+.education-room__paper img { max-width: 100%; padding: 6px; background: #fff; border: 1px solid #dbd6c8; border-radius: 2px; }
+.education-room .education-room__timeline { background: #a18a604d; width: 2px; }
+.education-room .education-room__date { border: 1px solid #aa946c; border-radius: 3px; background: #254337; color: #f1ecd7; box-shadow: 0 4px 0 #766044; }
+.education-room .education-room__date:focus-visible { outline: 3px solid #d6b773; outline-offset: 4px; }
+.floor-room--education .floor-room__architecture { border-inline: 12px solid #96836630; background: repeating-linear-gradient(90deg, transparent 0 calc(33.333% - 2px), #8b9e8520 calc(33.333% - 2px) 33.333%); }
+.floor-room--education .floor-room__architecture::after { inset: 100px 18px auto auto; width: 54px; height: 54px; border-radius: 50%; border: 4px solid #899184; background: linear-gradient(90deg, transparent 47%, #405647 48% 53%, transparent 54%) 50% 7px / 100% 19px no-repeat, linear-gradient(35deg, transparent 44%, #405647 45% 52%, transparent 53%) 24px 24px / 19px 16px no-repeat, #eae7d7; box-shadow: 0 3px 8px #0003; }
+.floor-room--education .floor-room__ceiling { background: linear-gradient(#676f66, #a6afa0 35%, #444e43 38%, #677361); border-bottom-color: #b1b9a7; }
+.floor-room--education .floor-room__ground { border-top-color: #897553; background: repeating-linear-gradient(95deg, #a18a6326 0 65px, #65553e40 66px 68px); }
+@media (max-width: 767px) { .education-room__board { margin-bottom: 44px; border-width: 6px; } .education-room .education-room__paper { padding: 22px 18px; } }
+@media (prefers-reduced-motion: reduce) { .education-room button { transition: none; transform: none; } }

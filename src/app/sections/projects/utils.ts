@@ -39,6 +39,11 @@ export const sortProjects = (projects: Project[]) => {
     // First, prioritize featured projects
     if (a.featured && !b.featured) return -1;
     if (!a.featured && b.featured) return 1;
+
+    // Then respect manual ordering for the projects that tell the story
+    const aOrder = a.order ?? Number.POSITIVE_INFINITY;
+    const bOrder = b.order ?? Number.POSITIVE_INFINITY;
+    if (aOrder !== bOrder) return aOrder - bOrder;
     
     // Then prioritize ongoing projects (no end date or endDate is null)
     const aIsOngoing = !a.endDate;

@@ -7,9 +7,9 @@ export interface FloorMetric {
 
 export const FLOOR_METRICS: Record<string, FloorMetric> = {
   hero: { floorNumber: 0, displayCode: '00', altitude: '±0.0m', altitudeMeters: 0 },
-  experience: { floorNumber: 1, displayCode: '01', altitude: '+5.5m', altitudeMeters: 5.5 },
-  projects: { floorNumber: 2, displayCode: '02', altitude: '+14.0m', altitudeMeters: 14 },
-  about: { floorNumber: 3, displayCode: '03', altitude: '+23.5m', altitudeMeters: 23.5 },
+  about: { floorNumber: 1, displayCode: '01', altitude: '+5.5m', altitudeMeters: 5.5 },
+  experience: { floorNumber: 2, displayCode: '02', altitude: '+14.0m', altitudeMeters: 14 },
+  projects: { floorNumber: 3, displayCode: '03', altitude: '+23.5m', altitudeMeters: 23.5 },
   talks: { floorNumber: 4, displayCode: '04', altitude: '+33.0m', altitudeMeters: 33 },
   news: { floorNumber: 4, displayCode: '04', altitude: '+33.0m', altitudeMeters: 33 },
   awards: { floorNumber: 5, displayCode: '05', altitude: '+42.5m', altitudeMeters: 42.5 },

@@ -22,7 +22,7 @@ const FilterCategories: React.FC<FilterCategoryProps> = ({
             type="button"
             onClick={() => {
               if (typeof window !== 'undefined' && 'vibrate' in navigator) {
-                try { navigator.vibrate(10); } catch {}
+                try { navigator.vibrate(10); } catch { /* vibration not supported */ }
               }
               onCategoryChange(category.id);
             }}

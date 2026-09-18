@@ -1,18 +1,22 @@
 {
   "schemaVersion": "1.0",
-  "lastUpdated": "2026-09-16",
+  "lastUpdated": "2026-09-18",
   "person": {
     "name": "Bruno Moya",
-    "headline": "Software Developer & Glassear Founder",
-    "description": "Software developer based in Barcelona. Creator of Glassear and CTO at TopBrokers.io, working across web applications, backend systems, infrastructure and mixed reality.",
-    "location": "Barcelona, Spain",
+    "alternateName": "Bruno Moya Ruiz",
+    "headline": "Founder & CEO at Glassear · CTO at TopBrokers",
+    "tagline": "I turn emerging technology into real products.",
+    "seoTitle": "Bruno Moya | Founder at Glassear · CTO at TopBrokers",
+    "description": "Software engineer and technical product builder based in Barcelona. Founder & CEO of Glassear, optical see-through AR powered by smartphones, and CTO at TopBrokers, working across AI systems, spatial computing, hardware and production infrastructure.",
+    "location": "Barcelona, Catalonia, Spain",
     "email": "bruno@glassear.com",
     "currentRoles": [
-      "CTO at TopBrokers.io",
-      "Founder & Software Developer at Glassear"
+      "Founder & CEO at Glassear",
+      "CTO at TopBrokers.io"
     ],
     "languages": [
       "Spanish",
+      "Catalan",
       "English",
       "French"
     ]
@@ -27,8 +31,26 @@
     "contact": "mailto:bruno@glassear.com"
   },
   "positioning": {
-    "intro": "I started programming at 13. Building Glassear took me into optics, electronics and mixed reality; internships, university and professional projects broadened that work into web applications and production systems.",
-    "principle": "From the first prototype to software people can use."
+    "intro": "I started programming at 13. In 2015, still a teenager, I started building Glassear because I wanted AR glasses I couldn't buy. Glassear needed hardware, so I learned hardware; it needed computer vision, so I learned computer vision. Later came backend, infrastructure and AI. The technologies changed; the habit didn't: pick a hard problem, build it, break it, understand why, and build it again until it works outside a demo.",
+    "principle": "I turn emerging technology into real products.",
+    "principles": [
+      {
+        "title": "AI should do things, not just talk about them.",
+        "body": "It gets interesting when a model can use real tools, change a real scene or call a real API, with deterministic checks around it deciding what actually happens."
+      },
+      {
+        "title": "The prototype is where the real work starts.",
+        "body": "Making something work once is a demo. Making it work on an ordinary Tuesday, for someone else, with bad Wi-Fi, is a product."
+      },
+      {
+        "title": "I like owning the whole problem.",
+        "body": "Frontend, backend, hardware, AI or infrastructure are implementation choices. If it's part of the product, it's part of the problem."
+      },
+      {
+        "title": "Emerging tech gets interesting when it stops feeling emerging.",
+        "body": "AR and AI don't matter because they're new. They matter the day a musician reads a score hands-free, or a team stops doing something by hand."
+      }
+    ]
   },
   "experience": [
     {
@@ -39,7 +61,7 @@
       "endDate": null,
       "location": "Barcelona, Spain",
       "companyUrl": "https://topbrokers.io/",
-      "summary": "Hands-on technical ownership of production software and infrastructure, from architecture and implementation to deployment, validation and operations.",
+      "summary": "Hands-on technical ownership of an AI- and automation-driven real estate technology platform, from architecture and implementation to deployment and operations.",
       "highlights": [
         "Architect and build backend systems, APIs, automation platforms and distributed services.",
         "Operate PostgreSQL, Docker, Linux, networking, backups, monitoring and cloud/on-premise infrastructure.",
@@ -62,18 +84,18 @@
     {
       "id": "glassear-founder",
       "company": "Glassear",
-      "role": "Founder & Software Developer",
+      "role": "Founder & CEO",
       "startDate": "2015-05",
       "endDate": null,
       "location": "Barcelona, Spain",
       "companyUrl": "https://www.glassear.com/",
-      "summary": "Founded Glassear to build accessible mixed-reality glasses, working across custom hardware, computer vision, Unity and web applications.",
+      "summary": "Founded Glassear in 2015 and kept iterating the device for a decade across optics, mechanics, electronics and software. Glassear now builds an AR / spatial computing ecosystem: Glassear One hardware, the Glassear Studio platform and GlassMusic.",
       "highlights": [
-        "Build Glassear Studio, a platform that uses AI to turn natural-language instructions into interactive XR applications.",
-        "Designed AI Planner, Intent Graph, agent/tool and MCP integrations, structured scene modifications and runtime synchronization.",
-        "Combine deterministic execution and validation with LLM reasoning across a Unity runtime and web platform.",
-        "Develop software and hardware for XR, including computer vision, Android device protocols and custom headset integrations.",
-        "Own product direction, architecture and implementation across TypeScript, React, Node.js, Unity, Python and PostgreSQL-based systems."
+        "Glassear One: optical see-through AR headset that uses the user's smartphone as display and compute, avoiding video passthrough and reducing cost, weight and proprietary electronics. Patent pending.",
+        "Build Glassear Studio, an AI-native platform that turns natural-language intent into interactive spatial applications: Unity integration, own runtime, GLX, scene patches and revisions, runtime synchronization, AI Planner, Intent Graph and agent tooling.",
+        "GlassMusic: first vertical use case, hands-free AR for music learning and performance; shown at 4YFN/MWC 2025 and pitched at 4YFN/MWC 2026 from the Catalan Arts stand.",
+        "Selected for the ACCIÓ Catalan Pitch Competition 2025 catalogue of 50 Catalan startups with the most potential.",
+        "Own product direction, architecture and implementation across hardware, Unity, TypeScript, React, Node.js, Python and PostgreSQL."
       ],
       "technologies": [
         "TypeScript",
@@ -85,7 +107,9 @@
         "MCP",
         "LLM APIs",
         "XR",
-        "Computer Vision"
+        "Computer Vision",
+        "Hardware",
+        "Optics"
       ]
     },
     {
@@ -200,7 +224,10 @@
         "OpenAI",
         "Anthropic",
         "Gemini"
-      ]
+      ],
+      "story": "I got tired of searching for jobs manually, so I started building an agent to help me do it.",
+      "actionUrl": "https://github.com/elblogbruno/JobAgent",
+      "actionLabel": "View JobAgent on GitHub"
     },
     {
       "id": "talent-gap-analyzer",
@@ -234,7 +261,8 @@
         "OpenAI",
         "Anthropic",
         "Gemini"
-      ]
+      ],
+      "story": "We had a hackathon, a problem worth solving and very little time. We built TalentGapAnalyzer and it won UAB The Hack 2025."
     },
     {
       "id": "glassear-studio",
@@ -269,10 +297,58 @@
         "MCP",
         "LLM APIs",
         "XR"
-      ]
+      ],
+      "story": "Creating spatial apps is still slow and specialised. Glassear Studio makes it closer to describing what you want and letting AI agents help build it.",
+      "actionUrl": "https://platform.glassear.com/",
+      "actionLabel": "Open Glassear Studio"
+    },
+    {
+      "id": "mapanim",
+      "name": "MapAnim",
+      "title": "MapAnim — Route Motion Studio",
+      "featured": true,
+      "category": "Creative tools & geospatial visualization",
+      "repository": null,
+      "url": "/projects/mapanim/",
+      "role": "Product development and software engineering.",
+      "outcome": "An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.",
+      "problem": "Turning a travel itinerary into a map animation requires coordinating route geometry, camera movement, timing and video rendering.",
+      "description": "A browser-based editor for animated travel maps, with an editable itinerary, camera controls, a timeline, map styles and MP4 export.",
+      "architecture": "React and TypeScript power the editor, MapLibre GL renders the map, and Zustand manages project state. A shared scene engine evaluates the route and camera at a given time. Playwright captures frames in Chromium and FFmpeg encodes the video.",
+      "aiComponent": "The route animation and video export pipeline does not depend on generative AI.",
+      "deterministicComponent": "The editor preview and frame-by-frame export share getSceneAtTime(project, time), so both use the same route and camera calculations.",
+      "principle": "One scene model for interactive preview and exported video.",
+      "highlights": [
+        "Editable itineraries, GPX import and route timing on a timeline.",
+        "Camera controls and continuous route transitions.",
+        "Multiple map styles and a Route 66 example from Chicago to Santa Monica.",
+        "Frame-by-frame capture and FFmpeg MP4 encoding."
+      ],
+      "technologies": [
+        "React",
+        "TypeScript",
+        "MapLibre GL",
+        "Zustand",
+        "Turf.js",
+        "Playwright",
+        "FFmpeg"
+      ],
+      "story": "Bringing geospatial rendering, camera choreography and video export together in an interactive creative tool.",
+      "image": "/images-webp/projects/mapanim.jpg"
     }
   ],
   "broaderProjects": [
+    {
+      "name": "Glassear One",
+      "description": "Optical see-through AR headset that uses the user's smartphone as display and compute. Patent pending.",
+      "url": "https://www.glassear.com/",
+      "technologies": [
+        "Optics",
+        "Hardware",
+        "Unity",
+        "AR"
+      ]
+    },
     {
       "name": "GlassFood",
       "description": "Final degree project combining mixed reality, computer vision and deep learning to detect ingredients and present recipe and nutrition information in an immersive interface.",
@@ -282,17 +358,6 @@
         "Computer Vision",
         "Deep Learning",
         "XR"
-      ]
-    },
-    {
-      "name": "SeiVoice",
-      "description": "Voice-controlled supermarket purchasing and management assistant built during HackUPC 2024.",
-      "url": "https://github.com/elblogbruno/seidor-hackupc",
-      "technologies": [
-        "Python",
-        "FastAPI",
-        "LLMs",
-        "Raspberry Pi"
       ]
     },
     {
@@ -376,7 +441,10 @@
       "Networking",
       "Reverse proxies",
       "Cloud infrastructure",
-      "Backup systems"
+      "Backup systems",
+      "Hetzner",
+      "Cloudflare R2",
+      "MinIO"
     ],
     "XR & Spatial Computing": [
       "Unity",
@@ -385,9 +453,14 @@
       "OpenXR",
       "WebXR",
       "Computer Vision",
-      "Custom XR hardware"
+      "Custom XR hardware",
+      "Three.js",
+      "Hand tracking",
+      "MediaPipe"
     ],
     "AI tools & integration": [
+      "AI agents",
+      "Planners",
       "Claude Code",
       "OpenAI Codex",
       "GitHub Copilot",
@@ -398,6 +471,14 @@
       "Structured Outputs",
       "Prompt and System Instruction Design",
       "Multi-Agent Workflows"
+    ],
+    "Hardware": [
+      "Optics",
+      "Mechanical prototyping",
+      "3D printing",
+      "Electronics integration",
+      "Cameras & IMUs",
+      "Embedded Linux devices"
     ]
   },
   "education": [
@@ -410,7 +491,7 @@
     },
     {
       "institution": "École de technologie supérieure (ÉTS)",
-      "degree": "Winter session",
+      "degree": "Computer Science exchange term",
       "startDate": "2023",
       "endDate": "2023",
       "location": "Montreal, Canada"
@@ -421,29 +502,76 @@
       "startDate": "2016",
       "endDate": "2019",
       "location": "Barcelona, Spain"
+    },
+    {
+      "institution": "Escola Llissach",
+      "degree": "ESO Certificate (High School) - Primary School",
+      "startDate": "2004",
+      "endDate": "2016",
+      "location": null
     }
   ],
-  "awards": [
+  "building": [
     {
-      "name": "Winner - UAB The Hack 2025",
-      "organization": "UAB The Hack",
-      "date": "2025",
-      "project": "TalentGapAnalyzer",
-      "url": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack"
+      "name": "Glassear",
+      "role": "Founder & CEO",
+      "since": "2015",
+      "url": "https://www.glassear.com/",
+      "summary": "Optical see-through AR hardware that uses the user's smartphone as display and compute (Glassear One, patent pending), Glassear Studio (an AI-native platform for creating spatial apps) and GlassMusic, its first real use case."
     },
     {
-      "name": "Maker Faire Galicia Industry 4.0 Award",
-      "organization": "Maker Faire Galicia",
-      "date": "2018",
-      "project": "Glassear",
-      "url": "https://www.youtube.com/watch?v=ygmnUNxPn1Q"
+      "name": "TopBrokers",
+      "role": "CTO",
+      "since": "2025",
+      "url": "https://topbrokers.io/",
+      "summary": "AI, automation, backend systems and production infrastructure for a real estate technology platform."
     },
     {
-      "name": "GlassFood Final Degree Project - 9.8/10",
-      "organization": "Universitat Aut-noma de Barcelona",
-      "date": "2023",
-      "project": "GlassFood",
-      "url": "https://github.com/elblogbruno/tfg-poster-ar-experience"
+      "name": "Experiments",
+      "role": "Side projects & hackathons",
+      "since": null,
+      "url": "https://github.com/elblogbruno",
+      "summary": "Side projects and hackathons such as MapAnim, a browser-based editor for animated travel maps, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work."
     }
+  ],
+  "milestones": [
+    {
+      "date": "2015",
+      "event": "Started building Glassear."
+    },
+    {
+      "date": "2018",
+      "event": "Glassear received the 2nd Professional Prize at Maker Faire Galicia."
+    },
+    {
+      "date": "2023",
+      "event": "Graduated in Computer Science from Universitat Autònoma de Barcelona, after a term at ÉTS Montréal."
+    },
+    {
+      "date": "2025-03",
+      "event": "GlassMusic, the first Glassear use case, shown at 4YFN / Mobile World Congress 2025 with UAB."
+    },
+    {
+      "date": "2025-04",
+      "event": "TalentGapAnalyzer won UAB The Hack 2025."
+    },
+    {
+      "date": "2025",
+      "event": "Glassear selected for the ACCIÓ Catalan Pitch Competition 2025 catalogue of 50 Catalan startups with the most potential (Deep Tech)."
+    },
+    {
+      "date": "2025-11",
+      "event": "Became CTO at TopBrokers.io."
+    },
+    {
+      "date": "2026-03-04",
+      "event": "Pitched GlassMusic by Glassear at 4YFN / MWC 2026 on the Catalan Arts stand; visitors tried Glassear One."
+    }
+  ],
+  "derivedFromSite": [
+    "awards - src/locales/<lang>/translation.json > awards.items",
+    "appearances - talks.items + news.items",
+    "broaderProjects - featured projects.items, appended to the curated entries above",
+    "building name, role and points - building.items"
   ]
 }

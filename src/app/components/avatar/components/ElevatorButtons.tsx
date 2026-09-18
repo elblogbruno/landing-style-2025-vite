@@ -205,7 +205,7 @@ const ElevatorButtons: React.FC<ElevatorButtonsProps> = ({
                     ${darkMode ? 'bg-zinc-900/95 text-zinc-100 border border-zinc-700' : 'bg-white text-zinc-800 border border-zinc-200'}`}
                   style={{
                     zIndex: 20000,
-                    left: '54px', // Position right next to the button
+                    right: '46px', // Open toward the cabin, inside the viewport
                     top: '50%',
                     transform: 'translateY(-50%)',
                     whiteSpace: 'nowrap',

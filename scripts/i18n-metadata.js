@@ -1,33 +1,28 @@
-// Importar la función para calcular la edad actual
-import { getCurrentAge } from './age-calculator.js';
-
-// Obtener la edad actual
-const currentAge = getCurrentAge();
-
-// Metadatos para cada idioma compatible
+// Metadatos para cada idioma compatible.
+// La edad no forma parte del posicionamiento: se queda obsoleta y no explica la trayectoria.
 export const metadataByLang = {
   // Español
   "es": {
-    "title": "Hola, soy Bruno Moya | Desarrollador y Emprendedor de AR/VR/MR",
-    "description": `Un entusiasta de la tecnología de ${currentAge} años de Barcelona, fundador de Glassear, dedicado a hacer la tecnología de Realidad Aumentada accesible para todos.`,
+    "title": "Bruno Moya | Fundador de Glassear · CTO en TopBrokers",
+    "description": "Convierto tecnología emergente en productos reales. Fundador y CEO de Glassear (realidad aumentada óptica con smartphone) y CTO en TopBrokers: sistemas de IA, computación espacial, hardware e infraestructura en producción desde Barcelona.",
     "language": "es",
-    "ogTitle": "Hola, soy Bruno Moya.",
-    "ogDescription": "Desarrollador y Emprendedor de AR/VR/MR.",
+    "ogTitle": "Bruno Moya: convierto tecnología emergente en productos reales",
+    "ogDescription": "Fundador y CEO de Glassear · CTO en TopBrokers. IA, computación espacial, hardware e infraestructura.",
     "ogLocale": "es_ES",
-    "twitterTitle": "Hola, soy Bruno Moya.",
-    "twitterDescription": "Desarrollador y Emprendedor de AR/VR/MR.",
-    "keywords": "Bruno Moya, Desarrollador AR, Desarrollador VR, Desarrollador MR, Emprendedor, Glassear, Realidad Aumentada, Realidad Mixta, Barcelona, Entusiasta Tecnológico"
+    "twitterTitle": "Bruno Moya: convierto tecnología emergente en productos reales",
+    "twitterDescription": "Fundador y CEO de Glassear · CTO en TopBrokers. IA, computación espacial, hardware e infraestructura.",
+    "keywords": "Bruno Moya, Bruno Moya Ruiz, Glassear, Glassear One, Glassear Studio, GlassMusic, TopBrokers, CTO, fundador técnico, ingeniero de software Barcelona, computación espacial, realidad aumentada, agentes de IA, infraestructura"
   },
   // Inglés
   "en": {
-    "title": "Hi, I'm Bruno Moya | AR/VR/MR Developer & Entrepreneur",
-    "description": `A ${currentAge}-year-old tech enthusiast from Barcelona, founder of Glassear, dedicated to making Augmented-Reality technology accessible to everyone.`,
+    "title": "Bruno Moya | Founder at Glassear · CTO at TopBrokers",
+    "description": "I turn emerging technology into real products. Founder & CEO of Glassear (optical see-through AR powered by smartphones) and CTO at TopBrokers: AI systems, spatial computing, hardware and production infrastructure from Barcelona.",
     "language": "en",
-    "ogTitle": "Hi, I'm Bruno Moya.",
-    "ogDescription": "AR/VR/MR Developer and Entrepreneur.",
+    "ogTitle": "Bruno Moya: I turn emerging technology into real products",
+    "ogDescription": "Founder & CEO at Glassear · CTO at TopBrokers. AI, spatial computing, hardware and infrastructure.",
     "ogLocale": "en_US",
-    "twitterTitle": "Hi, I'm Bruno Moya.",
-    "twitterDescription": "AR/VR/MR Developer and Entrepreneur.",
-    "keywords": "Bruno Moya, AR Developer, VR Developer, MR Developer, Entrepreneur, Glassear, Augmented Reality, Mixed Reality, Barcelona, Tech Enthusiast"
+    "twitterTitle": "Bruno Moya: I turn emerging technology into real products",
+    "twitterDescription": "Founder & CEO at Glassear · CTO at TopBrokers. AI, spatial computing, hardware and infrastructure.",
+    "keywords": "Bruno Moya, Bruno Moya Ruiz, Glassear, Glassear One, Glassear Studio, GlassMusic, TopBrokers, CTO, technical founder, software engineer Barcelona, spatial computing, augmented reality, AI agents, infrastructure"
   }
 };

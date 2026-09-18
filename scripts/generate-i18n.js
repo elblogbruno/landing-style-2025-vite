@@ -1,12 +1,10 @@
 // Script para generar la estructura de carpetas i18n después de la construcción
 import fs from 'fs';
+import { createServer } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { metadataByLang } from './i18n-metadata.js';
 
-const execAsync = promisify(exec);
 
 // Obtener el directorio actual con ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -89,18 +87,34 @@ function updateMetadata(html, lang) {
     `<meta name="keywords" content="${metadata.keywords}"`
   );
 
+  const canonical = 'https://brunomoya.com/' + (lang === 'en' ? 'en/' : '');
+  updatedHtml = updatedHtml.replace(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="${canonical}"`);
+  updatedHtml = updatedHtml.replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonical}"`);
   return updatedHtml;
 }
 
 async function createI18nDirs() {
   console.log('🌐 Creando estructura de directorios para multilenguaje...');
 
+  const server = await createServer({
+    configFile: false,
+    mode: 'production',
+    optimizeDeps: { noDiscovery: true, include: [] },
+    server: { middlewareMode: true },
+    appType: 'custom',
+    esbuild: { jsx: 'automatic' },
+  });
+  try {
+  const { render } = await server.ssrLoadModule('/src/prerender.tsx');
+  const prerender = async (html, lang) => html.replace('<div id="root"></div>',
+    '<div id="root" data-language="' + lang + '">' + await render(lang) + '</div>');
+
   // Leer el archivo index.html original
   const indexPath = path.join(DIST_DIR, 'index.html');
   const originalHtml = fs.readFileSync(indexPath, 'utf-8');
 
   // Actualizar el archivo index.html para el idioma predeterminado
-  const defaultLangHtml = updateMetadata(originalHtml, DEFAULT_LANG);
+  const defaultLangHtml = await prerender(updateMetadata(originalHtml, DEFAULT_LANG), DEFAULT_LANG);
   fs.writeFileSync(indexPath, defaultLangHtml);
   console.log(`✅ Actualizados metadatos del idioma predeterminado (${DEFAULT_LANG}) en index.html`);
 
@@ -115,65 +129,19 @@ async function createI18nDirs() {
       }
       
       // Generar index.html para este idioma con metadatos actualizados
-      const langHtml = updateMetadata(originalHtml, lang);
+      const langHtml = await prerender(updateMetadata(originalHtml, lang), lang);
       const indexDest = path.join(langDir, 'index.html');
       
       fs.writeFileSync(indexDest, langHtml);
       console.log(`📄 Creado ${lang}/index.html con metadatos traducidos`);
       
-      // Crear enlaces simbólicos para los archivos estáticos
-      // En producción, estos archivos deberían ser accesibles desde cualquier ruta
-      try {
-        const publicFiles = fs.readdirSync(DIST_DIR).filter(file => 
-          !['index.html', 'assets', ...LANGS].includes(file) && 
-          !file.startsWith('.')
-        );
-        
-        for (const file of publicFiles) {
-          const srcPath = path.join(DIST_DIR, file);
-          const destPath = path.join(langDir, file);
-          
-          if (fs.statSync(srcPath).isDirectory()) {
-            if (!fs.existsSync(destPath)) {
-              fs.mkdirSync(destPath, { recursive: true });
-            }
-            
-            // Para directorios, crear enlaces simbólicos de su contenido
-            if (process.platform === 'win32') {
-              // En Windows, crear enlaces de unión (junction)
-              try {
-                fs.symlinkSync(srcPath, destPath, 'junction');
-              } catch (error) {
-                console.log(`⚠️ No se pudo crear enlace para ${file}. Copiando...`);
-                fs.cpSync(srcPath, destPath, { recursive: true });
-              }
-            } else {
-              // En sistemas Unix/Linux
-              try {
-                await execAsync(`ln -sf "../../${file}" "${destPath}"`);
-              } catch (error) {
-                console.log(`⚠️ No se pudo crear enlace para ${file}. Copiando...`);
-                fs.cpSync(srcPath, destPath, { recursive: true });
-              }
-            }
-          } else {
-            // Para archivos, simplemente crear un enlace simbólico
-            try {
-              fs.symlinkSync(path.relative(path.dirname(destPath), srcPath), destPath);
-            } catch (error) {
-              console.log(`⚠️ No se pudo crear enlace para ${file}. Copiando...`);
-              fs.copyFileSync(srcPath, destPath);
-            }
-          }
-        }
-        
-        console.log(`✅ Archivos estáticos enlazados para ${lang}`);
-      } catch (error) {
-        console.error(`❌ Error al procesar archivos estáticos para ${lang}:`, error);
-      }
+      // Assets use absolute URLs and are shared by both languages.
+
     }
   }
 
+  fs.copyFileSync(path.resolve(__dirname, '../.htaccess'), path.join(DIST_DIR, '.htaccess'));
+  } finally { await server.close(); }
   console.log('✨ Estructura multilenguaje creada con éxito');
 }
 

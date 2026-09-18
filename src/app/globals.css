@@ -87,7 +87,13 @@
 /* Estilos base para html y body */
 html, body {
   font-family: var(--font-family);
-  /* transition: scroll-behavior 0s ease; */
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+#root {
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 /* html {

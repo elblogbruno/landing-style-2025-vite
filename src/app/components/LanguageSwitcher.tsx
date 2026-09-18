@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface LanguageSwitcherProps {
@@ -8,6 +8,7 @@ interface LanguageSwitcherProps {
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = React.memo(({ theme }) => {
   const { i18n, t } = useTranslation();
   const isLight = theme === 'light';
+  useEffect(() => { document.documentElement.lang = i18n.resolvedLanguage || 'es'; }, [i18n.resolvedLanguage]);
   
   // Memoizar las clases para evitar recalcularlas en cada render
   const classes = useMemo(() => {
@@ -15,11 +16,11 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = React.memo(({ theme })
       ? 'bg-gray-100 shadow-sm border border-gray-200' 
       : 'bg-gray-800 border border-gray-700';
     
-    const baseButtonClass = 'py-1.5 px-3 text-sm font-medium transition-all duration-200 relative z-10';
+    const baseButtonClass = 'py-1 px-2.5 sm:py-1.5 sm:px-3 text-xs sm:text-sm font-medium transition-all duration-200 relative z-10';
     
     const activeClass = isLight 
       ? 'text-blue-600 font-semibold' 
-      : 'text-blue-400 font-semibold';
+      : 'text-blue-300 font-semibold';
     
     const inactiveClass = isLight 
       ? 'text-gray-600 hover:text-gray-800' 
@@ -81,14 +82,14 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = React.memo(({ theme })
       <button
         onClick={changeToSpanish}
         className={classes.es}
-        aria-label={t('language.switchToSpanish')}
+        aria-label={`ES — ${t('language.switchToSpanish')}`}
       >
         ES
       </button>
       <button
         onClick={changeToEnglish}
         className={classes.en}
-        aria-label={t('language.switchToEnglish')}
+        aria-label={`EN — ${t('language.switchToEnglish')}`}
       >
         EN
       </button>

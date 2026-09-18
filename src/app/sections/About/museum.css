@@ -1,0 +1,60 @@
+.story-museum {
+  --museum-paper: #fcfaf5; --museum-ink: #302c26; --museum-muted: #675f53;
+  --museum-brass: #85632f; --museum-frame: #514535; --museum-mat: #e8e0d0;
+  color: var(--museum-ink); padding: 24px 16px;
+}
+.story-museum--dark {
+  --museum-paper: #292820; --museum-ink: #f0ece2; --museum-muted: #c3bcad;
+  --museum-brass: #d4b379; --museum-frame: #8a7960; --museum-mat: #35342d;
+}
+.story-museum__entrance {
+  padding: 24px; border: 1px solid #a18b6345; border-top: 4px solid var(--museum-brass);
+  background: var(--museum-paper); box-shadow: 0 8px 20px #16120b0c; margin-bottom: 40px;
+}
+.story-museum__room { font: 600 11px/1.6 monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--museum-brass); margin-bottom: 14px; }
+.story-museum__entrance h2 { font-size: clamp(25px, 3vw, 38px); line-height: 1.2; letter-spacing: -.035em; font-weight: 700; text-wrap: balance; }
+.story-museum__introduction { margin-top: 16px; max-width: 58ch; font-size: 14px; line-height: 1.8; color: var(--museum-muted); }
+.story-museum__details { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 20px; padding-top: 14px; border-top: 1px solid #a18b6345; color: var(--museum-muted); font-size: 12px; }
+.story-museum__collection { position: relative; list-style: none; margin: 0; padding: 0 0 0 24px; border-left: 1px solid #a18b6370; }
+.story-museum__stop { position: relative; padding-bottom: 48px; min-width: 0; }
+.story-museum__year { display: flex; align-items: center; gap: 10px; font: 600 14px/1.4 monospace; color: var(--museum-brass); margin-bottom: 12px; }
+.story-museum__dot { position: absolute; left: -29px; width: 9px; height: 9px; border: 2px solid var(--museum-brass); background: var(--museum-paper); border-radius: 50%; }
+.story-museum__exhibit { display: grid; grid-template-columns: minmax(0,1fr); gap: 24px; align-items: center; min-width: 0; }
+.story-museum__piece { min-width: 0; margin: 0; padding-top: 28px; position: relative; }
+.story-museum__spotlight { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #80735e60; }
+.story-museum__spotlight::before { content: ''; position: absolute; top: 0; left: calc(50% - 13px); width: 26px; height: 10px; border-radius: 0 0 4px 4px; background: #655a48; border-bottom: 3px solid #ffedc2; }
+.story-museum__spotlight::after { content: ''; position: absolute; top: 10px; left: 10%; width: 80%; height: 120px; background: linear-gradient(#ffdf8529, transparent); clip-path: polygon(45% 0,55% 0,100% 100%,0 100%); pointer-events: none; }
+.story-museum__frames { display: grid; gap: 12px; }
+.story-museum__frames--pair { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.story-museum__frame { padding: clamp(8px, 1.5vw, 16px); background: var(--museum-mat); border: 6px solid var(--museum-frame); box-shadow: inset 0 0 0 1px #fff3, 3px 6px 9px #17110925; }
+.story-museum__frame img { width: 100%; height: auto; aspect-ratio: 4/3; object-fit: contain; display: block; background: #171a1d; }
+.story-museum__piece figcaption { margin: 12px auto 0; padding: 9px 11px; max-width: 95%; background: var(--museum-paper); border-left: 2px solid var(--museum-brass); color: var(--museum-muted); font-size: 11px; line-height: 1.7; }
+.story-museum__piece figcaption a { display: inline-block; margin-left: 6px; }
+.story-museum__label { background: var(--museum-paper); border: 1px solid #a18b6335; border-left: 3px solid var(--museum-brass); padding: 20px; }
+.story-museum__catalogue { color: var(--museum-muted); font: 11px/1.7 monospace; margin-bottom: 10px; }
+.story-museum__label h3 { font-size: 20px; line-height: 1.3; font-weight: 700; letter-spacing: -.025em; margin-bottom: 12px; }
+.story-museum__body { color: var(--museum-muted); font-size: 14px; line-height: 1.85; overflow-wrap: break-word; }
+.story-museum a { color: var(--museum-brass); text-decoration: underline; text-underline-offset: 4px; }
+.story-museum a:focus-visible { outline: 2px solid var(--museum-brass); outline-offset: 5px; }
+.story-museum__source { display: inline-flex; gap: 8px; margin-top: 16px; padding-block: 6px; font-size: 13px; font-weight: 600; }
+.story-museum__continuation { margin-left: 24px; border-top: 1px solid #a18b6355; padding-top: 20px; color: var(--museum-muted); font-size: 14px; line-height: 1.8; }
+@media (min-width: 768px) {
+  .story-museum { padding: 40px 24px; }
+  .story-museum__exhibit { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
+  .story-museum__stop:nth-child(even) .story-museum__piece { grid-column: 2; grid-row: 1; }
+  .story-museum__stop:nth-child(even) .story-museum__label { grid-column: 1; grid-row: 1; }
+}
+@media (max-width: 479px) {
+  .story-museum { padding-inline: 4px; }
+  .story-museum__entrance { padding: 20px 16px; }
+  .story-museum__collection { padding-left: 16px; }
+  .story-museum__dot { left: -21px; }
+  .story-museum__label { padding: 18px 14px; }
+  .story-museum__frames--pair { grid-template-columns: minmax(0,1fr); }
+}
+/* Warm gallery walls, picture rail and a stone floor distinguish this room. */
+#about > .floor-room { --wall: #eee9dd; background: var(--wall) !important; }
+#about > .floor-room--dark { --wall: #24251f; }
+#about .floor-room__architecture { background: linear-gradient(90deg,#9787720d 1px,transparent 1px) 0 0 / 100px 100%; border-top: 74px solid #9c8b6a14; }
+#about .floor-room__architecture::after { inset: 6px 20px auto; width: auto; height: 3px; border: 0; border-radius: 0; background: #84745950; }
+#about .floor-room__ground { border-top: 5px solid #99866a80; background: repeating-linear-gradient(90deg,transparent 0 100px,#8b7d6540 101px 102px),linear-gradient(#84735922,#ad9b7733); }

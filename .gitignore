@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local QA artefacts
+.playwright-mcp/
+lighthouse-*.json
+awards-room-desktop.png
+awards-room-mobile.png

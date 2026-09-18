@@ -1,0 +1,63 @@
+
+/* Conference stage: projection screen, lighting rig, wings and lectern. */
+.talks-stage { --stage-card: #152131; --stage-border: #57738c; position: relative; padding-inline: clamp(12px, 2vw, 28px); }
+.talks-stage--light { --stage-card: #edf2f5; --stage-border: #9aafbe; }
+.talks-stage__header { position: relative; isolation: isolate; padding: 36px clamp(18px, 3vw, 36px) 92px; margin-bottom: 52px; border: 8px solid #303a45; border-bottom-width: 12px; background: radial-gradient(ellipse at 50% 0, #45709855, transparent 70%), #101b2b; box-shadow: 0 0 0 1px #a3b6c36b, 0 0 35px #94d9ff24; }
+.talks-stage__header h2 { color: #f2f7ff; }
+.talks-stage__header p { color: #c0d0df; }
+.talks-stage__header > div:first-child > span { color: #83c8f3; }
+.talks-stage__header::after { content: ''; position: absolute; inset: auto -18px -31px; height: 25px; background: repeating-linear-gradient(90deg, transparent 0 100px, #c0a17520 101px 102px), linear-gradient(#8d7657, #645139 45%, #302c27 46%); border-bottom: 5px solid #171e27; box-shadow: 0 9px 0 #3a4350, 0 16px 0 #202b38; }
+.talks-stage .talks-stage__screen { border: 1px solid var(--stage-border); border-top: 4px solid #7e99ae; border-radius: 3px; background: var(--stage-card); box-shadow: 0 5px 0 #1b2935, 0 15px 25px -15px #0009; }
+.talks-stage__projection { border: 5px solid #253440; border-bottom: 9px solid #526675; border-radius: 2px; box-shadow: 0 0 20px #97d6ff20; }
+.talks-stage .talks-stage__projection img { object-fit: contain; background: #0b1420; }
+.talks-stage .talks-stage__card { border-radius: 4px; border-top: 3px solid var(--stage-border); background: var(--stage-card); }
+.talks-stage button:focus-visible, .talks-stage a:focus-visible { outline: 3px solid #72c9ff; outline-offset: 4px; }
+.floor-room--talks .floor-room__architecture { border-inline: 15px solid #273447; background: repeating-linear-gradient(90deg, #38536d18 0 12px, #13203333 13px 16px); }
+.floor-room--talks .floor-room__architecture::before, .floor-room--talks .floor-room__architecture::after { height: 760px; background: linear-gradient(#d6ecff50, #7fbaff0a); }
+.floor-room--talks .floor-room__ceiling { height: 34px; border-block: 4px solid #7b8c9c; background: repeating-linear-gradient(45deg, transparent 0 22px, #94a9ba 23px 26px, transparent 27px 44px), #1c2936; box-shadow: 0 8px 25px #9dccff33; }
+.floor-room--talks .floor-room__ground { height: 64px; border-top: 8px solid #88765d; background: repeating-linear-gradient(0deg, #3e4b5b 0 10px, #1b2839 11px 18px); }
+@media (max-width: 767px) { .talks-stage__header { padding: 26px 14px 84px; border-width: 5px; } .talks-stage__header::after { inset-inline: -10px; } .talks-stage__header > div { min-width: 0; } .talks-stage__header button { flex-wrap: wrap; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .talks-stage *, .talks-stage *::before, .talks-stage *::after { animation: none !important; transition: none !important; } }
+
+/* Press edition: masthead, lead stories and newspaper columns. */
+.talks-newspaper { padding: clamp(18px, 3vw, 32px); background: #f3eedf; color: #282823; border: 1px solid #c8c0aa; box-shadow: 5px 5px 0 #dbd4c2, 6px 6px 0 #8b8679; }
+.talks-newspaper__masthead { text-align: center; border-top: 3px solid #34342b; border-bottom: 4px double #34342b; padding: 16px 0; }
+.talks-newspaper__masthead h3 { font: 700 clamp(1.7rem, 4vw, 3rem)/1.1 Georgia, serif; color: #242820; text-shadow: none; }
+.talks-newspaper__masthead p { margin-top: 8px; font-size: 12px; letter-spacing: .08em; color: #515246; }
+.talks-newspaper h3, .talks-newspaper h4 { color: #252820; text-shadow: none; }
+.talks-newspaper h4 { font-family: Georgia, 'Times New Roman', serif; line-height: 1.2; }
+.talks-newspaper p { color: #45483e; }
+.talks-newspaper .talks-stage__screen, .talks-newspaper .talks-stage__card { background: transparent; border: 0; border-top: 1px solid #969784; border-radius: 0; box-shadow: none; backdrop-filter: none; padding: 20px 0; }
+.talks-newspaper .talks-stage__projection { border: 1px solid #a4a38f; background: #e0dece; box-shadow: none; }
+.talks-newspaper .talks-stage__projection img { background: #e0dece; }
+.talks-newspaper .text-blue-400 { color: #4f5948; }
+.talks-newspaper a { color: #294d42; text-decoration: underline; text-underline-offset: 3px; }
+.talks-newspaper a.bg-blue-600 { background: #2e4c41; color: #fffdf3; text-decoration: none; border-radius: 2px; }
+.talks-newspaper .line-clamp-3 { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.talks-newspaper .talks-stage__card { border-bottom: 1px solid #c0bca7; }
+.talks-newspaper .talks-stage__card > div:last-child { border-color: #c0bca7; }
+
+/* Main presentation and the existing Bruno avatar on a full lectern. */
+.talks-stage__header { padding-bottom: 32px; }
+.talks-stage__presentation { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 112px; align-items: end; gap: 12px; padding-top: 8px; }
+.talks-stage__main-screen { min-width: 0; background: #080e17; border: 5px solid #667b8d; border-bottom-width: 9px; box-shadow: 0 0 25px #95ceff25; }
+.talks-stage__main-screen iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+.talks-stage__main-screen > a { display: block; padding: 9px 12px; color: #cce7fb; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.talks-stage__presenter { position: relative; height: 210px; pointer-events: none; }
+.talks-stage__avatar { position: absolute; inset: -22px -15px 0; }
+.talks-stage__podium { position: absolute; bottom: 0; left: 14px; right: 8px; height: 113px; }
+.talks-stage__podium-top { position: absolute; z-index: 3; top: 0; left: -7px; right: -7px; height: 15px; transform: skewY(-7deg); border-top: 3px solid #bba788; background: linear-gradient(#776249, #382e26); box-shadow: 0 4px 5px #0005; }
+.talks-stage__podium-front { position: absolute; inset: 12px 4px 10px; padding-top: 12px; text-align: center; color: #eee2c9; font: 600 14px/1.5 Georgia, serif; letter-spacing: .15em; background: linear-gradient(100deg, #795c3d, #4f3b29 70%, #362c23); border-inline: 3px solid #9a815d; clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%); }
+.talks-stage__podium-foot { position: absolute; bottom: 0; left: -2px; right: -2px; height: 9px; background: linear-gradient(#8e795b, #372e24); border-radius: 50% 50% 2px 2px; box-shadow: 0 5px 8px #0007; }
+.talks-stage__podium-mic { position: absolute; top: -25px; right: 10px; width: 3px; height: 29px; background: #a3b4bf; transform: rotate(-25deg); transform-origin: bottom; }
+.talks-stage__podium-mic::before { content: ''; position: absolute; top: -5px; left: -3px; width: 9px; height: 13px; border-radius: 5px; background: #1d2934; border: 1px solid #899da9; }
+@media (max-width: 767px) {
+  .talks-stage__header { padding-bottom: 22px; }
+  .talks-stage__presentation { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .talks-stage__presenter { width: 100px; height: 160px; justify-self: end; margin-top: 8px; }
+  .talks-stage__avatar { inset: -14px -8px 0; }
+  .talks-stage__podium { height: 85px; left: 18px; right: 10px; }
+}
+
+/* Keep the supplied Inetum photo collage fully visible. */
+.talks-stage__projection img[src$="/inetum-2025.jpg"] { object-fit: contain; }

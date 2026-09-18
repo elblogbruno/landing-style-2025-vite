@@ -273,7 +273,8 @@ const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'd
 
   return (
     <div className="md:py-16">
-      <h2 className={`text-3xl font-bold mb-6 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>{projectsData.title}</h2>
+      <h2 className={`text-3xl font-bold mb-2 ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>{projectsData.title}</h2>
+      <p className={`text-sm sm:text-base max-w-2xl mb-6 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>{t('projects.subtitle')}</p>
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div className="flex-grow">

@@ -1,13 +1,481 @@
 {
   "schemaVersion": "1.0",
-  "lastUpdated": "2026-09-16",
+  "lastUpdated": "2026-09-18",
   "name": "Bruno Moya",
-  "headline": "Software Developer & Glassear Founder",
-  "description": "Software developer based in Barcelona. Creator of Glassear and CTO at TopBrokers.io, working across web applications, backend systems, infrastructure and mixed reality.",
-  "location": "Barcelona, Spain",
+  "alternateName": "Bruno Moya Ruiz",
+  "headline": "Founder & CEO at Glassear · CTO at TopBrokers",
+  "tagline": "I turn emerging technology into real products.",
+  "description": "Software engineer and technical product builder based in Barcelona. Founder & CEO of Glassear, optical see-through AR powered by smartphones, and CTO at TopBrokers, working across AI systems, spatial computing, hardware and production infrastructure.",
+  "location": "Barcelona, Catalonia, Spain",
   "roles": [
-    "CTO at TopBrokers.io",
-    "Founder & Software Developer at Glassear"
+    "Founder & CEO at Glassear",
+    "CTO at TopBrokers.io"
+  ],
+  "positioning": {
+    "intro": "I started programming at 13. In 2015, still a teenager, I started building Glassear because I wanted AR glasses I couldn't buy. Glassear needed hardware, so I learned hardware; it needed computer vision, so I learned computer vision. Later came backend, infrastructure and AI. The technologies changed; the habit didn't: pick a hard problem, build it, break it, understand why, and build it again until it works outside a demo.",
+    "principle": "I turn emerging technology into real products.",
+    "principles": [
+      {
+        "title": "AI should do things, not just talk about them.",
+        "body": "It gets interesting when a model can use real tools, change a real scene or call a real API, with deterministic checks around it deciding what actually happens."
+      },
+      {
+        "title": "The prototype is where the real work starts.",
+        "body": "Making something work once is a demo. Making it work on an ordinary Tuesday, for someone else, with bad Wi-Fi, is a product."
+      },
+      {
+        "title": "I like owning the whole problem.",
+        "body": "Frontend, backend, hardware, AI or infrastructure are implementation choices. If it's part of the product, it's part of the problem."
+      },
+      {
+        "title": "Emerging tech gets interesting when it stops feeling emerging.",
+        "body": "AR and AI don't matter because they're new. They matter the day a musician reads a score hands-free, or a team stops doing something by hand."
+      }
+    ]
+  },
+  "building": [
+    {
+      "name": "Glassear",
+      "role": "Founder & CEO",
+      "since": "2015",
+      "url": "https://www.glassear.com/",
+      "summary": "Optical see-through AR hardware that uses the user's smartphone as display and compute (Glassear One, patent pending), Glassear Studio (an AI-native platform for creating spatial apps) and GlassMusic, its first real use case.",
+      "points": [
+        "Glassear One — AR hardware",
+        "Glassear Studio — spatial creation with AI",
+        "GlassMusic — first vertical product"
+      ]
+    },
+    {
+      "name": "TopBrokers",
+      "role": "CTO",
+      "since": "2025",
+      "url": "https://topbrokers.io/",
+      "summary": "AI, automation, backend systems and production infrastructure for a real estate technology platform.",
+      "points": []
+    },
+    {
+      "name": "Experiments",
+      "role": "Side projects & hackathons",
+      "since": null,
+      "url": "https://github.com/elblogbruno",
+      "summary": "Side projects and hackathons such as MapAnim, a browser-based editor for animated travel maps, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work.",
+      "points": [
+        "MapAnim — an animated-map editor with video export",
+        "TalentGapAnalyzer — UAB The Hack 2025 winner",
+        "+ XR, computer vision and hardware"
+      ]
+    }
+  ],
+  "milestones": [
+    {
+      "date": "2015",
+      "event": "Started building Glassear."
+    },
+    {
+      "date": "2018",
+      "event": "Glassear received the 2nd Professional Prize at Maker Faire Galicia."
+    },
+    {
+      "date": "2023",
+      "event": "Graduated in Computer Science from Universitat Autònoma de Barcelona, after a term at ÉTS Montréal."
+    },
+    {
+      "date": "2025-03",
+      "event": "GlassMusic, the first Glassear use case, shown at 4YFN / Mobile World Congress 2025 with UAB."
+    },
+    {
+      "date": "2025-04",
+      "event": "TalentGapAnalyzer won UAB The Hack 2025."
+    },
+    {
+      "date": "2025",
+      "event": "Glassear selected for the ACCIÓ Catalan Pitch Competition 2025 catalogue of 50 Catalan startups with the most potential (Deep Tech)."
+    },
+    {
+      "date": "2025-11",
+      "event": "Became CTO at TopBrokers.io."
+    },
+    {
+      "date": "2026-03-04",
+      "event": "Pitched GlassMusic by Glassear at 4YFN / MWC 2026 on the Catalan Arts stand; visitors tried Glassear One."
+    }
+  ],
+  "appearances": [
+    {
+      "kind": "talk",
+      "name": "GlassMusic by Glassear: optical AR for musicians",
+      "event": "4YFN · Mobile World Congress 2026",
+      "date": "2026-03-04",
+      "location": "Barcelona, Spain",
+      "note": "Pitch on the Catalan Arts / Generalitat de Catalunya stand about bringing smartphone-powered optical AR to a real context: music. Visitors tried a working Glassear One.",
+      "url": null,
+      "postUrl": null,
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "How technology is transforming music",
+      "event": "Vibez Festival 2025",
+      "date": "2025-11-14",
+      "location": "Urbine",
+      "note": "I joined the musictech panel at Vibez Festival 2025 with GlassMusic by Glassear, alongside Sounds Market and Odisei Music, to discuss how technology is transforming music.",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7399441660272844801/",
+      "postUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7399441660272844801/",
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "Presenting Glassear at Inetum",
+      "event": "Inetum · Innovation and startups event",
+      "date": "2025-06-12",
+      "location": "Inetum offices, Barcelona",
+      "note": "I presented Glassear at Inetum’s innovation and startups event in Barcelona: a day of pitches and discussions with their team and other startups, shared by Dr. Daniel López in this post.",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7339245901778944000/",
+      "postUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7339245901778944000/",
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "GlassMusic pitch at Pier01",
+      "event": "Tech Barcelona · YOUZ Talent",
+      "date": "2025-04-10",
+      "location": "Pier01, Barcelona",
+      "note": "I pitched GlassMusic to more than 100 people at Pier01, thanks to YOUZ Talent and Tech Barcelona, and gathered feedback from music students, professionals and enthusiasts who tried it.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_glassmusic-glassmusic-musictech-activity-7316184469344804864-AFur/",
+      "postUrl": "https://www.linkedin.com/posts/glassear-bruno_glassmusic-glassmusic-musictech-activity-7316184469344804864-AFur/",
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "GlassMusic at 4YFN 2025",
+      "event": "4YFN · Mobile World Congress 2025",
+      "date": "2025-03-04",
+      "location": "Barcelona, Spain",
+      "note": "Presented GlassMusic, the first real use case of Glassear, with UAB. I used the event to show the product, gather feedback and meet other startups and potential partners.",
+      "url": "https://www.uab.cat/en/entrepreneurship/agenda/20250303/4yfn",
+      "postUrl": null,
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "Host of the awards ceremony · 2nd Patient73 Game Jam",
+      "event": "Patient73 · FECAMM",
+      "date": "2024-05-15",
+      "location": "Barcelona City Hall",
+      "note": "I hosted the awards ceremony for the second Patient73 and FECAMM Game Jam at Barcelona City Hall, announcing the winners of this initiative creating games for children with rare diseases.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_ahir-vem-celebrar-lacte-de-entrega-de-premis-activity-7196966261459689472-01Ax/",
+      "postUrl": "https://www.linkedin.com/posts/glassear-bruno_ahir-vem-celebrar-lacte-de-entrega-de-premis-activity-7196966261459689472-01Ax/",
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "Presenting the 2nd Patient73 Game Jam at RCDE",
+      "event": "Patient73 · RCD Espanyol de Barcelona",
+      "date": "2023-12",
+      "location": "RCDE Stadium, Cornellà de Llobregat",
+      "note": "I presented the second Patient73 Game Jam at RCDE Stadium in collaboration with RCD Espanyol, an initiative raising awareness of rare diseases through creative video games.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_gamejam-patient73-games-activity-7143923891642564608-nZ8v",
+      "postUrl": "https://www.linkedin.com/posts/glassear-bruno_gamejam-patient73-games-activity-7143923891642564608-nZ8v",
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "VR/MR/AR, holograms and Glassear: from my bedroom to designing the future",
+      "event": "EURUS CONF 2022 · Universidad Tecnológica de Panamá",
+      "date": "2022-11",
+      "location": "Panamá",
+      "note": "I spoke at EURUS CONF 2022, organized by the Faculty of Computer Systems Engineering at Universidad Tecnológica de Panamá, sharing my journey with Glassear and immersive technologies.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj",
+      "postUrl": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj",
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Mixed and Augmented Reality: From my room to designing the future",
+      "event": "COECYS - University of San Carlos of Guatemala",
+      "date": "2021-10-01",
+      "location": "Virtual",
+      "note": "Talk for the Congress of Science and Systems Students of the University of San Carlos of Guatemala. (COECYS)",
+      "url": "https://www.youtube.com/watch?v=1aZOHzDZcYY",
+      "postUrl": null,
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "Talk to students from Castellet secondary school!",
+      "event": "Institut Castellet",
+      "date": "2021-05-12",
+      "location": "Castellet, Spain",
+      "note": "Talk about my #path in #entrepreneurship to middle and high school students at Institut Castellet!",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_camino-emprendimiento-path-activity-6798897168301203457-ngmy/",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Memenginy 2021 Round Table",
+      "event": "Memenginy 2021",
+      "date": "2021-04-29",
+      "location": "Barcelona, Spain",
+      "note": "Round table at Memenginy 2021, with Víctor Pérez Jiménez and Reda Chriki Elba, organized by UAB.",
+      "url": "https://www.instagram.com/p/COQp85XhXq2/",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Lecture for students of the Master in BIM Methodology and Management at the UPM",
+      "event": "UPM Master Lecture",
+      "date": "2020-12-09",
+      "location": "Madrid, Spain",
+      "note": "Lecture for students of the Master in BIM Methodology and Management at UPM, given by Felix Tejada from TYPSA.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_master-en-metodolog%C3%ADa-y-gesti%C3%B3n-bim-etsam-activity-6755058725125419009-hxaY",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "From Maker To Startup",
+      "event": "Maker Faire Galicia 2020",
+      "date": "2020-11-19",
+      "location": "Galicia, Spain",
+      "note": "Table moderated by Jose Iglesias (Techstars) with the participation of Bruno Moya (Glassear), Marcos Souto (3D LimitLess) and Mahor Muñiz (MAHOR · XYZ)",
+      "url": "https://makerfairegalicia.com/charlas/de-maker-a-startup",
+      "postUrl": null,
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "Create an augmented reality app in an hour",
+      "event": "Maker Faire Galicia 2020",
+      "date": "2020-11-19",
+      "location": "Galicia, Spain",
+      "note": "A workshop given by me about how to create an Augmented Reality app in less than an hour using Unity 3D and Vuforia.",
+      "url": "https://makerfairegalicia.com/talleres/crea-una-app-de-realidad-aumentada-en-una-hora",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "Bruno Moya: from maker at 16 to founder of a startup",
+      "event": "El Correo Gallego",
+      "date": "2020-11-19",
+      "location": null,
+      "note": "Article written by El Correo Gallego, Galicia's leading newspaper.",
+      "url": "https://www.elcorreogallego.es/santiago/bruno-moya-de-maker-a-los-16-anos-a-fundador-de-una-startup-XX5365077",
+      "postUrl": null,
+      "featured": true
+    },
+    {
+      "kind": "talk",
+      "name": "Interview at NexConf",
+      "event": "NexConf - UAB Virtual Technology Congress",
+      "date": "2020-10-09",
+      "location": "Virtual",
+      "note": "Interview to me at NexConf, the UAB Virtual Technology Congress and TV Show.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_nexconf-realidadmixta-glassear-activity-6722780739852632064-mn0H",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "Why Bruno Moya, a 19-year-old Tech Entrepreneur is more digital than most CTO's, CMO's & CEO's",
+      "event": "LinkedIn Article by Nimit Doshi",
+      "date": "2020-09-23",
+      "location": null,
+      "note": "Article written by conference producer Nimit Doshi, for my participation at the India first immersive digital technologies summit.",
+      "url": "https://www.linkedin.com/pulse/why-bruno-moya-19-year-old-tech-entrepreneur-more-digital-nimit-doshi/",
+      "postUrl": null,
+      "featured": true
+    },
+    {
+      "kind": "press",
+      "name": "Article written by me for the 3D Printing and Design magazine",
+      "event": "3D Printing and Design",
+      "date": "2020-09-16",
+      "location": null,
+      "note": "Article written by me for the 3D Printing and Design magazine, speaking about the future of mixed reality thanks to Glassear.",
+      "url": "http://www.3dprintingdesign.es/revista/9/#page/13",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Democratizing the future of remote work with Glassear",
+      "event": "GDG Spain Streaming",
+      "date": "2020-03-19",
+      "location": "Online",
+      "note": "Streaming done during the lockdown thanks to GDG Spain.",
+      "url": "https://youtu.be/GqBkSHWfCRU",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "UAB Technoday",
+      "event": "UAB Entrepreneurs Club",
+      "date": "2020-02-18",
+      "location": "Barcelona, Spain",
+      "note": "Talk at the UAB Entrepreneurs Club, organized by it, and sponsored by Accenture.",
+      "url": "https://twitter.com/EnginyeriaUAB/status/1229756771771781120/photo/1",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Democratizing the future with Glassear",
+      "event": "Devfest ZGZ",
+      "date": "2019-11-23",
+      "location": "Zaragoza, Spain",
+      "note": "A workshop given at Devfest ZGZ organized by Google where I taught how to develop apps for Glassear using the SDK.",
+      "url": "http://gdgzaragoza.es/devfest-2019/",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Glassear at Google DevFest Lleida 2019",
+      "event": "Google DevFest Lleida",
+      "date": "2019-11-10",
+      "location": "Lleida, Spain",
+      "note": "Talk by Bruno Moya, creator of Glassear, at the Google DevFest Lleida 2019 event.",
+      "url": "https://www.youtube.com/watch?v=t9s8PdMX9Pc&feature=emb_title",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "APD Article",
+      "event": "APD",
+      "date": "2019-07-12",
+      "location": null,
+      "note": "Article written by APD, Spain big enterprise association, about my participation at Maker Faire Galicia 2019 and speech with all the big enterprises like Airbus, Ikea or Cabify that were there.",
+      "url": "https://www.apd.es/start-ups-aceleradoras-de-cabify-a-airbus/",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Glassear presentation at the Maker Faire Galicia 2019 professional day",
+      "event": "Maker Faire Galicia 2019",
+      "date": "2019-07-08",
+      "location": "Galicia, Spain",
+      "note": "Glassear presentation at the Maker Faire Galicia 2019 professional conference, where its creator Bruno Moya talks about the road traveled and the one that remains to be done.",
+      "url": "https://www.youtube.com/watch?v=up7EpNcmWZk",
+      "postUrl": null,
+      "featured": true
+    },
+    {
+      "kind": "press",
+      "name": "The technological future is today",
+      "event": "ABC",
+      "date": "2019-07-07",
+      "location": null,
+      "note": "Article at ABC, Spanish known journal.",
+      "url": "https://www.abc.es/espana/galicia/abci-futuro-tecnologico-201907070121_noticia.html",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "Regio7 2019",
+      "event": "Regio7",
+      "date": "2019-07-01",
+      "location": null,
+      "note": "Interview at a Catalonian Journal before participating at Maker Faire Galicia 2019.",
+      "url": "https://www.regio7.cat/economia/2019/07/02/santpedorenc-bruno-moya-comercialitzara-seves/554386.html",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "Bruno and Glassear at El Economista",
+      "event": "El Economista",
+      "date": "2019-06-24",
+      "location": null,
+      "note": "Bruno and Glassear at El Economista, Spain leader economics journal.",
+      "url": "https://www.eleconomista.es/aragon/noticias/9958125/06/19/Llega-Glassear-el-primer-dispositivo-de-realidad-mixta-de-bajo-coste-para-interactuar-por-voz-manos-o-vista.html",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "From Garage to Market",
+      "event": "Maker Faire Organization",
+      "date": "2019-06-12",
+      "location": null,
+      "note": "Article written by Maker Faire Organization in 2019.",
+      "url": "https://galicia.makerfaire.com/2019/06/12/del-garaje-al-mercado/",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Glassear at the Mixed Reality event, where's the limit?",
+      "event": "GDG Zaragoza",
+      "date": "2019-03-04",
+      "location": "Zaragoza, Spain",
+      "note": "Glassear presentation at the Mixed Reality event, comparing them with Magic Leap One.",
+      "url": "https://www.youtube.com/watch?v=G6gI9KhwhDI",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Debate on Artificial Intelligence at CVC",
+      "event": "CVC AI Discussion",
+      "date": "2019-02-20",
+      "location": "Barcelona, Spain",
+      "note": "Discussion on Artificial Intelligence with doctors in Computer Vision and AI organized by the CVC.",
+      "url": "http://librarylivinglab.cvc.uab.cat/calendar/experimentai-the-impact-of-artificial-intelligence-in-society/",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "Regio 7 2018",
+      "event": "Regio7",
+      "date": "2019-01-04",
+      "location": null,
+      "note": "Interview at a Catalonian Journal after winning the second prize at Maker Faire Galicia 2018.",
+      "url": "https://www.regio7.cat/economia/2019/01/05/santpedorenc-17-anys-idea-revolucionaries/519254.html",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "talk",
+      "name": "Prize giving to me at Maker Faire Galicia",
+      "event": "Maker Faire Galicia 2018",
+      "date": "2018-12-01",
+      "location": "Galicia, Spain",
+      "note": "Glassear Award Ceremony - Maker Faire Galicia 2018 Professional Conference.",
+      "url": "https://www.youtube.com/watch?v=ygmnUNxPn1Q&feature=emb_logo",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "Robotics, Holograms and 3D Printers: The Best of Maker Faire Galicia",
+      "event": "Bit2Geek",
+      "date": "2018-11-27",
+      "location": null,
+      "note": "Article at Portuguese Journal Bit2Geek about robotics, holograms, and 3D printers.",
+      "url": "https://bit2geek.com/2018/11/27/robotica-hologramas-e-impressoras-3d-o-melhor-da-maker-faire-galicia/",
+      "postUrl": null,
+      "featured": false
+    },
+    {
+      "kind": "press",
+      "name": "My appearance on TV3 · Xplorers",
+      "event": "TV3 · Xplorers",
+      "date": null,
+      "location": null,
+      "note": "I appeared in an Xplorers report about virtual reality. Watch the video and read the post where I shared my TV3 appearance.",
+      "url": "https://www.youtube.com/watch?v=XkISH_oiOC0",
+      "postUrl": "https://www.linkedin.com/posts/glassear-bruno_casi-nunca-grabo-videos-pero-este-es-muy-activity-6924594534496522241-VgH6/",
+      "featured": true
+    }
   ],
   "skills": {
     "Backend & Distributed Systems": [
@@ -35,7 +503,10 @@
       "Networking",
       "Reverse proxies",
       "Cloud infrastructure",
-      "Backup systems"
+      "Backup systems",
+      "Hetzner",
+      "Cloudflare R2",
+      "MinIO"
     ],
     "XR & Spatial Computing": [
       "Unity",
@@ -44,9 +515,14 @@
       "OpenXR",
       "WebXR",
       "Computer Vision",
-      "Custom XR hardware"
+      "Custom XR hardware",
+      "Three.js",
+      "Hand tracking",
+      "MediaPipe"
     ],
     "AI tools & integration": [
+      "AI agents",
+      "Planners",
       "Claude Code",
       "OpenAI Codex",
       "GitHub Copilot",
@@ -57,6 +533,14 @@
       "Structured Outputs",
       "Prompt and System Instruction Design",
       "Multi-Agent Workflows"
+    ],
+    "Hardware": [
+      "Optics",
+      "Mechanical prototyping",
+      "3D printing",
+      "Electronics integration",
+      "Cameras & IMUs",
+      "Embedded Linux devices"
     ]
   },
   "experience": [
@@ -68,7 +552,7 @@
       "endDate": null,
       "location": "Barcelona, Spain",
       "companyUrl": "https://topbrokers.io/",
-      "summary": "Hands-on technical ownership of production software and infrastructure, from architecture and implementation to deployment, validation and operations.",
+      "summary": "Hands-on technical ownership of an AI- and automation-driven real estate technology platform, from architecture and implementation to deployment and operations.",
       "highlights": [
         "Architect and build backend systems, APIs, automation platforms and distributed services.",
         "Operate PostgreSQL, Docker, Linux, networking, backups, monitoring and cloud/on-premise infrastructure.",
@@ -91,18 +575,18 @@
     {
       "id": "glassear-founder",
       "company": "Glassear",
-      "role": "Founder & Software Developer",
+      "role": "Founder & CEO",
       "startDate": "2015-05",
       "endDate": null,
       "location": "Barcelona, Spain",
       "companyUrl": "https://www.glassear.com/",
-      "summary": "Founded Glassear to build accessible mixed-reality glasses, working across custom hardware, computer vision, Unity and web applications.",
+      "summary": "Founded Glassear in 2015 and kept iterating the device for a decade across optics, mechanics, electronics and software. Glassear now builds an AR / spatial computing ecosystem: Glassear One hardware, the Glassear Studio platform and GlassMusic.",
       "highlights": [
-        "Build Glassear Studio, a platform that uses AI to turn natural-language instructions into interactive XR applications.",
-        "Designed AI Planner, Intent Graph, agent/tool and MCP integrations, structured scene modifications and runtime synchronization.",
-        "Combine deterministic execution and validation with LLM reasoning across a Unity runtime and web platform.",
-        "Develop software and hardware for XR, including computer vision, Android device protocols and custom headset integrations.",
-        "Own product direction, architecture and implementation across TypeScript, React, Node.js, Unity, Python and PostgreSQL-based systems."
+        "Glassear One: optical see-through AR headset that uses the user's smartphone as display and compute, avoiding video passthrough and reducing cost, weight and proprietary electronics. Patent pending.",
+        "Build Glassear Studio, an AI-native platform that turns natural-language intent into interactive spatial applications: Unity integration, own runtime, GLX, scene patches and revisions, runtime synchronization, AI Planner, Intent Graph and agent tooling.",
+        "GlassMusic: first vertical use case, hands-free AR for music learning and performance; shown at 4YFN/MWC 2025 and pitched at 4YFN/MWC 2026 from the Catalan Arts stand.",
+        "Selected for the ACCIÓ Catalan Pitch Competition 2025 catalogue of 50 Catalan startups with the most potential.",
+        "Own product direction, architecture and implementation across hardware, Unity, TypeScript, React, Node.js, Python and PostgreSQL."
       ],
       "technologies": [
         "TypeScript",
@@ -114,7 +598,9 @@
         "MCP",
         "LLM APIs",
         "XR",
-        "Computer Vision"
+        "Computer Vision",
+        "Hardware",
+        "Optics"
       ]
     },
     {
@@ -229,7 +715,10 @@
         "OpenAI",
         "Anthropic",
         "Gemini"
-      ]
+      ],
+      "story": "I got tired of searching for jobs manually, so I started building an agent to help me do it.",
+      "actionUrl": "https://github.com/elblogbruno/JobAgent",
+      "actionLabel": "View JobAgent on GitHub"
     },
     {
       "id": "talent-gap-analyzer",
@@ -263,7 +752,8 @@
         "OpenAI",
         "Anthropic",
         "Gemini"
-      ]
+      ],
+      "story": "We had a hackathon, a problem worth solving and very little time. We built TalentGapAnalyzer and it won UAB The Hack 2025."
     },
     {
       "id": "glassear-studio",
@@ -298,6 +788,54 @@
         "MCP",
         "LLM APIs",
         "XR"
+      ],
+      "story": "Creating spatial apps is still slow and specialised. Glassear Studio makes it closer to describing what you want and letting AI agents help build it.",
+      "actionUrl": "https://platform.glassear.com/",
+      "actionLabel": "Open Glassear Studio"
+    },
+    {
+      "id": "mapanim",
+      "name": "MapAnim",
+      "title": "MapAnim — Route Motion Studio",
+      "featured": true,
+      "category": "Creative tools & geospatial visualization",
+      "repository": null,
+      "url": "/projects/mapanim/",
+      "role": "Product development and software engineering.",
+      "outcome": "An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.",
+      "problem": "Turning a travel itinerary into a map animation requires coordinating route geometry, camera movement, timing and video rendering.",
+      "description": "A browser-based editor for animated travel maps, with an editable itinerary, camera controls, a timeline, map styles and MP4 export.",
+      "architecture": "React and TypeScript power the editor, MapLibre GL renders the map, and Zustand manages project state. A shared scene engine evaluates the route and camera at a given time. Playwright captures frames in Chromium and FFmpeg encodes the video.",
+      "aiComponent": "The route animation and video export pipeline does not depend on generative AI.",
+      "deterministicComponent": "The editor preview and frame-by-frame export share getSceneAtTime(project, time), so both use the same route and camera calculations.",
+      "principle": "One scene model for interactive preview and exported video.",
+      "highlights": [
+        "Editable itineraries, GPX import and route timing on a timeline.",
+        "Camera controls and continuous route transitions.",
+        "Multiple map styles and a Route 66 example from Chicago to Santa Monica.",
+        "Frame-by-frame capture and FFmpeg MP4 encoding."
+      ],
+      "technologies": [
+        "React",
+        "TypeScript",
+        "MapLibre GL",
+        "Zustand",
+        "Turf.js",
+        "Playwright",
+        "FFmpeg"
+      ],
+      "story": "Bringing geospatial rendering, camera choreography and video export together in an interactive creative tool.",
+      "image": "/images-webp/projects/mapanim.jpg"
+    },
+    {
+      "name": "Glassear One",
+      "description": "Optical see-through AR headset that uses the user's smartphone as display and compute. Patent pending.",
+      "url": "https://www.glassear.com/",
+      "technologies": [
+        "Optics",
+        "Hardware",
+        "Unity",
+        "AR"
       ]
     },
     {
@@ -312,17 +850,6 @@
       ]
     },
     {
-      "name": "SeiVoice",
-      "description": "Voice-controlled supermarket purchasing and management assistant built during HackUPC 2024.",
-      "url": "https://github.com/elblogbruno/seidor-hackupc",
-      "technologies": [
-        "Python",
-        "FastAPI",
-        "LLMs",
-        "Raspberry Pi"
-      ]
-    },
-    {
       "name": "OpenCV Detectors",
       "description": "Android application for pose, face and object tracking built during the Computer Vision Center internship.",
       "url": "https://github.com/elblogbruno/OpenCV-Detectors",
@@ -332,6 +859,117 @@
         "OpenCV",
         "Computer Vision"
       ]
+    },
+    {
+      "name": "GuideLife - PayRetailersUAB",
+      "description": "AI-powered platform providing intelligent assistance in health, finance, climate, and energy.",
+      "url": "https://github.com/malfon67/PayRetailersUAB/",
+      "technologies": [
+        "AI",
+        "Machine Learning",
+        "FastAPI",
+        "APIs"
+      ],
+      "date": "2025-03-01"
+    },
+    {
+      "name": "Hack_FGC",
+      "description": "Accessible ticketing solution for public transport, integrating LLM for real-time assistance.",
+      "url": "https://github.com/GabrielJuan349/Hack_FGC",
+      "technologies": [
+        "AI",
+        "LLM",
+        "Python",
+        "FastAPI",
+        "UX"
+      ],
+      "date": "2024-10-01"
+    },
+    {
+      "name": "SeiVoice",
+      "description": "Voice-controlled assistant for supermarket purchasing and management, developed for Seidor company during HackUPC 2024 hackathon in a single weekend.",
+      "url": "https://github.com/elblogbruno/seidor-hackupc",
+      "technologies": [
+        "AI",
+        "IoT",
+        "LLM",
+        "Python",
+        "FastAPI",
+        "Raspberry Pi"
+      ],
+      "date": "2024-05-05"
+    },
+    {
+      "name": "GlassMusic by Glassear",
+      "description": "Hands-free augmented reality for musicians: sheet music and musical content in view while you play, running on Glassear hardware. The first vertical built on the Glassear platform.",
+      "url": "https://www.glassear.com/",
+      "technologies": [
+        "AR",
+        "Mixed Reality",
+        "Unity",
+        "Hardware",
+        "Product"
+      ],
+      "date": "2024-01-01"
+    },
+    {
+      "name": "JoyRun 3D",
+      "description": "An infinite 3D game where you use Nintendo Switch Joy-Cons as controllers. Developed as a lab project, it features endless gameplay and interactive mechanics.",
+      "url": "https://www.youtube.com/watch?v=JYZFjRz1l2Q",
+      "technologies": [
+        "Game Development",
+        "Unity3D"
+      ],
+      "date": "2023-04-01"
+    },
+    {
+      "name": "RFID Hackathon SM",
+      "description": "A public transport payment and statistics system using RFID cards and a mobile app, developed during the 2021–2022 Multimedia Systems Hackathon.",
+      "url": "https://github.com/elblogbruno/rfid-hackaton-sm",
+      "technologies": [
+        "IoT",
+        "Hardware",
+        "Mobile",
+        "Python",
+        "Flutter"
+      ],
+      "date": "2022-06-01"
+    },
+    {
+      "name": "hitornot.ml",
+      "description": "A statistical AI model to predict whether a Spotify song will be a hit, turned into a website that learns from user input!",
+      "url": "https://github.com/elblogbruno/MD3-Kaggle-Spotify-Hit-Detector",
+      "technologies": [
+        "AI",
+        "Machine Learning",
+        "Music",
+        "Web Development"
+      ],
+      "date": "2021-10-04"
+    },
+    {
+      "name": "NotionAI MyMind",
+      "description": "This repo uses AI and the wonderful Notion to enable you to add anything on the web to your \"Mind\" and forget about everything else.",
+      "url": "https://elblogbruno.github.io/NotionAI-MyMind/",
+      "technologies": [
+        "Python",
+        "AI",
+        "Notion API",
+        "Browser Extensions"
+      ],
+      "date": "2020-08-11"
+    },
+    {
+      "name": "Smartroom - Smartmirror",
+      "description": "Making my room smarter with a Smart Mirror, domotics and open source voice assistant. Big updates coming soon, stay tuned!",
+      "url": "https://github.com/elblogbruno/AlexaMirror",
+      "technologies": [
+        "IoT",
+        "Raspberry Pi",
+        "Voice Assistant",
+        "Smart Home"
+      ],
+      "date": "2016-06-06"
     }
   ],
   "education": [
@@ -344,7 +982,7 @@
     },
     {
       "institution": "École de technologie supérieure (ÉTS)",
-      "degree": "Winter session",
+      "degree": "Computer Science exchange term",
       "startDate": "2023",
       "endDate": "2023",
       "location": "Montreal, Canada"
@@ -355,33 +993,166 @@
       "startDate": "2016",
       "endDate": "2019",
       "location": "Barcelona, Spain"
+    },
+    {
+      "institution": "Escola Llissach",
+      "degree": "ESO Certificate (High School) - Primary School",
+      "startDate": "2004",
+      "endDate": "2016",
+      "location": null
     }
   ],
   "awards": [
     {
-      "name": "Winner - UAB The Hack 2025",
-      "organization": "UAB The Hack",
-      "date": "2025",
+      "name": "GlassMusic at 4YFN · Mobile World Congress",
+      "organization": "4YFN · MWC Barcelona",
+      "date": "2026-03-04",
+      "type": "recognition",
+      "project": "GlassMusic",
+      "summary": "GlassMusic was shown at 4YFN 2025 with UAB and pitched again at 4YFN 2026 from the Catalan Arts stand, where visitors tried Glassear One.",
+      "url": "https://www.uab.cat/en/entrepreneurship/agenda/20250303/4yfn"
+    },
+    {
+      "name": "Winner — UAB The Hack 2025 (TalentGapAnalyzer)",
+      "organization": "UAB The Hack / Universitat Autònoma de Barcelona",
+      "date": "2025-04-13",
+      "type": "award",
       "project": "TalentGapAnalyzer",
+      "summary": "1st Place Winner with TalentGapAnalyzer, an AI-powered workforce intelligence platform analyzing skill gaps and career paths using a multi-provider LLM architecture (OpenAI, Anthropic, Gemini) with fallback, bias detection, and caching. Developed in a collaborative team.",
       "url": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack"
     },
     {
-      "name": "Maker Faire Galicia Industry 4.0 Award",
-      "organization": "Maker Faire Galicia",
-      "date": "2018",
+      "name": "Top 50 Catalan startups · ACCIÓ 2025",
+      "organization": "ACCIÓ · Generalitat de Catalunya",
+      "date": "2025",
+      "type": "recognition",
       "project": "Glassear",
+      "summary": "Glassear was selected for the Catalan Pitch Competition 2025 catalogue, ACCIÓ's selection of 50 Catalan startups with the most potential, in the Deep Tech category.",
+      "url": "https://www.accio.gencat.cat/ca/activitats/grans-actes/forum-inversio/"
+    },
+    {
+      "name": "GlassFood - Final Degree Project with AR Poster Experience",
+      "organization": "UAB Barcelona",
+      "date": "2023-06-30",
+      "type": "award",
+      "project": "GlassFood",
+      "summary": "I received an exceptional grade (9.8/10) for my Final Degree Project that combines mixed reality technology, computer vision, and deep learning to create a health-focused application for the Glassear headset that detects ingredients and suggests healthy recipes with nutritional information through an immersive 3D interface. The project included an AR poster experience displayed in the university hallway.",
+      "url": "https://github.com/elblogbruno/tfg-poster-ar-experience/tree/main"
+    },
+    {
+      "name": "Speaker certificate · EURUS CONF 2022",
+      "organization": "Universidad Tecnológica de Panamá",
+      "date": "2022-11-12",
+      "type": "certificate",
+      "summary": "Certificate for speaking at EURUS CONF 2022 on VR/MR/AR, holograms and Glassear, issued by the Faculty of Computer Systems Engineering.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj"
+    },
+    {
+      "name": "3rd Prize - AR Superheroes Gamejam",
+      "organization": "Manomotion",
+      "date": "2021-07-05",
+      "type": "award",
+      "project": "Doctor Strange AR Filter",
+      "summary": "Winner of the third place in the Manomotion GameJam for the Doctor Strange AR Filter created with Avraam Georgiadis.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_doctor-strange-ar-filter-activity-6803581386037985280-Ykzs"
+    },
+    {
+      "name": "Create an Augmented Reality App in One Hour with Bruno Moya",
+      "organization": "Maker Faire Galicia",
+      "date": "2021-04-01",
+      "type": "publication",
+      "summary": "One-hour online course where I teach the fundamentals of developing an Augmented Reality application using Unity 3D and ARFoundation.",
+      "url": "https://www.youtube.com/watch?v=ATbX1UutpJU"
+    },
+    {
+      "name": "3rd Prize - Manomojies Gamejam",
+      "organization": "Manomotion",
+      "date": "2020-12-29",
+      "type": "award",
+      "project": "ManoMojies",
+      "summary": "Winner of the 3rd prize in the Gamejam organized by Manomotion, based on the theme of using Hand Tracking and augmented reality mixed with emojis.",
+      "url": "https://www.facebook.com/share/v/1EiJsCVCkD/"
+    },
+    {
+      "name": "Speaker at India's First Immersive Digital Technologies Summit",
+      "organization": "India Tech Summit",
+      "date": "2020-09-23",
+      "type": "recognition",
+      "summary": "Selected as a featured speaker at India's first immersive digital technologies summit, recognized as 'a 19-year-old tech entrepreneur who is more digital than most CTOs, CMOs and CEOs'.",
+      "url": "https://www.linkedin.com/pulse/why-bruno-moya-19-year-old-tech-entrepreneur-more-digital-nimit-doshi/"
+    },
+    {
+      "name": "Glassear, Mixed Reality for Everyone",
+      "organization": "3D Printing Design",
+      "date": "2020-09-01",
+      "type": "publication",
+      "summary": "Article written for the virtual magazine about 3D printing in a special edition dedicated to mixed and virtual reality.",
+      "url": "http://www.3dprintingdesign.es/revista/9/#page/12"
+    },
+    {
+      "name": "Most Creative Project · Mamuthack 2020",
+      "organization": "NTT DATA (Everis)",
+      "date": "2020-03-01",
+      "type": "award",
+      "project": "Whatshate",
+      "summary": "Winner of the Most Creative Project award at Mamuthack, sponsored by everis, with Whatshate, an app built to tackle cyberbullying.",
+      "url": "https://www.linkedin.com/posts/glassear-bruno_mamut-activity-6652701039374008321-5aP-"
+    },
+    {
+      "name": "Hand Tracking Certification",
+      "organization": "Manomotion",
+      "date": "2019-12-01",
+      "type": "certificate",
+      "summary": "Certified in hand tracking technology for AR/VR applications after completing an internship with Manomotion.",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:6559408874229760001/"
+    },
+    {
+      "name": "Featured in Spain's Leading Economic Newspaper",
+      "organization": "El Economista",
+      "date": "2019-06-24",
+      "type": "recognition",
+      "summary": "Recognized by El Economista, Spain's leading economic newspaper, for pioneering work in affordable mixed reality technology.",
+      "url": "https://www.eleconomista.es/aragon/noticias/9958125/06/19/Llega-Glassear-el-primer-dispositivo-de-realidad-mixta-de-bajo-coste-para-interactuar-por-voz-manos-o-vista.html"
+    },
+    {
+      "name": "TDR Excellence Award",
+      "organization": "Ins Gerbert D'Aurillac",
+      "date": "2019-06-01",
+      "type": "award",
+      "project": "Glassear",
+      "summary": "I received the highest grade (10/10) for my research project 'Le casque de réalité augmentée abordable' in the French-Spanish double baccalaureate program.",
+      "url": null
+    },
+    {
+      "name": "2nd Professional Prize · Maker Faire Galicia 2018",
+      "organization": "Maker Faire Galicia",
+      "date": "2018-12-01",
+      "type": "award",
+      "project": "Glassear",
+      "summary": "Glassear received the 2nd Professional Prize at Maker Faire Galicia 2018, years before the current startup stage.",
       "url": "https://www.youtube.com/watch?v=ygmnUNxPn1Q"
     },
     {
-      "name": "GlassFood Final Degree Project - 9.8/10",
-      "organization": "Universitat Aut-noma de Barcelona",
-      "date": "2023",
-      "project": "GlassFood",
-      "url": "https://github.com/elblogbruno/tfg-poster-ar-experience"
+      "name": "Computer Vision Certification",
+      "organization": "Computer Vision Center",
+      "date": "2018-07-01",
+      "type": "certificate",
+      "summary": "Obtained certification in computer vision technologies after successfully completing an internship at the Computer Vision Center.",
+      "url": null
+    },
+    {
+      "name": "Maker of Merit",
+      "organization": "Maker Faire Barcelona",
+      "date": "2018-06-16",
+      "type": "award",
+      "project": "Glassear",
+      "summary": "One of only 4 special awards given by the organization to the most interesting Maker of the event. I received a special recognition signed by David Cuartielles, co-founder of Arduino.",
+      "url": null
     }
   ],
   "languages": [
     "Spanish",
+    "Catalan",
     "English",
     "French"
   ],

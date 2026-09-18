@@ -1,3 +1,4 @@
+import './education-room.css';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -27,12 +28,12 @@ const Education: React.FC<EducationProps> = ({ theme = 'dark' }) => {
   };
   
   return (
-    <div className="md:py-16">
-      <h2 className={`text-3xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-800'}`}>{educationData.title}</h2>
+    <div className={`education-room education-room--${theme} md:py-16`}>
+      <h2 className="education-room__board">{educationData.title}</h2>
       
       <div className="relative">
         {/* Línea vertical */}
-        <div className={`absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 h-full w-1 ${isDark ? 'bg-blue-500/30' : 'bg-blue-500/50'}`}></div>
+        <div className={`education-room__timeline absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 h-full w-1 ${isDark ? 'bg-blue-500/30' : 'bg-blue-500/50'}`}></div>
         
         <div className="space-y-12">
           {educationData.items.map((item, index) => (
@@ -45,7 +46,7 @@ const Education: React.FC<EducationProps> = ({ theme = 'dark' }) => {
                 <div className={`absolute left-0 top-2 w-4 h-4 rounded-full bg-blue-500 border-4 ${isDark ? 'border-gray-800' : 'border-gray-100'}`}></div>
                 <div 
                   id={`education-mobile-${item.id || index}`}
-                  className={`p-6 rounded-lg shadow-xl ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}
+                  className={`education-room__paper p-6 rounded-lg shadow-xl ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}
                 >
                   {item.image && (
                     <div className="mb-4">
@@ -83,7 +84,7 @@ const Education: React.FC<EducationProps> = ({ theme = 'dark' }) => {
               <div className="hidden md:block w-1/2 px-10">
                 <div 
                   id={`education-${item.id || index}`}
-                  className={`p-6 rounded-lg shadow-xl ${index % 2 === 0 ? 'mr-auto' : 'ml-auto'} ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}
+                  className={`education-room__paper p-6 rounded-lg shadow-xl ${index % 2 === 0 ? 'mr-auto' : 'ml-auto'} ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}
                 >
                   {item.image && (
                     <div className="mb-4">
@@ -117,7 +118,7 @@ const Education: React.FC<EducationProps> = ({ theme = 'dark' }) => {
                       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                   }}
-                  className={`px-4 py-2 rounded-full text-sm font-bold cursor-pointer transition-all hover:scale-105 
+                  className={`education-room__date px-4 py-2 rounded-full text-sm font-bold cursor-pointer transition-all hover:scale-105
                     ${isDark ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
                   aria-label={`Ver educación de ${item.period || item.year}`}
                 >

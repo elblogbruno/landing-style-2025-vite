@@ -1,0 +1,29 @@
+
+/* Workstations inside the office floor. */
+.experience-office { --office-screen: #14232b; --office-frame: #607983; --office-plaque: #233e47; padding-inline: clamp(0px, 1vw, 12px); }
+.experience-office--light { --office-screen: #f4f7f6; --office-frame: #829a9e; --office-plaque: #e8f0ee; }
+.experience-office__header { position: relative; padding: 24px 24px 28px; border: 1px solid #88a6a980; border-left: 5px solid #83aaa9; border-radius: 3px; background: var(--office-plaque); box-shadow: 0 5px 14px #0002; }
+.experience-office__header h2 { text-shadow: none; }
+.experience-office .office-workstation { padding: 0 10px 57px; margin-bottom: 24px; }
+.office-workstation::before { content: ''; position: absolute; bottom: 25px; left: 44%; width: 12%; height: 34px; background: linear-gradient(90deg, #3b515a, #8b9fa5 45%, #516771); border-bottom: 5px solid #9cafb2; }
+.office-workstation::after { content: ''; position: absolute; bottom: 12px; left: 0; right: 0; height: 14px; border-radius: 3px; border-bottom: 5px solid #594632; background: repeating-linear-gradient(2deg, #ae906a 0 3px, #a48762 4px 6px); box-shadow: 0 14px 0 -5px #344650, 0 22px 18px -12px #0008; }
+.experience-office .office-monitor { border: 7px solid var(--office-frame); border-bottom-width: 18px; border-radius: 7px; background: var(--office-screen); box-shadow: 0 8px 24px #0003; }
+.experience-office .office-monitor::after { content: ''; position: absolute; bottom: 5px; right: 12px; width: 5px; height: 5px; background: #7de7bf; border-radius: 50%; box-shadow: 0 0 6px #5be4b5; pointer-events: none; }
+.experience-office .office-monitor h3 { text-shadow: none; }
+.experience-office__desk { position: relative; height: 86px; margin: 0 12px 30px; border-bottom: 10px solid #a3845d; box-shadow: 0 4px 0 #5a4b37; }
+.experience-office__desk::before { content: ''; position: absolute; left: 10%; bottom: 0; width: 75px; height: 48px; border: 5px solid #7c949c; border-bottom-width: 9px; border-radius: 3px; background: linear-gradient(130deg, #8dc8d044, #203e4c); box-shadow: 0 7px 0 -3px #879ea3; }
+.experience-office__desk::after { content: ''; position: absolute; right: 14%; bottom: 0; width: 29px; height: 29px; border-radius: 3px 3px 10px 10px; background: #ae8460; box-shadow: inset -7px 0 #72523c; }
+.experience-office__plant { position: absolute; bottom: 22px; right: calc(14% + 12px); height: 43px; width: 3px; background: #5c8562; }
+.experience-office__plant::before, .experience-office__plant::after { content: ''; position: absolute; width: 20px; height: 32px; background: #527f61; border-radius: 0 90% 0 90%; }
+.experience-office__plant::before { top: -5px; left: -18px; transform: rotate(-15deg); }
+.experience-office__plant::after { top: 7px; left: 1px; transform: rotate(80deg); background: #6c9875; }
+.floor-room--experience .floor-room__architecture { border-inline: 12px solid #65868c33; background: repeating-linear-gradient(90deg, transparent 0 calc(33.333% - 4px), #7c9fa44d calc(33.333% - 4px) 33.333%), repeating-linear-gradient(0deg, transparent 0 340px, #718f9826 341px 344px); }
+.floor-room--experience .floor-room__architecture::after { content: ''; position: absolute; inset: 30px 0 auto; height: 320px; background: linear-gradient(125deg, transparent 15%, #d0f3f710 15.5% 24%, transparent 24.5% 65%, #d0f3f715 65.5% 74%, transparent 74.5%); }
+.floor-room--experience .floor-room__ground { border-top-color: #749295; background: repeating-linear-gradient(90deg, #71858e12 0 85px, #77949630 86px 88px), #4d63661f; }
+@media (max-width: 767px) { .experience-office__header { padding: 20px 16px; } .experience-office .office-monitor { border-width: 4px; border-bottom-width: 14px; padding: 18px 14px; } .experience-office .office-workstation { padding-inline: 4px; } }
+@media (prefers-reduced-motion: reduce) { .experience-office .office-workstation, .experience-office .office-monitor, .experience-office .office-monitor * { transition: none !important; animation: none !important; } }
+
+/* The supplied TopBrokers wordmark is white on transparent. */
+div:has(> img[src$="/topbrokers-logo.png"]) { background: #111827; width: 112px; padding: 8px; }
+
+.dark .experience-office__header > span { color: #d1d5db; }

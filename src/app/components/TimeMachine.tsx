@@ -143,7 +143,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
           <img 
             src="/images-webp/time-machine/icon.webp" 
             alt={t('timeMachine.altText')} 
-            className="relative w-12 h-12 md:w-16 md:h-16 object-contain filter drop-shadow-md" 
+            className="relative w-11 h-11 md:w-16 md:h-16 object-contain filter drop-shadow-md" 
           />
           
           {/* Texto solo visible en desktop */}
@@ -160,7 +160,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
+            role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
           >
             {/* Background overlay con blur optimizado */}
             <motion.div
@@ -248,7 +248,7 @@ const TimeMachine: React.FC<TimeMachineProps> = React.memo(({ theme, portfolioVe
                 }`}></div>
                 
                 {/* Content */}
-                <div className="relative z-10 p-6 md:p-8 max-h-[85vh] overflow-y-auto custom-scrollbar">
+                <div className="relative z-10 p-6 pt-16 md:p-8 md:pt-16 max-h-[85vh] overflow-y-auto custom-scrollbar">
                   <div className="flex justify-between items-center mb-6">
                     <div className={`flex items-center gap-3 ${
                       theme === 'dark' ? 'text-blue-400' : 'text-blue-600'

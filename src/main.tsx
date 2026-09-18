@@ -1,5 +1,5 @@
 import { StrictMode } from 'react' 
-import { createRoot } from 'react-dom/client' 
+import { createRoot, hydrateRoot } from 'react-dom/client' 
 // Importar configuración de i18n (debe ser antes que cualquier componente que use traducciones)
 import './i18n';  
 // Importar estilos en el orden correcto
@@ -10,7 +10,8 @@ import Portfolio from './app/page.tsx'
 // import About from './app/sections/About/About';
 // import Experience from './app/sections/Experience';
 
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root')!;
+const app = (
   <StrictMode> 
     <Portfolio />   
                   {/* <section id="about" className="section-container scroll-mt-16" data-section-id="about">
@@ -24,5 +25,7 @@ createRoot(document.getElementById('root')!).render(
                       <Experience theme={"dark"} />
                     </Suspense>
                   </section> */}
-  </StrictMode>,
-)
+  </StrictMode>
+);
+if (container.hasChildNodes()) hydrateRoot(container, app);
+else createRoot(container).render(app);

@@ -1,10 +1,16 @@
+import { spanishProfile } from './professional-spanish.js';
+import { withWebContent } from './web-content.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const publicDir = path.join(root, 'public');
-const data = JSON.parse(fs.readFileSync(path.join(root, 'src/data/professional-data.json'), 'utf8'));
+const readTranslation = (lang) => JSON.parse(fs.readFileSync(path.join(root, `src/locales/${lang}/translation.json`), 'utf8'));
+const englishSite = readTranslation('en');
+const spanishSite = readTranslation('es');
+// Awards, talks, press and the project catalogue come from the site's own content.
+const data = withWebContent(JSON.parse(fs.readFileSync(path.join(root, 'src/data/professional-data.json'), 'utf8')), englishSite);
 const origin = 'https://brunomoya.com';
 const absolute = (url) => url.startsWith('http') ? url : `${origin}${url.startsWith('/') ? url : `/${url}`}`;
 const escapeHtml = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -22,8 +28,10 @@ const personJsonLd = {
   '@type': 'Person',
   '@id': personId,
   name: data.person.name,
+  alternateName: data.person.alternateName,
   url: data.links.website,
-  jobTitle: data.person.headline,
+  jobTitle: data.person.currentRoles,
+  disambiguatingDescription: data.person.tagline,
   description: data.person.description,
   email: data.person.email,
   homeLocation: { '@type': 'Place', name: data.person.location },
@@ -34,7 +42,18 @@ const personJsonLd = {
     { '@type': 'Organization', name: 'Glassear', url: 'https://www.glassear.com/' }
   ],
   alumniOf: data.education.map((item) => ({ '@type': 'EducationalOrganization', name: item.institution })),
+  award: data.awards.map((item) => `${item.name} (${item.organization})`),
   knowsLanguage: data.person.languages
+};
+const glassearJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://www.glassear.com/#organization',
+  name: 'Glassear',
+  url: 'https://www.glassear.com/',
+  foundingDate: '2015',
+  founder: { '@id': personId },
+  description: data.building.find((item) => item.name === 'Glassear').summary
 };
 const projectJsonLd = (project) => ({
   '@context': 'https://schema.org',
@@ -50,18 +69,74 @@ const projectJsonLd = (project) => ({
   keywords: project.technologies.join(', '),
   applicationCategory: project.category
 });
+const awardTypes = { award: 'Award', recognition: 'Recognition', certificate: 'Certification', publication: 'Publication' };
+const awardLine = (item) => `- ${item.name} - ${item.organization} (${item.date})${item.type ? `, ${awardTypes[item.type] || item.type}` : ''}${item.project ? `, project: ${item.project}` : ''}${item.url ? ` [Source](${item.url})` : ''}`;
+const appearanceLine = (item) => `- ${item.date || 'Undated'} - ${item.name}${item.event ? ` (${item.event})` : ''}${item.url ? ` [Link](${item.url})` : ''}`;
+const buildingLine = (item) => `- **${item.name}** (${item.role}${item.since ? `, since ${item.since}` : ''}): ${item.summary}${item.points && item.points.length ? ` Focus: ${item.points.join('; ')}.` : ''}`;
+const awardLabel = (item) => item.url ? `<a href="${item.url}">${escapeHtml(item.name)}</a>` : escapeHtml(item.name);
+const buildingSection = `<section><h2>What I'm building</h2>${data.building.map((item) => `<article><h3><a href="${item.url}">${escapeHtml(item.name)}</a> - ${escapeHtml(item.role)}${item.since ? ` (since ${item.since})` : ''}</h3><p>${escapeHtml(item.summary)}</p>${item.points && item.points.length ? `<ul>${item.points.map((point) => `<li>${escapeHtml(point)}</li>`).join('')}</ul>` : ''}</article>`).join('')}</section>`;
+const principlesSection = `<section><h2>How I think</h2>${data.positioning.principles.map((item) => `<article><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join('')}</section>`;
+const milestonesSection = `<section><h2>Milestones</h2><ul>${data.milestones.map((item) => `<li><time datetime="${item.date}">${item.date}</time> - ${escapeHtml(item.event)}</li>`).join('')}</ul></section>`;
 const jsonLdScript = (schemas) => `<script type="application/ld+json">${JSON.stringify(schemas)}</script>`;
 
-const nav = `<header><a class="brand" href="/">BM<span>.</span></a><nav aria-label="Professional profile"><a href="/experience/">Experience</a><a href="/projects/">Projects</a><a href="/resume/">Resume</a><a href="/llms.txt">llms.txt</a></nav></header>`;
-const footer = `<footer><p>- Bruno Moya</p><nav aria-label="Professional links"><a href="${data.links.github}">GitHub</a><a href="${data.links.linkedin}">LinkedIn</a><a href="${data.links.contact}">Contact Bruno Moya</a><a href="/profile.json">Profile JSON</a></nav></footer>`;
+const labels = {
+  "Professional profile": "Perfil profesional",
+  "Professional links": "Enlaces profesionales",
+  "Experience": "Experiencia",
+  "Projects": "Proyectos",
+  "Resume": "Currículum",
+  "Contact Bruno Moya": "Contactar con Bruno Moya",
+  "Profile JSON": "Perfil JSON",
+  "Skip to content": "Saltar al contenido",
+  "Download Bruno Moya's resume PDF": "Descargar el CV de Bruno Moya en PDF",
+  "About me": "Sobre mí",
+  "Selected projects": "Proyectos seleccionados",
+  "Skills": "Competencias",
+  "Education": "Formación",
+  "Awards & selections": "Premios y selecciones",
+  "Professional experience": "Experiencia profesional",
+  "Hands-on technical ownership": "Responsabilidad técnica, de principio a fin",
+  "Production software, backend systems, infrastructure, AI agents and XR.": "Software en producción, sistemas backend, infraestructura, agentes de IA y XR.",
+  "Software, automation and mixed reality": "Software, automatización y realidad mixta",
+  "Architecture, state, tools, validation, automation and human control.": "Arquitectura, estado, herramientas, validación, automatización y control humano.",
+  "Problem": "El problema",
+  "What I built": "Qué construí",
+  "Architecture": "Arquitectura",
+  "AI / agentic component": "Componente de IA y agentes",
+  "Deterministic components": "Componentes deterministas",
+  "Stack": "Tecnologías",
+  "My role": "Mi papel",
+  "Outcome": "Resultado",
+  "View all selected projects": "Ver todos los proyectos",
+  "What I'm building": "Qué estoy construyendo",
+  "How I think": "Cómo pienso",
+  "Milestones": "Hitos"
+};
+function generatePages(data, lang) {
+const prefix = lang === 'en' ? '/en' : '';
+const label = value => lang === 'es' ? labels[value] || value : value;
+const absolute = url => url.startsWith('http') ? url : origin + prefix + url;
+const write = (relativePath, value) => {
+  const target = path.join(publicDir, prefix, relativePath);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, value);
+};
+const formatPeriod = ({ startDate, endDate }) => startDate + ' - ' + (endDate || (lang === 'es' ? 'Actualidad' : 'Present'));
+const tags = items => '<ul class="tags" aria-label="' + (lang === 'es' ? 'Tecnologías' : 'Technologies') + '">' + items.map(item => '<li>' + escapeHtml(item) + '</li>').join('') + '</ul>';
+const buildingSection = `<section><h2>${label("What I'm building")}</h2>${data.building.map((item) => `<article><h3><a href="${item.url}">${escapeHtml(item.name)}</a> - ${escapeHtml(item.role)}${item.since ? ` (${lang === "es" ? "desde" : "since"} ${item.since})` : ''}</h3><p>${escapeHtml(item.summary)}</p>${item.points && item.points.length ? `<ul>${item.points.map((point) => `<li>${escapeHtml(point)}</li>`).join('')}</ul>` : ''}</article>`).join('')}</section>`;
+const principlesSection = `<section><h2>${label("How I think")}</h2>${data.positioning.principles.map((item) => `<article><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join('')}</section>`;
+const milestonesSection = `<section><h2>${label("Milestones")}</h2><ul>${data.milestones.map((item) => `<li><time datetime="${item.date}">${item.date}</time> - ${escapeHtml(item.event)}</li>`).join('')}</ul></section>`;
+const nav = `<header><a class="brand" href="${prefix}/">BM<span>.</span></a><nav aria-label="${label("Professional profile")}"><a href="${prefix}/experience/">${label("Experience")}</a><a href="${prefix}/projects/">${label("Projects")}</a><a href="${prefix}/resume/">${label("Resume")}</a><a href="/llms.txt">llms.txt</a></nav></header>`;
+const footer = `<footer><p>- Bruno Moya</p><nav aria-label="${label("Professional links")}"><a href="${data.links.github}">GitHub</a><a href="${data.links.linkedin}">LinkedIn</a><a href="${data.links.contact}">${label("Contact Bruno Moya")}</a><a href="/profile.json">${label("Profile JSON")}</a></nav></footer>`;
 const layout = ({ title, description, canonical, body, schemas = [personJsonLd] }) => `<!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="${lang}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><meta name="author" content="Bruno Moya">
 <meta name="robots" content="index, follow, max-image-preview:large"><link rel="canonical" href="${absolute(canonical)}">
 <meta property="og:type" content="website"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${absolute(canonical)}"><meta property="og:image" content="${origin}/images-webp/hero/cover-better.webp">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeHtml(title)}"><meta name="twitter:description" content="${escapeHtml(description)}"><meta name="twitter:image" content="${origin}/images-webp/hero/cover-better.webp">
-<link rel="stylesheet" href="/professional.css">${jsonLdScript(schemas)}</head><body>
-<a class="skip-link" href="#main-content">Skip to content</a>${nav}<main id="main-content">${body}</main>${footer}</body></html>`;
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.classList.add(t==='dark'?'dark':'light')}catch(e){}</script>
+<link rel="stylesheet" href="/professional.css">${jsonLdScript(schemas)}<link rel="alternate" hreflang="es" href="${origin}${canonical}"><link rel="alternate" hreflang="en" href="${origin}/en${canonical}"><link rel="alternate" hreflang="x-default" href="${origin}${canonical}"></head><body>
+<a class="skip-link" href="#main-content">${label("Skip to content")}</a>${nav.replace("</nav>", `<a href="${lang === "es" ? "/en" + canonical : canonical}" lang="${lang === "es" ? "en" : "es"}" hreflang="${lang === "es" ? "en" : "es"}">${lang === "es" ? "English" : "Español"}</a></nav>`)}<main id="main-content">${body}</main>${footer}</body></html>`;
 
 const experienceArticles = data.experience.map((item) => `<article class="detail-card">
 <p class="eyebrow"><time datetime="${item.startDate}">${formatPeriod(item)}</time> - ${escapeHtml(item.location)}</p>
@@ -71,51 +146,63 @@ ${item.highlights.length ? `<ul>${item.highlights.map((value) => `<li>${escapeHt
 ${tags(item.technologies)}</article>`).join('');
 
 const projectCards = data.projects.map((project) => `<article class="detail-card">
-<p class="eyebrow">${escapeHtml(project.category)}</p><h2><a href="${project.url}">${escapeHtml(project.title)}</a></h2>
+<p class="eyebrow">${escapeHtml(project.category)}</p><h2><a href="${escapeHtml(project.actionUrl || prefix + project.url)}">${escapeHtml(project.title)}</a></h2>
 <p class="outcome">${escapeHtml(project.outcome)}</p><p>${escapeHtml(project.description)}</p>${tags(project.technologies)}
-<p><a href="${project.url}">Read the ${escapeHtml(project.name)} technical case study </a></p>
-${project.repository ? `<p><a href="${project.repository}">View ${escapeHtml(project.name)} on GitHub ?</a></p>` : ''}</article>`).join('');
+<p><a href="${escapeHtml(project.actionUrl || prefix + project.url)}">${escapeHtml(project.actionLabel || `${lang === "es" ? "Ver el proyecto" : "View project"} ${project.name}`)} &rarr;</a></p>
+${project.repository && project.repository !== project.actionUrl ? `<p><a href="${project.repository}">${lang === "es" ? "Ver" : "View"} ${escapeHtml(project.name)} ${lang === "es" ? "en" : "on"} GitHub &nearr;</a></p>` : ''}</article>`).join('');
 
-const resumeBody = `<section class="page-hero"><p class="eyebrow">Resume</p><h1>${escapeHtml(data.person.name)}</h1><p class="headline">${escapeHtml(data.person.headline)}</p><p>${escapeHtml(data.person.description)}</p>
-<div class="actions"><a class="button" href="${data.links.resume}">Download Bruno Moya's resume PDF</a><a href="${data.links.contact}">Contact Bruno Moya</a></div></section>
-<section><h2>About me</h2><p>${escapeHtml(data.positioning.intro)}</p><strong>${escapeHtml(data.positioning.principle)}</strong></section>
-<section><h2>Experience</h2>${experienceArticles}</section>
-<section><h2>Selected projects</h2>${projectCards}</section>
-<section><h2>Skills</h2>${Object.entries(data.skills).map(([group, skills]) => `<article><h3>${escapeHtml(group)}</h3>${tags(skills)}</article>`).join('')}</section>
-<section><h2>Education</h2>${data.education.map((item) => `<article><h3>${escapeHtml(item.degree)}</h3><p>${escapeHtml(item.institution)} - <time datetime="${item.startDate}">${item.startDate}-${item.endDate}</time> - ${escapeHtml(item.location)}</p></article>`).join('')}</section>
-<section><h2>Awards</h2>${data.awards.map((item) => `<article><h3><a href="${item.url}">${escapeHtml(item.name)}</a></h3><p>${escapeHtml(item.organization)} - <time datetime="${item.date}">${item.date}</time></p></article>`).join('')}</section>`;
-write('resume/index.html', layout({ title: 'Bruno Moya Resume | Software Developer', description: data.person.description, canonical: '/resume/', body: resumeBody, schemas: [personJsonLd, ...data.projects.map(projectJsonLd)] }));
-write('experience/index.html', layout({ title: 'Bruno Moya Experience | AI, Backend, Infrastructure & XR', description: 'Professional experience of Bruno Moya, CTO at TopBrokers.io and Founder of Glassear.', canonical: '/experience/', body: `<section class="page-hero"><p class="eyebrow">Professional experience</p><h1>Hands-on technical ownership</h1><p>Production software, backend systems, infrastructure, AI agents and XR.</p></section><section>${experienceArticles}</section>` }));
+const resumeBody = `<section class="page-hero"><p class="eyebrow">${label("Resume")}</p><h1>${escapeHtml(data.person.name)}</h1><p class="headline">${escapeHtml(data.person.headline)}</p><p>${escapeHtml(data.person.description)}</p>
+<div class="actions"><a class="button" href="${data.links.resume}">${label("Download Bruno Moya's resume PDF")}</a><a href="${data.links.contact}">${label("Contact Bruno Moya")}</a></div></section>
+<section><h2>${label("About me")}</h2><p><strong>${escapeHtml(data.person.tagline)}</strong></p><p>${escapeHtml(data.positioning.intro)}</p></section>
+${buildingSection}${milestonesSection}${principlesSection}
+<section><h2>${label("Experience")}</h2>${experienceArticles}</section>
+<section><h2>${label("Selected projects")}</h2>${projectCards}</section>
+<section><h2>${label("Skills")}</h2>${Object.entries(data.skills).map(([group, skills]) => `<article><h3>${escapeHtml(group)}</h3>${tags(skills)}</article>`).join('')}</section>
+<section><h2>${label("Education")}</h2>${data.education.map((item) => `<article><h3>${escapeHtml(item.degree)}</h3><p>${escapeHtml(item.institution)} - <time datetime="${item.startDate}">${item.startDate}-${item.endDate}</time>${item.location ? ` - ${escapeHtml(item.location)}` : ''}</p></article>`).join('')}</section>
+<section><h2>${label("Awards & selections")}</h2>${data.awards.map((item) => `<article><h3>${awardLabel(item)}</h3><p>${escapeHtml(item.organization)} - <time datetime="${item.date}">${item.date}</time></p>${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}</article>`).join('')}</section>`;
+write('resume/index.html', layout({ title: lang === 'es' ? 'Bruno Moya | Currículum' : 'Bruno Moya | Resume', description: data.person.description, canonical: '/resume/', body: resumeBody, schemas: [personJsonLd, glassearJsonLd, ...data.projects.map(projectJsonLd)] }));
+write('experience/index.html', layout({ title: lang === 'es' ? 'Bruno Moya | Experiencia' : 'Bruno Moya | Experience', description: data.person.description, canonical: '/experience/', body: `<section class="page-hero"><p class="eyebrow">${label("Professional experience")}</p><h1>${label("Hands-on technical ownership")}</h1><p>${label("Production software, backend systems, infrastructure, AI agents and XR.")}</p></section><section>${experienceArticles}</section>` }));
 write('projects/index.html', layout({
-  title: 'Bruno Moya Projects | AI Agents, Software Systems & XR',
-  description: 'Selected AI, agentic software and XR projects built by Bruno Moya.',
+  title: lang === 'es' ? 'Bruno Moya | Proyectos' : 'Bruno Moya | Projects',
+  description: data.person.description,
   canonical: '/projects/',
-  body: '<section class="page-hero"><p class="eyebrow">Selected projects</p><h1>Software, automation and mixed reality</h1><p>Architecture, state, tools, validation, automation and human control.</p></section><section>' + projectCards + '</section>',
+  body: `<section class="page-hero"><p class="eyebrow">${label("Selected projects")}</p><h1>${label("Software, automation and mixed reality")}</h1><p>${label("Architecture, state, tools, validation, automation and human control.")}</p></section><section>` + projectCards + "</section>",
   schemas: [personJsonLd, ...data.projects.map(projectJsonLd)]
 }));
 
 for (const project of data.projects) {
   const body = `<article class="project-page"><p class="eyebrow">${escapeHtml(project.category)}</p><h1>${escapeHtml(project.title)}</h1><p class="headline">${escapeHtml(project.description)}</p><p class="outcome">${escapeHtml(project.outcome)}</p>
-<section><h2>Problem</h2><p>${escapeHtml(project.problem)}</p></section>
-<section><h2>What I built</h2><p>${escapeHtml(project.description)}</p><ul>${project.highlights.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></section>
-<section><h2>Architecture</h2><p>${escapeHtml(project.architecture)}</p></section>
-<section><h2>AI / agentic component</h2><p>${escapeHtml(project.aiComponent)}</p></section>
-<section><h2>Deterministic components</h2><p>${escapeHtml(project.deterministicComponent)}</p><blockquote>${escapeHtml(project.principle)}</blockquote></section>
-<section><h2>Stack</h2>${tags(project.technologies)}</section>
-<section><h2>My role</h2><p>${escapeHtml(project.role)}</p></section>
-<section><h2>Outcome</h2><p>${escapeHtml(project.outcome)}</p></section>
-<div class="actions">${project.repository ? `<a class="button" href="${project.repository}">View ${escapeHtml(project.name)} on GitHub</a>` : ''}<a href="/projects/">View all selected projects</a></div></article>`;
+${project.image ? `<section><h2>Editor</h2><img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)} ${lang === "es" ? "— editor de rutas con mapa, itinerario y línea de tiempo" : "route editor with map, itinerary and timeline"}" loading="lazy" style="width:100%;height:auto;display:block"></section>` : ''}
+<section><h2>${label("Problem")}</h2><p>${escapeHtml(project.problem)}</p></section>
+<section><h2>${label("What I built")}</h2><p>${escapeHtml(project.description)}</p><ul>${project.highlights.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></section>
+<section><h2>${label("Architecture")}</h2><p>${escapeHtml(project.architecture)}</p></section>
+<section><h2>${label("AI / agentic component")}</h2><p>${escapeHtml(project.aiComponent)}</p></section>
+<section><h2>${label("Deterministic components")}</h2><p>${escapeHtml(project.deterministicComponent)}</p><blockquote>${escapeHtml(project.principle)}</blockquote></section>
+<section><h2>${label("Stack")}</h2>${tags(project.technologies)}</section>
+<section><h2>${label("My role")}</h2><p>${escapeHtml(project.role)}</p></section>
+<section><h2>${label("Outcome")}</h2><p>${escapeHtml(project.outcome)}</p></section>
+<div class="actions">${project.repository ? `<a class="button" href="${project.repository}">${lang === "es" ? "Ver" : "View"} ${escapeHtml(project.name)} ${lang === "es" ? "en" : "on"} GitHub</a>` : ''}<a href="${prefix}/projects/">${label("View all selected projects")}</a></div></article>`;
   write(`projects/${project.id}/index.html`, layout({ title: `${project.title} | Bruno Moya`, description: project.description, canonical: project.url, body, schemas: [personJsonLd, projectJsonLd(project)] }));
 }
+
+}
+generatePages(data, "en");
+generatePages(withWebContent(spanishProfile(data, spanishSite), spanishSite), "es");
 
 const publicProfile = {
   schemaVersion: data.schemaVersion,
   lastUpdated: data.lastUpdated,
   name: data.person.name,
+  alternateName: data.person.alternateName,
   headline: data.person.headline,
+  tagline: data.person.tagline,
   description: data.person.description,
   location: data.person.location,
   roles: data.person.currentRoles,
+  positioning: data.positioning,
+  building: data.building,
+  milestones: data.milestones,
+  appearances: data.appearances,
   skills: data.skills,
   experience: data.experience,
   projects: [...data.projects, ...data.broaderProjects],
@@ -128,15 +215,39 @@ write('profile.json', JSON.stringify(publicProfile, null, 2) + '\n');
 
 const llms = `# Bruno Moya
 
-> ${data.person.headline}. ${data.person.description}
+> ${data.person.tagline} ${data.person.headline}. ${data.person.description}
 
-Bruno Moya is based in Barcelona, Spain. He is CTO at TopBrokers.io and founder of Glassear. ${data.positioning.intro}
+Bruno Moya (${data.person.alternateName}) is based in ${data.person.location}. He is Founder & CEO of Glassear and CTO at TopBrokers.io. In his own words: ${data.positioning.intro}
+
+## What he is building
+${data.building.map(buildingLine).join('\n')}
+
+## Milestones and recognition
+${data.milestones.map((item) => `- ${item.date}: ${item.event}`).join('\n')}
+
+## Awards, recognition, certifications and publications
+${data.awards.map(awardLine).join('\n')}
+
+## Education
+${data.education.map((item) => `- ${item.degree} - ${item.institution} (${item.startDate}-${item.endDate})${item.location ? `, ${item.location}` : ''}`).join('\n')}
+
+## How he thinks
+${data.positioning.principles.map((item) => `- **${item.title}** ${item.body}`).join('\n')}
 
 ## Current work
 ${data.experience.slice(0, 2).map((item) => `- **${item.role}, ${item.company}** (${formatPeriod(item)}): ${item.summary}`).join('\n')}
 
 ## Selected projects
 ${data.projects.map((project) => `- [${project.title}](${absolute(project.url)}): ${project.description} Outcome: ${project.outcome}${project.repository ? ` [Repository](${project.repository})` : ''}`).join('\n')}
+
+## Talks and appearances
+${data.appearances.filter((item) => item.kind === 'talk').map(appearanceLine).join('\n')}
+
+## Press and publications about him
+${data.appearances.filter((item) => item.kind === 'press').map(appearanceLine).join('\n')}
+
+## Languages
+${data.person.languages.join(', ')}
 
 ## Core skills
 ${Object.entries(data.skills).map(([group, skills]) => `- **${group}:** ${skills.join(', ')}`).join('\n')}
@@ -157,28 +268,28 @@ This file follows the emerging llms.txt convention; llms.txt is not an official 
 `;
 write('llms.txt', llms);
 
-const resumeMd = `# ${data.person.name}\n\n## ${data.person.headline}\n\n${data.person.description}\n\n${data.positioning.intro}\n\n## Experience\n\n${data.experience.map((item) => `### ${item.role} - ${item.company}\n\n${formatPeriod(item)} - ${item.location}\n\n${item.summary}\n\n${item.highlights.map((value) => `- ${value}`).join('\n')}\n\n**Technologies:** ${item.technologies.join(', ')}`).join('\n\n')}\n\n## Selected projects\n\n${data.projects.map((project) => `### [${project.title}](${absolute(project.url)})\n\n${project.description}\n\n**Outcome:** ${project.outcome}\n\n**Stack:** ${project.technologies.join(', ')}${project.repository ? `\n\n[Repository](${project.repository})` : ''}`).join('\n\n')}\n\n## Skills\n\n${Object.entries(data.skills).map(([group, skills]) => `- **${group}:** ${skills.join(', ')}`).join('\n')}\n\n## Contact\n\n- [Email](${data.links.contact})\n- [GitHub](${data.links.github})\n- [LinkedIn](${data.links.linkedin})\n`;
+const resumeMd = `# ${data.person.name}\n\n## ${data.person.headline}\n\n**${data.person.tagline}**\n\n${data.person.description}\n\n${data.positioning.intro}\n\n## What I'm building\n\n${data.building.map(buildingLine).join('\n')}\n\n## Milestones\n\n${data.milestones.map((item) => `- ${item.date}: ${item.event}`).join('\n')}\n\n## How I think\n\n${data.positioning.principles.map((item) => `- **${item.title}** ${item.body}`).join('\n')}\n\n## Experience\n\n${data.experience.map((item) => `### ${item.role} - ${item.company}\n\n${formatPeriod(item)} - ${item.location}\n\n${item.summary}\n\n${item.highlights.map((value) => `- ${value}`).join('\n')}\n\n**Technologies:** ${item.technologies.join(', ')}`).join('\n\n')}\n\n## Selected projects\n\n${data.projects.map((project) => `### [${project.title}](${absolute(project.url)})\n\n${project.description}\n\n**Outcome:** ${project.outcome}\n\n**Stack:** ${project.technologies.join(', ')}${project.repository ? `\n\n[Repository](${project.repository})` : ''}`).join('\n\n')}\n\n## Education\n\n${data.education.map((item) => `- **${item.degree}** - ${item.institution} (${item.startDate}-${item.endDate})${item.location ? `, ${item.location}` : ''}`).join('\n')}\n\n## Awards, recognition, certifications and publications\n\n${data.awards.map(awardLine).join('\n')}\n\n## Talks and press\n\n${data.appearances.map(appearanceLine).join('\n')}\n\n## Skills\n\n${Object.entries(data.skills).map(([group, skills]) => `- **${group}:** ${skills.join(', ')}`).join('\n')}\n\n## Contact\n\n- [Email](${data.links.contact})\n- [GitHub](${data.links.github})\n- [LinkedIn](${data.links.linkedin})\n`;
 write('resume.md', resumeMd);
 write('projects.md', `# Bruno Moya - Selected Projects\n\n${data.projects.map((project) => `## ${project.title}\n\n${project.description}\n\n- **Problem:** ${project.problem}\n- **Architecture:** ${project.architecture}\n- **AI / agentic:** ${project.aiComponent}\n- **Deterministic:** ${project.deterministicComponent}\n- **Role:** ${project.role}\n- **Outcome:** ${project.outcome}\n- **Stack:** ${project.technologies.join(', ')}\n- **Case study:** ${absolute(project.url)}${project.repository ? `\n- **Repository:** ${project.repository}` : ''}`).join('\n\n')}\n`);
 
-const routes = ['/', '/resume/', '/experience/', '/projects/', ...data.projects.map((project) => project.url), '/profile.json', '/llms.txt', '/resume.md', '/projects.md'];
+const routes = ['/en/', ...['/resume/', '/experience/', '/projects/', ...data.projects.map(project => project.url)].map(route => '/en' + route), '/', '/resume/', '/experience/', '/projects/', ...data.projects.map((project) => project.url), '/profile.json', '/llms.txt', '/resume.md', '/projects.md'];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map((route) => `  <url><loc>${absolute(route)}</loc><lastmod>${data.lastUpdated}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`);
 fs.copyFileSync(path.join(root, 'src/app/professional.css'), path.join(publicDir, 'professional.css'));
 
-const fallback = `<!-- PROFESSIONAL_FALLBACK_START --><div id="root"></div><noscript><main><article><h1>${escapeHtml(data.person.name)}</h1><h2>${escapeHtml(data.person.headline)}</h2><p>${escapeHtml(data.person.description)}</p><p>${escapeHtml(data.positioning.intro)}</p><section><h2>Current work</h2>${data.experience.slice(0, 2).map((item) => `<article><h3>${escapeHtml(item.role)} - ${escapeHtml(item.company)}</h3><time datetime="${item.startDate}">${formatPeriod(item)}</time><p>${escapeHtml(item.summary)}</p></article>`).join('')}</section><section><h2>Selected projects</h2>${data.projects.map((project) => `<article><h3><a href="${project.url}">${escapeHtml(project.title)}</a></h3><p>${escapeHtml(project.description)}</p></article>`).join('')}</section><p><a href="/resume/">View Bruno Moya's resume</a> - <a href="${data.links.contact}">Contact Bruno Moya</a></p></article></main></noscript><!-- PROFESSIONAL_FALLBACK_END -->`;
+const fallback = `<!-- PROFESSIONAL_FALLBACK_START --><div id="root"></div><noscript><main><article><h1>${escapeHtml(data.person.name)}: ${escapeHtml(data.person.tagline)}</h1><p>${escapeHtml(data.person.headline)}</p><p>${escapeHtml(data.person.description)}</p><p>${escapeHtml(data.positioning.intro)}</p>${buildingSection}${milestonesSection}${principlesSection}<section><h2>Current work</h2>${data.experience.slice(0, 2).map((item) => `<article><h3>${escapeHtml(item.role)} - ${escapeHtml(item.company)}</h3><time datetime="${item.startDate}">${formatPeriod(item)}</time><p>${escapeHtml(item.summary)}</p></article>`).join('')}</section><section><h2>Selected projects</h2>${data.projects.map((project) => `<article><h3><a href="${project.url}">${escapeHtml(project.title)}</a></h3><p>${escapeHtml(project.description)}</p></article>`).join('')}</section><p><a href="/resume/">View Bruno Moya's resume</a> - <a href="${data.links.contact}">Contact Bruno Moya</a></p></article></main></noscript><!-- PROFESSIONAL_FALLBACK_END -->`;
 const indexPath = path.join(root, 'index.html');
 let index = fs.readFileSync(indexPath, 'utf8');
 index = index
-  .replace(/<title>[\s\S]*?<\/title>/, '<title>Bruno Moya | Software Developer & Glassear Founder</title>')
+  .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(data.person.seoTitle)}</title>`)
   .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${escapeHtml(data.person.description)}">`)
-  .replace(/<meta property="og:title"[^>]*>/, '<meta property="og:title" content="Bruno Moya | Software Developer & Glassear Founder">')
+  .replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${escapeHtml(data.person.seoTitle)}">`)
   .replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${escapeHtml(data.person.description)}">`)
   .replace(/<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${origin}/">`)
-  .replace(/<meta name="twitter:title"[^>]*>/, '<meta name="twitter:title" content="Bruno Moya | Software Developer & Glassear Founder">')
+  .replace(/<meta name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${escapeHtml(data.person.seoTitle)}">`)
   .replace(/<meta name="twitter:description"[^>]*>/, `<meta name="twitter:description" content="${escapeHtml(data.person.description)}">`)
-  .replace(/<meta name="keywords"[^>]*>/, '<meta name="keywords" content="Bruno Moya, Software Developer Barcelona, Glassear, Web Development, Backend, Hardware, XR">');
-const homeJsonLd = jsonLdScript([personJsonLd, ...data.projects.map(projectJsonLd)]);
+  .replace(/<meta name="keywords"[^>]*>/, '<meta name="keywords" content="Bruno Moya, Bruno Moya Ruiz, Glassear, Glassear One, Glassear Studio, GlassMusic, TopBrokers, CTO, technical founder, software engineer Barcelona, spatial computing, augmented reality, AI agents, infrastructure">');
+const homeJsonLd = jsonLdScript([personJsonLd, glassearJsonLd, ...data.projects.map(projectJsonLd)]);
 const jsonLdPattern = /<script type="application\/ld\+json">[^<]+<\/script>/;
 if (jsonLdPattern.test(index)) {
   index = index.replace(jsonLdPattern, homeJsonLd);

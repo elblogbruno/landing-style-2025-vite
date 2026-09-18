@@ -1,7 +1,12 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import './talks-stage.css';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useInView } from 'framer-motion';
+
+const StageAvatar = React.lazy(() => import('./StageAvatar'));
 
 interface Talk {
+  postUrl?: string;
   id: number;
   title: string;
   event: string;
@@ -15,6 +20,8 @@ interface Talk {
 }
 
 interface NewsItem {
+  videoId?: string;
+  postUrl?: string;
   id: number;
   title: string;
   source: string;
@@ -32,29 +39,18 @@ interface TalksProps {
 const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
   const { t } = useTranslation();
   const isDark = theme === 'dark';
+  const stageRef = React.useRef<HTMLDivElement>(null);
+  const stageVisible = useInView(stageRef, { margin: '200px' });
 
   // Paginación
   const INITIAL_COUNT = 3;
   const LOAD_MORE_COUNT = 3;
 
-  // Estado de pestaña activa: 'talks' o 'news'
-  const [activeTab, setActiveTab] = useState<'talks' | 'news'>('talks');
   const [visibleTalkCount, setVisibleTalkCount] = useState(INITIAL_COUNT);
   const [visibleNewsCount, setVisibleNewsCount] = useState(INITIAL_COUNT);
   const [expandedTalks, setExpandedTalks] = useState(false);
   const [expandedNews, setExpandedNews] = useState(false);
 
-  // Detectar ancla #news en URL para activar la pestaña correspondiente
-  useEffect(() => {
-    const handleHashCheck = () => {
-      if (typeof window !== 'undefined' && window.location.hash === '#news') {
-        setActiveTab('news');
-      }
-    };
-    handleHashCheck();
-    window.addEventListener('hashchange', handleHashCheck);
-    return () => window.removeEventListener('hashchange', handleHashCheck);
-  }, []);
 
   // Datos de Charlas
   const talksData = useMemo(() => {
@@ -153,17 +149,15 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
   const collapseNews = useCallback(() => {
     setVisibleNewsCount(INITIAL_COUNT);
     setExpandedNews(false);
-    const el = document.getElementById('talks');
+    const el = document.getElementById('news');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   }, [INITIAL_COUNT]);
 
   return (
-    <div className="py-12">
-      {/* Anclas duales para compatibilidad de rutas */}
-      <span id="news" className="scroll-mt-24 block -mt-24 h-0" aria-hidden="true" />
+    <div className={`talks-stage talks-stage--${theme} py-12`}>
 
       {/* Cabecera de Sección Unificada */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div className="talks-stage__header flex flex-col gap-5">
         <div>
           <span className="text-xs font-mono font-semibold tracking-wider uppercase text-blue-500 mb-1.5 block">
             // 04 · {t('talks.unifiedTitle', 'Charlas & Medios')}
@@ -176,44 +170,35 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
           </p>
         </div>
 
-        {/* Selector de Pestañas Segmentado */}
-        <div className={`inline-flex max-w-full p-1 rounded-xl border self-start md:self-auto ${
-          isDark ? 'bg-gray-900/90 border-gray-800' : 'bg-gray-100 border-gray-200'
-        }`}>
-          <button
-            onClick={() => setActiveTab('talks')}
-            className={`min-w-0 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1 sm:gap-2 ${
-              activeTab === 'talks'
-                ? 'bg-blue-600 text-white shadow-md'
-                : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
-            </svg>
-            <span>{t('talks.tabTalks', 'Charlas & Keynotes')}</span>
-            <span className="text-xs opacity-75 font-mono">({sortedTalks.length})</span>
-          </button>
 
-          <button
-            onClick={() => setActiveTab('news')}
-            className={`min-w-0 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1 sm:gap-2 ${
-              activeTab === 'news'
-                ? 'bg-blue-600 text-white shadow-md'
-                : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-            <span>{t('talks.tabNews', 'Noticias & Prensa')}</span>
-            <span className="text-xs opacity-75 font-mono">({sortedNews.length})</span>
-          </button>
-        </div>
+
+          <div ref={stageRef} className="talks-stage__presentation">
+            <div className="talks-stage__main-screen">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/fsGnN_xTAxQ"
+                title={t('talks.mainPresentation', 'Charla principal')}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+              <a href="https://youtu.be/fsGnN_xTAxQ" target="_blank" rel="noopener noreferrer">
+                {t('talks.mainPresentation', 'Charla principal')} · YouTube ↗
+              </a>
+            </div>
+            <div className="talks-stage__presenter" aria-hidden="true">
+              <div className="talks-stage__avatar">{stageVisible && <React.Suspense fallback={null}><StageAvatar /></React.Suspense>}</div>
+              <div className="talks-stage__podium">
+                <span className="talks-stage__podium-mic" />
+                <span className="talks-stage__podium-top" />
+                <span className="talks-stage__podium-front">BM</span>
+                <span className="talks-stage__podium-foot" />
+              </div>
+            </div>
+          </div>
       </div>
 
       {/* VISTA DE CHARLAS */}
-      {activeTab === 'talks' && (
         <div className="space-y-8 animate-fadeIn">
           {/* Charlas destacadas */}
           {featuredTalks.length > 0 && (
@@ -225,11 +210,11 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                 {featuredTalks.map(talk => (
                   <div
                     key={talk.id}
-                    className={`rounded-xl p-5 shadow-lg border backdrop-blur-sm transition-all duration-300 md:col-span-2 lg:col-span-3 ${themeStyles.featuredCardBg}`}
+                    className={`talks-stage__screen rounded-xl p-5 shadow-lg border backdrop-blur-sm transition-all duration-300 md:col-span-2 lg:col-span-3 ${themeStyles.featuredCardBg}`}
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[1fr,2fr] gap-5">
                       {talk.image ? (
-                        <div className="rounded-lg overflow-hidden h-[180px] bg-black/40">
+                        <div className="talks-stage__projection rounded-lg overflow-hidden h-[240px] bg-black/40">
                           <img 
                             src={talk.image} 
                             alt={talk.title} 
@@ -266,6 +251,11 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                         </div>
 
                         <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-gray-700/40">
+                          {talk.postUrl && (
+                            <a href={talk.postUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium">
+                              {t('news.viewPost')}
+                            </a>
+                          )}
                           {talk.videoUrl && (
                             <a 
                               href={talk.videoUrl} 
@@ -312,9 +302,10 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                 {visibleRegularTalks.map(talk => (
                   <div 
                     key={talk.id} 
-                    className={`rounded-xl p-5 border backdrop-blur-sm transition-all duration-300 flex flex-col justify-between ${themeStyles.cardBg}`}
+                    className={`talks-stage__card rounded-xl p-5 border backdrop-blur-sm transition-all duration-300 flex flex-col justify-between ${themeStyles.cardBg}`}
                   >
                     <div>
+                      {talk.image && <img src={talk.image} alt={talk.title} loading="lazy" className="w-full aspect-video object-contain rounded-lg mb-4" />}
                       <div className="flex items-center gap-2 text-xs font-mono text-blue-400 mb-2">
                         <span>{talk.date}</span>
                         <span>•</span>
@@ -328,7 +319,12 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                     </div>
 
                     <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-800/60 mt-auto">
-                      {talk.videoUrl && (
+                      {talk.postUrl && (
+                            <a href={talk.postUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium">
+                              {t('news.viewPost')}
+                            </a>
+                          )}
+                          {talk.videoUrl && (
                         <a 
                           href={talk.videoUrl} 
                           target="_blank" 
@@ -376,11 +372,9 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
             </div>
           )}
         </div>
-      )}
-
       {/* VISTA DE NOTICIAS & PRENSA */}
-      {activeTab === 'news' && (
-        <div className="space-y-8 animate-fadeIn">
+        <section id="news" className="talks-newspaper mt-16 scroll-mt-24 space-y-8" aria-labelledby="news-heading">
+          <header className="talks-newspaper__masthead"><h3 id="news-heading">{t('talks.tabNews', 'Noticias & Prensa')}</h3><p>{t('news.featuredNews', 'Apariciones Destacadas')}</p></header>
           {/* Noticias destacadas */}
           {featuredNews.length > 0 && (
             <div className="space-y-4">
@@ -391,11 +385,21 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                 {featuredNews.map(item => (
                   <div
                     key={item.id}
-                    className={`rounded-xl p-6 border backdrop-blur-sm shadow-lg transition-all ${themeStyles.featuredCardBg}`}
+                    className={`talks-stage__screen rounded-xl p-6 border backdrop-blur-sm shadow-lg transition-all ${themeStyles.featuredCardBg}`}
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[1fr,1.8fr] gap-6">
-                      {item.image && (
-                        <div className="rounded-lg overflow-hidden max-h-[220px] bg-black/40">
+                      {item.videoId ? (
+                        <iframe
+                          className="w-full aspect-video rounded-lg self-center"
+                          src={`https://www.youtube-nocookie.com/embed/${item.videoId}`}
+                          title={item.title}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      ) : item.image && (
+                        <div className="talks-stage__projection rounded-lg overflow-hidden h-[240px] bg-black/40">
                           <img 
                             src={item.image} 
                             alt={item.title} 
@@ -408,8 +412,7 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                         <div>
                           <div className="flex items-center gap-2 text-xs font-mono text-blue-400 mb-1.5">
                             <span className="font-semibold">{item.source}</span>
-                            <span>•</span>
-                            <span>{item.date}</span>
+                            {item.date && <><span>•</span><span>{item.date}</span></>}
                           </div>
                           <h4 className={`text-xl sm:text-2xl font-bold mb-2 ${themeStyles.mainHeading}`}>
                             {item.title}
@@ -424,11 +427,16 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors self-start"
                         >
-                          <span>{t('news.readFullArticle', 'Leer artículo completo')}</span>
+                          <span>{item.videoId ? t('news.watchReport') : t('news.readFullArticle', 'Leer artículo completo')}</span>
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
                         </a>
+                        {item.postUrl && (
+                          <a href={item.postUrl} target="_blank" rel="noopener noreferrer" className="mt-3 text-sm underline underline-offset-4 self-start">
+                            {t('news.viewPost')}
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -447,9 +455,10 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
                 {visibleRegularNews.map(item => (
                   <div
                     key={item.id}
-                    className={`rounded-xl p-5 border backdrop-blur-sm transition-all duration-300 flex flex-col justify-between ${themeStyles.cardBg}`}
+                    className={`talks-stage__card rounded-xl p-5 border backdrop-blur-sm transition-all duration-300 flex flex-col justify-between ${themeStyles.cardBg}`}
                   >
                     <div>
+                      {item.image && <img src={item.image} alt={item.title} loading="lazy" className="w-full aspect-video object-contain rounded-lg mb-4" />}
                       <div className="flex items-center gap-2 text-xs font-mono text-blue-400 mb-2">
                         <span className="font-semibold">{item.source}</span>
                         <span>•</span>
@@ -502,9 +511,7 @@ const Talks: React.FC<TalksProps> = React.memo(({ theme = 'dark' }) => {
               )}
             </div>
           )}
-        </div>
-      )}
-
+        </section>
       {/* Footer de sección */}
       <div className="mt-12 text-center">
         <p className={`text-xs sm:text-sm italic ${themeStyles.subHeading}`}>

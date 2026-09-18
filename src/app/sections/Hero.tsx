@@ -1,260 +1,49 @@
-import React, { useEffect, useState, useRef, memo } from 'react';
-import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { track } from '../utils/umami-analytics';
-import { getCurrentAge } from '../../utils/age-calculator';
+import './hero.css';
 
-interface HeroProps {
-  data: {
-    title: string;
-    subtitle: string;
-    description: string;
-    profileImage: string;
-    coverImage: string;
-    resumeUrl?: string;
-    buttons?: {
-      text: string;
-      url: string;
-      type: string;
-      external?: boolean;
-    }[];
-  };
-  theme: "light" | "dark";
-}
-
-// Memo para evitar re-renderizados innecesarios
-const Hero: React.FC<HeroProps> = memo(({ data, theme = "dark" }) => {
+const Hero = memo(({ data, theme }: {
+  data: { profileImage: string }; theme: 'light' | 'dark';
+}) => {
   const { t } = useTranslation();
-  const isLight = theme === "light";
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const imageRef = useRef<HTMLImageElement>(null);
-  
-  useEffect(() => {
-    // Verificar si la imagen ya está en caché o cargada
-    if (imageRef.current?.complete) {
-      setImageLoaded(true);
-    }
-  }, []);
-  
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-  
-  const handleButtonClick = (buttonName: string, url: string) => {
-    // Ejecutar el tracking de manera diferida para no bloquear el main thread
-    setTimeout(() => {
-      track({
-        category: 'Hero',
-        action: 'ButtonClick',
-        label: buttonName
-      });
-    }, 10);
-    
-    if (url.startsWith('#')) {
-      // Internal navigation
-      const element = document.querySelector(url);
-      element?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-  
- 
-  const profileImage = data.profileImage;
-  
   return (
-    <section className="pt-2 pb-8 md:pt-6 md:pb-16 min-h-0 md:min-h-[75vh] w-full flex items-center justify-center relative">
-      {/* Background elements con menor impacto en el rendimiento */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute top-12 md:top-1/4 right-1/4 w-[15rem] md:w-[30rem] h-[15rem] md:h-[30rem] rounded-full ${isLight ? 'bg-blue-50/40' : 'bg-blue-900/10'} blur-3xl opacity-30`} style={{willChange: 'auto'}}></div>
-        <div className={`absolute bottom-1/3 left-1/3 w-[10rem] md:w-[20rem] h-[10rem] md:h-[20rem] rounded-full ${isLight ? 'bg-green-50/40' : 'bg-green-900/10'} blur-3xl opacity-30`} style={{willChange: 'auto'}}></div>
-        <div className={`absolute bottom-1/4 left-1/4 w-[12rem] md:w-[24rem] h-[12rem] md:h-[24rem] rounded-full ${isLight ? 'bg-purple-50/40' : 'bg-indigo-900/10'} blur-3xl opacity-30`} style={{willChange: 'auto'}}></div>
-      </div>
-      
-      {/* Main content */}
-      <div className="container mx-auto z-10 px-4 md:px-6 pt-1 md:pt-0">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          {/* Profile photo optimizada para LCP */}
-          <div className="mb-4 md:mb-8 flex flex-col items-center w-full max-w-2xl px-4 py-4 md:p-0 rounded-2xl md:rounded-none bg-white/75 dark:bg-gray-950/75 md:bg-transparent md:dark:bg-transparent backdrop-blur-md md:backdrop-blur-none border border-white/40 dark:border-white/10 md:border-none shadow-lg shadow-black/5 md:shadow-none">
-            {/* Floor Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 dark:bg-blue-400/15 border border-blue-500/25 dark:border-blue-400/25 text-blue-600 dark:text-blue-300 text-xs font-semibold tracking-wide mb-3">
-              <span className="flex h-1.5 w-1.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
-              </span>
-              <span>{t('hero.badge', 'Planta 0 · Vestíbulo')}</span>
-            </div>
-
-            <div className="mb-3 md:mb-5">
-              <div className={`overflow-hidden rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border-2 ${isLight ? 'border-gray-200' : 'border-gray-700'} p-0.5`} style={{contain: 'layout paint'}}>
-                <picture> 
-                  <source
-                    type="image/webp"
-                    srcSet={`
-                      ${profileImage.replace(/\.(jpg|jpeg|png)$/i, '.webp')}?size=144 144w,
-                      ${profileImage.replace(/\.(jpg|jpeg|png)$/i, '.webp')}?size=288 288w
-                    `}
-                    sizes="(max-width: 640px) 7rem, (max-width: 768px) 8rem, 9rem"
-                  />
-                  <img 
-                    ref={imageRef}
-                    src={profileImage} 
-                    srcSet={`
-                      ${profileImage}?size=144 144w,
-                      ${profileImage}?size=288 288w
-                    `}
-                    sizes="(max-width: 640px) 7rem, (max-width: 768px) 8rem, 9rem"
-                    alt="Profile" 
-                    className={`object-cover w-full h-full rounded-full ${imageLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    onLoad={handleImageLoad}
-                    width="144" 
-                    height="144"
-                  />
-                </picture>
-              </div>
-            </div>
-
-            {/* Optimized heading for LCP con valores width/height explícitos */}
-            <h1 
-              className={`text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-3 md:mb-4 tracking-tight ${
-                isLight ? 'text-gray-900 drop-shadow-[0_1px_4px_rgba(255,255,255,0.8)]' : 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]'
-              }`}
-              style={{
-                contentVisibility: 'auto',
-                containIntrinsicSize: '0 60px',
-              }}
-              dangerouslySetInnerHTML={{ __html: t('hero.title') }}
-            />
-            
-            <h2 
-              className={`text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 md:mb-6 font-medium ${
-                isLight ? 'text-gray-700 drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)]' : 'text-gray-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]'
-              }`}
-            >
-              {t('hero.subtitle')}
-            </h2>
-          </div>
-          
-          {/* Description con mejor rendimiento y alta legibilidad en móvil */}
-          <div 
-            className={`max-w-3xl mx-auto mb-5 md:mb-10 p-4 sm:p-5 md:p-7 rounded-2xl ${
-              isLight 
-                ? 'bg-white/85 backdrop-blur-md border border-gray-200/90 shadow-xl shadow-gray-200/40' 
-                : 'bg-gray-950/85 backdrop-blur-md border border-gray-800/90 shadow-xl shadow-black/40'
-            }`}
-            style={{
-              contentVisibility: 'auto',
-              containIntrinsicSize: '0 150px',
-            }}
-          >
-            <p className={`text-base sm:text-lg md:text-xl leading-relaxed ${isLight ? 'text-gray-800' : 'text-gray-100'}`}>
-              {t('hero.description').replace('{{age}}', String(getCurrentAge()))}
-            </p>
-          </div>
-
-          {/* Mobile contact & resume buttons con lazy mounting */}
-          {typeof window !== 'undefined' && (
-            <motion.div
-              className="md:hidden w-full flex flex-col mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6, type: "tween" }}
-            >
-              <div className="flex flex-wrap justify-center gap-2.5">
-                <a 
-                  href="#experience" 
-                  onClick={() => handleButtonClick('StartPitch', '#experience')}
-                  className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all bg-blue-600 hover:bg-blue-500 text-white shadow-md active:scale-95"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                  </svg>
-                  {t('hero.startPitch', 'Empezar recorrido')}
-                </a>
-
-                {data.resumeUrl && (
-                  <a 
-                    href={data.resumeUrl}
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    onClick={() => handleButtonClick('Resume', data.resumeUrl || '')}
-                    className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all ${
-                    isLight 
-                      ? 'bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-200' 
-                      : 'bg-gray-800/80 hover:bg-gray-700 text-white border border-gray-700'
-                    }`}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M16 2H8a2 2 0 00-2 2v16a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2zM8 0h8a4 4 0 014 4v16a4 4 0 01-4 4H8a4 4 0 01-4-4V4a4 4 0 014-4zm2 6h4v2h-4V6zm0 4h4v2h-4v-2zm0 4h4v2h-4v-2z" />
-                    </svg>
-                    {t('hero.resumeButton')}
-                  </a>
-                )}
-
-                <a 
-                  href="#contact" 
-                  onClick={() => handleButtonClick('Contact', '#contact')}
-                  className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all ${
-                    isLight 
-                    ? 'bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-200' 
-                    : 'bg-gray-800/80 hover:bg-gray-700 text-white border border-gray-700'
-                  }`}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                  </svg>
-                  {t('contact.title')}
-                </a>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Scroll indicator - solo cargado en cliente para no afectar LCP */}
-          {typeof window !== 'undefined' && (
-            <motion.div 
-              className="md:hidden mt-2 flex flex-col items-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.8, type: "tween" }}
-            >
-              <p className={`text-sm mb-2 ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
-                {t('hero.scrollDown')}
-              </p>
-              <motion.div
-                animate={{ 
-                  y: [0, 8, 0],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  repeatType: "loop"
-                }}
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="20" 
-                  height="20" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke={isLight ? "#4B5563" : "#9CA3AF"} 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 5v14M19 12l-7 7-7-7"/>
-                </svg>
-              </motion.div>
-            </motion.div>
-          )}
+    <section className={`hero-intro hero-welcome hero-welcome--${theme}`}>
+      <div className="hero-lobby__entrance">
+        <div>
+          <p className="hero-lobby__plaque">{t('hero.badge')}</p>
+          <p className="hero-lobby__invitation">{t('hero.buildingWelcome')}</p>
         </div>
+        <svg className="hero-lobby__doors" viewBox="0 0 80 100" fill="none" aria-hidden="true">
+          <rect x="3" y="2" width="74" height="96" rx="2" fill="currentColor" opacity=".12" />
+          <rect x="24" y="7" width="32" height="15" rx="2" fill="#17253b" />
+          <path d="M32 17v-5h4v5h-4Zm11 0v-5h4v5h-4Z" stroke="#99c7ff" />
+          <path d="M9 95V27h62v68M40 27v68" stroke="currentColor" strokeWidth="3" />
+          <path d="M13 31h23v60H13zM44 31h23v60H44z" fill="#77add3" opacity=".25" />
+          <path d="m14 56 20-20m12 20 19-19" stroke="currentColor" opacity=".25" />
+          <path d="M33 60v14m14-14v14M5 96h70" stroke="currentColor" strokeWidth="3" />
+        </svg>
       </div>
+      <div className="hero-welcome__content">
+      <div className="hero-welcome__identity">
+        <img src={data.profileImage} alt="Bruno Moya" width="112" height="112"
+          loading="eager" decoding="async" {...{ fetchpriority: 'high' }} />
+        <div>
+          <p className="hero-welcome__name">Bruno Moya</p>
+          <p className="hero-welcome__location">{t('hero.location')}</p>
+        </div>
+        <span className="hero-welcome__floor" aria-hidden="true">00</span>
+      </div>
+      <h1>{t('hero.title')}<span>{t('hero.titleAccent')}</span></h1>
+      <p className="hero-welcome__roles">{t('hero.subtitle')}</p>
+      <a className="hero-welcome__speaker" href="#talks">{t('hero.speaker')} <span aria-hidden="true">↗</span></a>
+      <p className="hero-welcome__story">{t('hero.description')}</p>
+      <div className="hero-welcome__actions">
+        <a className="hero-welcome__primary" href="#building">{t('hero.primaryCta')} <span aria-hidden="true">↗</span></a>
+        <a className="hero-welcome__secondary" href="#experience">{t('hero.experienceCta')} <span aria-hidden="true">→</span></a>
+      </div>
+      </div>
+      <p className="hero-lobby__wayfinding"><span aria-hidden="true">↓</span><span>{t("hero.buildingHint")}</span></p>
     </section>
   );
 });
-
-// Nombre explícito para React DevTools
-Hero.displayName = 'Hero';
-
 export default Hero;

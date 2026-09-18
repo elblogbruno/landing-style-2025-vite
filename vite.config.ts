@@ -3,6 +3,33 @@ import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite' 
 import mkcert from 'vite-plugin-mkcert'
 import { visualizer } from 'rollup-plugin-visualizer'  
+import fs from 'node:fs'
+import path from 'node:path'
+import type { Connect, Plugin } from 'vite'
+
+// Vite's SPA fallback answers "/projects/x/" with the app's index.html.
+// Serve the static pages generated in public/ (or dist/ on preview) instead.
+function staticDirectoryIndex(): Plugin {
+  const rewrite = (baseDir: string): Connect.NextHandleFunction => (req, _res, next) => {
+    const [pathname, query] = (req.url ?? '').split('?')
+    if (pathname !== '/' && pathname.endsWith('/')) {
+      const indexFile = path.join(baseDir, decodeURIComponent(pathname), 'index.html')
+      if (fs.existsSync(indexFile)) {
+        req.url = `${pathname}index.html${query ? `?${query}` : ''}`
+      }
+    }
+    next()
+  }
+  return {
+    name: 'static-directory-index',
+    configureServer(server) {
+      server.middlewares.use(rewrite(server.config.publicDir))
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(rewrite(path.resolve(server.config.root, server.config.build.outDir)))
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,6 +37,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     mkcert(), 
+    staticDirectoryIndex(),
     visualizer({
       filename: './stats.html',
       open: false,
@@ -33,15 +61,16 @@ export default defineConfig({
     rollupOptions: {
       output: {
         format: 'es', // Formato de salida ES para compatibilidad con navegadores modernos
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react/jsx-runtime'],
-          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
-          'vendor-ui': ['framer-motion'],
-          'vendor-i18n': ['i18next', 'react-i18next', 'i18next-browser-languagedetector', 'i18next-http-backend'],
-          'vendor-utils': [],
-          'components': [],
-          'utils': []
+        manualChunks(id) {
+          // Keep shared runtime helpers out of the optional 3D bundle.
+          if (id.includes('commonjsHelpers') || id.includes('vite/preload-helper')) return 'vendor-react';
+          if (!id.includes('node_modules/')) return;
+          if (/node_modules\/(react|react-dom|react-router|react-router-dom|scheduler)\//.test(id)) return 'vendor-react';
+          if (/node_modules\/(three|@react-three|three-stdlib)\//.test(id)) return 'vendor-three';
+          if (id.includes('node_modules/framer-motion/')) return 'vendor-ui';
+          if (/node_modules\/(i18next[^/]*|react-i18next)\//.test(id)) return 'vendor-i18n';
         },
+
         // Generar nombres de archivos con hash para cache-busting óptimo
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/chunks/[name].[hash].js',

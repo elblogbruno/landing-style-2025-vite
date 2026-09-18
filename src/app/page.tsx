@@ -12,28 +12,28 @@ import { lazyWithPreload, throttle } from './utils/lazy-loading';
 
 // Importar componentes críticos de forma directa
 import Hero from './sections/Hero.tsx';
+import ProofSignals from './sections/home/ProofSignals';
+import WhatImBuilding from './sections/home/WhatImBuilding';
+import HowIThink from './sections/home/HowIThink';
 import siteData from '../data/site-data.json';
 import ToggleBtn from './components/tglbutton';
 import { SectionKey } from './components/avatar/types';
 import ElevatorPlaceholder from './components/avatar/ElevatorPlaceholder';
 import FloorAtmosphere from './components/FloorAtmosphere';
+import DeferredFloor, { prepareFloorsThrough } from './components/DeferredFloor';
 // import ElevatorButtonsPlaceholder from './components/avatar/ElevatorButtonsPlaceholder';
 
 // Componente de fallback optimizado
-const LoadingFallback = () => (
-  <div className="w-full py-20 flex justify-center items-center">
-    <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-  </div>
-);
-
 // Lazy loading de componentes con diferentes prioridades
-const About = lazyWithPreload(() => import('./sections/About/About.tsx'), 200, 'high');
-const Experience = lazyWithPreload(() => import('./sections/Experience'), 300, 'high');
-const Projects = lazyWithPreload(() => import('./sections/Projects'), 400, 'medium');
-const Talks = lazyWithPreload(() => import('./sections/Talks'), 500, 'medium');
-const Awards = lazyWithPreload(() => import('./sections/Awards'), 650, 'medium');
-const Education = lazyWithPreload(() => import('./sections/Education'), 700, 'medium');
-const Contact = lazyWithPreload(() => import('./sections/Contact'), 800, 'medium');
+const floorLoaders = {
+  about: () => import('./sections/About/About'),
+  experience: () => import('./sections/Experience'),
+  projects: () => import('./sections/Projects'),
+  talks: () => import('./sections/Talks'),
+  awards: () => import('./sections/Awards'),
+  education: () => import('./sections/Education'),
+  contact: () => import('./sections/Contact'),
+};
 
 // Componentes pesados con carga diferida y prioridad reducida
 const AvatarBox = lazyWithPreload(() => import('./components/avatar/avatar_box'), 1500, 'low');
@@ -45,15 +45,11 @@ const AudioManager = lazyWithPreload(() => import('./components/avatar/AudioMana
 const Portfolio = () => {   
 
   // Estado para el tema (modo oscuro) - simplificado
-  const [darkMode, setDarkMode] = useState(() => {
-    // Movemos esta lógica fuera de la inicialización del estado para evitar accesos al DOM durante el renderizado
-    if (typeof document === 'undefined') return false;
-    return document.documentElement.classList.contains('dark');
-  });
-  
+  const [darkMode, setDarkMode] = useState(false);
+
   // Estado para detectar si estamos en móvil
   const { t } = useTranslation();
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   
   // Estado para la sección actual
   const [currentSection, setCurrentSection] = useState<SectionKey>('hero');
@@ -110,7 +106,7 @@ const Portfolio = () => {
   
   // Memoizar secciones para evitar recreación en cada render
   const sections = useMemo<SectionKey[]>(() => 
-    ['hero', 'experience', 'projects', 'about', 'talks', 'awards', 'education', 'contact'],
+    ['hero', 'about', 'experience', 'projects', 'talks', 'awards', 'education', 'contact'],
     []
   ); 
 
@@ -118,7 +114,7 @@ const Portfolio = () => {
   useEffect(() => {
     // Evitamos accesos innecesarios al DOM usando la referencia
     const doc = documentRef.current;
-    if (!doc) return;
+    if (!doc || !isMounted) return;
     
     // Utilizamos requestAnimationFrame para alinear con el ciclo de pintado
     // y reducir reflows/repaints innecesarios
@@ -134,7 +130,7 @@ const Portfolio = () => {
         localStorage.setItem('theme', darkMode ? 'dark' : 'light');
       }, 0);
     });
-  }, [darkMode]);
+  }, [darkMode, isMounted]);
 
   // Cambiar el tema - función simplificada
   const handleThemeChange = useCallback((isDark: boolean) => {
@@ -187,53 +183,39 @@ const Portfolio = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Marcar componente como montado y comenzar precarga estratégica
   useEffect(() => {
+    setDarkMode(document.documentElement.classList.contains('dark'));
     setIsMounted(true);
-    
-    // Comprobar si hay un hash en la URL al cargar la página
-    // y desplazarse a la sección correspondiente
-    if (typeof window !== 'undefined' && window.location.hash) {
-      const sectionId = window.location.hash.substring(1); // Eliminar el # del inicio
-      if (sections.includes(sectionId as SectionKey)) {
-        // Navegar a la sección después de un pequeño retraso para asegurar que el DOM está listo
-        setTimeout(() => {
-          const element = document.getElementById(sectionId);
-          if (element) {
-            // Desplazarse a la sección con un pequeño offset para mejor visualización
-            const yOffset = -50;
-            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-            
-            // Actualizar la sección actual
-            setCurrentSection(sectionId as SectionKey);
-          }
-        }, 500);
-      }
-    }
-    
+    const navigateToHash = async () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      if (!id) return;
+      try {
+        await prepareFloorsThrough(id);
+        const target = document.getElementById(id);
+        target?.scrollIntoView({ behavior: 'instant', block: 'start' });
+        const floor = target?.closest('main > section')?.id;
+        if (floor) setCurrentSection(floor as SectionKey);
+      } catch { /* The floor exposes a retry button if its chunk cannot load. */ }
+    };
+    const onAnchor = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = (event.target as Element).closest('a[href]');
+      if (!anchor) return;
+      const url = new URL(anchor.getAttribute('href')!, location.href);
+      if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+      event.preventDefault();
+      history.pushState(null, '', url.hash);
+      void navigateToHash();
+    };
+    void navigateToHash();
+    window.addEventListener('hashchange', navigateToHash);
+    document.addEventListener('click', onAnchor);
+    return () => {
+      window.removeEventListener('hashchange', navigateToHash);
+      document.removeEventListener('click', onAnchor);
+    };
+  }, []);
 
-    // Precargar el componente About después de la carga inicial
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => {
-        About.preload();
-        setTimeout(() => Experience.preload(), 500);
-      });
-    } else {
-      setTimeout(() => {
-        About.preload();
-        setTimeout(() => Experience.preload(), 500);
-      }, 1500);
-    }
-    
-    // Precargar el avatar en desktop después de que la página esté completamente cargada
-    if (window.innerWidth >= 768) {
-      window.addEventListener('load', () => {
-        setTimeout(() => AvatarBox.preload(), 1000);
-      });
-    }
-  }, [sections]);
-  
   // Limpiar clases de bloqueo de scroll al desmontar
   useEffect(() => {
     return () => {
@@ -399,10 +381,10 @@ const Portfolio = () => {
   }, [isMounted, isMobile, preloadingElevator, elevatorLoaded]);
 
   return (
-    <div className={`scroll-smooth relative transition-colors duration-700 ${darkMode ? 'bg-[#121212]' : 'bg-[#f8f9fa]'} min-h-screen flex flex-col`}>
+    <div className={`scroll-smooth relative transition-colors duration-700 ${darkMode ? 'bg-[#121212]' : 'bg-[#f8f9fa]'} min-h-screen flex flex-col overflow-x-clip max-w-full`}>
       {/* Audio (carga diferida para evitar bloqueos) */}
       <Suspense fallback={null}>
-        <AudioManager />
+        {isMounted && <AudioManager />}
       </Suspense>
       
       {/* Fondo estático que coincide con el color inicial */}
@@ -426,7 +408,7 @@ const Portfolio = () => {
             darkMode ? 'bg-[#121212]' : 'bg-[#f8f9fa]'
           }`} aria-hidden="true" />
         }>
-          <AnimatedBackground theme={themeValue} currentSection={currentSection} onLoad={handleBackgroundLoad} />
+          {isMounted && <AnimatedBackground theme={themeValue} currentSection={currentSection} onLoad={handleBackgroundLoad} />}
         </Suspense>
       </div>
       
@@ -434,7 +416,7 @@ const Portfolio = () => {
       <SectionObserver {...sectionObserverProps} />
       
       {/* Controles de tema e idioma */}
-      <div className="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 flex items-center gap-2 sm:gap-3 p-1 sm:p-1.5 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-gray-200/60 dark:border-gray-700/60 shadow-sm transition-all duration-300">
+      <div className="site-controls fixed top-3 right-3 sm:top-4 sm:right-4 z-50 flex items-center gap-1.5 sm:gap-2.5 p-1 sm:p-1.5 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border border-gray-200/80 dark:border-gray-700/80 shadow-md transition-all duration-300">
         <LanguageSwitcher theme={themeValue} />
         <ToggleBtn  
           onChange={handleThemeChange}
@@ -444,7 +426,7 @@ const Portfolio = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className={`relative w-full max-w-[1400px] mx-auto px-4 flex-grow transition-all duration-500 ${cityViewActive ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100'}`}>
+      <div className={`relative w-full max-w-[1400px] mx-auto px-4 flex-grow transition-all duration-500 overflow-x-clip ${cityViewActive ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100'}`}>
         <div className="grid-layout">
           {/* Columna principal con secciones */}
           <div className="min-w-0 max-w-full">
@@ -457,56 +439,44 @@ const Portfolio = () => {
               >
                 <FloorAtmosphere section="hero" theme={themeValue} showBadge={false} />
                 <Hero {...heroProps} />
+                <ProofSignals theme={themeValue} />
+                <WhatImBuilding theme={themeValue} />
               </section>
               
               {/* All other sections loaded directly without complex visibility tracking */}
-              <section id="experience" className="section-container scroll-mt-16" data-section-id="experience">
-                <FloorAtmosphere section="experience" theme={themeValue} />
-                <Suspense fallback={<LoadingFallback />}>
-                  <Experience theme={themeValue} />
-                </Suspense>
-              </section>
-              
-              <section id="projects" className="section-container scroll-mt-16" data-section-id="projects">
-                <FloorAtmosphere section="projects" theme={themeValue} />
-                <Suspense fallback={<LoadingFallback />}>
-                  <Projects theme={themeValue} />
-                </Suspense>
-              </section>
-
               <section id="about" className="section-container scroll-mt-16" data-section-id="about">
                 <FloorAtmosphere section="about" theme={themeValue} />
-                <Suspense fallback={<LoadingFallback />}>
-                  <About theme={themeValue} />
-                </Suspense>
+                <DeferredFloor id="about" load={floorLoaders.about} theme={themeValue}><HowIThink theme={themeValue} /></DeferredFloor>
+              </section>
+              
+              <section id="experience" className="section-container scroll-mt-16" data-section-id="experience">
+                <FloorAtmosphere section="experience" theme={themeValue} />
+                <DeferredFloor id="experience" load={floorLoaders.experience} theme={themeValue} />
+              </section>
+
+              <section id="projects" className="section-container scroll-mt-16" data-section-id="projects">
+                <FloorAtmosphere section="projects" theme={themeValue} />
+                <DeferredFloor id="projects" load={floorLoaders.projects} theme={themeValue} />
               </section>
               
               <section id="talks" className="section-container scroll-mt-16" data-section-id="talks">
                 <FloorAtmosphere section="talks" theme={themeValue} />
-                <Suspense fallback={<LoadingFallback />}>
-                  <Talks theme={themeValue} />
-                </Suspense>
+                <DeferredFloor id="talks" load={floorLoaders.talks} theme={themeValue} />
               </section>
               
               <section id="awards" className="section-container scroll-mt-16" data-section-id="awards">
                 <FloorAtmosphere section="awards" theme={themeValue} />
-                <Suspense fallback={<LoadingFallback />}>
-                  <Awards theme={themeValue} />
-                </Suspense>
+                <DeferredFloor id="awards" load={floorLoaders.awards} theme={themeValue} />
               </section>
               
               <section id="education" className="section-container scroll-mt-16" data-section-id="education">
                 <FloorAtmosphere section="education" theme={themeValue} />
-                <Suspense fallback={<LoadingFallback />}>
-                  <Education theme={themeValue} />
-                </Suspense>
+                <DeferredFloor id="education" load={floorLoaders.education} theme={themeValue} />
               </section>
               
               <section id="contact" className="section-container scroll-mt-16" data-section-id="contact">
                 <FloorAtmosphere section="contact" theme={themeValue} />
-                <Suspense fallback={<LoadingFallback />}>
-                  <Contact theme={themeValue} />
-                </Suspense>
+                <DeferredFloor id="contact" load={floorLoaders.contact} theme={themeValue} />
               </section>
             </main>
           </div>
@@ -540,7 +510,7 @@ const Portfolio = () => {
             </div>)}
             
             {/* Elevador 3D (carga coordinada) */}
-            <div className="sticky top-20 flex flex-col gap-6 ml-6 sm:hidden md:flex"
+            <div className="desktop-elevator sticky top-20 flex flex-col gap-6 sm:hidden md:flex"
                 style={{ 
                   opacity: isMounted ? 1 : 0, 
                   transition: 'opacity 0.3s ease-out',
@@ -602,7 +572,7 @@ const Portfolio = () => {
             onClick={() => {
               window.dispatchEvent(new CustomEvent('toggle-city-view', { detail: { active: false } }));
               if (typeof window !== 'undefined' && 'vibrate' in navigator) {
-                try { navigator.vibrate(15); } catch {}
+                try { navigator.vibrate(15); } catch { /* vibration not supported */ }
               }
             }}
             className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white text-sm font-semibold shadow-2xl backdrop-blur-md border border-white/20 transition-all hover:scale-105 active:scale-95"
@@ -634,7 +604,7 @@ const Portfolio = () => {
       
       {/* Time Machine (cargado al final) */}
       <Suspense fallback={null}>
-        <TimeMachine theme={themeValue} />
+        {isMounted && <TimeMachine theme={themeValue} />}
       </Suspense>
     </div>
   );

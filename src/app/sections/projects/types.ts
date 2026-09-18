@@ -12,10 +12,13 @@ export interface Project {
   id: number;
   title: string;
   description: string;
+  story?: string; // Frase en primera persona: por qué existe el proyecto
+  order?: number; // Orden manual entre destacados (menor primero)
   imageUrl: string;
   skills: string[];
   githubUrl?: string | null;
   demoUrl?: string | null;
+  demoLabel?: string; // Texto del botón de demoUrl (por defecto "Live Demo")
   featured: boolean;
   date: string;
   startDate?: string | null;

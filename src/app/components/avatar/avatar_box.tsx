@@ -229,9 +229,9 @@ const AvatarBox: React.FC<ElevatorProps> = ({
         label: 'From hero section'
       });
 
-      // Hide overlay and navigate to experience section
+      // Begin the tour on the first floor.
       setShowOverlay(false);
-      handleFloorClick('experience');
+      handleFloorClick('about');
       
     }, [handleFloorClick]);
 
@@ -311,7 +311,6 @@ const AvatarBox: React.FC<ElevatorProps> = ({
                     show={showOverlay} 
                     theme={theme} 
                     onStart={handleStartTrip}
-                    handleFloorClick={handleFloorClick}
                 />
 
                 {/* Always render doors with transition state */}

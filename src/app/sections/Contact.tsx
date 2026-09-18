@@ -182,7 +182,7 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
             <a 
-              href="https://cal.com/brunomoya"
+              href="https://cal.com/bruno-moya/30min"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-5 py-3 rounded-xl font-semibold transition-all shadow-md bg-blue-600 hover:bg-blue-500 text-white hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98]"
@@ -190,7 +190,7 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              {t('contact.cta.bookCall', 'Agendar llamada (15 min)')}
+              {t('contact.cta.bookCall', 'Agendar llamada (30 min)')}
             </a>
             <a 
               href="#contact-form" 
@@ -225,14 +225,14 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
                 {t('contact.bookCallTitle', 'Reunión rápida')}
               </span>
               <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-medium border border-emerald-500/20">
-                15 min
+                30 min
               </span>
             </div>
             <p className={`text-xs md:text-sm mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
               {t('contact.bookCallDesc', 'Hablemos de arquitectura de IA, consultoría técnica o liderazgo de proyectos.')}
             </p>
             <a
-              href="https://cal.com/brunomoya"
+              href="https://cal.com/bruno-moya/30min"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-lg text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm group"
@@ -333,7 +333,8 @@ const Contact: React.FC<ContactProps> = ({ theme = 'dark' }) => {
               {contactData.social.map((platform, index) => (
                 <a 
                   key={index} 
-                  href={platform.url} 
+                  href={platform.url}
+                  aria-label={platform.platform} 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className={styles.socialBg}

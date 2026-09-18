@@ -1,19 +1,31 @@
 {
   "hero": {
     "badge": "Floor 0 · Lobby",
-    "title": "Hi, I'm Bruno Moya.",
-    "subtitle": "Software developer · Creator of Glassear",
-    "description": "I'm Bruno, a {{age}}-year-old developer based in Barcelona. I started programming at 13 and have since worked on web applications, mixed-reality glasses and computer vision projects. Today I'm CTO at TopBrokers.io and continue building Glassear. This is a look at my work and the path that brought me here.",
+    "name": "Bruno Moya",
+    "title": "From an idea to a",
+    "subtitle": "Founder at Glassear · CTO at TopBrokers",
+    "description": "I started programming at 13 and building Glassear in 2015. Today I build software, augmented reality and the systems that make them work.",
+    "primaryCta": "What I’m building",
+    "secondaryCta": "Read my story",
+    "experienceCta": "View experience",
     "startPitch": "Start tour",
+    "resumeButton": "Resume",
+    "scrollDown": "Scroll to ride up to the next floor",
     "profileImage": "/images-webp/hero/profile.webp",
     "coverImage": "/images-webp/hero/cover-better.webp",
     "resumeUrl": "/cv-english.pdf",
-    "resumeButton": "Resume",
-    "scrollDown": "Scroll to ride up to the next floor"
+    "mobileDescription": "I build across AI, spatial computing and production systems.",
+    "titleAccent": "real product.",
+    "location": "Software engineer · Barcelona",
+    "buildingWelcome": "Explore my work, floor by floor.",
+    "buildingHint": "Scroll or take the elevator to explore each floor.",
+    "speaker": "I also speak about technology and entrepreneurship."
   },
   "common": {
     "tapToSeeMore": "Tap to see more",
-    "hoverToSeeMore": "Hover to see more"
+    "hoverToSeeMore": "Hover to see more",
+    "loading": "Loading…",
+    "retry": "Retry"
   },
   "elevator": {
     "loading": "Loading elevator...",
@@ -47,40 +59,40 @@
     },
     "floors": {
       "hero": {
-        "description": "Welcome Lobby",
-        "pitchLine": "Software developer, creator of Glassear and CTO at TopBrokers.io."
+        "description": "Lobby",
+        "pitchLine": "I turn emerging technology into real products. Founder at Glassear, CTO at TopBrokers."
       },
       "about": {
-        "description": "About Me",
-        "pitchLine": "From my first projects at 13 to what I build today."
+        "description": "My story",
+        "pitchLine": "It started with a pair of AR glasses in 2015."
       },
       "experience": {
-        "description": "Work Experience",
-        "pitchLine": "Hands-on CTO at TopBrokers.io and founder of Glassear, delivering resilient software & infrastructure."
+        "description": "Experience",
+        "pitchLine": "CTO at TopBrokers, Founder of Glassear, and the teams I learned from."
       },
       "projects": {
-        "description": "Project Gallery",
-        "pitchLine": "Web applications, hardware, mixed reality and automation."
+        "description": "Things I've built",
+        "pitchLine": "Why each project exists, then how it works."
       },
       "talks": {
         "description": "Talks & Media",
-        "pitchLine": "Technical conferences, keynotes, and media press features."
+        "pitchLine": "Explaining what I build, from schools to 4YFN."
       },
       "news": {
         "description": "Talks & Media",
-        "pitchLine": "Technical conferences, keynotes, and media press features."
+        "pitchLine": "Explaining what I build, from schools to 4YFN."
       },
       "awards": {
-        "description": "Recognition & Awards",
-        "pitchLine": "Honors and acknowledgements I've received throughout my journey."
+        "description": "Recognition",
+        "pitchLine": "Prizes and selections, from Maker Faire 2018 to ACCIÓ 2025."
       },
       "education": {
-        "description": "Education History",
-        "pitchLine": "My educational background has prepared me for complex challenges."
+        "description": "Education",
+        "pitchLine": "Computer Science at UAB, with a term at ÉTS Montréal."
       },
       "contact": {
         "description": "Rooftop · Let’s talk",
-        "pitchLine": "Let's connect and explore how we can work together."
+        "pitchLine": "Building something hard? Let's talk."
       }
     },
     "doors": {
@@ -142,7 +154,8 @@
     },
     "placeholder": {
       "loading": "Elevator Loading",
-      "description": "The interactive elevator will load after the main content"
+      "description": "The interactive elevator will load after the main content",
+      "title": "Loading the elevator"
     }
   },
   "directory": {
@@ -156,86 +169,86 @@
     "buildingHq": "BRUNO MOYA TOWER · HQ",
     "floors": {
       "hero": {
-        "title": "Welcome Lobby",
-        "subtitle": "Ground floor · Your journey starts here",
+        "title": "Lobby",
+        "subtitle": "Ground floor · Start here",
         "altitude": "±0.0m",
-        "wing1": "Reception & Introduction",
-        "wing2": "Access Terminal & Executive Profile",
-        "telemetry": "COVERAGE: GLOBAL · STATUS: ONLINE · SYSTEM: ACTIVE"
+        "wing1": "What I build",
+        "wing2": "Glassear · TopBrokers · Experiments",
+        "telemetry": "BARCELONA · BUILDING GLASSEAR SINCE 2015"
       },
       "experience": {
-        "title": "Technical Leadership & Core Infrastructure",
-        "subtitle": "Engineering Cluster & Server Bay",
-        "altitude": "+5.5m",
-        "wing1": "TopBrokers.io (Architecture & CTO)",
-        "wing2": "Glassear (Systems & HW R&D)",
-        "telemetry": "PROD CLUSTER: 99.99% · LATENCY: 12ms · 5+ YRS LEADING TEAMS"
+        "title": "Experience",
+        "subtitle": "Production systems & teams",
+        "altitude": "+23.5m",
+        "wing1": "TopBrokers (CTO)",
+        "wing2": "Glassear (Founder & CEO)",
+        "telemetry": "CTO SINCE 2025 · FOUNDER SINCE 2015"
       },
       "projects": {
-        "title": "Software & XR workshop",
-        "subtitle": "Prototyping & Deployment Workshop",
+        "title": "Workshop",
+        "subtitle": "Things I've built",
         "altitude": "+14.0m",
-        "wing1": "Spatial Computing & Computer Vision",
-        "wing2": "Web applications & Automation",
-        "telemetry": "WORKSPACES: 10+ ACTIVE · CI/CD PIPELINES: VERIFIED · REPOS: PRODUCTION"
+        "wing1": "Spatial computing & computer vision",
+        "wing2": "AI agents, web & automation",
+        "telemetry": "REAL PROBLEMS · SHIPPED CODE · PUBLIC REPOS"
       },
       "about": {
-        "title": "Personal Lounge & Trajectory",
-        "subtitle": "From the first projects to today",
-        "altitude": "+23.5m",
-        "wing1": "My beginnings & Glassear",
-        "wing2": "Learning & Working with others",
-        "telemetry": "BARCELONA · CODING SINCE AGE 13"
+        "title": "My story",
+        "subtitle": "How a pair of AR glasses explains the rest",
+        "altitude": "+5.5m",
+        "wing1": "Glassear, from 2015 to today",
+        "wing2": "How I think",
+        "telemetry": "CODING SINCE AGE 13 · GLASSEAR SINCE 2015"
       },
       "talks": {
-        "title": "Keynote Auditorium & Media Center",
-        "subtitle": "Press Room & Conference Hall",
+        "title": "Auditorium",
+        "subtitle": "Talks, pitches & media",
         "altitude": "+33.0m",
-        "wing1": "Technical Keynotes & Masterclasses",
-        "wing2": "Press Features, Interviews & Podcasts",
-        "telemetry": "AUDIENCE: 5000+ ATTENDEES · MEDIA: TECH PRESS & BROADCASTS · FEED: LIVE"
+        "wing1": "Talks & pitches",
+        "wing2": "Press & interviews",
+        "telemetry": "SCHOOLS · MAKER FAIRES · 4YFN"
       },
       "news": {
-        "title": "Keynote Auditorium & Media Center",
-        "subtitle": "Press Room & Conference Hall",
+        "title": "Auditorium",
+        "subtitle": "Talks, pitches & media",
         "altitude": "+33.0m",
-        "wing1": "Technical Keynotes & Masterclasses",
-        "wing2": "Press Features, Interviews & Podcasts",
-        "telemetry": "AUDIENCE: 5000+ ATTENDEES · MEDIA: TECH PRESS & BROADCASTS · FEED: LIVE"
+        "wing1": "Talks & pitches",
+        "wing2": "Press & interviews",
+        "telemetry": "SCHOOLS · MAKER FAIRES · 4YFN"
       },
       "awards": {
-        "title": "Hall of Fame & Honours Gallery",
-        "subtitle": "Awards Gallery & Distinction Displays",
+        "title": "Recognition",
+        "subtitle": "Prizes & selections",
         "altitude": "+42.5m",
-        "wing1": "Innovation & Entrepreneurship Awards",
-        "wing2": "Hackathons, Recognitions & Distinctions",
-        "telemetry": "AWARDS: 1st PLACE HONOURS · TOP TALENT SELECT · PRESTIGE VERIFIED"
+        "wing1": "Glassear: Maker Faire 2018, ACCIÓ 2025",
+        "wing2": "Hackathons & game jams",
+        "telemetry": "UAB THE HACK 2025 · ACCIÓ TOP 50 2025"
       },
       "education": {
-        "title": "Academic Campus",
-        "subtitle": "Research Lab & Educational Foundation",
+        "title": "Campus",
+        "subtitle": "Where the foundations came from",
         "altitude": "+52.0m",
-        "wing1": "Computer Science & Specializations",
-        "wing2": "Continuous Learning & Certifications",
-        "telemetry": "FOUNDATION: B.S. ENG · FOCUS: COMPUTER SCIENCE · CONTINUOUS UPSKILLING"
+        "wing1": "Computer Science · UAB",
+        "wing2": "ÉTS Montréal",
+        "telemetry": "UAB 2023 · ÉTS MONTRÉAL 2023"
       },
       "contact": {
-        "title": "Rooftop & Meeting Point",
-        "subtitle": "Top floor · Let’s talk about your project",
+        "title": "Rooftop",
+        "subtitle": "Top floor · Let’s talk",
         "altitude": "+61.5m",
-        "wing1": "Direct Line of Collaboration",
-        "wing2": "Professional Networks & Channels",
-        "telemetry": "CHANNEL: AVAILABLE · RESPONSE TIME: <24H · PROTOCOL: READY FOR ENGAGEMENT"
+        "wing1": "Email & calendar",
+        "wing2": "GitHub · LinkedIn",
+        "telemetry": "BARCELONA · ES · CA · EN · FR"
       }
     }
   },
   "about": {
-    "title": "It started at 13",
-    "subtitle": "My journey through code, hardware and projects of my own.",
-    "badge": "// 03 · About Me",
-    "floorBadge": "Floor 03 · My story",
-    "exploreTitle": "My story, step by step",
-    "exploreDescription": "Explore the stages from my first projects to today.",
+    "title": "It started with a pair of AR glasses.",
+    "subtitle": "The story behind why I work across so many layers.",
+    "badge": "// About · My story",
+    "floorBadge": "My story",
+    "exploreTitle": "Step by step",
+    "exploreDescription": "From the first lines of code to what I build today.",
     "milestoneCount": "Milestone {{current}} of {{total}}",
     "previous": "Previous milestone",
     "next": "Next milestone",
@@ -244,63 +257,93 @@
         "time": "Age 13",
         "era": "First steps",
         "title": "I started programming at 13",
-        "body": "My first projects were how I began learning to code. They were the starting point of a journey that would take me from software to hardware, mixed reality and building products.",
+        "body": "Small projects, lots of trial and error. It was the first time I realised I could make things instead of just using them.",
         "imgSrc": "/images-webp/timeline/programming.webp"
       },
       {
         "time": "2015",
         "era": "Glassear",
-        "title": "An idea beyond the screen",
-        "body": "I started Glassear to build accessible mixed-reality glasses. It brought me into 3D printing, optics, electronics and software: writing code was just one part of getting the whole thing to work.",
+        "title": "I started building AR glasses as a teenager",
+        "body": "I wanted AR glasses I couldn’t buy, so I tried to build them. Prototype after prototype, I learned 3D printing, optics, electronics and Unity.",
         "imgSrc": "/images-webp/timeline/glassear_inception.webp",
-        "link": "https://glassear.com",
+        "link": "https://www.glassear.com/",
         "btnText": "Explore Glassear"
+      },
+      {
+        "time": "2018",
+        "era": "First recognition",
+        "title": "The prototype left my room",
+        "body": "Glassear won the 2nd Professional Prize at Maker Faire Galicia 2018. Around then I started giving talks at technology events and schools, explaining what I was building and how.",
+        "imgSrc": "/images-webp/timeline/cvc-maker-faire-edgar.webp",
+        "link": "https://www.youtube.com/watch?v=ygmnUNxPn1Q",
+        "btnText": "Watch video"
       },
       {
         "time": "2018–2019",
         "era": "Computer vision",
-        "title": "Learning beyond my own projects",
-        "body": "At the Computer Vision Center, I developed an Android application for pose, face and object detection. Later, at ManoMotion, I worked on hand tracking and augmented-reality interfaces in Unity.",
-        "imgSrc": "/images-webp/experience/experience-CVC.webp"
-      },
-      {
-        "time": "2018–2019",
-        "era": "Sharing the work",
-        "title": "From building to showing",
-        "body": "Glassear received the Industry 4.0 Award at Maker Faire Galicia in 2018. Around that time, I also gave talks at technology events and schools, showing the project and explaining how I was building it.",
-        "imgSrc": "/images-webp/davidcuartielles.webp",
-        "link": "https://www.youtube.com/watch?v=ygmnUNxPn1Q",
-        "btnText": "Watch the presentation"
+        "title": "Learning from teams that did it for a living",
+        "body": "At the Computer Vision Center I built an Android app for pose, face and object detection. At ManoMotion, in Stockholm, I worked on hand tracking and AR interfaces in Unity.",
+        "imgSrc": "/images-webp/talks/prize-thumbnail.webp",
+        "imageCaption": "Pictured with Edgar Riba, creator of Kornia (open-source computer vision library)",
+        "imageCaptionLink": "https://github.com/kornia/kornia",
+        "imageCaptionLinkText": "Kornia"
       },
       {
         "time": "2019–2023",
         "era": "University",
         "title": "Barcelona, Montreal and GlassFood",
-        "body": "I studied Computer Science at UAB and spent five months of my final year at ÉTS in Montreal. My final degree project, GlassFood, combined mixed reality and computer vision to recognise ingredients and display recipes and nutrition information.",
-        "imgSrc": "/images-webp/education/ets-montreal-logo.webp",
+        "body": "I studied Computer Science at UAB and spent part of my final year at ÉTS Montréal. My final degree project, GlassFood, combined mixed reality and computer vision to recognise ingredients and show recipes.",
+        "imgSrc": "/images-webp/timeline/ets.webp",
         "link": "https://github.com/elblogbruno/tfg-poster-ar-experience",
-        "btnText": "Explore GlassFood"
+        "btnText": "View project"
       },
       {
         "time": "2022–2025",
-        "era": "Working with others",
-        "title": "Accessible games and web applications",
-        "body": "With Patient73 and FECAMM, I helped bring accessible games to the platform and organise game jams with universities and hospitals. As a freelance developer, I also built the Hess Test web application for Evalua-lo.",
-        "imgSrc": "/images-webp/experience/experience-patient73.webp",
+        "era": "Building for others",
+        "title": "Software people depend on",
+        "body": "With Patient73 and FECAMM I helped bring accessible games to a rare-disease platform and organise game jams with universities and hospitals. As a freelancer I built the Hess Test web application for Evalua-lo.",
+        "imgSrc": "/images-webp/timeline/patient73-español-rcde-presentation-gamejam-2n-edition.webp",
         "link": "https://patient73.org/",
-        "btnText": "Explore Patient73"
+        "btnText": "Patient73",
+        "imageCaption": "Presenting the second Patient73 Game Jam at RCDE Stadium.",
+        "imageCaptionLink": "https://www.linkedin.com/posts/glassear-bruno_gamejam-patient73-games-activity-7143923891642564608-nZ8v",
+        "imageCaptionLinkText": "View post"
+      },
+      {
+        "time": "2025–2026",
+        "era": "Out of the lab",
+        "title": "GlassMusic meets real people",
+        "body": "I brought GlassMusic to 4YFN in 2025 and 2026 so people could try Glassear and discover the project. Along the way, ACCIÓ selected Glassear among the 50 Catalan startups with the most potential.",
+        "imgSrc": [
+          "/images-webp/timeline/4yfn-glassmusic-2024.webp",
+          "/images-webp/timeline/mwc-2026-glassmusic.webp"
+        ],
+        "imageCaption": "The GlassMusic presentation from MWC 2026 is available, download it here",
+        "imageCaptionLink": "https://glassear.com/es/whitepaper/glassmusic-presentacion-2026/",
+        "imageCaptionLinkText": "Download",
+        "link": "https://www.glassear.com/",
+        "btnText": "Glassear"
       },
       {
         "time": "Today",
-        "era": "TopBrokers and Glassear",
-        "title": "Still building, with more responsibility",
-        "body": "Today I am CTO at TopBrokers.io and continue developing Glassear. My work spans products, web applications, backend systems, infrastructure and XR. I also use AI tools and integrate them into projects where they help; they are part of a journey that started long before them.",
-        "imgSrc": "/images-webp/hero/profile.webp",
+        "era": "Glassear + TopBrokers",
+        "title": "Still building, with more at stake",
+        "body": "I'm CTO at TopBrokers, running AI, automation and production infrastructure, and I keep building Glassear, now with Glassear Studio: AI agents that help create spatial apps. It's the same journey that started with a pair of glasses.",
+        "imgSrc": [
+          "/images-webp/timeline/glassmusic-barcelona-tech.webp",
+          "/images-webp/timeline/api-topbrokers.webp"
+        ],
         "link": "https://github.com/elblogbruno",
-        "btnText": "Explore my projects"
+        "btnText": "GitHub"
       }
     ],
-    "intro": "I started with programming, and Glassear led me into optics, electronics and headset design too. Internships, university, projects with other people and responsibility for production software followed. These are some of the stages along the way."
+    "intro": "I started programming at 13. In 2015, still a teenager, I wanted AR glasses I couldn't buy, so I tried to build them. Glassear needed hardware, so I learned hardware. It needed computer vision, so I learned computer vision. Later came backend, infrastructure and AI. The technologies kept changing; the habit didn't: pick a hard problem, build it, break it, understand why, and build it again.",
+    "museumLabel": "Museum · My story",
+    "museumIntro": "Photos, prototypes and moments along the way: from my first lines of code to the products I build today.",
+    "currentAge": "{{count}} years old",
+    "exhibitCount": "{{count}} chapters · A story still unfolding",
+    "exhibitLabel": "Exhibit {{number}}",
+    "museumContinuation": "The exhibition is still growing: I’m building the next chapter."
   },
   "experience": {
     "title": "Experience",
@@ -311,7 +354,7 @@
     "close": "Close",
     "items": [
       {
-        "logo": "/images-webp/experience/topbrokers.svg",
+        "logo": "/images-webp/experience/topbrokers-logo.png",
         "title": "CTO",
         "company": "TopBrokers.io",
         "companyUrl": "https://topbrokers.io/",
@@ -338,14 +381,14 @@
       },
       {
         "logo": "/images-webp/experience/experience-glassear.webp",
-        "title": "Founder & Software Developer",
+        "title": "Founder & CEO",
         "company": "Glassear",
         "companyUrl": "https://www.glassear.com/",
         "period": "May 2015 - Present",
         "location": "Barcelona, Spain",
-        "description": "I started Glassear to make mixed reality accessible. My work spans headset design, optics, electronics, computer vision and Unity software. The project now includes Glassear Studio, a tool for creating and modifying XR applications through natural language.",
-        "moreInfo": "Hardware & XR: Designed custom AR/MR optical systems, 3D printed mechanical enclosures, embedded electronics, and sensor integration. Developed computer vision pipelines (OpenCV, YOLO) and custom Android Java protocols (USB Accessory, Screen Recording API) for low-latency tethering. Unity 3D / AR Foundation runtime architecture.\n\nGlassear Studio: Engineered a natural-language application creation platform featuring an AI Planner, Intent Graph, GLX schema, tool-based agents with MCP, and deterministic validation layers synchronized with the Unity runtime. Web platform built with React, TypeScript, Node.js.\n\nRecognition: Industry 4.0 Award at Maker Faire Galicia 2018, Jury member in 2019, technical speaker at Google Developer Groups (GDG).",
-        "summary": "Mixed-reality glasses and XR software, from hardware design to applications.",
+        "description": "I started Glassear in 2015 to build AR glasses I couldn't buy, and I've kept iterating ever since. Today it's Glassear One, an optical see-through headset powered by the user's smartphone, plus Glassear Studio, an AI-native platform for creating spatial apps, and GlassMusic, its first real use case.",
+        "moreInfo": "Hardware & XR: Designed custom AR/MR optical systems, 3D printed mechanical enclosures, embedded electronics, and sensor integration. Developed computer vision pipelines (OpenCV, YOLO) and custom Android Java protocols (USB Accessory, Screen Recording API) for low-latency tethering. Unity 3D / AR Foundation runtime architecture.\n\nGlassear Studio: Engineered a natural-language application creation platform featuring an AI Planner, Intent Graph, GLX schema, tool-based agents with MCP, and deterministic validation layers synchronized with the Unity runtime. Web platform built with React, TypeScript, Node.js.\n\nRecognition: Selected among ACCIÓ's Top 50 Catalan startups (Catalan Pitch Competition 2025), GlassMusic at 4YFN/MWC 2025 and 2026, 2nd Professional Prize at Maker Faire Galicia 2018, Jury member in 2019, technical speaker at Google Developer Groups (GDG).",
+        "summary": "Optical see-through AR hardware, an AI-native XR platform and a first real use case: GlassMusic.",
         "highlights": [
           "Built Glassear Studio to create and modify XR applications through natural language",
           "Architected custom AR headset optics, embedded electronics, and real-time computer vision (OpenCV, YOLO)",
@@ -455,10 +498,11 @@
     ],
     "keyAchievements": "Key Responsibilities & Impact",
     "technologies": "Technologies & Tools",
-    "current": "Current Role"
+    "current": "Current Role",
+    "rolesCount": "roles and technical leadership"
   },
   "projects": {
-    "title": "Projects",
+    "title": "Things I've built",
     "filterBy": "Categories:",
     "featuredProjects": "Featured Projects",
     "otherProjects": "Other Projects",
@@ -758,6 +802,26 @@
       {
         "name": "XR Interaction Toolkit",
         "category": "ar-vr"
+      },
+      {
+        "name": "TypeScript",
+        "category": "frontend"
+      },
+      {
+        "name": "MapLibre GL",
+        "category": "frontend"
+      },
+      {
+        "name": "Zustand",
+        "category": "frontend"
+      },
+      {
+        "name": "FFmpeg",
+        "category": "other"
+      },
+      {
+        "name": "Playwright",
+        "category": "other"
       }
     ],
     "items": [
@@ -765,7 +829,7 @@
         "id": 1,
         "title": "Glassear & Glassear Studio",
         "description": "Mixed-reality glasses combining custom hardware and XR software. The project includes Glassear Studio, a tool for creating and modifying interactive applications through natural language.",
-        "imageUrl": "/images-webp/projects/glassear-thumbnail.webp",
+        "imageUrl": "/images-webp/projects/glassear-studio.webp",
         "skills": [
           "AR",
           "VR",
@@ -776,11 +840,14 @@
           "Unity",
           "TypeScript"
         ],
-        "demoUrl": "https://brunomoya.com/projects/glassear-studio/",
+        "demoUrl": "https://platform.glassear.com/",
+        "demoLabel": "Open Glassear Studio",
         "featured": true,
-        "date": "2014-07-01",
-        "startDate": "2014-07-01",
-        "endDate": ""
+        "date": "2015-05-01",
+        "startDate": "2015-05-01",
+        "endDate": "",
+        "story": "I started building AR glasses as a teenager in 2015. More than a decade later, Glassear is real hardware, and Glassear Studio lets AI agents help create the apps that run on it.",
+        "order": 1
       },
       {
         "id": 2,
@@ -797,7 +864,8 @@
         "featured": true,
         "date": "2020-08-11",
         "startDate": "2020-08-11",
-        "endDate": "2021-12-31"
+        "endDate": "2021-12-31",
+        "story": "I save more links than I will ever read. So I connected Notion and AI to remember them for me."
       },
       {
         "id": 3,
@@ -814,7 +882,8 @@
         "featured": true,
         "date": "2016-06-06",
         "startDate": "2016-06-06",
-        "endDate": ""
+        "endDate": "",
+        "story": "I wanted my room to do more than hold a bed, so I built a smart mirror and wired up home automation around it."
       },
       {
         "id": 4,
@@ -831,7 +900,8 @@
         "featured": true,
         "date": "2021-10-04",
         "startDate": "2021-10-04",
-        "endDate": "2022-12-31"
+        "endDate": "2022-12-31",
+        "story": "Can you predict a hit before it's a hit? I trained a model on Spotify data and put it on the web so people could argue with it."
       },
       {
         "id": 5,
@@ -848,7 +918,8 @@
         "featured": false,
         "date": "2020-12-09",
         "startDate": "2020-12-09",
-        "endDate": "2021-12-31"
+        "endDate": "2021-12-31",
+        "story": "Hand tracking plus emojis, built for a ManoMotion GameJam. It took 3rd prize."
       },
       {
         "id": 6,
@@ -897,7 +968,8 @@
         "featured": false,
         "date": "2018-06-08",
         "startDate": "2018-06-08",
-        "endDate": "2019-12-31"
+        "endDate": "2019-12-31",
+        "story": "During my Computer Vision Center internship: pose, face and object detection running on an Android phone."
       },
       {
         "id": 9,
@@ -978,7 +1050,8 @@
         "featured": false,
         "date": "2021-07-05",
         "startDate": "2021-07-05",
-        "endDate": "2022-12-31"
+        "endDate": "2022-12-31",
+        "story": "For a ManoMotion GameJam: cast Doctor Strange's spells with your bare hands. It took 3rd prize."
       },
       {
         "id": 15,
@@ -1011,7 +1084,8 @@
         "date": "2023-03-31",
         "startDate": "2023-03-31",
         "endDate": "2023-05-31",
-        "githubUrl": null
+        "githubUrl": null,
+        "story": "Games can help people with rare diseases. I helped organise game jams to build them with universities and hospitals."
       },
       {
         "id": 17,
@@ -1028,7 +1102,8 @@
         "featured": true,
         "date": "2025-03-01",
         "startDate": "2025-03-01",
-        "endDate": "2025-03-02"
+        "endDate": "2025-03-02",
+        "story": "Health, finance, climate and energy usually live in separate apps. GuideLife tried one AI assistant for all four."
       },
       {
         "id": 18,
@@ -1046,7 +1121,8 @@
         "featured": true,
         "date": "2024-10-01",
         "startDate": "2024-10-01",
-        "endDate": "2024-10-02"
+        "endDate": "2024-10-02",
+        "story": "Buying a public transport ticket should not be hard. At Hack_FGC we built an accessible ticketing flow with an LLM assistant to help in real time."
       },
       {
         "id": 19,
@@ -1065,7 +1141,8 @@
         "featured": true,
         "date": "2024-05-05",
         "startDate": "2024-05-05",
-        "endDate": "2024-05-07"
+        "endDate": "2024-05-07",
+        "story": "One weekend at HackUPC, one challenge from Seidor: could you run a supermarket order just by talking?"
       },
       {
         "id": 20,
@@ -1099,7 +1176,8 @@
         "featured": false,
         "date": "2023-05-01",
         "startDate": "2023-05-01",
-        "endDate": "2023-07-01"
+        "endDate": "2023-07-01",
+        "story": "My final degree project: point at ingredients and see recipes in mixed reality."
       },
       {
         "id": 22,
@@ -1149,7 +1227,8 @@
         "featured": true,
         "date": "2022-06-01",
         "startDate": "2021-09-01",
-        "endDate": "2022-06-01"
+        "endDate": "2022-06-01",
+        "story": "Paying for public transport with a card and seeing the stats on your phone, built in a hackathon."
       },
       {
         "id": 25,
@@ -1165,7 +1244,8 @@
         "date": "2023-04-01",
         "startDate": "2023-04-01",
         "endDate": "2023-06-01",
-        "etsProject": true
+        "etsProject": true,
+        "story": "A lab project with a twist: Nintendo Switch Joy-Cons as the controllers of an endless 3D runner."
       },
       {
         "id": 26,
@@ -1216,11 +1296,12 @@
           "Docker"
         ],
         "githubUrl": "https://github.com/elblogbruno/JobAgent",
-        "demoUrl": "https://brunomoya.com/projects/jobagent/",
         "featured": true,
         "date": "2025-10-01",
         "startDate": "2025-08-01",
-        "endDate": null
+        "endDate": null,
+        "story": "I got tired of searching for jobs manually, so I started building an agent to help me do it. I use it for my own search.",
+        "order": 2
       },
       {
         "id": 29,
@@ -1237,21 +1318,116 @@
           "React"
         ],
         "githubUrl": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack",
-        "demoUrl": "https://brunomoya.com/projects/talent-gap-analyzer/",
+        "demoUrl": "/projects/talent-gap-analyzer/",
+        "demoLabel": "View case study",
         "featured": true,
         "date": "2025-04-13",
         "startDate": "2025-04-11",
-        "endDate": "2025-04-13"
+        "endDate": "2025-04-13",
+        "story": "We had a hackathon, a problem worth solving and very little time. We built TalentGapAnalyzer. It won UAB The Hack 2025.",
+        "order": 3
+      },
+      {
+        "id": 30,
+        "title": "GlassMusic by Glassear",
+        "description": "Hands-free augmented reality for musicians: sheet music and musical content in view while you play, running on Glassear hardware. The first vertical built on the Glassear platform.",
+        "story": "Hardware needs a reason to exist. For Glassear, the first one was musicians juggling sheet music. We took it to 4YFN at MWC in 2025 and 2026.",
+        "imageUrl": "/images-webp/projects/image_piano.webp",
+        "skills": [
+          "AR",
+          "Mixed Reality",
+          "Unity",
+          "Hardware",
+          "Product"
+        ],
+        "demoUrl": "https://www.glassear.com/",
+        "featured": true,
+        "order": 4,
+        "date": "2024-01-01",
+        "startDate": "2024-01-01",
+        "endDate": ""
+      },
+      {
+        "id": 110,
+        "title": "MapAnim — Route Motion Studio",
+        "description": "Travel-map animation editor with itinerary editing, camera controls, a timeline and MP4 video export. Built with React, TypeScript and MapLibre GL.",
+        "story": "From a travel itinerary to an animated story: the same scene engine drives the editor preview and frame-by-frame video export.",
+        "order": 5,
+        "imageUrl": "/images-webp/projects/mapanim.jpg",
+        "skills": [
+          "React",
+          "TypeScript",
+          "MapLibre GL",
+          "Zustand",
+          "FFmpeg",
+          "Playwright"
+        ],
+        "githubUrl": null,
+        "demoUrl": "/projects/mapanim/",
+        "demoLabel": "View project",
+        "featured": true,
+        "date": "2026-09-18"
       }
-    ]
+    ],
+    "subtitle": "Each project starts with why it exists. The stack, code and links come right after.",
+    "noImage": "No image",
+    "featuredLabel": "Featured",
+    "present": "Present",
+    "demo": "View project",
+    "etsHint": "Project built at ÉTS Montreal. View education.",
+    "etsLabel": "View ÉTS Montreal in Education"
   },
   "talks": {
+    "mainPresentation": "Main presentation",
     "title": "Talks & Conferences",
     "unifiedTitle": "Talks & Media",
-    "unifiedSubtitle": "Technical conferences, keynotes, and media press coverage",
+    "unifiedSubtitle": "Talks, pitches and interviews: explaining what I build and why.",
     "tabTalks": "Talks & Keynotes",
     "tabNews": "News & Press",
     "items": [
+      {
+        "id": 104,
+        "title": "Presenting Glassear at Inetum",
+        "event": "Inetum · Innovation and startups event",
+        "date": "2025-06-12",
+        "location": "Inetum offices, Barcelona",
+        "description": "I presented Glassear at Inetum’s innovation and startups event in Barcelona: a day of pitches and discussions with their team and other startups, shared by Dr. Daniel López in this post.",
+        "postUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7339245901778944000/",
+        "image": "/images-webp/talks/inetum-2025.jpg",
+        "featured": true
+      },
+      {
+        "id": 103,
+        "title": "How technology is transforming music",
+        "event": "Vibez Festival 2025",
+        "date": "2025-11-14",
+        "location": "Urbine",
+        "description": "I joined the musictech panel at Vibez Festival 2025 with GlassMusic by Glassear, alongside Sounds Market and Odisei Music, to discuss how technology is transforming music.",
+        "postUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7399441660272844801/",
+        "image": "/images-webp/talks/vivbez-festival-2025.jpg",
+        "featured": true
+      },
+      {
+        "id": 101,
+        "title": "GlassMusic by Glassear: optical AR for musicians",
+        "event": "4YFN · Mobile World Congress 2026",
+        "date": "2026-03-04",
+        "location": "Barcelona, Spain",
+        "description": "Pitch on the Catalan Arts / Generalitat de Catalunya stand about bringing smartphone-powered optical AR to a real context: music. Visitors tried a working Glassear One.",
+        "image": "/images-webp/timeline/mwc-2026-glassmusic.webp",
+        "featured": true
+      },
+      {
+        "id": 102,
+        "title": "GlassMusic at 4YFN 2025",
+        "event": "4YFN · Mobile World Congress 2025",
+        "date": "2025-03-04",
+        "location": "Barcelona, Spain",
+        "description": "Presented GlassMusic, the first real use case of Glassear, with UAB. I used the event to show the product, gather feedback and meet other startups and potential partners.",
+        "videoUrl": "https://www.uab.cat/en/entrepreneurship/agenda/20250303/4yfn",
+        "image": "/images-webp/timeline/4yfn-glassmusic-2024.webp",
+        "featured": true
+      },
       {
         "id": 1,
         "title": "From Maker To Startup",
@@ -1404,13 +1580,79 @@
         "description": "Talk about my #path in #entrepreneurship to middle and high school students at Institut Castellet!",
         "videoUrl": "https://www.linkedin.com/posts/glassear-bruno_camino-emprendimiento-path-activity-6798897168301203457-ngmy/",
         "image": "/images-webp/talks/castellet_2021.webp"
+      },
+      {
+        "id": 105,
+        "title": "GlassMusic pitch at Pier01",
+        "event": "Tech Barcelona · YOUZ Talent",
+        "date": "2025-04-10",
+        "location": "Pier01, Barcelona",
+        "description": "I pitched GlassMusic to more than 100 people at Pier01, thanks to YOUZ Talent and Tech Barcelona, and gathered feedback from music students, professionals and enthusiasts who tried it.",
+        "postUrl": "https://www.linkedin.com/posts/glassear-bruno_glassmusic-glassmusic-musictech-activity-7316184469344804864-AFur/",
+        "image": "/images-webp/timeline/glassmusic-barcelona-tech.webp",
+        "featured": true
+      },
+      {
+        "id": 106,
+        "title": "Host of the awards ceremony · 2nd Patient73 Game Jam",
+        "event": "Patient73 · FECAMM",
+        "date": "2024-05-15",
+        "location": "Barcelona City Hall",
+        "description": "I hosted the awards ceremony for the second Patient73 and FECAMM Game Jam at Barcelona City Hall, announcing the winners of this initiative creating games for children with rare diseases.",
+        "postUrl": "https://www.linkedin.com/posts/glassear-bruno_ahir-vem-celebrar-lacte-de-entrega-de-premis-activity-7196966261459689472-01Ax/",
+        "image": "/images-webp/talks/gamejam-gala-barcelona-2024.jpg",
+        "featured": true
+      },
+      {
+        "id": 107,
+        "title": "Presenting the 2nd Patient73 Game Jam at RCDE",
+        "event": "Patient73 · RCD Espanyol de Barcelona",
+        "date": "2023-12",
+        "location": "RCDE Stadium, Cornellà de Llobregat",
+        "description": "I presented the second Patient73 Game Jam at RCDE Stadium in collaboration with RCD Espanyol, an initiative raising awareness of rare diseases through creative video games.",
+        "postUrl": "https://www.linkedin.com/posts/glassear-bruno_gamejam-patient73-games-activity-7143923891642564608-nZ8v",
+        "image": "/images-webp/timeline/patient73-español-rcde-presentation-gamejam-2n-edition.webp",
+        "featured": true
+      },
+      {
+        "id": 108,
+        "title": "VR/MR/AR, holograms and Glassear: from my bedroom to designing the future",
+        "event": "EURUS CONF 2022 · Universidad Tecnológica de Panamá",
+        "date": "2022-11",
+        "location": "Panamá",
+        "description": "I spoke at EURUS CONF 2022, organized by the Faculty of Computer Systems Engineering at Universidad Tecnológica de Panamá, sharing my journey with Glassear and immersive technologies.",
+        "postUrl": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj",
+        "image": "/images-webp/awards/panama-2022.jpg",
+        "featured": false
       }
     ],
-    "contactText": "Interested in inviting me to give a talk?"
+    "contactText": "Interested in inviting me to give a talk?",
+    "featuredTalks": "Featured talks",
+    "otherTalks": "Other talks",
+    "allTalks": "All talks",
+    "showMoreTalks": "Show more talks",
+    "hideTalks": "Show fewer talks",
+    "showingAllTalks": "Showing all {{count}} talks",
+    "contactMe": "Get in touch",
+    "watchVideo": "Watch video",
+    "viewSlides": "View slides",
+    "featured": "Featured"
   },
   "news": {
     "title": "News & Media",
     "items": [
+      {
+        "id": 11,
+        "title": "My appearance on TV3 · Xplorers",
+        "source": "TV3 · Xplorers",
+        "date": "",
+        "description": "I appeared in an Xplorers report about virtual reality. Watch the video and read the post where I shared my TV3 appearance.",
+        "url": "https://www.youtube.com/watch?v=XkISH_oiOC0",
+        "videoId": "XkISH_oiOC0",
+        "postUrl": "https://www.linkedin.com/posts/glassear-bruno_casi-nunca-grabo-videos-pero-este-es-muy-activity-6924594534496522241-VgH6/",
+        "featured": true,
+        "image": "/images-webp/news/tv3-xplorers.jpg"
+      },
       {
         "id": 1,
         "title": "Bruno Moya: from maker at 16 to founder of a startup",
@@ -1504,20 +1746,59 @@
         "image": "/images-webp/news/news-apd-thumbnail.webp"
       }
     ],
-    "contactText": "Do you have a publication and want to interview me?"
+    "contactText": "Do you have a publication and want to interview me?",
+    "watchReport": "Watch report on YouTube",
+    "viewPost": "View LinkedIn post",
+    "featured": "Featured",
+    "readFullArticle": "Read full article",
+    "moreNews": "More news",
+    "allNews": "All news",
+    "readMore": "Read more",
+    "showMoreNews": "Show more news",
+    "hideNews": "Show fewer news stories",
+    "showingAllNews": "Showing all {{count}} news stories",
+    "contactMe": "Get in touch"
   },
   "awards": {
     "title": "Awards, Certificates & Publications",
     "subtitle": "Milestones & Recognition",
-    "description": "Throughout my journey in technology and entrepreneurship, I've been honored to receive recognition for innovation, creativity, and technical achievements.",
+    "description": "A few prizes and selections along the way. Most of them came from taking a prototype out of the workshop and showing it to people.",
     "items": [
       {
+        "id": 15,
+        "title": "Top 50 Catalan startups · ACCIÓ 2025",
+        "organization": "ACCIÓ · Generalitat de Catalunya",
+        "date": "2025",
+        "category": "Startup",
+        "description": "Glassear was selected for the Catalan Pitch Competition 2025 catalogue, ACCIÓ's selection of 50 Catalan startups with the most potential, in the Deep Tech category.",
+        "image": "/images-webp/projects/glassear-thumbnail.webp",
+        "url": "https://www.accio.gencat.cat/ca/activitats/grans-actes/forum-inversio/",
+        "featured": true,
+        "badgeColor": "green",
+        "imageStyle": "contain",
+        "type": "recognition"
+      },
+      {
+        "id": 16,
+        "title": "GlassMusic at 4YFN · Mobile World Congress",
+        "organization": "4YFN · MWC Barcelona",
+        "date": "2026-03-04",
+        "category": "Startup",
+        "description": "GlassMusic was shown at 4YFN 2025 with UAB and pitched again at 4YFN 2026 from the Catalan Arts stand, where visitors tried Glassear One.",
+        "image": "/images-webp/timeline/mwc-2026-glassmusic.webp",
+        "url": "https://www.uab.cat/en/entrepreneurship/agenda/20250303/4yfn",
+        "featured": true,
+        "badgeColor": "blue",
+        "imageStyle": "contain",
+        "type": "recognition"
+      },
+      {
         "id": 1,
-        "title": "Maker Faire Galicia Industry 4.0 Award",
+        "title": "2nd Professional Prize · Maker Faire Galicia 2018",
         "organization": "Maker Faire Galicia",
         "date": "2018-12-01",
         "category": "Innovation",
-        "description": "Awarded for the innovation and creativity demonstrated with the Glassear mixed reality headset project for the future of Industry 4.0.",
+        "description": "Glassear received the 2nd Professional Prize at Maker Faire Galicia 2018, years before the current startup stage.",
         "image": "/images-webp/talks/prize-thumbnail.webp",
         "url": "https://www.youtube.com/watch?v=ygmnUNxPn1Q",
         "featured": true,
@@ -1546,7 +1827,7 @@
         "category": "Augmented Reality",
         "description": "Winner of the 3rd prize in the Gamejam organized by Manomotion, based on the theme of using Hand Tracking and augmented reality mixed with emojis.",
         "image": "/images-webp/projects/manomojies-logo.webp",
-        "url": "https://www.linkedin.com/posts/glassear-bruno_doctor-strange-ar-filter-activity-6803581386037985280-Ykzs",
+        "url": "https://www.facebook.com/share/v/1EiJsCVCkD/",
         "featured": false,
         "badgeColor": "purple",
         "type": "award"
@@ -1584,10 +1865,11 @@
         "date": "2019-06-01",
         "category": "Academic Excellence",
         "description": "I received the highest grade (10/10) for my research project 'Le casque de réalité augmentée abordable' in the French-Spanish double baccalaureate program.",
-        "image": "/images-webp/talks/glassear-maker-faire-galicia-2019.webp",
+        "image": "/images-webp/education/Logo-Institut-Gerbert-dAurillac-01.webp",
         "featured": false,
         "badgeColor": "red",
-        "type": "award"
+        "type": "award",
+        "imageStyle": "contain"
       },
       {
         "id": 7,
@@ -1616,11 +1898,11 @@
       },
       {
         "id": 9,
-        "title": "Hackathon Most Creative Project Winner",
+        "title": "Most Creative Project · Mamuthack 2020",
         "organization": "NTT DATA (Everis)",
-        "date": "2020-01-01",
+        "date": "2020-03-01",
         "category": "Hackathon",
-        "description": "My role as a computer engineering student has opened my mind to develop more scientific projects, having won the most creative project award with my 'Whatshate' application, sponsored by Everis, which fights directly and simply against cyberbullying.",
+        "description": "Winner of the Most Creative Project award at Mamuthack, sponsored by everis, with Whatshate, an app built to tackle cyberbullying.",
         "image": "/images-webp/awards/mamuthack.webp",
         "url": "https://www.linkedin.com/posts/glassear-bruno_mamut-activity-6652701039374008321-5aP-",
         "featured": true,
@@ -1691,12 +1973,26 @@
         "featured": true,
         "badgeColor": "blue",
         "type": "award"
+      },
+      {
+        "id": 17,
+        "title": "Speaker certificate · EURUS CONF 2022",
+        "organization": "Universidad Tecnológica de Panamá",
+        "date": "2022-11-12",
+        "category": "Speaking",
+        "description": "Certificate for speaking at EURUS CONF 2022 on VR/MR/AR, holograms and Glassear, issued by the Faculty of Computer Systems Engineering.",
+        "image": "/images-webp/awards/panama-2022.jpg",
+        "url": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj",
+        "featured": false,
+        "badgeColor": "blue",
+        "imageStyle": "contain",
+        "type": "certificate"
       }
     ],
     "contactText": "Would you like to know more about my achievements or invite me to participate in an event?",
     "featuredAchievements": "Featured Achievements",
     "viewDetails": "View details",
-    "close": "Close",
+    "close": "Close recognition",
     "typesAwards": "Awards",
     "typesPublications": "Publications",
     "typesCertifications": "Certifications",
@@ -1753,7 +2049,7 @@
     "resumeTitle": "Resume",
     "viewResume": "View my resume",
     "followMe": "Follow me on social media",
-    "bookCallTitle": "Schedule a 15-min Call",
+    "bookCallTitle": "Schedule a 30-min Call",
     "bookCallDesc": "Have a project in mind or want to collaborate? Pick a time on my calendar.",
     "bookCallButton": "Book slot on Cal.com",
     "copyEmail": "Copy",
@@ -1776,10 +2072,10 @@
       }
     ],
     "cta": {
-      "badge": "Available for projects",
-      "title": "Did I Catch Your Attention?",
-      "description": "Let's discuss how we can work together to bring your vision to life.",
-      "bookCall": "Schedule 15-min Call",
+      "badge": "Open to conversations",
+      "title": "Building something hard?",
+      "description": "If it needs AI, spatial computing, hardware or production infrastructure to work, I'd like to hear about it.",
+      "bookCall": "Schedule 30-min Call",
       "button": "Send Message"
     },
     "form": {
@@ -1864,7 +2160,7 @@
   },
   "navigation": {
     "hero": "Home",
-    "about": "About Me",
+    "about": "My story",
     "experience": "Experience",
     "projects": "Projects",
     "talks": "Talks",
@@ -1902,7 +2198,7 @@
   },
   "footer": {
     "portfolio": "Bruno Moya",
-    "developerEntrepreneur": "AR/VR/MR Developer and Entrepreneur",
+    "developerEntrepreneur": "Founder at Glassear · CTO at TopBrokers",
     "light": "Light",
     "dark": "Dark",
     "navigation": "Navigation",
@@ -1912,6 +2208,131 @@
     "madeWithLove": "Made with ❤️ in Barcelona",
     "visit": "Visit",
     "profile": "profile",
-    "sendEmail": "Send email"
+    "sendEmail": "Send email",
+    "home": "Home",
+    "experience": "Experience",
+    "projects": "Projects",
+    "about": "About me",
+    "talks": "Talks & media",
+    "awards": "Awards",
+    "education": "Education"
+  },
+  "signals": {
+    "label": "Four milestones in my work",
+    "items": [
+      {
+        "value": "Glassear since 2015",
+        "label": "I founded Glassear and still build its augmented reality glasses and software.",
+        "href": "#about"
+      },
+      {
+        "value": "Selected by ACCIÓ",
+        "label": "Glassear was included among the 50 most promising Catalan startups in its 2025 catalogue.",
+        "href": "#awards"
+      },
+      {
+        "value": "GlassMusic at MWC",
+        "label": "I presented our augmented reality for musicians at 4YFN during MWC in 2025 and 2026.",
+        "href": "#talks"
+      },
+      {
+        "value": "We won UAB The Hack",
+        "label": "TalentGapAnalyzer, our AI talent analysis project, won the 2025 hackathon.",
+        "href": "#projects"
+      }
+    ]
+  },
+  "building": {
+    "eyebrow": "What I'm building",
+    "title": "Three things I'm working on right now.",
+    "items": [
+      {
+        "id": "glassear",
+        "name": "Glassear",
+        "role": "Founder & CEO",
+        "body": "I started building AR glasses as a teenager. A decade later, I’m still working to make spatial computing something people can actually use.",
+        "points": [
+          "Glassear One — AR hardware",
+          "Glassear Studio — spatial creation with AI",
+          "GlassMusic — first vertical product"
+        ],
+        "links": [
+          {
+            "label": "glassear.com",
+            "href": "https://www.glassear.com/"
+          },
+          {
+            "label": "Explore Glassear Studio",
+            "href": "https://platform.glassear.com/"
+          }
+        ]
+      },
+      {
+        "id": "topbrokers",
+        "name": "TopBrokers",
+        "role": "CTO",
+        "body": "I build the technology behind an AI-native real estate platform.",
+        "points": [],
+        "links": [
+          {
+            "label": "topbrokers.io",
+            "href": "https://topbrokers.io/"
+          }
+        ],
+        "quote": "I like prototypes. I like them even more when they survive production."
+      },
+      {
+        "id": "experiments",
+        "name": "Experiments",
+        "role": "Side projects & hackathons",
+        "body": "When a problem annoys me or an idea won’t leave me alone, I build something.",
+        "points": [
+          "MapAnim — an animated-map editor with video export",
+          "TalentGapAnalyzer — UAB The Hack 2025 winner",
+          "+ XR, computer vision and hardware"
+        ],
+        "links": [
+          {
+            "label": "Projects",
+            "href": "#projects"
+          }
+        ]
+      }
+    ]
+  },
+  "principles": {
+    "eyebrow": "How I think",
+    "title": "A few things building taught me.",
+    "items": [
+      {
+        "title": "AI should do things, not just talk about them.",
+        "body": "It gets interesting when a model can use real tools, change a real scene or call a real API, with deterministic checks around it deciding what actually happens."
+      },
+      {
+        "title": "The prototype is where the real work starts.",
+        "body": "Making something work once is a demo. Making it work on an ordinary Tuesday, for someone else, with bad Wi-Fi, is a product."
+      },
+      {
+        "title": "I like owning the whole problem.",
+        "body": "Frontend, backend, hardware, AI or infrastructure are implementation choices. If it's part of the product, it's part of the problem."
+      },
+      {
+        "title": "Emerging tech gets interesting when it stops feeling emerging.",
+        "body": "AR and AI don't matter because they're new. They matter the day a musician reads a score hands-free, or a team stops doing something by hand."
+      }
+    ]
+  },
+  "timeMachineUI": {
+    "title": "Time machine",
+    "subtitle": "Explore my portfolios through the years",
+    "description": "See how my online presence has evolved since the beginning",
+    "visitSite": "Visit website",
+    "nextItem": "Next",
+    "prevItem": "Previous",
+    "closeButton": "Close",
+    "timelineTitle": "Timeline",
+    "yearLabel": "Year:",
+    "loading": "Loading…",
+    "viewArchive": "View web archive"
   }
 }

@@ -1,3 +1,4 @@
+import './awards-room.css';
 import React, { useState, useRef, useEffect, memo } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +28,7 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
   const [selectedAward, setSelectedAward] = useState<Award | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.1 }); // Cambiar a once: true y reducir amount
+  const isInView = useInView(containerRef, { once: true, amount: 'some' }); // Cambiar a once: true y reducir amount
   const controls = useAnimation();
 
   // Obtener datos desde las traducciones
@@ -61,12 +62,7 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
       controls.start('visible');
     }
 
-    // Forzar animación después de 1 segundo en caso de que useInView falle
-    const timer = setTimeout(() => {
-      controls.start('visible');
-    }, 1000);
 
-    return () => clearTimeout(timer);
   }, [isInView, controls]);
 
   const handleAwardClick = (award: Award) => {
@@ -188,7 +184,7 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M12 8v4m0 0v4m0-4h4m-4 0H8m6-6a9 9 0 11-18 0 9 9 0 0118 0z"
+            d="M12 3a5 5 0 100 10 5 5 0 000-10zM9 13l-2 8 5-3 5 3-2-8"
           />
         </svg>
       );
@@ -213,7 +209,7 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
   };
 
   return (
-    <div className="py-10" ref={containerRef}>
+    <div className={`awards-room awards-room--${theme} py-10`} ref={containerRef}>
       {/* Section header with 3D effect */}
       <div className="mb-12 text-center">
         <motion.h2
@@ -292,26 +288,20 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
             {t('awards.featuredAchievements')}
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="awards-room__gallery grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredAwards.map((award, index) => {
               const imgProps = getImageProperties(award);
 
               return (
                 <motion.div
                   key={award.id}
-                  className={`relative group rounded-xl p-6 shadow-lg border cursor-pointer transform transition-all duration-500 hover:-translate-y-2 perspective-1000 ${
+                  className={`award-cabinet award-cabinet--featured relative group rounded-xl p-6 shadow-lg border cursor-pointer ${
                     isDark
                       ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-gray-700'
                       : 'bg-white border-gray-200'
                   }`}
-                  onClick={() => handleAwardClick(award)}
-                  whileHover={{
-                    scale: 1.02,
-                    rotateY: 5,
-                    boxShadow: isDark
-                      ? '0 10px 30px -10px rgba(0,0,255,0.3)'
-                      : '0 10px 30px -10px rgba(0,0,0,0.2)',
-                  }}
+                  onClick={() => handleAwardClick(award)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); handleAwardClick(award); } }}
+
                   initial={{ opacity: 0.5, y: 20 }} // Aumentar opacidad inicial
                   animate={controls}
                   variants={{
@@ -327,17 +317,13 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
                 >
                   {/* Shiny accent element */}
                   <div
-                    className="absolute top-0 left-0 right-0 h-1 rounded-t-xl bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500"
-                    style={{
-                      backgroundSize: '200% 100%',
-                      animation: 'shimmer 2s infinite linear',
-                    }}
+                    className="award-cabinet__light" aria-hidden="true"
                   ></div>
 
                   {/* Top part with image */}
                   <div className="mb-4">
                     <div
-                      className={`relative ${imgProps.height} overflow-hidden rounded-lg mb-4 bg-gradient-to-br from-blue-900/20 to-purple-900/20 ${imgProps.bgColor}`}
+                      className={`award-cabinet__display relative ${imgProps.height} overflow-hidden rounded-lg mb-4 ${imgProps.bgColor}`}
                     >
                       {award.image ? (
                         <img
@@ -543,7 +529,7 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
                 : t('awards.typesAwards')}
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="awards-room__gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {items
                 .filter(
                   (item) =>
@@ -556,13 +542,13 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
                   return (
                     <motion.div
                       key={item.id}
-                      className={`rounded-lg border cursor-pointer transform transition-all duration-300 hover:-translate-y-1 ${
+                      className={`award-cabinet rounded-lg border cursor-pointer ${
                         isDark
                           ? 'bg-gray-800 border-gray-700 hover:border-blue-700'
                           : 'bg-white border-gray-200 hover:border-blue-400'
                       }`}
-                      onClick={() => handleAwardClick(item)}
-                      whileHover={{ scale: 1.03 }}
+                      onClick={() => handleAwardClick(item)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); handleAwardClick(item); } }}
+
                       initial={{ opacity: 0.5, y: 20 }} // Aumentar opacidad inicial
                       animate={controls}
                       variants={{
@@ -581,7 +567,7 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
                         {/* Item image if available */}
                         {item.image && (
                           <div
-                            className={`${imgProps.height} overflow-hidden rounded-t-lg ${imgProps.bgColor}`}
+                            className={`award-cabinet__display ${imgProps.height} overflow-hidden rounded-t-lg ${imgProps.bgColor}`}
                           >
                             <img
                               src={item.image}
@@ -687,11 +673,12 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
       {/* Modal for award details */}
       {isModalOpen && selectedAward && (
         <div
+          role="dialog" aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
           onClick={closeModal}
         >
           <motion.div
-            className={`relative w-full max-w-2xl rounded-xl overflow-hidden ${
+            className={`relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl pt-14 ${
               isDark
                 ? 'bg-gray-900 border border-gray-700'
                 : 'bg-white border border-gray-200'
@@ -704,14 +691,14 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
           >
             {/* Close button */}
             <button
-              className={`absolute top-4 right-4 z-10 p-2 rounded-full ${
+              className={`absolute top-3 right-3 z-10 p-2 rounded-full ${
                 isDark
                   ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
               onClick={closeModal}
-              title="Close modal"
-              aria-label="Close modal"
+              title={t('awards.close')}
+              aria-label={t('awards.close')}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -908,20 +895,20 @@ const Awards: React.FC<AwardsProps> = ({ theme = 'dark' }) => {
           0% { background-position: 0% 50%; }
           100% { background-position: 200% 50%; }
         }
-        
+
         .perspective-1000 {
           perspective: 1000px;
         }
-        
+
         .hide-scrollbar::-webkit-scrollbar {
           height: 6px;
         }
-        
+
         .hide-scrollbar::-webkit-scrollbar-track {
           background: ${isDark ? 'rgba(30, 41, 59, 0.5)' : 'rgba(241, 245, 249, 0.5)'};
           border-radius: 3px;
         }
-        
+
         .hide-scrollbar::-webkit-scrollbar-thumb {
           background: ${isDark ? 'rgba(56, 189, 248, 0.5)' : 'rgba(59, 130, 246, 0.5)'};
           border-radius: 3px;

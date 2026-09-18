@@ -1,3 +1,4 @@
+import './experience-office.css';
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -78,20 +79,18 @@ const ExperienceCard = React.memo(({
 
   return (
     <div 
-      className="timeline-item transition-all duration-300"
+      className="office-workstation timeline-item transition-all duration-300"
       style={{ 
         transform: 'translateZ(0)', 
         willChange: 'transform',
         height: 'auto',
         minHeight: '160px',
-        containIntrinsicSize: '0 160px',
-        contentVisibility: 'auto',
         position: 'relative',
         marginBottom: '1.5rem'
       }}
     >
       <div 
-        className={`flex flex-col items-start ${cardClasses} p-5 sm:p-6 rounded-2xl backdrop-blur-md border transition-all duration-300 group`}
+        className={`office-monitor flex flex-col items-start ${cardClasses} p-5 sm:p-6 rounded-2xl backdrop-blur-md border transition-all duration-300 group`}
         style={{
           contain: 'content',
           transformStyle: 'preserve-3d',
@@ -109,7 +108,7 @@ const ExperienceCard = React.memo(({
               src={item.logo}
               alt={`${item.company} logo`}
               className="object-contain w-full h-full rounded-lg transition-transform duration-300 group-hover:scale-105"
-              loading="eager"
+              loading="lazy"
               decoding="async"
               width="64"
               height="64"
@@ -255,11 +254,12 @@ const ExperienceModal = React.memo(({
 
   return (
     <div 
+      role="dialog" aria-modal="true"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
       onClick={closeModal}
     >
       <div 
-        className={`relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl ${bgClass} p-6 sm:p-8 shadow-2xl space-y-6`}
+        className={`relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl ${bgClass} p-6 pt-16 sm:p-8 sm:pt-16 shadow-2xl space-y-6`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Botón cerrar */}
@@ -495,9 +495,9 @@ const Experience: React.FC<ExperienceProps> = React.memo(({ theme = "dark" }) =>
   const selectedItem = selectedIndex !== null ? experienceItems[selectedIndex] : null;
   
   return (
-    <div className="md:py-16 sm:py-20">
+    <div className={`experience-office experience-office--${theme} md:py-16 sm:py-20`}>
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6 sm:mb-8">
+        <div className="experience-office__header flex flex-wrap items-baseline justify-between gap-4 mb-6 sm:mb-8">
           <h2 className={`text-2xl sm:text-3xl font-bold ${theme === "dark" ? "text-white" : "text-gray-800"}`}>
             {t('experience.title')}
           </h2>
@@ -506,6 +506,7 @@ const Experience: React.FC<ExperienceProps> = React.memo(({ theme = "dark" }) =>
           </span>
         </div>
         
+        <div className="experience-office__desk" aria-hidden="true"><span className="experience-office__plant" /></div>
         <div 
           className="timeline space-y-6"
           style={{ 
@@ -514,8 +515,6 @@ const Experience: React.FC<ExperienceProps> = React.memo(({ theme = "dark" }) =>
             transform: 'translateZ(0)',
             willChange: 'transform',
             overflowAnchor: 'none',
-            contentVisibility: 'auto',
-            containIntrinsicSize: `0 ${Math.min(totalItems, visibleItems) * 160}px`,
             paddingBottom: '1rem'
           }}
         >

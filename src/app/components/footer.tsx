@@ -176,18 +176,14 @@ export const FooterComponent = React.memo(({ setIsDarkMode, isDarkMode }: Footer
     social: t('contact.social', { returnObjects: true }) as SocialLink[]
   }), [t]);
   
-  const heroData = useMemo(() => ({
-    title: t('hero.title'),
-    subtitle: t('hero.subtitle')
-  }), [t]);
   
   // Navigation sections based on the page structure - memoizado
   const navigationSections = useMemo(() => [
     [
       { name: t('navigation.hero'), href: "#hero" },
-      { name: t('navigation.experience'), href: "#experience" },
-      { name: t('navigation.projects'), href: "#projects" },
       { name: t('navigation.about'), href: "#about" },
+      { name: t('navigation.projects'), href: "#projects" },
+      { name: t('navigation.experience'), href: "#experience" },
     ],
     [
       { name: t('navigation.talks'), href: "#talks" },
@@ -220,10 +216,10 @@ export const FooterComponent = React.memo(({ setIsDarkMode, isDarkMode }: Footer
       {/* Column 1: About & Theme Toggle */}
       <div className="flex flex-col space-y-4">
         <h3 className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
-          {heroData.title?.split(',')[0] || t('footer.portfolio')}
+          {t('footer.portfolio')}
         </h3>
         <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-          {heroData.subtitle || t('footer.developerEntrepreneur')}
+          {t('hero.subtitle')}
         </p>
         <div className="flex items-center gap-3 mt-2">
           <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{t('footer.light')}</span>
@@ -255,7 +251,7 @@ export const FooterComponent = React.memo(({ setIsDarkMode, isDarkMode }: Footer
         />
       </div>
     </div>
-  ), [heroData.title, heroData.subtitle, isDarkMode, t, handleThemeChange, navigationSections, linkClass, contactData.email, contactData.location, contactData.resume_link]);
+  ), [isDarkMode, t, handleThemeChange, navigationSections, linkClass, contactData.email, contactData.location, contactData.resume_link]);
   
   // Memoizar el pie del footer
   const footerBottom = useMemo(() => (

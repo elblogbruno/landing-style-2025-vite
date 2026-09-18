@@ -47,6 +47,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
   const [isHighlighted, setIsHighlighted] = useState(highlightOnMount);
   const [showDoors, setShowDoors] = useState(false);
   const [isCityView, setIsCityView] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
   // const [doorAnimation, setDoorAnimation] = useState<'opening' | 'closing' | null>(null);
   
   // Refs
@@ -152,6 +153,18 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
         document.body.classList.remove('mobile-reading');
       }
     };
+  }, []);
+
+  // Hide the fixed floor control while the footer owns the bottom of the viewport.
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+    const updateFooterVisibility = () => { const rect = footer.getBoundingClientRect(); setIsFooterVisible(rect.top < window.innerHeight && rect.bottom > 0); };
+    const observer = new IntersectionObserver(([entry]) => setIsFooterVisible(entry.isIntersecting), { threshold: 0.01 });
+    observer.observe(footer);
+    updateFooterVisibility();
+    window.addEventListener('scroll', updateFooterVisibility, { passive: true });
+    return () => { observer.disconnect(); window.removeEventListener('scroll', updateFooterVisibility); };
   }, []);
 
   // Handle initial highlight animation
@@ -443,7 +456,7 @@ const MobileElevatorWidget: React.FC<MobileElevatorWidgetProps> = ({
       {/* Main elevator widget */}
       <div 
         ref={widgetRef}
-        className={`mobile-elevator ${isReading && !isExpanded && !isTransitioning ? "mobile-elevator--reading" : ""} ${isExpanded ? "mobile-elevator--expanded" : ""} ${isLight ? "bg-white text-gray-900" : "bg-gray-900 text-white"} ${isHighlighted ? "ring-2 ring-blue-500" : ""}`}
+        className={`mobile-elevator ${isFooterVisible ? "mobile-elevator--footer" : ""} ${isReading && !isExpanded && !isTransitioning ? "mobile-elevator--reading" : ""} ${isExpanded ? "mobile-elevator--expanded" : ""} ${isLight ? "bg-white text-gray-900" : "bg-gray-900 text-white"} ${isHighlighted ? "ring-2 ring-blue-500" : ""}`}
         onKeyDown={event => { if (event.key === "Escape") { setIsExpanded(false); requestAnimationFrame(() => widgetRef.current?.querySelector<HTMLButtonElement>("[data-mobile-floor-toggle]")?.focus()); } }}
       >
         {!isExpanded ? (

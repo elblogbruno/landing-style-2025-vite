@@ -3,7 +3,7 @@ async (page) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('https://localhost:5173');
   await page.locator('[data-mobile-next]').click();
-  await page.waitForFunction(() => document.querySelector('.exterior')?.dataset.floor === 'experience');
+  await page.waitForFunction(() => document.querySelector('.exterior')?.dataset.floor === 'about');
   await page.waitForFunction(() => !document.body.classList.contains('elevator-transition-active'));
   if (await page.locator('.mobile-elevator__number').textContent() !== '1') throw new Error('Wrong current floor');
   await page.locator('[data-mobile-floor-toggle]').click();

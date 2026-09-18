@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import React, { memo } from 'react'; 
 import { FeaturedProjectProps } from './types';
  
 const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSkillClick }) => {
+  const { t, i18n } = useTranslation();
   return (
     <div 
       key={project.id} 
@@ -22,20 +24,20 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSki
           />
         ) : (
           <div className={`${theme === 'light' ? 'bg-gray-200' : 'bg-gray-700'} w-full h-full flex items-center justify-center`}>
-            <span className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>No image</span>
+            <span className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>{t('projects.noImage')}</span>
           </div>
         )}
         <div className="absolute top-3 right-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white text-sm px-4 py-1.5 rounded-full font-medium shadow-lg flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
             <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
           </svg>
-          Featured
+          {t('projects.featuredLabel')}
         </div>        {project.etsProject && (
           <a 
             href="#education" 
             className="absolute top-3 left-3 bg-white rounded-full p-1.5 shadow-lg flex items-center justify-center w-12 h-12 hover:scale-110 transition-transform cursor-pointer"
-            title="Proyecto realizado durante mi estancia en ÉTS Montreal. Haz clic para más información sobre mi educación."
-            aria-label="Ver información de ÉTS Montreal en la sección de Educación"
+            title={t("projects.etsHint")}
+            aria-label={t("projects.etsLabel")}
           >
             <img 
               src="/images-webp/education/ets-montreal-logo.webp" 
@@ -49,6 +51,9 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSki
       <div className="p-7 space-y-5">
         <div>
           <h3 className={`text-2xl font-bold mb-3 group-hover:text-blue-600 transition-colors ${theme === 'light' ? 'text-gray-800' : 'text-white'}`}>{project.title}</h3>
+          {project.story && (
+            <p className={`text-lg leading-relaxed font-medium mb-3 border-l-2 border-blue-500 pl-3 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{project.story}</p>
+          )}
           <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-300'} text-base`}>{project.description}</p>
         </div>
         
@@ -61,20 +66,20 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSki
               </svg>
               <time 
               dateTime={project.startDate}
-              title={new Date(project.startDate).toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'})}
+              title={new Date(project.startDate).toLocaleDateString(i18n.resolvedLanguage, {year: 'numeric', month: 'long', day: 'numeric'})}
               >
-              {new Date(project.startDate).toLocaleDateString(undefined, {year: 'numeric', month: 'short'})}
+              {new Date(project.startDate).toLocaleDateString(i18n.resolvedLanguage, {year: 'numeric', month: 'short'})}
               </time>
               <span className="mx-2">→</span>
               {project.endDate ? (
               <time 
                 dateTime={project.endDate}
-                title={new Date(project.endDate).toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'})}
+                title={new Date(project.endDate).toLocaleDateString(i18n.resolvedLanguage, {year: 'numeric', month: 'long', day: 'numeric'})}
               >
-                {new Date(project.endDate).toLocaleDateString(undefined, {year: 'numeric', month: 'short'})}
+                {new Date(project.endDate).toLocaleDateString(i18n.resolvedLanguage, {year: 'numeric', month: 'short'})}
               </time>
               ) : (
-              <span className="text-blue-500 font-medium">Present</span>
+              <span className="text-blue-500 font-medium">{t('projects.present')}</span>
               )}
             </div>
           )}
@@ -85,9 +90,9 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSki
               </svg>
               <time 
               dateTime={project.date}
-              title={new Date(project.date).toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'})}
+              title={new Date(project.date).toLocaleDateString(i18n.resolvedLanguage, {year: 'numeric', month: 'long', day: 'numeric'})}
               >
-              {new Date(project.date).toLocaleDateString(undefined, {year: 'numeric', month: 'short'})}
+              {new Date(project.date).toLocaleDateString(i18n.resolvedLanguage, {year: 'numeric', month: 'short'})}
               </time>
             </div>
           )}
@@ -130,7 +135,7 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSki
           )}
           {project.demoUrl && (
             <a 
-              href={project.demoUrl} 
+              href={project.demoUrl.startsWith('/projects/') && i18n.resolvedLanguage?.startsWith('en') ? '/en' + project.demoUrl : project.demoUrl} 
               target="_blank" 
               rel="noopener noreferrer"
               className={`${theme === 'light' 
@@ -141,7 +146,7 @@ const FeaturedProject: React.FC<FeaturedProjectProps> = ({ project, theme, onSki
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
-              Live Demo
+              {project.demoLabel || t('projects.demo')}
             </a>
           )}
         </div>

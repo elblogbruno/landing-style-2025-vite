@@ -1,3 +1,4 @@
+import { prepareFloorsThrough } from '../components/DeferredFloor';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { track } from '../utils/umami-analytics';
 import { SectionKey } from '../components/avatar/types';
@@ -267,6 +268,7 @@ export function useElevatorNavigation({
     
     // Calcular la distancia absoluta entre pisos para efectos visuales
     const floorDistance = Math.abs(targetFloorNumber - currentFloorNumber);
+    const scrollDuration = Math.min(6000, 2600 + floorDistance * 400);
     
     // Block normal scrolling during transition
     document.body.style.overflow = 'hidden';
@@ -276,6 +278,9 @@ export function useElevatorNavigation({
     if (!elementCache.current[floor]) {
       elementCache.current[floor] = document.getElementById(floor);
     }
+
+    const floorsReady = prepareFloorsThrough(floor);
+    void floorsReady.catch(() => {});
 
     // Wait for doors to close fully before initiating scrolling
     setTimeout(() => {
@@ -400,29 +405,8 @@ export function useElevatorNavigation({
               return prev;
             });
             
-            // Calcular un retraso dinámico basado en la distancia total
-            // Esto crea un efecto más realista donde el ascensor acelera y luego desacelera
-            let delay: number;
-            
-            if (floorDistance <= 2) {
-              // Para distancias cortas, usar un delay constante
-              delay = 400;
-            } else {
-              // Para distancias largas, acelerar en el medio y desacelerar al final
-              const normalizedPosition = index / (intermediateFloors.length - 1); // 0 a 1
-              
-              if (normalizedPosition < 0.3) {
-                // Fase de aceleración: retrasos decrecientes
-                delay = 400 - (normalizedPosition * 200);
-              } else if (normalizedPosition > 0.7) {
-                // Fase de desaceleración: retrasos crecientes
-                delay = 300 + ((normalizedPosition - 0.7) * 400);
-              } else {
-                // Velocidad máxima en el medio del recorrido
-                delay = 200;
-              }
-            }
-            
+            const delay = scrollDuration / (intermediateFloors.length + 1);
+
             // Programar el resaltado del siguiente piso
             setTimeout(() => highlightNextFloor(index + 1), delay);
           } else {
@@ -446,7 +430,7 @@ export function useElevatorNavigation({
         };
         
         // Iniciar la secuencia después de un pequeño retraso inicial para permitir que las puertas se cierren completamente
-        setTimeout(() => highlightNextFloor(0), 300);
+        setTimeout(() => highlightNextFloor(0), scrollDuration / (intermediateFloors.length + 1));
       };
 
       // Iniciar la secuencia de iluminación
@@ -471,16 +455,6 @@ export function useElevatorNavigation({
         // Scroll to section with offset (smoother animation)
         const yOffset = -50;
         const targetY = targetSection.getBoundingClientRect().top + window.scrollY + yOffset;
-        
-        // Ajustar la duración del scroll para simular un movimiento más natural como un ascensor
-        // Aceleración inicial, velocidad constante en el medio y desaceleración al final
-        const baseDuration = 800; // Duración base para distancias cortas
-        const maxDuration = 3000; // Duración máxima para distancias largas
-        const accelerationFactor = 1.5; // Factor de aceleración/desaceleración
-        const scrollDuration = Math.min(
-          maxDuration,
-          baseDuration + Math.pow(floorDistance, accelerationFactor) * 100
-        );
         
         // Custom smooth scrolling with natural easing
         smoothScrollTo(targetY, scrollDuration, () => {

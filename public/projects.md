@@ -40,3 +40,16 @@ Glassear Studio translates natural-language intent into structured, synchronized
 - **Outcome:** An AI-native platform for building and modifying interactive XR applications across a web authoring environment and Unity runtime.
 - **Stack:** TypeScript, React, Node.js, Unity, Python, PostgreSQL, MCP, LLM APIs, XR
 - **Case study:** https://brunomoya.com/projects/glassear-studio/
+
+## MapAnim — Route Motion Studio
+
+A browser-based editor for animated travel maps, with an editable itinerary, camera controls, a timeline, map styles and MP4 export.
+
+- **Problem:** Turning a travel itinerary into a map animation requires coordinating route geometry, camera movement, timing and video rendering.
+- **Architecture:** React and TypeScript power the editor, MapLibre GL renders the map, and Zustand manages project state. A shared scene engine evaluates the route and camera at a given time. Playwright captures frames in Chromium and FFmpeg encodes the video.
+- **AI / agentic:** The route animation and video export pipeline does not depend on generative AI.
+- **Deterministic:** The editor preview and frame-by-frame export share getSceneAtTime(project, time), so both use the same route and camera calculations.
+- **Role:** Product development and software engineering.
+- **Outcome:** An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.
+- **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
+- **Case study:** https://brunomoya.com/projects/mapanim/

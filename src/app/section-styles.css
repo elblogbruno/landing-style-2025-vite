@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .section-container > *:not(.floor-room) {
@@ -20,6 +22,7 @@
   gap: 2rem;
   width: 100%;
   max-width: 100%;
+  overflow-x: clip;
 }
 
 .grid-layout > * {
@@ -40,11 +43,13 @@
   }
   
   .grid-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.5rem;
     width: 100%;
+    max-width: 100%;
     margin: 0 auto;
     padding: 0;
+    overflow-x: clip;
   }
   
   /* Mejora para elementos hijos del grid en móviles */
@@ -112,12 +117,28 @@
   display: none;
 }
 
-/* Mobile glassmorphism so the dynamic exterior city background peeks through cards */
-@media (max-width: 768px) {
-  .section-container [class*="rounded-xl"],
-  .section-container [class*="rounded-2xl"],
-  .section-container [class*="rounded-lg"] {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+/* The mobile hero uses one continuous surface, not nested glass cards. */
+@media (max-width: 767px) {
+  .hero-intro h1 {
+    line-height: 1.2;
+    text-shadow: none;
+    filter: none;
+  }
+  .section-container .hero-intro .hero-support {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Mobile cards already have opaque surfaces; avoid filtering the moving city
+   once for every card, including cards outside the viewport. */
+@media (max-width: 767px) {
+  .section-container [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .hero-intro > .pointer-events-none {
+    display: none;
   }
 }

@@ -20,7 +20,7 @@ test('all internal links in canonical HTML resolve to build inputs', () => {
       const href = match[1].split('#')[0].split('?')[0];
       if (!href || href.startsWith('http') || href.startsWith('mailto:')) continue;
       if (href.startsWith('#')) continue;
-      const relative = href.startsWith('/src/') ? href.slice(1) : href === '/'
+      const relative = href.startsWith('/src/') ? href.slice(1) : (href === '/' || href === '/en/')
         ? 'index.html'
         : href.endsWith('/')
           ? path.join('public', href, 'index.html')
