@@ -3,7 +3,7 @@
     "badge": "Planta 0 · Vestíbulo",
     "name": "Bruno Moya",
     "title": "De una idea a un",
-    "subtitle": "Fundador de Glassear · CTO en TopBrokers",
+    "subtitle": "Ingeniero de IA y fundador técnico · CTO en TopBrokers · Fundador de Glassear",
     "description": "Empecé a programar a los 13 y a construir Glassear en 2015. Hoy desarrollo software, realidad aumentada y los sistemas que los hacen funcionar.",
     "primaryCta": "Lo que estoy construyendo",
     "secondaryCta": "Leer mi historia",
@@ -60,7 +60,7 @@
     "floors": {
       "hero": {
         "description": "Vestíbulo",
-        "pitchLine": "Convierto tecnología emergente en productos reales. Fundador de Glassear, CTO en TopBrokers."
+        "pitchLine": "Construyo sistemas de IA agéntica que funcionan en producción. CTO en TopBrokers, fundador de Glassear."
       },
       "about": {
         "description": "Mi historia",
@@ -354,7 +354,7 @@
     "close": "Cerrar",
     "items": [
       {
-        "logo": "/images-webp/experience/topbrokers-logo.png",
+        "logo": "/images-webp/experience/topbrokers-logo.webp",
         "title": "CTO",
         "company": "TopBrokers.io",
         "companyUrl": "https://topbrokers.io/",
@@ -1349,7 +1349,7 @@
         "description": "Editor de mapas animados con itinerarios, control de cámara, línea de tiempo y exportación de vídeo MP4. Desarrollado con React, TypeScript y MapLibre GL.",
         "story": "De un itinerario a una historia animada: un mismo motor de escenas alimenta la vista previa del editor y la exportación de vídeo fotograma a fotograma.",
         "order": 5,
-        "imageUrl": "/images-webp/projects/mapanim.jpg",
+        "imageUrl": "/images-webp/projects/mapanim.webp",
         "skills": [
           "React",
           "TypeScript",
@@ -1399,7 +1399,7 @@
         "location": "Oficinas de Inetum, Barcelona",
         "description": "Presenté Glassear en la jornada de innovación y startups de Inetum en Barcelona. Una sesión de pitches e intercambio con su equipo y otras startups, compartida por el Dr. Daniel López en esta publicación.",
         "postUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7339245901778944000/",
-        "image": "/images-webp/talks/inetum-2025.jpg",
+        "image": "/images-webp/talks/inetum-2025.webp",
         "featured": true
       },
       {
@@ -1410,7 +1410,7 @@
         "location": "Urbine",
         "description": "Participé con GlassMusic by Glassear en la mesa redonda de musictech del Vibez Festival 2025, junto a Sounds Market y Odisei Music. Hablamos sobre cómo la tecnología está transformando la música.",
         "postUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7399441660272844801/",
-        "image": "/images-webp/talks/vivbez-festival-2025.jpg",
+        "image": "/images-webp/talks/vivbez-festival-2025.webp",
         "featured": true
       },
       {
@@ -1606,7 +1606,7 @@
         "location": "Ayuntamiento de Barcelona",
         "description": "Presenté la gala de entrega de premios de la segunda edición de la Game Jam de Patient73 y FECAMM en el Ayuntamiento de Barcelona, anunciando los ganadores de esta iniciativa de videojuegos para pacientes infantiles con enfermedades minoritarias.",
         "postUrl": "https://www.linkedin.com/posts/glassear-bruno_ahir-vem-celebrar-lacte-de-entrega-de-premis-activity-7196966261459689472-01Ax/",
-        "image": "/images-webp/talks/gamejam-gala-barcelona-2024.jpg",
+        "image": "/images-webp/talks/gamejam-gala-barcelona-2024.webp",
         "featured": true
       },
       {
@@ -1628,7 +1628,7 @@
         "location": "Panamá",
         "description": "Participé como expositor en EURUS CONF 2022, organizado por la Facultad de Ingeniería de Sistemas Computacionales de la Universidad Tecnológica de Panamá, compartiendo mi recorrido con Glassear y las tecnologías inmersivas.",
         "postUrl": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj",
-        "image": "/images-webp/awards/panama-2022.jpg",
+        "image": "/images-webp/awards/panama-2022.webp",
         "featured": false
       }
     ],
@@ -1656,7 +1656,7 @@
         "videoId": "XkISH_oiOC0",
         "postUrl": "https://www.linkedin.com/posts/glassear-bruno_casi-nunca-grabo-videos-pero-este-es-muy-activity-6924594534496522241-VgH6/",
         "featured": true,
-        "image": "/images-webp/news/tv3-xplorers.jpg"
+        "image": "/images-webp/news/tv3-xplorers.webp"
       },
       {
         "id": 1,
@@ -1977,7 +1977,7 @@
         "date": "2022-11-12",
         "category": "Conferencias",
         "description": "Diploma por mi participación como expositor en EURUS CONF 2022 con la charla «Realidad V/M/A, hologramas y Glassear: de mi habitación a diseñar el futuro», emitido por la Facultad de Ingeniería de Sistemas Computacionales.",
-        "image": "/images-webp/awards/panama-2022.jpg",
+        "image": "/images-webp/awards/panama-2022.webp",
         "url": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj",
         "featured": false,
         "badgeColor": "blue",
@@ -2130,6 +2130,13 @@
       "image": "/images-webp/time-machine/portfolio-2020.webp",
       "url": "https://brunomoya.com/old",
       "description": "Rediseño de portfolio profesional destacando mi trayectoria emprendedora y principales presentaciones como ponente."
+    },
+    {
+      "name": "Portfolio v5",
+      "year": "2025",
+      "image": "/images-webp/time-machine/portfolio-2025.webp",
+      "url": "https://brunomoya.com/v4/",
+      "description": "La web con la que me presenté como desarrollador de AR/VR, con el discurso de ascensor interactivo que dio origen al edificio actual."
     }
   ],
   "timeMachineUI": {

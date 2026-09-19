@@ -1,8 +1,8 @@
 {
   "hero": {
     "title": "I turn emerging technology into real products.",
-    "subtitle": "Founder at Glassear · CTO at TopBrokers",
-    "description": "I have been building Glassear since 2015. Today that means AI systems, spatial computing and the software and infrastructure that keep them working outside a demo.",
+    "subtitle": "AI engineer & technical founder · CTO at TopBrokers · Founder at Glassear",
+    "description": "I build agentic AI systems that run in production, not demos. At TopBrokers that means LLM and messaging workflows handling over 1,000 conversations a day; at Glassear, a Studio platform that turns natural language into interactive XR. The decade of hardware underneath is why I know where these problems actually live.",
     "profileImage": "/images-webp/hero/profile.webp",
     "coverImage": "/images-webp/hero/cover-better.webp",
     "resumeUrl": "/cv-english.pdf"

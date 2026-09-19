@@ -3,26 +3,26 @@
 export const metadataByLang = {
   // Español
   "es": {
-    "title": "Bruno Moya | Fundador de Glassear · CTO en TopBrokers",
-    "description": "Convierto tecnología emergente en productos reales. Fundador y CEO de Glassear (realidad aumentada óptica con smartphone) y CTO en TopBrokers: sistemas de IA, computación espacial, hardware e infraestructura en producción desde Barcelona.",
+    "title": "Bruno Moya | Ingeniero de IA · CTO en TopBrokers · Fundador de Glassear",
+    "description": "Construyo sistemas de IA agéntica que funcionan en producción. CTO en TopBrokers y fundador de Glassear: agentes, orquestación de LLM, backend e infraestructura, desde Barcelona.",
     "language": "es",
     "ogTitle": "Bruno Moya: convierto tecnología emergente en productos reales",
-    "ogDescription": "Fundador y CEO de Glassear · CTO en TopBrokers. IA, computación espacial, hardware e infraestructura.",
+    "ogDescription": "Sistemas de IA agéntica en producción. CTO en TopBrokers · Fundador de Glassear.",
     "ogLocale": "es_ES",
     "twitterTitle": "Bruno Moya: convierto tecnología emergente en productos reales",
-    "twitterDescription": "Fundador y CEO de Glassear · CTO en TopBrokers. IA, computación espacial, hardware e infraestructura.",
-    "keywords": "Bruno Moya, Bruno Moya Ruiz, Glassear, Glassear One, Glassear Studio, GlassMusic, TopBrokers, CTO, fundador técnico, ingeniero de software Barcelona, computación espacial, realidad aumentada, agentes de IA, infraestructura"
+    "twitterDescription": "Sistemas de IA agéntica en producción. CTO en TopBrokers · Fundador de Glassear.",
+    "keywords": "Bruno Moya, Bruno Moya Ruiz, ingeniero de IA, IA aplicada, agentes de IA, sistemas agénticos, orquestación de LLM, MCP, TypeScript, Python, backend, Glassear, Glassear Studio, TopBrokers, CTO, fundador técnico, ingeniero de software Barcelona, computación espacial, realidad aumentada"
   },
   // Inglés
   "en": {
-    "title": "Bruno Moya | Founder at Glassear · CTO at TopBrokers",
-    "description": "I turn emerging technology into real products. Founder & CEO of Glassear (optical see-through AR powered by smartphones) and CTO at TopBrokers: AI systems, spatial computing, hardware and production infrastructure from Barcelona.",
+    "title": "Bruno Moya | AI Engineer · CTO at TopBrokers · Founder at Glassear",
+    "description": "I build agentic AI systems that run in production. CTO at TopBrokers and founder of Glassear: agents, LLM orchestration, backend and infrastructure, from Barcelona.",
     "language": "en",
     "ogTitle": "Bruno Moya: I turn emerging technology into real products",
-    "ogDescription": "Founder & CEO at Glassear · CTO at TopBrokers. AI, spatial computing, hardware and infrastructure.",
+    "ogDescription": "Agentic AI systems in production. CTO at TopBrokers · Founder at Glassear.",
     "ogLocale": "en_US",
     "twitterTitle": "Bruno Moya: I turn emerging technology into real products",
-    "twitterDescription": "Founder & CEO at Glassear · CTO at TopBrokers. AI, spatial computing, hardware and infrastructure.",
-    "keywords": "Bruno Moya, Bruno Moya Ruiz, Glassear, Glassear One, Glassear Studio, GlassMusic, TopBrokers, CTO, technical founder, software engineer Barcelona, spatial computing, augmented reality, AI agents, infrastructure"
+    "twitterDescription": "Agentic AI systems in production. CTO at TopBrokers · Founder at Glassear.",
+    "keywords": "Bruno Moya, Bruno Moya Ruiz, AI engineer, applied AI, AI agents, agentic systems, LLM orchestration, MCP, TypeScript, Python, backend engineer, Glassear, Glassear Studio, TopBrokers, CTO, technical founder, software engineer Barcelona, spatial computing, augmented reality"
   }
 };
