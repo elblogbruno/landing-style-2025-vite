@@ -24,6 +24,6 @@
 @media (prefers-reduced-motion: reduce) { .experience-office .office-workstation, .experience-office .office-monitor, .experience-office .office-monitor * { transition: none !important; animation: none !important; } }
 
 /* The supplied TopBrokers wordmark is white on transparent. */
-div:has(> img[src$="/topbrokers-logo.png"]) { background: #111827; width: 112px; padding: 8px; }
+div:has(> img[src$="/topbrokers-logo.webp"]) { background: #111827; width: 112px; padding: 8px; }
 
 .dark .experience-office__header > span { color: #d1d5db; }

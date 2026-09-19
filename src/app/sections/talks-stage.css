@@ -60,4 +60,4 @@
 }
 
 /* Keep the supplied Inetum photo collage fully visible. */
-.talks-stage__projection img[src$="/inetum-2025.jpg"] { object-fit: contain; }
+.talks-stage__projection img[src$="/inetum-2025.webp"] { object-fit: contain; }
