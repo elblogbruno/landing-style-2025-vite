@@ -1,5 +1,6 @@
 import { spanishProfile } from './professional-spanish.js';
 import { withWebContent } from './web-content.js';
+import { renderMarkdownPages } from './markdown-pages.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -112,6 +113,9 @@ const labels = {
   "How I think": "Cómo pienso",
   "Milestones": "Hitos"
 };
+// Filled by generatePages so the nginx token map can be written once both languages exist.
+const markdownPages = [];
+
 function generatePages(data, lang) {
 const prefix = lang === 'en' ? '/en' : '';
 const label = value => lang === 'es' ? labels[value] || value : value;
@@ -135,7 +139,7 @@ const layout = ({ title, description, canonical, body, schemas = [personJsonLd] 
 <meta property="og:type" content="website"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${absolute(canonical)}"><meta property="og:image" content="${origin}/images-webp/hero/cover-better.webp">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeHtml(title)}"><meta name="twitter:description" content="${escapeHtml(description)}"><meta name="twitter:image" content="${origin}/images-webp/hero/cover-better.webp">
 <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.classList.add(t==='dark'?'dark':'light')}catch(e){}</script>
-<link rel="stylesheet" href="/professional.css">${jsonLdScript(schemas)}<link rel="alternate" hreflang="es" href="${origin}${canonical}"><link rel="alternate" hreflang="en" href="${origin}/en${canonical}"><link rel="alternate" hreflang="x-default" href="${origin}${canonical}"></head><body>
+<link rel="stylesheet" href="/professional.css">${jsonLdScript(schemas)}<link rel="alternate" hreflang="es" href="${origin}${canonical}"><link rel="alternate" hreflang="en" href="${origin}/en${canonical}"><link rel="alternate" hreflang="x-default" href="${origin}${canonical}"><link rel="alternate" type="text/markdown" href="${absolute(canonical)}index.md" title="Markdown"></head><body>
 <a class="skip-link" href="#main-content">${label("Skip to content")}</a>${nav.replace("</nav>", `<a href="${lang === "es" ? "/en" + canonical : canonical}" lang="${lang === "es" ? "en" : "es"}" hreflang="${lang === "es" ? "en" : "es"}">${lang === "es" ? "English" : "Español"}</a></nav>`)}<main id="main-content">${body}</main>${footer}</body></html>`;
 
 const experienceArticles = data.experience.map((item) => `<article class="detail-card">
@@ -185,6 +189,12 @@ ${project.image ? `<section><h2>Editor</h2><img src="${escapeHtml(project.image)
   write(`projects/${project.id}/index.html`, layout({ title: `${project.title} | Bruno Moya`, description: project.description, canonical: project.url, body, schemas: [personJsonLd, projectJsonLd(project)] }));
 }
 
+// A markdown twin beside every page above, served to `Accept: text/markdown` requests.
+for (const markdownPage of renderMarkdownPages({ data, lang, label, formatPeriod, origin, prefix })) {
+  write(markdownPage.relativePath, markdownPage.markdown);
+  markdownPages.push(markdownPage);
+}
+
 }
 generatePages(data, "en");
 generatePages(withWebContent(spanishProfile(data, spanishSite), spanishSite), "es");
@@ -213,7 +223,7 @@ const publicProfile = {
 };
 write('profile.json', JSON.stringify(publicProfile, null, 2) + '\n');
 
-const llms = `# Bruno Moya
+const llmsFull = `# Bruno Moya
 
 > ${data.person.tagline} ${data.person.headline}. ${data.person.description}
 
@@ -264,6 +274,44 @@ ${Object.entries(data.skills).map(([group, skills]) => `- **${group}:** ${skills
 - [Resume PDF](${origin}${data.links.resume})
 - [Professional contact](${data.links.contact})
 
+This is the extended companion to /llms.txt, which is the short index.
+`;
+write('llms-full.txt', llmsFull);
+
+// /llms.txt stays a short index: who he is and where everything lives.
+// The full text dump lives in /llms-full.txt.
+const llms = `# ${data.person.name}
+
+> ${data.person.tagline} ${data.person.headline}, based in ${data.person.location}.
+
+${data.person.description}
+
+## Full profile
+
+- [Everything as plain text](${origin}/llms-full.txt): what he is building, milestones, awards, talks, press, experience, projects, education and skills in one file.
+- [Structured professional profile](${origin}/profile.json): the same information as JSON.
+
+## Pages
+
+- [Resume](${origin}/resume/): career summary, also as [Markdown](${origin}/resume.md) and [PDF](${origin}${data.links.resume}).
+- [Experience](${origin}/experience/): roles, dates, responsibilities and technologies.
+- [Projects](${origin}/projects/): selected work, also as [Markdown](${origin}/projects.md).
+${data.projects.map((project) => `- [${project.title}](${absolute(project.url)}): ${project.outcome}`).join('\n')}
+
+Every page above is also available as markdown. Send \`Accept: text/markdown\` and the
+response comes back as \`text/markdown\`, with an \`x-markdown-tokens\` estimate, instead of
+HTML; or append \`index.md\` to the URL. Spanish is at the root, English under /en/.
+
+## Elsewhere
+
+- [GitHub](${data.links.github})
+- [LinkedIn](${data.links.linkedin})
+- [Email](${data.links.contact})
+
+## Optional
+
+- [Sitemap](${origin}/sitemap.xml)
+
 This file follows the emerging llms.txt convention; llms.txt is not an official universal web standard.
 `;
 write('llms.txt', llms);
@@ -272,12 +320,76 @@ const resumeMd = `# ${data.person.name}\n\n## ${data.person.headline}\n\n**${dat
 write('resume.md', resumeMd);
 write('projects.md', `# Bruno Moya - Selected Projects\n\n${data.projects.map((project) => `## ${project.title}\n\n${project.description}\n\n- **Problem:** ${project.problem}\n- **Architecture:** ${project.architecture}\n- **AI / agentic:** ${project.aiComponent}\n- **Deterministic:** ${project.deterministicComponent}\n- **Role:** ${project.role}\n- **Outcome:** ${project.outcome}\n- **Stack:** ${project.technologies.join(', ')}\n- **Case study:** ${absolute(project.url)}${project.repository ? `\n- **Repository:** ${project.repository}` : ''}`).join('\n\n')}\n`);
 
-const routes = ['/en/', ...['/resume/', '/experience/', '/projects/', ...data.projects.map(project => project.url)].map(route => '/en' + route), '/', '/resume/', '/experience/', '/projects/', ...data.projects.map((project) => project.url), '/profile.json', '/llms.txt', '/resume.md', '/projects.md'];
-write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map((route) => `  <url><loc>${absolute(route)}</loc><lastmod>${data.lastUpdated}</lastmod></url>`).join('\n')}\n</urlset>\n`);
-write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`);
+// Pages that exist in both languages: Spanish at the root, English under /en/.
+const translatedRoutes = ['/', '/resume/', '/experience/', '/projects/', ...data.projects.map((project) => project.url)];
+// Agent-facing resources are language-neutral, so they carry no alternates.
+const standaloneRoutes = ['/profile.json', '/llms.txt', '/llms-full.txt', '/resume.md', '/projects.md'];
+const alternates = (route) => ['es', 'en', 'x-default']
+  .map((lang) => `<xhtml:link rel=\"alternate\" hreflang=\"${lang}\" href=\"${origin}${lang === 'en' ? '/en' : ''}${route}\"/>`)
+  .join('');
+const urlEntry = (loc, extra = '') => `  <url><loc>${loc}</loc><lastmod>${data.lastUpdated}</lastmod>${extra}</url>`;
+const sitemapUrls = [
+  ...translatedRoutes.flatMap((route) => [
+    urlEntry(origin + route, alternates(route)),
+    urlEntry(origin + '/en' + route, alternates(route))
+  ]),
+  ...standaloneRoutes.map((route) => urlEntry(origin + route))
+];
+write('sitemap.xml', `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">\n${sitemapUrls.join('\n')}\n</urlset>\n`);
+
+// Content Signals (contentsignals.org, draft-romm-aipref-contentsignals). The definitions
+// are part of the statement, not decoration: the directive expresses a preference, and it
+// only means something if the terms it uses are stated where a reader finds them.
+const contentSignals = [
+  '# Content Signals: how Bruno Moya prefers this site to be used.',
+  '#   search    = building a search index and linking back to the source.',
+  '#   ai-input  = using the content as input to an AI answer, without training on it.',
+  '#   ai-train  = using the content to train or fine-tune a generative model.',
+  '# yes means allowed, no means not allowed. This site is written to be read by agents,',
+  '# so all three are allowed; see /llms.txt for the machine-readable index.',
+  'Content-Signal: search=yes, ai-input=yes, ai-train=yes'
+].join('\n');
+write('robots.txt', `User-agent: *\nAllow: /\n${contentSignals}\n\nSitemap: ${origin}/sitemap.xml\n`);
+
+// Every real route has a file on disk, so anything else is genuinely missing. The site
+// used to answer those with the React index at 200, which told agents that /.well-known/
+// probes and stale asset URLs existed. This page carries the 404 and points onward.
+write('404.html', `<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not found | Bruno Moya</title><meta name="robots" content="noindex">
+<link rel="stylesheet" href="/professional.css"></head><body>
+<main id="main-content"><section class="page-hero"><p class="eyebrow">404</p><h1>This page does not exist</h1>
+<p>The address you asked for is not part of this site. Nothing here has moved; this URL was never served.</p></section>
+<section><h2>Where to go instead</h2><ul>
+<li><a href="/">Home</a> - Bruno Moya, ${escapeHtml(data.person.tagline)}</li>
+<li><a href="/resume/">Resume</a>, <a href="/experience/">Experience</a>, <a href="/projects/">Projects</a></li>
+<li><a href="/llms.txt">/llms.txt</a> - the agent-facing index of this site</li>
+<li><a href="/sitemap.xml">/sitemap.xml</a> - every canonical URL</li>
+<li><a href="/profile.json">/profile.json</a> - the full profile as JSON</li>
+</ul></section></main></body></html>
+`);
+
+// Apache cannot count tokens, so the build writes the numbers into .htaccess between
+// markers, the same way index.html carries its generated fallback. One SetEnvIf per route,
+// matching it with or without the trailing slash and as an explicit index.md, because all
+// three reach the same markdown twin. mod_headers only emits the header when the file
+// actually served is a .md, so an HTML response never carries a token count.
+const tokenRules = markdownPages
+  .map(({ route, tokens }) => `SetEnvIf Request_URI "^${route.replace(/\/$/, '')}/?(index\\.md)?$" MD_TOKENS=${tokens} MD_HREF=${route}index.md`)
+  .join('\n');
+const htaccessPath = path.join(root, '.htaccess');
+const htaccess = fs.readFileSync(htaccessPath, 'utf8');
+const tokenBlock = /# MARKDOWN_TOKENS_START[\s\S]*?# MARKDOWN_TOKENS_END/;
+if (!tokenBlock.test(htaccess)) {
+  throw new Error('.htaccess is missing the MARKDOWN_TOKENS_START/END markers');
+}
+fs.writeFileSync(htaccessPath, htaccess.replace(
+  tokenBlock,
+  `# MARKDOWN_TOKENS_START\n<IfModule mod_setenvif.c>\n${tokenRules.split('\n').map((line) => `  ${line}`).join('\n')}\n</IfModule>\n# MARKDOWN_TOKENS_END`
+));
 fs.copyFileSync(path.join(root, 'src/app/professional.css'), path.join(publicDir, 'professional.css'));
 
-const fallback = `<!-- PROFESSIONAL_FALLBACK_START --><div id="root"></div><noscript><main><article><h1>${escapeHtml(data.person.name)}: ${escapeHtml(data.person.tagline)}</h1><p>${escapeHtml(data.person.headline)}</p><p>${escapeHtml(data.person.description)}</p><p>${escapeHtml(data.positioning.intro)}</p>${buildingSection}${milestonesSection}${principlesSection}<section><h2>Current work</h2>${data.experience.slice(0, 2).map((item) => `<article><h3>${escapeHtml(item.role)} - ${escapeHtml(item.company)}</h3><time datetime="${item.startDate}">${formatPeriod(item)}</time><p>${escapeHtml(item.summary)}</p></article>`).join('')}</section><section><h2>Selected projects</h2>${data.projects.map((project) => `<article><h3><a href="${project.url}">${escapeHtml(project.title)}</a></h3><p>${escapeHtml(project.description)}</p></article>`).join('')}</section><p><a href="/resume/">View Bruno Moya's resume</a> - <a href="${data.links.contact}">Contact Bruno Moya</a></p></article></main></noscript><!-- PROFESSIONAL_FALLBACK_END -->`;
+const fallback = `<!-- PROFESSIONAL_FALLBACK_START --><div id="root"></div><div id="profile-fallback"><article><h1>${escapeHtml(data.person.name)}: ${escapeHtml(data.person.tagline)}</h1><p>${escapeHtml(data.person.headline)}</p><p>${escapeHtml(data.person.description)}</p><p>${escapeHtml(data.positioning.intro)}</p>${buildingSection}${milestonesSection}${principlesSection}<section><h2>Current work</h2>${data.experience.slice(0, 2).map((item) => `<article><h3>${escapeHtml(item.role)} - ${escapeHtml(item.company)}</h3><time datetime="${item.startDate}">${formatPeriod(item)}</time><p>${escapeHtml(item.summary)}</p></article>`).join('')}</section><section><h2>Selected projects</h2>${data.projects.map((project) => `<article><h3><a href="${project.url}">${escapeHtml(project.title)}</a></h3><p>${escapeHtml(project.description)}</p></article>`).join('')}</section><p><a href="/resume/">View Bruno Moya's resume</a> - <a href="${data.links.contact}">Contact Bruno Moya</a></p></article></div><script>document.getElementById("profile-fallback").hidden=true</script><!-- PROFESSIONAL_FALLBACK_END -->`;
 const indexPath = path.join(root, 'index.html');
 let index = fs.readFileSync(indexPath, 'utf8');
 index = index
@@ -299,8 +411,13 @@ if (jsonLdPattern.test(index)) {
 if (!index.includes('rel="canonical"')) {
   index = index.replace('</head>', '<link rel="canonical" href="' + origin + '/">\n</head>');
 }
+// Advertises the markdown twin, so an agent can find it without knowing to try the
+// Accept header first. generate-i18n.js copies this head into /en/ at postbuild.
+if (!index.includes('type="text/markdown"')) {
+  index = index.replace('</head>', '<link rel="alternate" type="text/markdown" href="' + origin + '/index.md" title="Markdown">\n</head>');
+}
 index = index.includes('PROFESSIONAL_FALLBACK_START')
   ? index.replace(/<!-- PROFESSIONAL_FALLBACK_START -->[\s\S]*?<!-- PROFESSIONAL_FALLBACK_END -->/, fallback)
   : index.replace('<div id="root"></div>', fallback);
 fs.writeFileSync(indexPath, index);
-console.log(`Generated ${routes.length} canonical resources from professional-data.json`);
+console.log(`Generated ${sitemapUrls.length} canonical resources from professional-data.json`);

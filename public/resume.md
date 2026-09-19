@@ -1,10 +1,10 @@
 # Bruno Moya
 
-## Founder & CEO at Glassear · CTO at TopBrokers
+## AI engineer & technical founder · CTO at TopBrokers · Founder at Glassear
 
 **I turn emerging technology into real products.**
 
-Software engineer and technical product builder based in Barcelona. Founder & CEO of Glassear, optical see-through AR powered by smartphones, and CTO at TopBrokers, working across AI systems, spatial computing, hardware and production infrastructure.
+Software engineer and technical founder based in Barcelona. Builds agentic AI systems that run in production: CTO at TopBrokers, where LLM and messaging workflows handle over 1,000 conversations a day, and founder of Glassear, whose Studio platform turns natural language into interactive XR applications. A decade of hardware, computer vision and infrastructure underneath.
 
 I started programming at 13. In 2015, still a teenager, I started building Glassear because I wanted AR glasses I couldn't buy. Glassear needed hardware, so I learned hardware; it needed computer vision, so I learned computer vision. Later came backend, infrastructure and AI. The technologies changed; the habit didn't: pick a hard problem, build it, break it, understand why, and build it again until it works outside a demo.
 
