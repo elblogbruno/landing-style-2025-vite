@@ -201,25 +201,94 @@ learned from by machines as well as people, which is the point of the whole agen
 Nothing on this site is gated, rate-limited or blocked by user-agent. `npm test` fails if
 any signal goes back to `no`.
 
-## DNS-AID: deliberately not done
+## DNS-AID
 
-`isitagentready.com` also asks for DNS-AID records (`_index._agents.brunomoya.com` and
-friends, SVCB, DNSSEC-signed). This is skipped on purpose:
+`_index._agents.brunomoya.com` publishes an SVCB record per
+[draft-mozleywilliams-dnsop-dnsaid](https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/)
+and [RFC 9460](https://www.rfc-editor.org/rfc/rfc9460), with a TXT record beside it naming
+the entry points:
 
-- **There is nothing honest to advertise.** DNS-AID points agents at agent endpoints. This
-  domain serves documents, not an A2A or MCP service. A record pointing at a service that
-  does not exist is worse than no record.
-- **HestiaCP cannot emit SVCB records.** DNS here is bind9 driven by Hestia's own record
-  store, which has no SVCB/HTTPS type. Hand-edited zone entries are lost the next time any
-  DNS record changes.
-- **DNSSEC is not set up.** `v-change-dns-domain-dnssec` exists, but the parent zone has no
-  DS record, so signing would also need a step at the registrar.
-- It is an early IETF draft (`draft-mozleywilliams-dnsop-dnsaid`), not a standard.
+```
+_index  IN  SVCB  1 brunomoya.com. alpn="h2,http/1.1" port=443
+_index  IN  TXT   "v=dnsaid1; index=https://brunomoya.com/llms.txt; ..."
+```
 
-If this becomes worth doing, the order is: stand up a real endpoint (an MCP server exposing
-the profile, projects and experience would be the natural one), then enable DNSSEC, then
-publish the records — and at that point a DNS provider with SVCB support is easier than
-fighting Hestia.
+`_index` is what the draft calls a well-known entry point to "a more complete capability
+description via a common schema". It points at the site itself over HTTPS, which is where
+that description lives. **No `_a2a` record is published**: those advertise agent-to-agent
+endpoints and this domain runs none. A record pointing at a service that does not answer is
+worse for an agent than no record.
+
+### Why it is a separate BIND zone
+
+HestiaCP's record store has no SVCB type — `v-add-dns-record admin <domain> _index._agents
+SVCB '...'` answers `Error: invalid dns record type format :: SVCB` — and it regenerates the
+parent zone file from that store, so records added to the parent by hand disappear the next
+time any DNS record changes.
+
+Hestia *does* accept an NS record with an underscore label, so the parent delegates:
+
+```
+_agents  IN  NS  ns1.brunomoya.com.
+_agents  IN  NS  ns2.brunomoya.com.
+```
+
+and `_agents.brunomoya.com` is a zone of its own, defined in `/etc/bind/named.conf.local`
+(which HestiaCP never writes to) with `check-names ignore`, since the apex label starts with
+an underscore. The zone file is versioned here as `deploy/_agents.brunomoya.com.db`.
+
+To update it:
+
+```sh
+scp deploy/_agents.brunomoya.com.db root@45.94.209.47:/etc/bind/agents/
+ssh root@45.94.209.47 "chown root:bind /etc/bind/agents/*.db && chmod 640 /etc/bind/agents/*.db \
+  && named-checkzone _agents.brunomoya.com /etc/bind/agents/_agents.brunomoya.com.db \
+  && rndc reload _agents.brunomoya.com"
+```
+
+Bump the SOA serial on every edit, or secondaries and caches will keep the old copy.
+
+### DNSSEC is still outstanding
+
+The scanner reports *"DNS-AID records found, but DNSSEC was not validated"*. The records
+resolve through both Cloudflare and Google DoH; what is missing is a signed chain, and it
+cannot be finished from the server alone:
+
+```
+.com  --DS-->  brunomoya.com  --DS-->  _agents.brunomoya.com
+        ^                        ^
+        |                        └── add with Hestia once the child zone is signed
+        └── only the registrar can publish this one
+```
+
+The steps, in order:
+
+1. Sign the parent zone:
+
+   ```sh
+   v-change-dns-domain-dnssec admin brunomoya.com yes
+   v-list-dnssec-public-key admin brunomoya.com     # prints the DS record
+   ```
+
+2. **Paste that DS record at the domain registrar.** This is the step no amount of server
+   access can replace: the `.com` zone has to point at the key, and only the registrar can
+   ask it to. Until this exists, signing the zone is invisible — validating resolvers treat
+   an unsigned-at-the-parent zone as insecure and ignore the signatures, which is also why
+   step 1 is safe to do ahead of it.
+
+3. Sign the child zone by adding `dnssec-policy default;` to its stanza in
+   `named.conf.local`, then publish its DS in the parent:
+
+   ```sh
+   dig @127.0.0.1 _agents.brunomoya.com DNSKEY          # take the KSK
+   v-add-dns-record admin brunomoya.com '_agents' DS '<keytag> 13 2 <digest>'
+   ```
+
+4. Re-run the scan. `discoverability.dnsAid` should go from `fail` to `pass`.
+
+Verify at each step that the parent zone still answers for A, MX and the subdomains — these
+domains carry live mail, and a DNSSEC mistake there is far more expensive than a failed
+scanner check.
 
 ## Related agent-facing resources
 

@@ -1,0 +1,39 @@
+; DNS for AI Discovery (DNS-AID) for brunomoya.com
+; draft-mozleywilliams-dnsop-dnsaid, SVCB per RFC 9460.
+;
+; Why this is a separate BIND zone rather than records in the parent:
+; HestiaCP's record store has no SVCB type - `v-add-dns-record ... SVCB` answers
+; "Error: invalid dns record type format :: SVCB" - and it regenerates
+; /home/admin/conf/dns/brunomoya.com.db from that store, so anything added to the
+; parent by hand disappears the next time any DNS record changes. Hestia does
+; accept an NS record named `_agents`, so the parent delegates here and this zone
+; is managed outside the panel.
+;
+; Installed at /etc/bind/agents/_agents.brunomoya.com.db and registered in
+; /etc/bind/named.conf.local, which HestiaCP never writes to. See deploy/README.md.
+
+$TTL 3600
+@       IN  SOA ns1.brunomoya.com. hostmaster.brunomoya.com. (
+                2026091901 ; serial - bump on every edit
+                3600       ; refresh
+                600        ; retry
+                1209600    ; expire
+                3600 )     ; negative caching TTL
+
+        IN  NS  ns1.brunomoya.com.
+        IN  NS  ns2.brunomoya.com.
+
+; _index is the well-known entry point the draft describes as leading to "a more
+; complete capability description via a common schema". It points at the site
+; itself over HTTPS, which is where that description actually lives: /llms.txt,
+; /profile.json, /llms-full.txt and a markdown twin of every page.
+;
+; No _a2a record is published. DNS-AID's other service names advertise
+; agent-to-agent endpoints, and this domain runs none; a record pointing at a
+; service that does not answer is worse for an agent than no record at all.
+_index  IN  SVCB    1 brunomoya.com. alpn="h2,http/1.1" port=443
+
+; The draft allows a TXT record at the same name to carry metadata the SVCB
+; parameters cannot. These are the entry points, so an agent that resolves this
+; name knows what to fetch without a second round trip.
+_index  IN  TXT     "v=dnsaid1; index=https://brunomoya.com/llms.txt; profile=https://brunomoya.com/profile.json; full=https://brunomoya.com/llms-full.txt; markdown=accept-text-markdown"
