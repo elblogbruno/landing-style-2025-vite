@@ -11,7 +11,7 @@ Bruno Moya is a technical founder and software engineer based in Barcelona. Foun
 
 ## Pages
 
-- [Resume](https://brunomoya.com/#experience): career summary, also as [Markdown](https://brunomoya.com/resume.md) and [PDF](https://brunomoya.com/cv-english.pdf).
+- [Resume](https://brunomoya.com/#experience): career summary, also as [Markdown](https://brunomoya.com/resume.md) and [PDF](https://brunomoya.com/cv-english.pdf?v=20261024).
 - [Projects](https://brunomoya.com/#projects): selected work, also as [Markdown](https://brunomoya.com/projects.md).
 - [JobAgent - Autonomous AI Job Search & Application System](https://brunomoya.com/#projects): I use JobAgent to manage my own job search.
 - [TalentGapAnalyzer - AI Workforce Intelligence](https://brunomoya.com/#projects): Winner - UAB The Hack 2025

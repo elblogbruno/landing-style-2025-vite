@@ -13,7 +13,7 @@
     "scrollDown": "Desliza para subir a la siguiente planta",
     "profileImage": "/images-webp/hero/profile.webp",
     "coverImage": "/images-webp/hero/cover-better.webp",
-    "resumeUrl": "/cv-español.pdf",
+    "resumeUrl": "/cv-español.pdf?v=20261024",
     "mobileDescription": "Mi trayectoria como fundador de Glassear e ingeniero de software.",
     "titleAccent": "Fundador e ingeniero.",
     "location": "Ingeniero de software · Barcelona",
@@ -51,7 +51,7 @@
         },
         {
           "text": "CV",
-          "url": "/cv-español.pdf",
+          "url": "/cv-español.pdf?v=20261024",
           "type": "resume",
           "external": true
         }
@@ -2170,7 +2170,7 @@
     "subtitle": "Ponte en Contacto",
     "email": "bruno@glassear.com",
     "location": "Barcelona, España",
-    "resume_link": "/cv-español.pdf",
+    "resume_link": "/cv-español.pdf?v=20261024",
     "locationTitle": "Ubicación",
     "emailTitle": "Correo Electrónico",
     "resumeTitle": "Currículum",

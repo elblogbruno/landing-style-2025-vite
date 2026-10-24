@@ -118,7 +118,7 @@ Spanish, Catalan, English, French
 - [Projects as Markdown](https://brunomoya.com/projects.md)
 - [GitHub](https://github.com/elblogbruno)
 - [LinkedIn](https://www.linkedin.com/in/glassear-bruno/)
-- [Resume PDF](https://brunomoya.com/cv-english.pdf)
+- [Resume PDF](https://brunomoya.com/cv-english.pdf?v=20261024)
 - [Professional contact](mailto:bruno@glassear.com)
 
 This is the extended companion to /llms.txt, which is the short index.
