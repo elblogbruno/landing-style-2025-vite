@@ -19,20 +19,13 @@ const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'd
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [visibleProjectCount, setVisibleProjectCount] = useState(INITIAL_PROJECT_COUNT);
   const [expandedView, setExpandedView] = useState(false);
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
-  const [allProjectsLoaded, setAllProjectsLoaded] = useState(false);
-  
-  // Initialize showSkillsFilter based on window width - hide on mobile by default
-  const [showSkillsFilter, setShowSkillsFilter] = useState(() => {
-    // Check if window is available (client-side)
-    if (typeof window !== 'undefined') {
-      if (window.innerWidth < 768) {
-        return false; // Default to hidden on mobile
-      }
-      return !localStorage.getItem('skillsFilterHidden'); // Show on desktop unless explicitly hidden
-    }
-    return false; // Default to hidden on server-side rendering
-  });
+
+  // Hidden on the first pass, prerender included, so hydration matches the server HTML; the
+  // effect below opens it on desktop unless the visitor hid it.
+  const [showSkillsFilter, setShowSkillsFilter] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth >= 768 && !localStorage.getItem('skillsFilterHidden')) setShowSkillsFilter(true);
+  }, []);
 
   const userToggledRef = useRef(false);
   const wasDesktopRef = useRef(typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
@@ -95,6 +88,11 @@ const Projects: React.FC<Omit<ProjectsProps, 'data'>> = React.memo(({ theme = 'd
     // Return featured projects first, then regular projects
     return [...featured, ...regular];
   }, []);
+
+  // Start from the full, ordered list so the prerender carries the projects; the effect
+  // below derives it again whenever the data changes (e.g. the language).
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(() => getOptimizedProjectList(sortedProjects));
+  const [allProjectsLoaded, setAllProjectsLoaded] = useState(() => sortedProjects.length <= INITIAL_PROJECT_COUNT);
 
   // Update showSkillsFilter when crossing desktop/mobile breakpoint without overriding user manual actions
   useEffect(() => {

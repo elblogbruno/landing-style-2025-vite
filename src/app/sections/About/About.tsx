@@ -31,7 +31,8 @@ const About: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme = 'dark' }) => {
         <h2 id="story-museum-title">{t('about.title')}</h2>
         <p className="story-museum__introduction">{t('about.museumIntro')}</p>
         <div className="story-museum__details">
-          <span>{t('about.currentAge', { count: getCurrentAge() })}</span>
+          {/* The age is computed at build time and again in the browser; they differ after a birthday until the next deploy. */}
+          <span suppressHydrationWarning>{t('about.currentAge', { count: getCurrentAge() })}</span>
           <span>{t('about.exhibitCount', { count: timeline.length })}</span>
         </div>
       </header>

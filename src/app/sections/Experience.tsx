@@ -463,24 +463,9 @@ const Experience: React.FC<ExperienceProps> = React.memo(({ theme = "dark" }) =>
   
   const showMore = useCallback(() => setVisibleItems(totalItems), [totalItems]);
   
-  // Renderizar tarjetas
+  // Renderizar tarjetas. The cards render from the first pass, prerender included: the
+  // roles are the content of this floor, so they are never swapped for placeholders.
   const renderCards = () => {
-    if (!initialLoadComplete) {
-      return Array.from({ length: Math.min(INITIAL_ITEM_COUNT, totalItems) }).map((_, i) => (
-        <div 
-          key={`placeholder-${i}`}
-          className="timeline-item-placeholder" 
-          style={{ 
-            height: '160px',
-            backgroundColor: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.8)',
-            borderRadius: '1rem',
-            margin: '1.5rem 0',
-            transform: 'translateZ(0)'
-          }}
-        />
-      ));
-    }
-    
     return experienceItems.slice(0, visibleItems).map((item, index) => (
       <ExperienceCard
         key={`experience-${index}`}

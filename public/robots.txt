@@ -1,11 +1,8 @@
 User-agent: *
 Allow: /
-# Content Signals: how Bruno Moya prefers this site to be used.
-#   search    = building a search index and linking back to the source.
-#   ai-input  = using the content as input to an AI answer, without training on it.
-#   ai-train  = using the content to train or fine-tune a generative model.
-# yes means allowed, no means not allowed. This site is written to be read by agents,
-# so all three are allowed; see /llms.txt for the machine-readable index.
+# search = building a search index and linking back to the source.
+# ai-input = using content as input to an AI answer, without training on it.
+# ai-train = using content to train or fine-tune a generative model.
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 Sitemap: https://brunomoya.com/sitemap.xml

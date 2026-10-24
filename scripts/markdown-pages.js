@@ -108,7 +108,6 @@ export function renderMarkdownPages({ data, lang, label, formatPeriod, origin, p
           `## ${label('Professional links')}`,
           bullets([
             `[${label('Resume')}](${url('/resume/')})`,
-            `[${label('Experience')}](${url('/experience/')})`,
             `[${label('Projects')}](${url('/projects/')})`,
             `[GitHub](${data.links.github})`,
             `[LinkedIn](${data.links.linkedin})`
@@ -152,19 +151,6 @@ export function renderMarkdownPages({ data, lang, label, formatPeriod, origin, p
   });
 
   pages.push({
-    canonical: '/experience/',
-    relativePath: 'experience/index.md',
-    markdown: page({
-      canonical: '/experience/',
-      title: label('Hands-on technical ownership'),
-      body: blocks([
-        label('Production software, backend systems, infrastructure, AI agents and XR.'),
-        experienceSection
-      ])
-    })
-  });
-
-  pages.push({
     canonical: '/projects/',
     relativePath: 'projects/index.md',
     markdown: page({
@@ -188,6 +174,7 @@ export function renderMarkdownPages({ data, lang, label, formatPeriod, origin, p
           `_${project.category}_`,
           project.description,
           `**${label('Outcome')}:** ${project.outcome}`,
+          project.officialUrl ? `**${es ? 'Página oficial del producto' : 'Official product page'}:** [${project.name}](${project.officialUrl})` : '',
           `## ${label('Problem')}\n\n${project.problem}`,
           blocks([
             `## ${label('What I built')}`,

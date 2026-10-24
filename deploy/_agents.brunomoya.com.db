@@ -14,7 +14,7 @@
 
 $TTL 3600
 @       IN  SOA ns1.brunomoya.com. hostmaster.brunomoya.com. (
-                2026091901 ; serial - bump on every edit
+                2026100902 ; serial - bump on every edit
                 3600       ; refresh
                 600        ; retry
                 1209600    ; expire
@@ -25,8 +25,7 @@ $TTL 3600
 
 ; _index is the well-known entry point the draft describes as leading to "a more
 ; complete capability description via a common schema". It points at the site
-; itself over HTTPS, which is where that description actually lives: /llms.txt,
-; /profile.json, /llms-full.txt and a markdown twin of every page.
+; itself over HTTPS. The personal site now publishes only its bilingual landing.
 ;
 ; No _a2a record is published. DNS-AID's other service names advertise
 ; agent-to-agent endpoints, and this domain runs none; a record pointing at a

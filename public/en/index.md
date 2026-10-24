@@ -1,8 +1,8 @@
 # Bruno Moya: I turn emerging technology into real products.
 
-**AI engineer & technical founder · CTO at TopBrokers · Founder at Glassear**
+**Technical founder · AR hardware and agentic AI · Founder at Glassear · CTO at TopBrokers**
 
-Software engineer and technical founder based in Barcelona. Builds agentic AI systems that run in production: CTO at TopBrokers, where LLM and messaging workflows handle over 1,000 conversations a day, and founder of Glassear, whose Studio platform turns natural language into interactive XR applications. A decade of hardware, computer vision and infrastructure underneath.
+Bruno Moya is a technical founder and software engineer based in Barcelona. Founder and CEO of Glassear and CTO at TopBrokers. His work spans AR hardware, XR software, AI agents and production infrastructure. This personal portfolio documents his contribution, engineering decisions and journey as a founder.
 
 I started programming at 13. In 2015, still a teenager, I started building Glassear because I wanted AR glasses I couldn't buy. Glassear needed hardware, so I learned hardware; it needed computer vision, so I learned computer vision. Later came backend, infrastructure and AI. The technologies changed; the habit didn't: pick a hard problem, build it, break it, understand why, and build it again until it works outside a demo.
 
@@ -16,7 +16,7 @@ Optical see-through AR hardware that uses the user's smartphone as display and c
 - Glassear Studio — spatial creation with AI
 - GlassMusic — first vertical product
 
-[www.glassear.com](https://www.glassear.com/)
+[glassear.com](https://glassear.com/)
 
 ### TopBrokers - CTO (since 2025)
 
@@ -67,11 +67,11 @@ AR and AI don't matter because they're new. They matter the day a musician reads
 
 ### CTO - [TopBrokers.io](https://topbrokers.io/)
 
-2025-11 - Present - Barcelona, Spain
+2025-07 - Present - Mataró, Spain · Remote
 
-Hands-on technical ownership of an AI- and automation-driven real estate technology platform, from architecture and implementation to deployment and operations.
+CTO of a production AI automation platform for real estate (joined Jul 2025, CTO since Nov 2025). Leads a team of three engineers, reports to the CEO and works directly with customers such as Comprarcasa, Housfy and AIC.
 
-### Founder & CEO - [Glassear](https://www.glassear.com/)
+### Founder & CEO - [Glassear](https://glassear.com/)
 
 2015-05 - Present - Barcelona, Spain
 
@@ -89,10 +89,10 @@ An autonomous, agentic job-search platform for role discovery, semantic matching
 
 **Stack:** Python, FastAPI, Celery, PostgreSQL, React, TypeScript, Docker, Playwright, MCP, OpenAI, Anthropic, Gemini
 
-- [Case study](https://brunomoya.com/en/projects/jobagent/)
+- [Case study](https://brunomoya.com/en/#projects)
 - [Repository](https://github.com/elblogbruno/JobAgent)
 
-### [TalentGapAnalyzer - AI Workforce Intelligence](https://brunomoya.com/en/projects/talent-gap-analyzer/)
+### [TalentGapAnalyzer - AI Workforce Intelligence](https://brunomoya.com/en/#projects)
 
 _AI & Agentic Systems_
 
@@ -102,23 +102,23 @@ AI-powered workforce intelligence and talent gap analysis platform built as a te
 
 **Stack:** Python, FastAPI, Pandas, Scikit-learn, React, OpenAI, Anthropic, Gemini
 
-- [Case study](https://brunomoya.com/en/projects/talent-gap-analyzer/)
+- [Case study](https://brunomoya.com/en/#projects)
 - [Repository](https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack)
 
-### [Glassear Studio - Natural Language to Interactive XR](https://platform.glassear.com/)
+### [How I am building Glassear Studio](https://platform.glassear.com/)
 
 _AI & XR_
 
-Glassear Studio translates natural-language intent into structured, synchronized changes to interactive XR applications.
+My work as the founder and engineer of Glassear: the user describes an XR app, and an official coding agent (Claude Code or OpenAI Codex) builds it, tests it and fixes it.
 
-**Outcome:** An AI-native platform for building and modifying interactive XR applications across a web authoring environment and Unity runtime.
+**Outcome:** A fully agentic platform where official coding agents build, test and fix interactive XR apps across a web IDE, a WebXR simulator and the Unity runtime.
 
-**Stack:** TypeScript, React, Node.js, Unity, Python, PostgreSQL, MCP, LLM APIs, XR
+**Stack:** TypeScript, React, Fastify, PostgreSQL, Unity, three.js, WebXR, Rust, Tauri, Docker, MCP, Claude Code, OpenAI Codex, Langfuse
 
-- [Case study](https://brunomoya.com/en/projects/glassear-studio/)
+- [Case study](https://glassear.com/studio/)
 - [Open Glassear Studio](https://platform.glassear.com/)
 
-### [MapAnim — Route Motion Studio](https://brunomoya.com/en/projects/mapanim/)
+### [MapAnim — Route Motion Studio](https://brunomoya.com/en/#projects)
 
 _Creative tools & geospatial visualization_
 
@@ -128,13 +128,13 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 
 **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
 
-- [Case study](https://brunomoya.com/en/projects/mapanim/)
+- [Case study](https://brunomoya.com/en/#projects)
+- [Repository](https://github.com/elblogbruno/MapAnim)
 
 ## Professional links
 
-- [Resume](https://brunomoya.com/en/resume/)
-- [Experience](https://brunomoya.com/en/experience/)
-- [Projects](https://brunomoya.com/en/projects/)
+- [Resume](https://brunomoya.com/en/#experience)
+- [Projects](https://brunomoya.com/en/#projects)
 - [GitHub](https://github.com/elblogbruno)
 - [LinkedIn](https://www.linkedin.com/in/glassear-bruno/)
 

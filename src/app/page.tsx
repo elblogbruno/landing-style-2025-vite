@@ -20,19 +20,28 @@ import ToggleBtn from './components/tglbutton';
 import { SectionKey } from './components/avatar/types';
 import ElevatorPlaceholder from './components/avatar/ElevatorPlaceholder';
 import FloorAtmosphere from './components/FloorAtmosphere';
-import DeferredFloor, { prepareFloorsThrough } from './components/DeferredFloor';
+import DeferredFloor from './components/DeferredFloor';
+// Floor styles ship with the page rather than with each floor's code: the floors' text is in
+// the prerendered HTML, so their styles have to be there before the code arrives.
+import './sections/About/museum.css';
+import './sections/About/timeline.css';
+import './sections/experience-office.css';
+import './sections/talks-stage.css';
+import './sections/awards-room.css';
+import './sections/education-room.css';
+import { defineFloor, prepareFloorsThrough } from './components/floors';
 // import ElevatorButtonsPlaceholder from './components/avatar/ElevatorButtonsPlaceholder';
 
-// Componente de fallback optimizado
-// Lazy loading de componentes con diferentes prioridades
-const floorLoaders = {
-  about: () => import('./sections/About/About'),
-  experience: () => import('./sections/Experience'),
-  projects: () => import('./sections/Projects'),
-  talks: () => import('./sections/Talks'),
-  awards: () => import('./sections/Awards'),
-  education: () => import('./sections/Education'),
-  contact: () => import('./sections/Contact'),
+// Floors: their code is split and loaded near the viewport; their text is prerendered.
+// Defined at module level so the build prerender can load every floor before rendering.
+const floors = {
+  about: defineFloor('about', () => import('./sections/About/About')),
+  experience: defineFloor('experience', () => import('./sections/Experience')),
+  projects: defineFloor('projects', () => import('./sections/Projects')),
+  talks: defineFloor('talks', () => import('./sections/Talks')),
+  awards: defineFloor('awards', () => import('./sections/Awards')),
+  education: defineFloor('education', () => import('./sections/Education')),
+  contact: defineFloor('contact', () => import('./sections/Contact')),
 };
 
 // Componentes pesados con carga diferida y prioridad reducida
@@ -446,37 +455,37 @@ const Portfolio = () => {
               {/* All other sections loaded directly without complex visibility tracking */}
               <section id="about" className="section-container scroll-mt-16" data-section-id="about">
                 <FloorAtmosphere section="about" theme={themeValue} />
-                <DeferredFloor id="about" load={floorLoaders.about} theme={themeValue}><HowIThink theme={themeValue} /></DeferredFloor>
+                <DeferredFloor floor={floors.about} theme={themeValue}><HowIThink theme={themeValue} /></DeferredFloor>
               </section>
               
               <section id="experience" className="section-container scroll-mt-16" data-section-id="experience">
                 <FloorAtmosphere section="experience" theme={themeValue} />
-                <DeferredFloor id="experience" load={floorLoaders.experience} theme={themeValue} />
+                <DeferredFloor floor={floors.experience} theme={themeValue} />
               </section>
 
               <section id="projects" className="section-container scroll-mt-16" data-section-id="projects">
                 <FloorAtmosphere section="projects" theme={themeValue} />
-                <DeferredFloor id="projects" load={floorLoaders.projects} theme={themeValue} />
+                <DeferredFloor floor={floors.projects} theme={themeValue} />
               </section>
               
               <section id="talks" className="section-container scroll-mt-16" data-section-id="talks">
                 <FloorAtmosphere section="talks" theme={themeValue} />
-                <DeferredFloor id="talks" load={floorLoaders.talks} theme={themeValue} />
+                <DeferredFloor floor={floors.talks} theme={themeValue} />
               </section>
               
               <section id="awards" className="section-container scroll-mt-16" data-section-id="awards">
                 <FloorAtmosphere section="awards" theme={themeValue} />
-                <DeferredFloor id="awards" load={floorLoaders.awards} theme={themeValue} />
+                <DeferredFloor floor={floors.awards} theme={themeValue} />
               </section>
               
               <section id="education" className="section-container scroll-mt-16" data-section-id="education">
                 <FloorAtmosphere section="education" theme={themeValue} />
-                <DeferredFloor id="education" load={floorLoaders.education} theme={themeValue} />
+                <DeferredFloor floor={floors.education} theme={themeValue} />
               </section>
               
               <section id="contact" className="section-container scroll-mt-16" data-section-id="contact">
                 <FloorAtmosphere section="contact" theme={themeValue} />
-                <DeferredFloor id="contact" load={floorLoaders.contact} theme={themeValue} />
+                <DeferredFloor floor={floors.contact} theme={themeValue} />
               </section>
             </main>
           </div>

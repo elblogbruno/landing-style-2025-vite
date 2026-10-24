@@ -2,9 +2,9 @@
   "hero": {
     "badge": "Planta 0 · Vestíbulo",
     "name": "Bruno Moya",
-    "title": "De una idea a un",
-    "subtitle": "Ingeniero de IA y fundador técnico · CTO en TopBrokers · Fundador de Glassear",
-    "description": "Empecé a programar a los 13 y a construir Glassear en 2015. Hoy desarrollo software, realidad aumentada y los sistemas que los hacen funcionar.",
+    "title": "Soy Bruno Moya.",
+    "subtitle": "Fundador de Glassear · CTO en TopBrokers",
+    "description": "Esta es mi web personal. Comparto mi trayectoria como fundador de Glassear, las decisiones detrás de sus gafas y software de realidad aumentada, y mi trabajo construyendo sistemas en producción.",
     "primaryCta": "Lo que estoy construyendo",
     "secondaryCta": "Leer mi historia",
     "experienceCta": "Ver experiencia",
@@ -14,8 +14,8 @@
     "profileImage": "/images-webp/hero/profile.webp",
     "coverImage": "/images-webp/hero/cover-better.webp",
     "resumeUrl": "/cv-español.pdf",
-    "mobileDescription": "Construyo entre IA, computación espacial y sistemas de producción.",
-    "titleAccent": "producto real.",
+    "mobileDescription": "Mi trayectoria como fundador de Glassear e ingeniero de software.",
+    "titleAccent": "Fundador e ingeniero.",
     "location": "Ingeniero de software · Barcelona",
     "buildingWelcome": "Mi trayectoria, planta a planta.",
     "buildingHint": "Desliza o usa el ascensor para visitar las plantas.",
@@ -60,7 +60,7 @@
     "floors": {
       "hero": {
         "description": "Vestíbulo",
-        "pitchLine": "Construyo sistemas de IA agéntica que funcionan en producción. CTO en TopBrokers, fundador de Glassear."
+        "pitchLine": "Convierto tecnología emergente en productos reales — hardware AR en Glassear, IA agéntica en producción. CTO en TopBrokers."
       },
       "about": {
         "description": "Mi historia",
@@ -266,7 +266,7 @@
         "title": "Empecé a construir gafas AR siendo adolescente",
         "body": "Quería unas gafas AR que no podía comprar, así que intenté construirlas. Prototipo tras prototipo, aprendí impresión 3D, óptica, electrónica y Unity.",
         "imgSrc": "/images-webp/timeline/glassear_inception.webp",
-        "link": "https://www.glassear.com/",
+        "link": "https://glassear.com/",
         "btnText": "Conocer Glassear"
       },
       {
@@ -321,7 +321,7 @@
         "imageCaption": "La presentación de GlassMusic en el MWC 2026 está disponible, descárgala aquí",
         "imageCaptionLink": "https://glassear.com/es/whitepaper/glassmusic-presentacion-2026/",
         "imageCaptionLinkText": "Descargar",
-        "link": "https://www.glassear.com/",
+        "link": "https://glassear.com/",
         "btnText": "Glassear"
       },
       {
@@ -358,39 +358,43 @@
         "title": "CTO",
         "company": "TopBrokers.io",
         "companyUrl": "https://topbrokers.io/",
-        "period": "Nov 2025 - Present",
-        "location": "Barcelona, España",
-        "description": "Como CTO en TopBrokers.io, trabajo en la arquitectura y el desarrollo del software, las APIs y la automatización. También me encargo de la infraestructura, el despliegue y el mantenimiento de los sistemas en producción.",
-        "moreInfo": "Arquitectura y Sistemas: Diseño de microservicios backend y APIs REST para flujos transaccionales de alta fiabilidad e ingesta de datos en tiempo real.\n\nInfraestructura y Operaciones: Gestión de servidores Linux en cloud y bare-metal, contenedores Docker, virtualización Proxmox, redes, proxies inversos, estrategias de copias de seguridad automatizadas y monitorización centralizada.\n\nBases de Datos: Diseño de esquemas PostgreSQL, indexación, replicación y optimización de consultas.\n\nAutomatización y Flota: Construcción de sistemas de automatización distribuida y herramientas de gestión de flotas y dispositivos.",
-        "summary": "CTO hands-on responsable de la arquitectura de software, ingeniería de backend y operaciones de producción de alta disponibilidad.",
+        "period": "Jul 2025 - Presente",
+        "location": "Mataró, España · Remoto",
+        "description": "CTO en TopBrokers.io, una plataforma de automatización con IA en producción para el sector inmobiliario. Lidero un equipo de tres ingenieros, reporto directamente al CEO y trabajo con clientes como Comprarcasa, Housfy y AIC. Me incorporé en julio de 2025; CTO desde noviembre de 2025.",
+        "moreInfo": "Granja de dispositivos remota: Construí desde cero un sistema distribuido que controla en remoto más de 140 móviles Android para operar WhatsApp de forma nativa, monitorizarlos y automatizar mensajería a escala. Diseñado y entregado de principio a fin; el único subsistema nuevo de la plataforma.\n\nBackend y mensajería: Desarrollo y amplío servicios Python/FastAPI sobre PostgreSQL, con flujos asíncronos orientados a eventos en RabbitMQ y Celery que coordinan agentes de IA, colas y servicios distribuidos. Desarrollo y opero whatsapp-srv, el servicio en TypeScript/Node.js que integra WhatsApp, enruta y entrega los mensajes. Los flujos de LLM y WhatsApp procesan miles de conversaciones entrantes, con picos diarios de más de 1.000.\n\nProducto y herramientas internas: Desarrollo el CRM interno en Flutter. Construí un editor visual de journeys (React Flow, FastAPI, PostgreSQL) con un sandbox de chat que ejecuta paso a paso los flujos de IA de WhatsApp contra la API de OpenAI antes de publicarlos, y un visor para seguir las ejecuciones en directo y reintentar las fallidas. Desarrollo una plataforma distribuida de scraping inmobiliario que procesa miles de anuncios al día.\n\nIngeniería con agentes: Integré Sentry en el servicio principal de WhatsApp y conecté Codex a Sentry por MCP, para que un agente lea los errores recientes de producción, los localice en el código y proponga correcciones para revisar. Construí un servidor MCP para la plataforma interna de tareas (Python, FastMCP, RPC de Supabase; 20 herramientas) y empaqueté un cambio recurrente entre varios repositorios como una skill de plugin de Codex.\n\nInfraestructura: Mejoré la fiabilidad y la observabilidad con monitorización, logs, health checks y alertas. Reduje el coste de la nube de ~2.500 €/mes a ~600 €/mes rediseñando la arquitectura y migrando a una infraestructura más eficiente.",
+        "summary": "CTO hands-on de una plataforma de automatización con IA en producción para el sector inmobiliario: agentes de IA, automatización de WhatsApp a escala y una granja de más de 140 móviles.",
         "highlights": [
-          "Diseño de microservicios distribuidos, APIs resilientes y pipelines de automatización en tiempo real",
-          "Gestión de servidores Linux en producción, Docker, PostgreSQL, redes y copias de seguridad automatizadas",
-          "Liderazgo técnico y desarrollo, desde las decisiones de arquitectura hasta el despliegue"
+          "Construí desde cero una granja de dispositivos que controla más de 140 móviles Android para automatizar WhatsApp a escala",
+          "Lidero un equipo de tres ingenieros; flujos de LLM y WhatsApp con picos de más de 1.000 conversaciones al día",
+          "Reduje el coste de infraestructura en la nube de ~2.500 €/mes a ~600 €/mes",
+          "Conecté Codex a Sentry por MCP y construí un servidor MCP para la plataforma interna de tareas"
         ],
         "skills": [
-          "PostgreSQL",
-          "Docker",
-          "Linux",
-          "FastAPI",
           "Python",
-          "Redes",
+          "FastAPI",
+          "TypeScript",
+          "PostgreSQL",
+          "RabbitMQ",
+          "Celery",
+          "Flutter",
+          "MCP",
           "Agentes IA",
-          "MCP"
+          "Docker"
         ]
       },
       {
         "logo": "/images-webp/experience/experience-glassear.webp",
         "title": "Fundador y CEO",
         "company": "Glassear",
-        "companyUrl": "https://www.glassear.com/",
+        "companyUrl": "https://glassear.com/",
         "period": "Mayo 2015 - Presente",
         "location": "Barcelona, España",
         "description": "Empecé Glassear en 2015 para construir unas gafas AR que no podía comprar, y no he dejado de iterar desde entonces. Hoy es Glassear One, un visor óptico de visión directa que funciona con el smartphone del usuario, además de Glassear Studio, una plataforma AI-native para crear apps espaciales, y GlassMusic, su primer caso de uso real.",
-        "moreInfo": "Hardware y XR: Diseño de sistemas ópticos AR/MR personalizados, chasis mecánicos en 3D, electrónica embebida e integración de sensores. Pipelines de visión por computador (OpenCV, YOLO) y protocolos Java para Android (USB Accessory, Screen Recording API) para comunicación de baja latencia. Arquitectura de runtime en Unity 3D y AR Foundation.\n\nGlassear Studio: Plataforma de creación mediante lenguaje natural con AI Planner, Intent Graph, especificación GLX, agentes con herramientas vía MCP y capas de validación deterministas sincronizadas con el runtime de Unity. Plataforma web en React, TypeScript y Node.js.\n\nReconocimientos: Seleccionada entre las 50 startups con más proyección de Catalunya por ACCIÓ (Catalan Pitch Competition 2025), GlassMusic en el 4YFN/MWC 2025 y 2026, 2.º Premio Profesional en Maker Faire Galicia 2018, miembro del jurado en 2019, ponente en Google Developer Groups (GDG).",
+        "moreInfo": "Hardware y XR: Diseño de sistemas ópticos AR/MR personalizados, chasis mecánicos en 3D, electrónica embebida e integración de sensores. Pipelines de visión por computador (OpenCV, YOLO) y protocolos Java para Android (USB Accessory, Screen Recording API) para comunicación de baja latencia. Arquitectura de runtime en Unity 3D y AR Foundation.\n\nGlassear Studio: Plataforma totalmente agéntica para crear apps XR con lenguaje natural: el usuario describe la app y un agente de programación oficial (Claude Code u OpenAI Codex) la construye, la prueba y la corrige. En 2026 Studio pasó de un AI Planner e Intent Graph propios a orquestar agentes de programación oficiales: el agente del proveedor se encarga de la planificación y del bucle de herramientas; Studio, de las sesiones, la autenticación, el aislamiento, la observabilidad y la validación del resultado. Una capa común de adaptadores cubre Codex y Claude Code en producción, y GitHub Copilot, Cursor, OpenCode, Kimi, Mistral Vibe y Kiro tras feature flags. Los agentes tienen más de 100 herramientas MCP para crear, compilar, maquetar y probar apps, con clics, mirada y agarres simulados y captura de fotogramas, para que comprueben su propio trabajo en una vista previa XR privada. Un servidor MCP remoto (Streamable HTTP con OAuth) abre esas mismas herramientas a ChatGPT, Claude y otros clientes MCP. Cada ejecución se traza con Langfuse sobre OpenTelemetry, con tokens y coste por ejecución.\n\nStack de Studio: Monorepo TypeScript con un IDE en React (editor Monaco), una API Fastify sobre PostgreSQL con streaming por WebSocket, un simulador WebXR sobre three.js/IWSDK y un puente que controla el runtime de Unity mediante parches de escena estructurados. En la nube, los agentes se ejecutan en un sandbox Docker con proxy de salida y tokens MCP efímeros por ejecución; en local, a través de Glassear Agent, un servicio en Rust que se distribuye en una app de escritorio Tauri 2. Más de 200 ficheros de tests garantizan los contratos entre API, web, SDK y runtime.\n\nWeb y automatización: Web de la empresa construida en Next.js y rehecha después en Astro. Instancia propia de n8n (ai.glassear.com) para los flujos de producción de glassear.com y glassmusic.app.\n\nReconocimientos: Seleccionada entre las 50 startups con más proyección de Catalunya por ACCIÓ (Catalan Pitch Competition 2025), GlassMusic en el 4YFN/MWC 2025 y 2026, 2.º Premio Profesional en Maker Faire Galicia 2018, miembro del jurado en 2019, ponente en Google Developer Groups (GDG).",
         "summary": "Hardware AR óptico de visión directa, una plataforma XR AI-native y un primer caso de uso real: GlassMusic.",
         "highlights": [
-          "Desarrollo de Glassear Studio para crear y modificar aplicaciones XR mediante lenguaje natural",
+          "Desarrollo de Glassear Studio, donde agentes de programación oficiales (Claude Code, Codex) crean, prueban y corrigen apps XR desde lenguaje natural con más de 100 herramientas MCP",
+          "Desarrollo de Glassear Agent en Rust: un servicio de agente local que se distribuye en una app de escritorio Tauri 2",
           "Diseño de óptica para headset AR/MR, electrónica embebida y visión por computador en tiempo real (OpenCV, YOLO)",
           "Desarrollo de protocolos Android Java de baja latencia (USB Accessory, Screen Recording) para Unity AR Foundation"
         ],
@@ -400,9 +404,11 @@
           "Visión por Computador",
           "AR Foundation",
           "MCP",
-          "AI Planner",
+          "Agentes de programación",
           "TypeScript",
-          "React"
+          "React",
+          "Rust",
+          "Langfuse"
         ]
       },
       {
@@ -412,41 +418,44 @@
         "companyUrl": "https://patient73.org/",
         "period": "Jul 2022 - Ene 2025",
         "location": "Barcelona, España",
-        "description": "Colaboración con la organización sin ánimo de lucro Fecamm (Federació Catalana de malalties minoritàries), en el proceso de introducir juegos en su plataforma para que personas con enfermedades raras puedan jugar. En relación con esto, hemos organizado una GameJam de un mes de duración en colaboración con UAB, UPC y varios hospitales. En la segunda edición (2024), coordiné un evento que contó con más de 100 participantes de todo el mundo y un premio total de 11.000 €. Compartimos todos los videojuegos creados con hospitales de toda España para ofrecer momentos de diversión y aprendizaje a niños con enfermedades raras.",
+        "description": "Responsable técnico para FECAMM (Federació Catalana de Malalties Minoritàries) en Patient73, una plataforma de juegos terapéuticos adaptados para pacientes con enfermedades minoritarias. Me encargué de la dirección técnica y de los requisitos de accesibilidad (coordinación, no implementación directa) y organicé dos game jams de alcance internacional. Compartimos los videojuegos creados con hospitales de toda España para ofrecer momentos de diversión y aprendizaje a niños con enfermedades raras.",
         "moreInfo": "",
-        "summary": "Lideré la arquitectura técnica y la accesibilidad de una plataforma de juegos terapéuticos adaptados para pacientes con enfermedades minoritarias.",
+        "summary": "Dirección técnica y requisitos de accesibilidad de una plataforma de juegos terapéuticos para pacientes con enfermedades minoritarias.",
         "highlights": [
-          "Desarrollo de protocolos de integración y adaptadores de accesibilidad para periféricos adaptados",
-          "Coorganización de una GameJam de un mes con UAB, UPC y hospitales de referencia"
+          "Definí los requisitos de los protocolos de integración y de los adaptadores de accesibilidad, para que pacientes con movilidad reducida pudieran jugar con su propio hardware de asistencia",
+          "1.ª Game Jam, organizada en remoto desde Montreal: más de 10 videojuegos y más de 3.500 € en premios, con la entrega de premios en la UPC",
+          "2.ª Game Jam, de un mes, con varias universidades, el RCD Espanyol y hospitales de referencia: más de 100 videojuegos y 11.000 € en premios, con la entrega de premios en el Ajuntament de Barcelona"
         ],
         "skills": [
-          "Arquitectura de Juegos",
+          "Liderazgo Técnico",
           "Accesibilidad",
-          "Unity",
-          "Integración Web",
-          "Liderazgo Técnico"
+          "Hardware de asistencia",
+          "Game Jams",
+          "Coordinación"
         ]
       },
       {
         "logo": "/images-webp/experience/hess.svg",
-        "title": "Desarrollador Freelance",
+        "title": "Ingeniero de producto full-stack (freelance)",
         "company": "Evalua-lo.com",
         "companyUrl": "https://cianeconsulting.com/hess-test/es/?page=0",
         "period": "Sept 2024 - Feb 2025",
         "location": "Remoto",
-        "description": "Desarrollo del Test Hess: Creación de una aplicación para evaluación psicológica en recursos humanos, con React en el frontend y PHP en el backend. La herramienta, validada científicamente por su creador, Gaspar, es utilizada por empresas del sector para selección y análisis de talento.",
-        "moreInfo": "Implementación de bases de datos, envío automatizado de correos y gestión de usuarios en un entorno basado en WordPress. Uso de colas de procesamiento para alto rendimiento en sistemas con recursos limitados, optimizando la ejecución en hosting compartido. Garantizar compatibilidad multiplataforma y optimización para diferentes dispositivos y navegadores. Desarrollo del backend como plugin de WordPress, facilitando la integración con otros sistemas.",
-        "summary": "Desarrollo y entrega en producción del Test Hess: sistema validado científicamente para evaluación psicológica en selección de talento de RRHH.",
+        "description": "Para Ciane Consulting construí el Test Hess de principio a fin: un SaaS de evaluación psicológica para equipos de RR. HH., desde el concepto de producto y la web pública hasta el producto de pago y la entrega. React en el frontend y PHP/WordPress en el backend, con arquitectura MVC. La herramienta, validada científicamente por su creador, Gaspar, la usan empresas del sector para selección y análisis de talento.",
+        "moreInfo": "Pagos: Implementé Stripe como capa de pago, conectando el checkout con el acceso de pago a la evaluación.\n\nIA: Integré la API de OpenAI para convertir cada cuestionario completado en un resumen en lenguaje claro de las respuestas, junto a la puntuación basada en estudios que genera el informe que leen los reclutadores.\n\nArquitectura: Diseñé la base de datos, los flujos de usuario, los correos automáticos, la lógica de puntuación y las colas de procesamiento dentro de los límites de un hosting compartido, sin infraestructura dedicada. Backend entregado como plugin de WordPress.",
+        "summary": "Construí y lancé el Test Hess de principio a fin: un SaaS de pago de evaluación psicológica para equipos de RR. HH.",
         "highlights": [
-          "Frontend interactivo en React con validación anti-manipulación y máquinas de estado para puntuación",
-          "Procesamiento asíncrono en colas y motor de emails transaccionales optimizado para hosting compartido"
+          "Producto completo: frontend en React y backend PHP/WordPress con arquitectura MVC",
+          "Pagos con Stripe y un resumen generado con OpenAI de cada cuestionario completado",
+          "Lógica de puntuación, correos automáticos y colas de procesamiento dentro de un hosting compartido"
         ],
         "skills": [
           "React",
-          "TypeScript",
           "PHP",
-          "WordPress API",
-          "MySQL",
+          "WordPress",
+          "Stripe",
+          "API de OpenAI",
+          "MVC",
           "Colas de Procesamiento"
         ]
       },
@@ -818,13 +827,45 @@
       {
         "name": "Playwright",
         "category": "other"
+      },
+      {
+        "name": "Rust",
+        "category": "backend"
+      },
+      {
+        "name": "Tauri",
+        "category": "frontend"
+      },
+      {
+        "name": "Kotlin",
+        "category": "mobile"
+      },
+      {
+        "name": "Flutter",
+        "category": "mobile"
+      },
+      {
+        "name": "Home Assistant",
+        "category": "iot-hardware"
+      },
+      {
+        "name": "Supabase",
+        "category": "backend"
+      },
+      {
+        "name": "React Three Fiber",
+        "category": "frontend"
+      },
+      {
+        "name": "Coding Agents",
+        "category": "ai-ml"
       }
     ],
     "items": [
       {
         "id": 1,
-        "title": "Glassear y Glassear Studio",
-        "description": "Gafas de realidad mixta que combinan hardware propio y software XR. El proyecto incluye Glassear Studio, una herramienta para crear y modificar aplicaciones interactivas mediante lenguaje natural.",
+        "title": "Mi trabajo en Glassear y Glassear Studio",
+        "description": "Como fundador de Glassear, diseño el hardware y construyo el software que lo acompaña. Glassear Studio es una plataforma totalmente agéntica: describes una app XR y un agente de programación oficial (Claude Code u OpenAI Codex) la construye, la prueba con más de 100 herramientas MCP en una vista previa XR privada y la corrige.",
         "imageUrl": "/images-webp/projects/glassear-studio.webp",
         "skills": [
           "AR",
@@ -833,8 +874,11 @@
           "Hardware",
           "Agentic AI",
           "MCP",
+          "Claude Code",
+          "OpenAI Codex",
           "Unity",
-          "TypeScript"
+          "TypeScript",
+          "Rust"
         ],
         "demoUrl": "https://platform.glassear.com/",
         "demoLabel": "Abrir Glassear Studio",
@@ -848,13 +892,16 @@
       {
         "id": 2,
         "title": "NotionAI MyMind",
-        "description": "Este repositorio utiliza IA y la maravillosa herramienta Notion para permitirte añadir cualquier cosa de la web a tu \"Mente\" y olvidarte de todo lo demás.",
+        "description": "\"Segundo cerebro\" de código abierto: guarda cualquier texto, enlace, imagen, audio o vídeo desde el navegador o el móvil en una base de datos de Notion con buscador. En 2020, dos años antes de ChatGPT, las imágenes se etiquetaban solas con visión por computador (InceptionV3 o Clarifai). 284 estrellas en GitHub y más de 700 usuarios activos; después pasó a llamarse Brainmate.",
         "imageUrl": "/images-webp/projects/notionai-mymind.webp",
         "skills": [
           "Python",
           "IA",
+          "Computer Vision",
           "API de Notion",
-          "Extensiones de Navegador"
+          "Extensiones de Navegador",
+          "Flutter",
+          "Docker"
         ],
         "githubUrl": "https://elblogbruno.github.io/NotionAI-MyMind/",
         "featured": true,
@@ -1314,8 +1361,6 @@
           "React"
         ],
         "githubUrl": "https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack",
-        "demoUrl": "/projects/talent-gap-analyzer/",
-        "demoLabel": "Ver caso de estudio",
         "featured": true,
         "date": "2025-04-13",
         "startDate": "2025-04-11",
@@ -1326,17 +1371,21 @@
       {
         "id": 30,
         "title": "GlassMusic by Glassear",
-        "description": "Realidad aumentada manos libres para músicos: partituras y contenido musical a la vista mientras tocas, sobre el hardware de Glassear. El primer vertical construido sobre la plataforma Glassear.",
+        "description": "Realidad aumentada manos libres para músicos: la partitura a la vista mientras tocas, sobre Glassear One. Una app AR en Unity que avanza compases inclinando la cabeza y ancla la partitura a la palma de la mano, y una plataforma web para profesores y alumnos (FastAPI, Supabase, React) con detección óptica de compases en Celery. Con el apoyo de la Càtedra UAB–Cruïlla de Música y Tecnología.",
         "story": "El hardware necesita una razón para existir. Para Glassear, la primera fueron los músicos peleándose con las partituras. Lo llevamos al 4YFN del MWC en 2025 y 2026.",
         "imageUrl": "/images-webp/projects/image_piano.webp",
         "skills": [
           "AR",
           "Mixed Reality",
           "Unity",
+          "Computer Vision",
+          "FastAPI",
+          "Supabase",
+          "React",
           "Hardware",
-          "Product"
+          "Music"
         ],
-        "demoUrl": "https://www.glassear.com/",
+        "demoUrl": "https://glassmusic.app",
         "featured": true,
         "order": 4,
         "date": "2024-01-01",
@@ -1346,7 +1395,7 @@
       {
         "id": 110,
         "title": "MapAnim — Route Motion Studio",
-        "description": "Editor de mapas animados con itinerarios, control de cámara, línea de tiempo y exportación de vídeo MP4. Desarrollado con React, TypeScript y MapLibre GL.",
+        "description": "Estudio de animación de mapas de viaje donde la vista previa y la exportación final comparten una misma función de escena, así que el vídeo coincide fotograma a fotograma con lo que ves. Cálculo geodésico de rutas, un director de cámara cinematográfico y renderizado headless con Playwright y FFmpeg a H.264, ProRes 422, secuencias PNG y capas con transparencia.",
         "story": "De un itinerario a una historia animada: un mismo motor de escenas alimenta la vista previa del editor y la exportación de vídeo fotograma a fotograma.",
         "order": 5,
         "imageUrl": "/images-webp/projects/mapanim.webp",
@@ -1355,14 +1404,86 @@
           "TypeScript",
           "MapLibre GL",
           "Zustand",
+          "Supabase",
           "FFmpeg",
           "Playwright"
         ],
-        "githubUrl": null,
-        "demoUrl": "/projects/mapanim/",
-        "demoLabel": "Ver proyecto",
+        "githubUrl": "https://github.com/elblogbruno/MapAnim",
         "featured": true,
         "date": "2026-09-18"
+      },
+      {
+        "id": 111,
+        "title": "Glassear Agent",
+        "description": "El agente local de Glassear Studio, escrito en Rust: un servicio glassear-agentd dividido en crates (protocolo, núcleo, seguridad, transporte, almacenamiento, procesos y proveedores de Codex y Claude), distribuido en una app de escritorio Tauri 2 que lo ejecuta como sidecar.",
+        "story": "Hay quien quiere el agente en su propio ordenador, no en mi nube. Así que el agente también funciona en local.",
+        "featured": true,
+        "skills": [
+          "Rust",
+          "Tauri",
+          "Coding Agents",
+          "MCP"
+        ],
+        "demoUrl": "https://glassear.com/",
+        "date": "2026-01-01",
+        "startDate": "2026-01-01",
+        "endDate": ""
+      },
+      {
+        "id": 112,
+        "title": "Smart Dashcam",
+        "description": "Dashcam con Raspberry Pi 4 que graba carretera y cabina a la vez y sabe dónde está: compara la posición GPS con una base de datos de puntos de interés de OpenStreetMap y, cerca de uno, lo anuncia en voz alta (Piper TTS sin conexión) y pasa a grabar en alta calidad. Backend Python/FastAPI y una PWA en React que funciona a través del propio punto de acceso Wi-Fi de la dashcam.",
+        "story": "La construí para un viaje por la Ruta 66 en 2025. Sustituye a la primera versión que hice para un viaje en 2024.",
+        "featured": true,
+        "skills": [
+          "Python",
+          "FastAPI",
+          "React",
+          "Raspberry Pi",
+          "IoT",
+          "Travel"
+        ],
+        "githubUrl": "https://github.com/elblogbruno/dashcam-v2",
+        "date": "2025-01-01",
+        "startDate": "2025-01-01",
+        "endDate": ""
+      },
+      {
+        "id": 113,
+        "title": "Ivy Hub",
+        "description": "Una segunda vida para el Lenovo Smart Display después de que Google dejara de darle soporte: una app nativa en Flutter sobre Android Things rooteado sustituye la interfaz original y habla directamente con Home Assistant, con satélite de voz Wyoming, muro de cámaras, videollamadas en la red local y Spotify Connect gracias a una capa nativa en Kotlin.",
+        "story": "Google dejó de dar soporte a mi pantalla inteligente. En vez de tirarla, le di un cerebro nuevo.",
+        "featured": true,
+        "skills": [
+          "Flutter",
+          "Kotlin",
+          "Android",
+          "Home Assistant",
+          "Smart Home",
+          "Voice Assistant"
+        ],
+        "githubUrl": "https://github.com/elblogbruno/ivy-hub",
+        "date": "2026-01-01",
+        "startDate": "2026-01-01",
+        "endDate": ""
+      },
+      {
+        "id": 114,
+        "title": "brunomoya.com",
+        "description": "Esta web: un front end TypeScript/React de 66 componentes con React Three Fiber, Framer Motion e i18n en español e inglés. Lighthouse 100 en accesibilidad, buenas prácticas y SEO, y una capa legible por agentes (negociación de contenido en Markdown, llms.txt y profile.json) generada desde una única fuente de verdad.",
+        "story": "Un portfolio que las personas pueden recorrer y que los agentes de IA también pueden leer.",
+        "featured": true,
+        "skills": [
+          "React",
+          "TypeScript",
+          "React Three Fiber",
+          "Web Development",
+          "LLM"
+        ],
+        "demoUrl": "https://brunomoya.com/",
+        "date": "2025-01-01",
+        "startDate": "2025-01-01",
+        "endDate": ""
       }
     ],
     "subtitle": "Cada proyecto empieza por por qué existe. El stack, el código y los enlaces vienen justo después.",
@@ -1630,6 +1751,16 @@
         "postUrl": "https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj",
         "image": "/images-webp/awards/panama-2022.webp",
         "featured": false
+      },
+      {
+        "id": 109,
+        "title": "Future is coming: tecnologías emergentes",
+        "event": "COECYS 2022 - Universidad de San Carlos de Guatemala",
+        "location": "Virtual",
+        "description": "Charla en el Congreso Nacional de Estudiantes de Ingeniería en Ciencias y Sistemas (COECYS) de la Universidad de San Carlos de Guatemala.",
+        "date": "2022-09",
+        "featured": false,
+        "image": "/images-webp/talks/guatemala_coecys.webp"
       }
     ],
     "contactText": "¿Te interesa invitarme a dar una charla?"
@@ -2213,12 +2344,14 @@
     "awards": "Premios"
   },
   "footer": {
-    "portfolio": "Bruno Moya",
+    "portfolio": "Web personal de Bruno Moya",
     "developerEntrepreneur": "Fundador de Glassear · CTO en TopBrokers",
     "light": "Claro",
     "dark": "Oscuro",
     "navigation": "Navegación",
     "viewResume": "Ver Currículum",
+    "resumePage": "Currículum completo",
+    "caseStudies": "Casos de estudio",
     "allRightsReserved": "Todos los Derechos Reservados",
     "madeWithLove": "Hecho con ❤️ en Barcelona",
     "visit": "Visitar",
@@ -2275,7 +2408,7 @@
         "links": [
           {
             "label": "glassear.com",
-            "href": "https://www.glassear.com/"
+            "href": "https://glassear.com/"
           },
           {
             "label": "Ver Glassear Studio",

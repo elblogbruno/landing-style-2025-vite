@@ -1,4 +1,4 @@
-import { prepareFloorsThrough } from '../components/DeferredFloor';
+import { prepareFloorsThrough } from '../components/floors';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { track } from '../utils/umami-analytics';
 import { SectionKey } from '../components/avatar/types';

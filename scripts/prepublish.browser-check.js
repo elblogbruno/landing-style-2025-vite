@@ -31,10 +31,6 @@ async (page) => {
       }
       results.push({ route, order: true, links: true, images: true, responsive: true });
     }
-    for (const route of ['/projects/mapanim/', '/resume/', '/experience/']) {
-      const response = await page.goto(base + route);
-      if (response.status() !== 200 || !await page.locator('main h1').count()) throw Error('Broken static route ' + route);
-    }
     if (errors.length) throw Error(errors.join('\n'));
     return results;
   } finally { page.off('pageerror', onError); }

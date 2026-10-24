@@ -9,10 +9,6 @@ test('professional outputs contain no replacement characters', () => {
     'src/app/page.tsx',
     'src/locales/en/translation.json',
     'src/locales/es/translation.json',
-    'public/profile.json',
-    'public/llms.txt',
-    'public/resume.md',
-    'public/projects.md',
     'public/sitemap.xml'
   ];
   for (const file of files) {

@@ -167,7 +167,7 @@ ContactInfo.displayName = 'ContactInfo';
 
 export const FooterComponent = React.memo(({ setIsDarkMode, isDarkMode }: FooterProps) => {
   const { t } = useTranslation();
-  
+
   // Memoizar datos para evitar recreaciones en cada renderizado
   const contactData = useMemo(() => ({
     email: t('contact.email'),

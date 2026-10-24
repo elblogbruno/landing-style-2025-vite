@@ -4,7 +4,7 @@ export function spanishProfile(data, site) {
   Object.assign(translated.person, {
     headline: site.hero.subtitle,
     tagline: 'Convierto tecnología emergente en productos reales.',
-    description: 'Ingeniero de software en Barcelona. Fundador y CEO de Glassear, gafas de realidad aumentada que utilizan el móvil como pantalla y ordenador, y CTO en TopBrokers. Trabajo en software, computación espacial, hardware e infraestructura de producción.'
+    description: 'Bruno Moya, fundador y CEO de Glassear, ingeniero de software en Barcelona y CTO en TopBrokers. En este portfolio personal documento mi contribución, mis decisiones de ingeniería y mi trayectoria en hardware AR, software XR, IA e infraestructura.'
   });
   translated.links.resume = data.links.resumeSpanish;
   translated.positioning = { ...data.positioning, intro: site.about.intro, principles: site.principles.items };
@@ -21,25 +21,30 @@ export function spanishProfile(data, site) {
   ];
   translated.milestones = data.milestones.map((item, i) => ({ ...item, event: milestones[i] }));
   const experience = [
-    ['CTO', 'Barcelona, España', 'Responsabilidad técnica de una plataforma inmobiliaria con IA y automatización: desde la arquitectura y el desarrollo hasta el despliegue y las operaciones.', [
-      'Diseño y desarrollo de sistemas backend, API, plataformas de automatización y servicios distribuidos.',
-      'Operación de PostgreSQL, Docker, Linux, redes, copias de seguridad, monitorización e infraestructura local y en la nube.',
-      'Gestión de dispositivos y flotas, automatización de navegadores y dispositivos, y sistemas de comunicación.',
-      'Migraciones y optimización de infraestructura centradas en fiabilidad y costes.',
-      'Decisiones de arquitectura y desarrollo directo de sistemas en producción.'
+    ['CTO', 'Mataró, España · Remoto', 'CTO de una plataforma de automatización con IA en producción para el sector inmobiliario (me incorporé en julio de 2025; CTO desde noviembre de 2025). Lidero un equipo de tres ingenieros, reporto al CEO y trabajo con clientes como Comprarcasa, Housfy y AIC.', [
+      'Construí desde cero una granja de dispositivos remota: un sistema distribuido que controla más de 140 móviles Android para operar WhatsApp de forma nativa, monitorizarlos y automatizar mensajería a escala.',
+      'Desarrollo servicios Python/FastAPI sobre PostgreSQL con flujos asíncronos en RabbitMQ/Celery, y whatsapp-srv, el servicio de mensajería en TypeScript/Node.js; los flujos de LLM y WhatsApp superan las 1.000 conversaciones en los picos diarios.',
+      'Desarrollo el CRM interno en Flutter; construí un editor visual de journeys (React Flow) con un sandbox de chat para los flujos de IA de WhatsApp, y un visor para seguir y reintentar las ejecuciones.',
+      'Conecté Codex a Sentry por MCP para que un agente localice en el código los errores de producción y proponga correcciones; construí un servidor MCP para la plataforma interna de tareas (FastMCP, 20 herramientas) y una skill de plugin de Codex para un cambio recurrente entre repositorios.',
+      'Reduje el coste de infraestructura en la nube de ~2.500 €/mes a ~600 €/mes rediseñando la arquitectura y migrando.'
     ]],
     ['Fundador y CEO', 'Barcelona, España', 'Fundé Glassear en 2015 y he iterado durante una década en óptica, mecánica, electrónica y software. Hoy construyo un ecosistema de realidad aumentada: Glassear One, Glassear Studio y GlassMusic.', [
       'Glassear One: gafas de realidad aumentada con visión óptica directa que utilizan el móvil como pantalla y ordenador. Menos coste, peso y electrónica propia. Patente en trámite.',
-      'Glassear Studio transforma instrucciones en lenguaje natural en aplicaciones espaciales interactivas: integración con Unity, runtime propio, GLX, parches y revisiones de escena, sincronización, AI Planner, Intent Graph y herramientas para agentes.',
+      'Glassear Studio, una plataforma totalmente agéntica para apps XR: agentes de programación oficiales (Claude Code y OpenAI Codex en producción; Copilot, Cursor, OpenCode, Kimi, Mistral Vibe y Kiro tras feature flags) crean, prueban y corrigen apps con más de 100 herramientas MCP y comprueban su trabajo en una vista previa XR privada. Servidor MCP remoto con OAuth; ejecuciones trazadas con Langfuse sobre OpenTelemetry.',
+      'Glassear Agent, el agente local, en Rust: un servicio glassear-agentd dividido en crates y distribuido en una app de escritorio Tauri 2.',
       'GlassMusic: realidad aumentada para aprender e interpretar música sin usar las manos. Presentado en 4YFN/MWC 2025 y en 4YFN/MWC 2026 desde el estand de Catalan Arts.',
       'Selección en el catálogo de 50 startups catalanas con mayor potencial de la Catalan Pitch Competition 2025 de ACCIÓ.',
       'Dirección de producto, arquitectura y desarrollo con hardware, Unity, TypeScript, React, Node.js, Python y PostgreSQL.'
     ]],
-    ['Desarrollador freelance', 'Remoto', 'Desarrollé la aplicación web del Test de Hess para evaluación psicológica en selección de personal, con React y un backend WordPress/PHP.', [
-      'Almacenamiento de datos, gestión de usuarios y envío automático de correos.',
-      'Colas de procesamiento para funcionar dentro de los límites de un alojamiento compartido, con soporte para distintos dispositivos y navegadores.'
+    ['Ingeniero de producto full-stack (freelance)', 'Remoto', 'Construí el Test Hess de principio a fin para Ciane Consulting: un SaaS de evaluación psicológica para equipos de RR. HH., con React en el frontend y PHP/WordPress en el backend, con arquitectura MVC.', [
+      'Stripe como capa de pago, conectando el checkout con el acceso de pago a la evaluación.',
+      'Integración de la API de OpenAI para convertir cada cuestionario completado en un resumen en lenguaje claro de las respuestas.',
+      'Base de datos, flujos de usuario, correos automáticos, lógica de puntuación y colas de procesamiento dentro de los límites de un hosting compartido.'
     ]],
-    ['Responsable técnico', 'Barcelona, España', 'Colaboré con FECAMM, una entidad dedicada a las enfermedades minoritarias, para llevar juegos accesibles a la plataforma Patient73.', ['Colaboración en la organización de game jams de un mes con la UAB, la UPC y hospitales participantes.']],
+    ['Responsable técnico', 'Barcelona, España', 'Dirección técnica y requisitos de accesibilidad de Patient73, la plataforma de juegos terapéuticos de FECAMM para pacientes con enfermedades minoritarias (coordinación, no implementación directa).', [
+      'Requisitos de los protocolos de integración y de los adaptadores de accesibilidad para periféricos adaptados.',
+      'Organización de dos game jams: la primera en remoto desde Montreal (más de 10 videojuegos y más de 3.500 € en premios, entrega en la UPC); la segunda, de un mes, con universidades, el RCD Espanyol y hospitales (más de 100 videojuegos y 11.000 € en premios, entrega en el Ajuntament de Barcelona).'
+    ]],
     ['Prácticas de seguimiento de manos en AR/VR', 'Estocolmo, Suecia', 'Desarrollé y optimicé aplicaciones e interfaces de realidad aumentada con seguimiento de manos de ManoMotion, Unity y visión artificial.', []],
     ['Prácticas de visión artificial', 'Barcelona, España', 'Desarrollé una aplicación Android en Java para seguimiento de poses, caras y objetos durante mis prácticas en el Computer Vision Center.', []]
   ];
@@ -79,16 +84,16 @@ const projects = {
     highlights: ['Análisis de carencias de competencias.', 'Compatibilidad entre perfiles y puestos.', 'Planes de desarrollo con IA.', 'Comprobaciones de sesgos y controles.', 'Alternancia entre proveedores de modelos.']
   },
   'glassear-studio': {
-    title: 'Glassear Studio — Del lenguaje natural a la XR interactiva',
+    title: 'Cómo estoy construyendo Glassear Studio',
     category: 'IA y XR', role: 'Fundador, arquitecto y desarrollador',
-    outcome: 'Plataforma con IA para crear y modificar experiencias XR interactivas, con un editor web y ejecución en Unity.',
+    outcome: 'Plataforma totalmente agéntica donde agentes de programación oficiales crean, prueban y corrigen apps XR interactivas en un IDE web, un simulador WebXR y el runtime de Unity.',
     problem: 'Crear experiencias XR exige herramientas especializadas y coordinar la edición manual con el entorno de ejecución.',
-    description: 'Plataforma que transforma instrucciones en lenguaje natural en cambios estructurados y sincronizados en experiencias de realidad extendida.',
-    architecture: 'AI Planner, Intent Graph, operaciones de herramientas, MCP, parches de escena y sincronización del runtime. Editor web con TypeScript, React y Node.js, conectado a Unity.',
-    aiComponent: 'Interpretación de instrucciones y planificación de herramientas con modelos de lenguaje, dentro de restricciones explícitas.',
-    deterministicComponent: 'Operaciones tipadas, validación, reconciliación y confirmaciones del runtime para controlar el estado de la escena.',
-    principle: 'El razonamiento propone; los contratos deterministas validan, aplican y sincronizan.',
-    highlights: ['Creación de aplicaciones desde lenguaje natural.', 'AI Planner e Intent Graph.', 'Herramientas para agentes mediante MCP.', 'Cambios estructurados en escenas y ejecución.', 'Combinación de reglas deterministas y modelos de lenguaje.'],
+    description: 'Mi trabajo como fundador e ingeniero de Glassear: el usuario describe una app XR y un agente de programación oficial (Claude Code u OpenAI Codex) la construye, la prueba y la corrige.',
+    architecture: 'Monorepo TypeScript: IDE en React con Monaco, API Fastify sobre PostgreSQL con streaming por WebSocket, simulador WebXR sobre three.js/IWSDK y un puente que controla Unity mediante parches de escena estructurados. Una capa de adaptadores sobre SDK oficiales, ACP y CLI ejecuta los agentes en un sandbox Docker con proxy de salida y tokens MCP efímeros, o en local con Glassear Agent (Rust, Tauri 2).',
+    aiComponent: 'Desde 2026, el agente de programación del proveedor se encarga de la planificación y del bucle de herramientas, en lugar del AI Planner e Intent Graph propios. Los agentes usan más de 100 herramientas MCP, con clics, mirada y agarres simulados y captura de fotogramas, para comprobar su trabajo en una vista previa XR privada. Un servidor MCP remoto con OAuth abre las herramientas a ChatGPT, Claude y otros clientes.',
+    deterministicComponent: 'Studio se encarga de las sesiones, la autenticación, el aislamiento, la observabilidad (Langfuse sobre OpenTelemetry) y la validación de compilaciones, maquetación y el contrato de escena GLX. Más de 200 ficheros de tests garantizan los contratos entre capas.',
+    principle: 'El agente decide; la plataforma valida.',
+    highlights: ['Orquestador de agentes de programación oficiales (Claude Code, Codex).', 'Más de 100 herramientas MCP con autocomprobación en una vista previa XR.', 'Servidor MCP remoto con OAuth.', 'Sandbox Docker y agente local en Rust.', 'Trazas con Langfuse y más de 200 ficheros de tests de contrato.'],
     actionLabel: 'Abrir Glassear Studio'
   },
   mapanim: {

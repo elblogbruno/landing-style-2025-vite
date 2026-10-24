@@ -1,8 +1,8 @@
 {
   "hero": {
     "title": "I turn emerging technology into real products.",
-    "subtitle": "AI engineer & technical founder · CTO at TopBrokers · Founder at Glassear",
-    "description": "I build agentic AI systems that run in production, not demos. At TopBrokers that means LLM and messaging workflows handling over 1,000 conversations a day; at Glassear, a Studio platform that turns natural language into interactive XR. The decade of hardware underneath is why I know where these problems actually live.",
+    "subtitle": "Technical founder · AR hardware and agentic AI · Founder at Glassear · CTO at TopBrokers",
+    "description": "I build things that shouldn't be buildable by one person. Glassear started in 2015 as AR glasses I couldn't buy, and became Glassear One — an optical see-through headset powered by your own smartphone — then GlassMusic, and then Glassear Studio, where natural language becomes an interactive XR application. At TopBrokers I run the same ideas at production scale.",
     "profileImage": "/images-webp/hero/profile.webp",
     "coverImage": "/images-webp/hero/cover-better.webp",
     "resumeUrl": "/cv-english.pdf"

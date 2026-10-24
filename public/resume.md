@@ -1,10 +1,10 @@
 # Bruno Moya
 
-## AI engineer & technical founder · CTO at TopBrokers · Founder at Glassear
+## Technical founder · AR hardware and agentic AI · Founder at Glassear · CTO at TopBrokers
 
 **I turn emerging technology into real products.**
 
-Software engineer and technical founder based in Barcelona. Builds agentic AI systems that run in production: CTO at TopBrokers, where LLM and messaging workflows handle over 1,000 conversations a day, and founder of Glassear, whose Studio platform turns natural language into interactive XR applications. A decade of hardware, computer vision and infrastructure underneath.
+Bruno Moya is a technical founder and software engineer based in Barcelona. Founder and CEO of Glassear and CTO at TopBrokers. His work spans AR hardware, XR software, AI agents and production infrastructure. This personal portfolio documents his contribution, engineering decisions and journey as a founder.
 
 I started programming at 13. In 2015, still a teenager, I started building Glassear because I wanted AR glasses I couldn't buy. Glassear needed hardware, so I learned hardware; it needed computer vision, so I learned computer vision. Later came backend, infrastructure and AI. The technologies changed; the habit didn't: pick a hard problem, build it, break it, understand why, and build it again until it works outside a demo.
 
@@ -36,17 +36,17 @@ I started programming at 13. In 2015, still a teenager, I started building Glass
 
 ### CTO - TopBrokers.io
 
-2025-11 - Present - Barcelona, Spain
+2025-07 - Present - Mataró, Spain · Remote
 
-Hands-on technical ownership of an AI- and automation-driven real estate technology platform, from architecture and implementation to deployment and operations.
+CTO of a production AI automation platform for real estate (joined Jul 2025, CTO since Nov 2025). Leads a team of three engineers, reports to the CEO and works directly with customers such as Comprarcasa, Housfy and AIC.
 
-- Architect and build backend systems, APIs, automation platforms and distributed services.
-- Operate PostgreSQL, Docker, Linux, networking, backups, monitoring and cloud/on-premise infrastructure.
-- Design fleet and device management, browser/device automation and communication workflow systems.
-- Lead infrastructure migrations and optimization work focused on reliability and cost efficiency.
-- Make architecture decisions and deliver production systems as both technical leader and hands-on engineer.
+- Built from scratch a remote device farm: a distributed system that controls 140+ Android phones for native WhatsApp operations, monitoring and messaging automation at scale.
+- Develop Python/FastAPI services on PostgreSQL with event-driven RabbitMQ/Celery workflows, and whatsapp-srv, the TypeScript/Node.js messaging service; LLM and WhatsApp workflows peak above 1,000 conversations a day.
+- Develop the internal CRM in Flutter; built a visual journey editor (React Flow) with a chat sandbox for WhatsApp AI flows, and a journey viewer to monitor and retry live runs.
+- Connected Codex to Sentry over MCP so an agent traces production errors to the code and proposes fixes; built an MCP server for the in-house task platform (FastMCP, 20 tools) and a Codex plugin skill for a recurring multi-repo change.
+- Reduced cloud infrastructure costs from ~€2,500/month to ~€600/month through architecture redesign and migration.
 
-**Technologies:** Python, TypeScript, Node.js, PostgreSQL, Docker, Linux, REST APIs, Networking, AI agents
+**Technologies:** Python, FastAPI, TypeScript, Node.js, PostgreSQL, RabbitMQ, Celery, Flutter, Docker, MCP, Sentry, AI agents
 
 ### Founder & CEO - Glassear
 
@@ -55,31 +55,34 @@ Hands-on technical ownership of an AI- and automation-driven real estate technol
 Founded Glassear in 2015 and kept iterating the device for a decade across optics, mechanics, electronics and software. Glassear now builds an AR / spatial computing ecosystem: Glassear One hardware, the Glassear Studio platform and GlassMusic.
 
 - Glassear One: optical see-through AR headset that uses the user's smartphone as display and compute, avoiding video passthrough and reducing cost, weight and proprietary electronics. Patent pending.
-- Build Glassear Studio, an AI-native platform that turns natural-language intent into interactive spatial applications: Unity integration, own runtime, GLX, scene patches and revisions, runtime synchronization, AI Planner, Intent Graph and agent tooling.
+- Build Glassear Studio, a fully agentic platform for XR apps: official coding agents (Claude Code and OpenAI Codex in production; Copilot, Cursor, OpenCode, Kimi, Mistral Vibe and Kiro behind feature flags) build, test and fix apps with 100+ MCP tools and check their work in a private XR preview. Remote MCP server with OAuth; agent runs traced with Langfuse over OpenTelemetry.
+- Built Glassear Agent, the local agent, in Rust: a glassear-agentd service in workspace crates, shipped in a Tauri 2 desktop app.
 - GlassMusic: first vertical use case, hands-free AR for music learning and performance; shown at 4YFN/MWC 2025 and pitched at 4YFN/MWC 2026 from the Catalan Arts stand.
 - Selected for the ACCIÓ Catalan Pitch Competition 2025 catalogue of 50 Catalan startups with the most potential.
 - Own product direction, architecture and implementation across hardware, Unity, TypeScript, React, Node.js, Python and PostgreSQL.
 
-**Technologies:** TypeScript, React, Node.js, Unity, Python, PostgreSQL, MCP, LLM APIs, XR, Computer Vision, Hardware, Optics
+**Technologies:** TypeScript, React, Node.js, Unity, Python, PostgreSQL, MCP, LLM APIs, XR, Computer Vision, Hardware, Optics, Rust, Tauri, Fastify, Claude Code, OpenAI Codex, Langfuse
 
-### Freelance Developer - Evalua-lo.com
+### Full-Stack Product Engineer (Freelance) - Evalua-lo.com
 
 2024-09 - 2025-02 - Remote
 
-Built the Hess Test web application for psychological evaluation in recruitment, with a React interface and a WordPress/PHP backend.
+Built Hess Test end to end for Ciane Consulting: a psychological assessment SaaS for HR teams, with React on the frontend and PHP/WordPress on the backend on an MVC architecture.
 
-- Implemented data storage, user management and automated email delivery.
-- Used processing queues to run reliably within shared-hosting constraints and supported multiple devices and browsers.
+- Implemented Stripe as the payment layer, connecting checkout and paid access to the assessment.
+- Integrated the OpenAI API to turn each completed questionnaire into a plain-language summary of the answers.
+- Designed database, user flows, automated emails, scoring logic and processing queues within shared-hosting constraints.
 
-**Technologies:** React, PHP, WordPress, Databases, Processing queues
+**Technologies:** React, PHP, WordPress, MVC, Stripe, OpenAI API, Processing queues
 
 ### Technical Lead - Patient73 / FECAMM
 
 2022-07 - 2025-01 - Barcelona, Spain
 
-Supported FECAMM, a rare-disease non-profit, in bringing accessible games to the Patient73 platform.
+Managed the technical direction and accessibility requirements of Patient73, FECAMM's therapeutic games platform for patients with rare diseases (coordination, not hands-on implementation).
 
-- Helped organize month-long game jams with UAB, UPC and participating hospitals.
+- Set the requirements for integration protocols and accessibility adapters for assistive peripherals.
+- Organized two game jams: the first remotely from Montreal (10+ games, €3,500+ in prizes, ceremony at UPC); the second month-long with universities, RCD Espanyol and hospitals (100+ games, €11,000 in prizes, ceremony at Barcelona City Hall).
 
 **Technologies:** Technical leadership, Game development, Accessibility
 
@@ -105,7 +108,7 @@ Developed an Android application in Java for pose, face and object tracking duri
 
 ## Selected projects
 
-### [JobAgent - Autonomous AI Job Search & Application System](https://brunomoya.com/projects/jobagent/)
+### [JobAgent - Autonomous AI Job Search & Application System](https://brunomoya.com/#projects)
 
 An autonomous, agentic job-search platform for role discovery, semantic matching, job analysis, CV tailoring and controlled browser-assisted applications.
 
@@ -115,7 +118,7 @@ An autonomous, agentic job-search platform for role discovery, semantic matching
 
 [Repository](https://github.com/elblogbruno/JobAgent)
 
-### [TalentGapAnalyzer - AI Workforce Intelligence](https://brunomoya.com/projects/talent-gap-analyzer/)
+### [TalentGapAnalyzer - AI Workforce Intelligence](https://brunomoya.com/#projects)
 
 AI-powered workforce intelligence and talent gap analysis platform built as a team project at UAB The Hack 2025.
 
@@ -125,21 +128,23 @@ AI-powered workforce intelligence and talent gap analysis platform built as a te
 
 [Repository](https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack)
 
-### [Glassear Studio - Natural Language to Interactive XR](https://brunomoya.com/projects/glassear-studio/)
+### [How I am building Glassear Studio](https://glassear.com/studio/)
 
-Glassear Studio translates natural-language intent into structured, synchronized changes to interactive XR applications.
+My work as the founder and engineer of Glassear: the user describes an XR app, and an official coding agent (Claude Code or OpenAI Codex) builds it, tests it and fixes it.
 
-**Outcome:** An AI-native platform for building and modifying interactive XR applications across a web authoring environment and Unity runtime.
+**Outcome:** A fully agentic platform where official coding agents build, test and fix interactive XR apps across a web IDE, a WebXR simulator and the Unity runtime.
 
-**Stack:** TypeScript, React, Node.js, Unity, Python, PostgreSQL, MCP, LLM APIs, XR
+**Stack:** TypeScript, React, Fastify, PostgreSQL, Unity, three.js, WebXR, Rust, Tauri, Docker, MCP, Claude Code, OpenAI Codex, Langfuse
 
-### [MapAnim — Route Motion Studio](https://brunomoya.com/projects/mapanim/)
+### [MapAnim — Route Motion Studio](https://brunomoya.com/#projects)
 
 A browser-based editor for animated travel maps, with an editable itinerary, camera controls, a timeline, map styles and MP4 export.
 
 **Outcome:** An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.
 
 **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
+
+[Repository](https://github.com/elblogbruno/MapAnim)
 
 ## Education
 
@@ -178,6 +183,7 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 - 2024-05-15 - Host of the awards ceremony · 2nd Patient73 Game Jam (Patient73 · FECAMM) [Link](https://www.linkedin.com/posts/glassear-bruno_ahir-vem-celebrar-lacte-de-entrega-de-premis-activity-7196966261459689472-01Ax/)
 - 2023-12 - Presenting the 2nd Patient73 Game Jam at RCDE (Patient73 · RCD Espanyol de Barcelona) [Link](https://www.linkedin.com/posts/glassear-bruno_gamejam-patient73-games-activity-7143923891642564608-nZ8v)
 - 2022-11 - VR/MR/AR, holograms and Glassear: from my bedroom to designing the future (EURUS CONF 2022 · Universidad Tecnológica de Panamá) [Link](https://www.linkedin.com/posts/glassear-bruno_much%C3%ADsimas-gracias-por-el-diploma-sobre-activity-6998189063014866944-M3rj)
+- 2022-09 - Future is coming: emerging technologies (COECYS 2022 - University of San Carlos of Guatemala)
 - 2021-10-01 - Mixed and Augmented Reality: From my room to designing the future (COECYS - University of San Carlos of Guatemala) [Link](https://www.youtube.com/watch?v=1aZOHzDZcYY)
 - 2021-05-12 - Talk to students from Castellet secondary school! (Institut Castellet) [Link](https://www.linkedin.com/posts/glassear-bruno_camino-emprendimiento-path-activity-6798897168301203457-ngmy/)
 - 2021-04-29 - Memenginy 2021 Round Table (Memenginy 2021) [Link](https://www.instagram.com/p/COQp85XhXq2/)
@@ -207,11 +213,11 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 
 ## Skills
 
-- **Backend & Distributed Systems:** Python, FastAPI, Node.js, TypeScript, REST APIs, PostgreSQL, Supabase, Celery, RabbitMQ
-- **Frontend:** React, Next.js, Vite, Tailwind CSS
-- **Infrastructure:** Linux, Docker, Proxmox, PostgreSQL operations, Networking, Reverse proxies, Cloud infrastructure, Backup systems, Hetzner, Cloudflare R2, MinIO
+- **Backend & Distributed Systems:** Python, FastAPI, Node.js, TypeScript, REST APIs, PostgreSQL, Supabase, Celery, RabbitMQ, Fastify, Rust, Tauri, Stripe, PHP, WordPress
+- **Frontend:** React, Next.js, Vite, Tailwind CSS, Astro, Flutter, React Three Fiber, Framer Motion, i18next
+- **Infrastructure:** Linux, Docker, Proxmox, PostgreSQL operations, Networking, Reverse proxies, Cloud infrastructure, Backup systems, Hetzner, Cloudflare R2, MinIO, n8n (self-hosted), Sentry
 - **XR & Spatial Computing:** Unity, AR Foundation, XR Interaction Toolkit, OpenXR, WebXR, Computer Vision, Custom XR hardware, Three.js, Hand tracking, MediaPipe
-- **AI tools & integration:** AI agents, Planners, Claude Code, OpenAI Codex, GitHub Copilot, LLM APIs, Agentic Workflows, Tool Calling, MCP, Structured Outputs, Prompt and System Instruction Design, Multi-Agent Workflows
+- **AI tools & integration:** AI agents, Planners, Claude Code, OpenAI Codex, GitHub Copilot, LLM APIs, Agentic Workflows, Tool Calling, MCP, Structured Outputs, Prompt and System Instruction Design, Multi-Agent Workflows, Langfuse, OpenTelemetry, FastMCP, Remote MCP servers (OAuth)
 - **Hardware:** Optics, Mechanical prototyping, 3D printing, Electronics integration, Cameras & IMUs, Embedded Linux devices
 
 ## Contact

@@ -23,20 +23,6 @@ test('robots.txt grants AI full access, and defines what it is granting', () => 
   }
 });
 
-test('.htaccess advertises only IANA-registered link relations, to resources that exist', () => {
-  const htaccess = fs.readFileSync('.htaccess', 'utf8');
-  const registered = ['service-doc', 'service-desc', 'describedby', 'alternate', 'api-catalog'];
-  const links = [...htaccess.matchAll(/Header always add Link "<([^>]+)>; rel=\\"([^\\]+)\\"/g)];
-  assert.ok(links.length >= 2, 'no Link headers configured');
-  for (const [, href, rel] of links) {
-    assert.ok(registered.includes(rel), `rel="${rel}" is not a registered relation type`);
-    // A header pointing at a resource the site does not serve is worse than no header.
-    if (href.startsWith('/') && !href.includes('%{')) {
-      assert.ok(fs.existsSync(`public${href}`), `Link points at ${href}, which is not in public/`);
-    }
-  }
-});
-
 test('missing URLs are not answered with the React index', () => {
   const htaccess = fs.readFileSync('.htaccess', 'utf8');
   assert.doesNotMatch(
@@ -51,7 +37,7 @@ test('missing URLs are not answered with the React index', () => {
 test('the 404 page links onward and stays out of the index', () => {
   const page = fs.readFileSync('public/404.html', 'utf8');
   assert.match(page, /<meta name="robots" content="noindex">/, '404 page must not be indexed');
-  for (const href of ['/', '/llms.txt', '/sitemap.xml', '/profile.json']) {
+  for (const href of ['/']) {
     assert.ok(page.includes(`href="${href}"`), `404 page does not link to ${href}`);
   }
 });

@@ -90,6 +90,7 @@ function updateMetadata(html, lang) {
   const canonical = 'https://brunomoya.com/' + (lang === 'en' ? 'en/' : '');
   updatedHtml = updatedHtml.replace(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="${canonical}"`);
   updatedHtml = updatedHtml.replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonical}"`);
+  updatedHtml = updatedHtml.replace(/(<link rel="alternate" type="text\/markdown" href=")[^"]*/, `$1${canonical}index.md`);
   return updatedHtml;
 }
 

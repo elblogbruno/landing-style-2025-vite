@@ -11,7 +11,7 @@ An autonomous, agentic job-search platform for role discovery, semantic matching
 - **Role:** Creator and engineer
 - **Outcome:** I use JobAgent to manage my own job search.
 - **Stack:** Python, FastAPI, Celery, PostgreSQL, React, TypeScript, Docker, Playwright, MCP, OpenAI, Anthropic, Gemini
-- **Case study:** https://brunomoya.com/projects/jobagent/
+- **Case study:** https://brunomoya.com/#projects
 - **Repository:** https://github.com/elblogbruno/JobAgent
 
 ## TalentGapAnalyzer - AI Workforce Intelligence
@@ -25,21 +25,21 @@ AI-powered workforce intelligence and talent gap analysis platform built as a te
 - **Role:** Team project contributor
 - **Outcome:** Winner - UAB The Hack 2025
 - **Stack:** Python, FastAPI, Pandas, Scikit-learn, React, OpenAI, Anthropic, Gemini
-- **Case study:** https://brunomoya.com/projects/talent-gap-analyzer/
+- **Case study:** https://brunomoya.com/#projects
 - **Repository:** https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack
 
-## Glassear Studio - Natural Language to Interactive XR
+## How I am building Glassear Studio
 
-Glassear Studio translates natural-language intent into structured, synchronized changes to interactive XR applications.
+My work as the founder and engineer of Glassear: the user describes an XR app, and an official coding agent (Claude Code or OpenAI Codex) builds it, tests it and fixes it.
 
 - **Problem:** Creating interactive XR applications normally requires specialized tooling and manual coordination between authoring systems and runtime state.
-- **Architecture:** An AI Planner and Intent Graph coordinate tool-based operations, MCP integrations, structured scene patches and runtime synchronization between a TypeScript/React/Node.js web platform and Unity.
-- **AI / agentic:** LLMs interpret intent and plan tool calls within explicit system constraints.
-- **Deterministic:** Typed operations, validation, reconciliation and runtime acknowledgements control how planned changes become scene state.
+- **Architecture:** A TypeScript monorepo: React IDE with Monaco, Fastify API on PostgreSQL with WebSocket streaming, a WebXR simulator on three.js/IWSDK and a bridge that drives Unity through structured scene patches. A provider adapter layer over official SDKs, ACP and CLIs runs the agents in a Docker sandbox with an egress proxy and ephemeral MCP tokens, or locally through Glassear Agent (Rust, Tauri 2).
+- **AI / agentic:** Since 2026 the provider's coding agent owns planning and the tool loop, replacing the earlier in-house AI Planner and Intent Graph. Agents use 100+ MCP tools, including simulated clicks, gaze, grabs and frame capture, to check their own work in a private XR preview. A remote MCP server with OAuth opens the tools to ChatGPT, Claude and other clients.
+- **Deterministic:** Studio owns sessions, authentication, isolation, observability (Langfuse over OpenTelemetry) and validation of builds, layouts and the GLX scene contract. 200+ test files enforce cross-layer contracts.
 - **Role:** Founder, architect and hands-on engineer
-- **Outcome:** An AI-native platform for building and modifying interactive XR applications across a web authoring environment and Unity runtime.
-- **Stack:** TypeScript, React, Node.js, Unity, Python, PostgreSQL, MCP, LLM APIs, XR
-- **Case study:** https://brunomoya.com/projects/glassear-studio/
+- **Outcome:** A fully agentic platform where official coding agents build, test and fix interactive XR apps across a web IDE, a WebXR simulator and the Unity runtime.
+- **Stack:** TypeScript, React, Fastify, PostgreSQL, Unity, three.js, WebXR, Rust, Tauri, Docker, MCP, Claude Code, OpenAI Codex, Langfuse
+- **Case study:** https://glassear.com/studio/
 
 ## MapAnim — Route Motion Studio
 
@@ -52,4 +52,5 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 - **Role:** Product development and software engineering.
 - **Outcome:** An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.
 - **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
-- **Case study:** https://brunomoya.com/projects/mapanim/
+- **Case study:** https://brunomoya.com/#projects
+- **Repository:** https://github.com/elblogbruno/MapAnim

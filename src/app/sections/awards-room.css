@@ -17,3 +17,5 @@
 .floor-room--awards .floor-room__ceiling { background: repeating-linear-gradient(90deg, #332d24 0 15%, #ffe6ac 15.2% 17%, #332d24 17.2% 33%); border-bottom-color: #ad9162; box-shadow: 0 14px 35px #ffdc9030; }
 .floor-room--awards .floor-room__ground { height: 65px; border-top-color: #92784f; background: repeating-linear-gradient(100deg, transparent 0 100px, #a88b5630 101px 103px), linear-gradient(#84715135, #33291e60); }
 @media (prefers-reduced-motion: reduce) { .awards-room .award-cabinet, .awards-room .award-cabinet img { transition: none; } }
+/* Without JavaScript the entrance animation never runs: show its end state, not the half-faded start. */
+html:not(.js) .awards-room [style*="opacity"] { opacity: 1 !important; transform: none !important; }

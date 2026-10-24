@@ -1,8 +1,8 @@
 # Bruno Moya: Convierto tecnología emergente en productos reales.
 
-**Ingeniero de IA y fundador técnico · CTO en TopBrokers · Fundador de Glassear**
+**Fundador de Glassear · CTO en TopBrokers**
 
-Ingeniero de software en Barcelona. Fundador y CEO de Glassear, gafas de realidad aumentada que utilizan el móvil como pantalla y ordenador, y CTO en TopBrokers. Trabajo en software, computación espacial, hardware e infraestructura de producción.
+Bruno Moya, fundador y CEO de Glassear, ingeniero de software en Barcelona y CTO en TopBrokers. En este portfolio personal documento mi contribución, mis decisiones de ingeniería y mi trayectoria en hardware AR, software XR, IA e infraestructura.
 
 Empecé a programar a los 13. En 2015, todavía adolescente, quería unas gafas de realidad aumentada que no podía comprar, así que intenté construirlas. Glassear necesitaba hardware, así que aprendí hardware. Necesitaba visión artificial, así que aprendí visión artificial. Después llegaron el backend, la infraestructura y la IA. Las tecnologías han ido cambiando; la costumbre no: elegir un problema difícil, construirlo, romperlo, entender por qué y volver a construirlo.
 
@@ -16,7 +16,7 @@ Empecé a construir gafas de realidad aumentada siendo adolescente. Diez años d
 - Glassear Studio — creación espacial con IA
 - GlassMusic — primer producto vertical
 
-[www.glassear.com](https://www.glassear.com/)
+[glassear.com](https://glassear.com/)
 
 ### TopBrokers - CTO (desde 2025)
 
@@ -67,13 +67,13 @@ La AR y la IA no importan por ser nuevas. Importan el día que un músico lee un
 
 ### CTO - [TopBrokers.io](https://topbrokers.io/)
 
-2025-11 - Actualidad - Barcelona, España
+2025-07 - Present - Mataró, España · Remoto
 
-Responsabilidad técnica de una plataforma inmobiliaria con IA y automatización: desde la arquitectura y el desarrollo hasta el despliegue y las operaciones.
+CTO de una plataforma de automatización con IA en producción para el sector inmobiliario (me incorporé en julio de 2025; CTO desde noviembre de 2025). Lidero un equipo de tres ingenieros, reporto al CEO y trabajo con clientes como Comprarcasa, Housfy y AIC.
 
-### Fundador y CEO - [Glassear](https://www.glassear.com/)
+### Fundador y CEO - [Glassear](https://glassear.com/)
 
-2015-05 - Actualidad - Barcelona, España
+2015-05 - Present - Barcelona, España
 
 Fundé Glassear en 2015 y he iterado durante una década en óptica, mecánica, electrónica y software. Hoy construyo un ecosistema de realidad aumentada: Glassear One, Glassear Studio y GlassMusic.
 
@@ -89,10 +89,10 @@ Sistema de agentes para descubrir ofertas, analizar su encaje, adaptar el CV y a
 
 **Tecnologías:** Python, FastAPI, Celery, PostgreSQL, React, TypeScript, Docker, Playwright, MCP, OpenAI, Anthropic, Gemini
 
-- [Caso de estudio](https://brunomoya.com/projects/jobagent/)
+- [Caso de estudio](https://brunomoya.com/#projects)
 - [Repositorio](https://github.com/elblogbruno/JobAgent)
 
-### [TalentGapAnalyzer — Análisis de talento con IA](https://brunomoya.com/projects/talent-gap-analyzer/)
+### [TalentGapAnalyzer — Análisis de talento con IA](https://brunomoya.com/#projects)
 
 _IA y sistemas de agentes_
 
@@ -102,23 +102,23 @@ Proyecto de equipo para analizar competencias y necesidades de formación con IA
 
 **Tecnologías:** Python, FastAPI, Pandas, Scikit-learn, React, OpenAI, Anthropic, Gemini
 
-- [Caso de estudio](https://brunomoya.com/projects/talent-gap-analyzer/)
+- [Caso de estudio](https://brunomoya.com/#projects)
 - [Repositorio](https://github.com/OriolRoura/TalentGapAnalyzer-UABTheHack)
 
-### [Glassear Studio — Del lenguaje natural a la XR interactiva](https://platform.glassear.com/)
+### [Cómo estoy construyendo Glassear Studio](https://platform.glassear.com/)
 
 _IA y XR_
 
-Plataforma que transforma instrucciones en lenguaje natural en cambios estructurados y sincronizados en experiencias de realidad extendida.
+Mi trabajo como fundador e ingeniero de Glassear: el usuario describe una app XR y un agente de programación oficial (Claude Code u OpenAI Codex) la construye, la prueba y la corrige.
 
-**Resultado:** Plataforma con IA para crear y modificar experiencias XR interactivas, con un editor web y ejecución en Unity.
+**Resultado:** Plataforma totalmente agéntica donde agentes de programación oficiales crean, prueban y corrigen apps XR interactivas en un IDE web, un simulador WebXR y el runtime de Unity.
 
-**Tecnologías:** TypeScript, React, Node.js, Unity, Python, PostgreSQL, MCP, LLM APIs, XR
+**Tecnologías:** TypeScript, React, Fastify, PostgreSQL, Unity, three.js, WebXR, Rust, Tauri, Docker, MCP, Claude Code, OpenAI Codex, Langfuse
 
-- [Caso de estudio](https://brunomoya.com/projects/glassear-studio/)
+- [Caso de estudio](https://glassear.com/studio/)
 - [Abrir Glassear Studio](https://platform.glassear.com/)
 
-### [MapAnim — Route Motion Studio](https://brunomoya.com/projects/mapanim/)
+### [MapAnim — Route Motion Studio](https://brunomoya.com/#projects)
 
 _Herramientas creativas y visualización geoespacial_
 
@@ -128,13 +128,13 @@ Editor de mapas de viajes animados en el navegador, con itinerarios editables, u
 
 **Tecnologías:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
 
-- [Caso de estudio](https://brunomoya.com/projects/mapanim/)
+- [Caso de estudio](https://brunomoya.com/#projects)
+- [Repositorio](https://github.com/elblogbruno/MapAnim)
 
 ## Enlaces profesionales
 
-- [Currículum](https://brunomoya.com/resume/)
-- [Experiencia](https://brunomoya.com/experience/)
-- [Proyectos](https://brunomoya.com/projects/)
+- [Currículum](https://brunomoya.com/#experience)
+- [Proyectos](https://brunomoya.com/#projects)
 - [GitHub](https://github.com/elblogbruno)
 - [LinkedIn](https://www.linkedin.com/in/glassear-bruno/)
 
