@@ -58,3 +58,25 @@ build), the agent files, the sitemap, a real 404, the hashed assets, Markdown on
 and the legacy folders. All 21,268 legacy file hashes remain unchanged.
 
 Server backup: `/root/bruno-cv-update-20261024/before-active.tar.gz`.
+
+## AI agent analytics
+
+Umami only counts what its browser script reports, so agents (which never run JS, and
+whose bot user agents Umami's `/api/send` discards) were invisible. nginx now mirrors each
+agent request to Umami as an event: any fetch of llms.txt, llms-full.txt, about.txt,
+profile.json, resume.md, projects.md or index.md; any `Accept: text/markdown` request; and
+any request from a known AI user agent (GPTBot, ClaudeBot, Claude-User, PerplexityBot...).
+The event name is the agent (or the UA's first token, such as `curl`), url is the path, and
+data holds the sanitized UA and whether Markdown was requested. The agent's IP sets the
+location. Events appear live under Realtime and under Events.
+
+Installed 2026-11-06. Umami website "brunomoya.com agents"
+(1c2d97e9-53be-4984-95a5-3af0dd305e6c), separate because the events carry a fixed browser
+UA to pass Umami's bot check. Files:
+
+- `deploy/nginx-agent-analytics.conf` -> `/etc/nginx/conf.d/agent-analytics.conf` (maps)
+- `deploy/nginx-agent-mirror.conf` -> `/home/admin/conf/web/brunomoya.com/nginx.ssl.conf_agentanalytics`
+  (HTTPS server only)
+
+Then `nginx -t && systemctl reload nginx`; check with
+`curl -A curl/8 https://brunomoya.com/llms.txt` and Umami Realtime.
