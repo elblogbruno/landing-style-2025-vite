@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "lastUpdated": "2026-10-23",
+  "lastUpdated": "2026-11-22",
   "name": "Bruno Moya",
   "alternateName": "Bruno Moya Ruiz",
   "headline": "Technical founder · AR hardware and agentic AI · Founder at Glassear · CTO at TopBrokers",
@@ -875,6 +875,41 @@
       ],
       "story": "Bringing geospatial rendering, camera choreography and video export together in an interactive creative tool.",
       "image": "/images-webp/projects/mapanim.webp"
+    },
+    {
+      "id": "compareamazon",
+      "name": "CompareAmazon",
+      "title": "CompareAmazon — Smart Amazon Comparison Extension & Web Platform",
+      "featured": true,
+      "category": "Browser Extensions & Web Products",
+      "repository": "https://github.com/elblogbruno/CompareAmazon",
+      "url": "https://www.compareamazon.es/",
+      "role": "Creator and full-stack engineer",
+      "outcome": "Live Chrome/Edge Manifest V3 extension and PHP/MariaDB sharing platform at compareamazon.es.",
+      "problem": "Comparing several Amazon products normally requires jumping across many tabs, manually checking coupons, EU prices and critical reviews, and cannot easily be shared with family.",
+      "description": "A browser extension and web platform that turns open Amazon tabs into an interactive comparison table with coupon net-price calculation, EU price checks, full photo/video reviews, weighted scoring, AI prompt export and shareable voting links.",
+      "architecture": "Vanilla JavaScript Manifest V3 extension (popup, content script tray, background service worker, DOM/HTML fallback scraper) paired with a PHP 8.2 / MariaDB backend at compareamazon.es with user accounts, public explore gallery and collaborative voting.",
+      "aiComponent": "Structured Markdown prompt export tailored for ChatGPT, Claude, Gemini and Perplexity, packaging specs, coupons, personal notes and critical buyer reviews.",
+      "deterministicComponent": "DOM and HTML fallback scraping across 16 Amazon locales, coupon math, spec normalization, numeric highlighting, red-flag heuristics and weighted scoring.",
+      "principle": "Turn messy multi-tab shopping into a single shareable, verifiable view.",
+      "highlights": [
+        "Tab selector and in-page Amazon search/variant tray",
+        "Coupon net-price calculation and Amazon EU (ES/DE/FR/IT) price lookup",
+        "Full photo galleries, star histograms, buyer review photos/videos and critical reviews",
+        "Weighted score sliders, red-flag alerts and max budget filter",
+        "Shareable compareamazon.es/c/ links with mobile card view, voting and user accounts"
+      ],
+      "technologies": [
+        "JavaScript",
+        "Chrome Extensions (MV3)",
+        "PHP",
+        "MariaDB",
+        "HTML/CSS"
+      ],
+      "story": "Built to compare Amazon products cleanly and share decisions over WhatsApp without requiring the other person to install anything.",
+      "image": "/images-webp/projects/compareamazon.webp",
+      "actionUrl": "https://www.compareamazon.es/",
+      "actionLabel": "Open CompareAmazon"
     },
     {
       "name": "Glassear One",

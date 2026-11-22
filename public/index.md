@@ -131,6 +131,20 @@ Editor de mapas de viajes animados en el navegador, con itinerarios editables, u
 - [Caso de estudio](https://brunomoya.com/#projects)
 - [Repositorio](https://github.com/elblogbruno/MapAnim)
 
+### [CompareAmazon — Smart Amazon Comparison Extension & Web Platform](https://www.compareamazon.es/)
+
+_Browser Extensions & Web Products_
+
+A browser extension and web platform that turns open Amazon tabs into an interactive comparison table with coupon net-price calculation, EU price checks, full photo/video reviews, weighted scoring, AI prompt export and shareable voting links.
+
+**Resultado:** Live Chrome/Edge Manifest V3 extension and PHP/MariaDB sharing platform at compareamazon.es.
+
+**Tecnologías:** JavaScript, Chrome Extensions (MV3), PHP, MariaDB, HTML/CSS
+
+- [Caso de estudio](https://brunomoya.comhttps://www.compareamazon.es/)
+- [Repositorio](https://github.com/elblogbruno/CompareAmazon)
+- [Open CompareAmazon](https://www.compareamazon.es/)
+
 ## Enlaces profesionales
 
 - [Currículum](https://brunomoya.com/#experience)

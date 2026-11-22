@@ -17,6 +17,7 @@ Bruno Moya is a technical founder and software engineer based in Barcelona. Foun
 - [TalentGapAnalyzer - AI Workforce Intelligence](https://brunomoya.com/#projects): Winner - UAB The Hack 2025
 - [How I am building Glassear Studio](https://glassear.com/studio/): A fully agentic platform where official coding agents build, test and fix interactive XR apps across a web IDE, a WebXR simulator and the Unity runtime.
 - [MapAnim — Route Motion Studio](https://brunomoya.com/#projects): An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.
+- [CompareAmazon — Smart Amazon Comparison Extension & Web Platform](https://www.compareamazon.es/): Live Chrome/Edge Manifest V3 extension and PHP/MariaDB sharing platform at compareamazon.es.
 
 The landing is also available as Markdown: /index.md in Spanish and /en/index.md in English.
 Send `Accept: text/markdown` to either landing URL for its Markdown representation.

@@ -1484,6 +1484,29 @@
         "date": "2025-01-01",
         "startDate": "2025-01-01",
         "endDate": ""
+      },
+      {
+        "id": 115,
+        "title": "CompareAmazon — Smart Amazon Comparator",
+        "description": "Manifest V3 browser extension and PHP/MariaDB web platform that turns open Amazon tabs into a visual comparison table. Detects coupons and real net prices, compares EU Amazon prices (ES/DE/FR/IT), extracts full galleries, buyer review photos/videos, automatic red flags, weighted scoring, one-click export to ChatGPT/Claude/Gemini/Perplexity, and shareable comparison links with voting at compareamazon.es.",
+        "imageUrl": "/images-webp/projects/compareamazon.webp",
+        "skills": [
+          "Browser Extensions",
+          "Web Development",
+          "JavaScript",
+          "PHP",
+          "AI",
+          "UX"
+        ],
+        "demoUrl": "https://www.compareamazon.es/",
+        "demoLabel": "Open CompareAmazon",
+        "githubUrl": "https://github.com/elblogbruno/CompareAmazon",
+        "featured": true,
+        "date": "2026-11-22",
+        "startDate": "2026-11-22",
+        "endDate": "",
+        "story": "I wanted to compare several Amazon products without jumping across ten tabs and share the comparison with my sister over WhatsApp. It grew into a full extension with its own web platform.",
+        "order": 6
       }
     ],
     "subtitle": "Each project starts with why it exists. The stack, code and links come right after.",

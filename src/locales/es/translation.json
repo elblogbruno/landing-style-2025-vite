@@ -1484,6 +1484,29 @@
         "date": "2025-01-01",
         "startDate": "2025-01-01",
         "endDate": ""
+      },
+      {
+        "id": 115,
+        "title": "CompareAmazon — Comparador Inteligente",
+        "description": "Extensión de navegador (Manifest V3) y plataforma web en PHP/MariaDB que convierte tus pestañas abiertas de Amazon en una tabla comparativa visual. Detecta cupones y precio neto real, compara precios en Amazon Europa (ES/DE/FR/IT), extrae galerías, vídeos y fotos de reseñas, alertas automáticas, score ponderado, exportación a ChatGPT/Claude/Gemini/Perplexity y enlaces compartibles con votación en compareamazon.es.",
+        "imageUrl": "/images-webp/projects/compareamazon.webp",
+        "skills": [
+          "Extensiones de Navegador",
+          "Desarrollo Web",
+          "JavaScript",
+          "PHP",
+          "IA",
+          "UX"
+        ],
+        "demoUrl": "https://www.compareamazon.es/",
+        "demoLabel": "Abrir CompareAmazon",
+        "githubUrl": "https://github.com/elblogbruno/CompareAmazon",
+        "featured": true,
+        "date": "2026-11-22",
+        "startDate": "2026-11-22",
+        "endDate": "",
+        "story": "Quería comparar varios productos de Amazon sin saltar entre diez pestañas y poder compartir la comparativa con mi hermana por WhatsApp. Terminó siendo una extensión completa con su propia plataforma web.",
+        "order": 6
       }
     ],
     "subtitle": "Cada proyecto empieza por por qué existe. El stack, el código y los enlaces vienen justo después.",

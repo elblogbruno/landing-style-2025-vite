@@ -54,3 +54,17 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 - **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
 - **Case study:** https://brunomoya.com/#projects
 - **Repository:** https://github.com/elblogbruno/MapAnim
+
+## CompareAmazon — Smart Amazon Comparison Extension & Web Platform
+
+A browser extension and web platform that turns open Amazon tabs into an interactive comparison table with coupon net-price calculation, EU price checks, full photo/video reviews, weighted scoring, AI prompt export and shareable voting links.
+
+- **Problem:** Comparing several Amazon products normally requires jumping across many tabs, manually checking coupons, EU prices and critical reviews, and cannot easily be shared with family.
+- **Architecture:** Vanilla JavaScript Manifest V3 extension (popup, content script tray, background service worker, DOM/HTML fallback scraper) paired with a PHP 8.2 / MariaDB backend at compareamazon.es with user accounts, public explore gallery and collaborative voting.
+- **AI / agentic:** Structured Markdown prompt export tailored for ChatGPT, Claude, Gemini and Perplexity, packaging specs, coupons, personal notes and critical buyer reviews.
+- **Deterministic:** DOM and HTML fallback scraping across 16 Amazon locales, coupon math, spec normalization, numeric highlighting, red-flag heuristics and weighted scoring.
+- **Role:** Creator and full-stack engineer
+- **Outcome:** Live Chrome/Edge Manifest V3 extension and PHP/MariaDB sharing platform at compareamazon.es.
+- **Stack:** JavaScript, Chrome Extensions (MV3), PHP, MariaDB, HTML/CSS
+- **Case study:** https://www.compareamazon.es/
+- **Repository:** https://github.com/elblogbruno/CompareAmazon

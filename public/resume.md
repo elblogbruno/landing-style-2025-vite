@@ -146,6 +146,16 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 
 [Repository](https://github.com/elblogbruno/MapAnim)
 
+### [CompareAmazon — Smart Amazon Comparison Extension & Web Platform](https://www.compareamazon.es/)
+
+A browser extension and web platform that turns open Amazon tabs into an interactive comparison table with coupon net-price calculation, EU price checks, full photo/video reviews, weighted scoring, AI prompt export and shareable voting links.
+
+**Outcome:** Live Chrome/Edge Manifest V3 extension and PHP/MariaDB sharing platform at compareamazon.es.
+
+**Stack:** JavaScript, Chrome Extensions (MV3), PHP, MariaDB, HTML/CSS
+
+[Repository](https://github.com/elblogbruno/CompareAmazon)
+
 ## Education
 
 - **Computer Science** - Universitat Autònoma de Barcelona (2019-2023), Barcelona, Spain
