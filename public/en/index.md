@@ -26,9 +26,9 @@ AI, automation, backend systems and production infrastructure for a real estate 
 
 ### Experiments - Side projects & hackathons
 
-Side projects and hackathons such as MapAnim, a browser-based editor for animated travel maps, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work.
+Side projects and hackathons such as GeoCut (formerly MapAnim), a browser-based editor for animated travel maps at geocut.app, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work.
 
-- MapAnim — an animated-map editor with video export
+- GeoCut (formerly MapAnim) — animated-map editor at geocut.app
 - TalentGapAnalyzer — UAB The Hack 2025 winner
 - + XR, computer vision and hardware
 
@@ -118,7 +118,7 @@ My work as the founder and engineer of Glassear: the user describes an XR app, a
 - [Case study](https://glassear.com/studio/)
 - [Open Glassear Studio](https://platform.glassear.com/)
 
-### [MapAnim — Route Motion Studio](https://brunomoya.com/en/#projects)
+### [GeoCut (formerly MapAnim)](https://geocut.app/)
 
 _Creative tools & geospatial visualization_
 
@@ -128,8 +128,9 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 
 **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
 
-- [Case study](https://brunomoya.com/en/#projects)
-- [Repository](https://github.com/elblogbruno/MapAnim)
+- [Case study](https://brunomoya.comhttps://geocut.app/)
+- [Repository](https://github.com/elblogbruno/GeoCut)
+- [Open GeoCut](https://geocut.app/)
 
 ### [CompareAmazon — Smart Amazon Comparison Extension & Web Platform](https://www.compareamazon.es/)
 

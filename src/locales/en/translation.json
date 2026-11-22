@@ -1394,7 +1394,7 @@
       },
       {
         "id": 110,
-        "title": "MapAnim — Route Motion Studio",
+        "title": "GeoCut (formerly MapAnim)",
         "description": "Travel-map animation studio where live preview and final export share one scene function, so the video matches the preview frame for frame. Geodesic route math, a cinematic camera director, and headless rendering with Playwright and FFmpeg to H.264, ProRes 422, PNG sequences and transparent overlays.",
         "story": "From a travel itinerary to an animated story: the same scene engine drives the editor preview and frame-by-frame video export.",
         "order": 5,
@@ -1408,7 +1408,8 @@
           "FFmpeg",
           "Playwright"
         ],
-        "githubUrl": "https://github.com/elblogbruno/MapAnim",
+        "demoUrl": "https://geocut.app",
+        "githubUrl": "https://github.com/elblogbruno/GeoCut",
         "featured": true,
         "date": "2026-09-18"
       },
@@ -2446,7 +2447,7 @@
         "role": "Side projects & hackathons",
         "body": "When a problem annoys me or an idea won’t leave me alone, I build something.",
         "points": [
-          "MapAnim — an animated-map editor with video export",
+          "GeoCut (formerly MapAnim) — animated-map editor at geocut.app",
           "TalentGapAnalyzer — UAB The Hack 2025 winner",
           "+ XR, computer vision and hardware"
         ],

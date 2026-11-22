@@ -28,7 +28,7 @@ Construyo la tecnología detrás de una plataforma inmobiliaria AI-native.
 
 Cuando un problema me molesta o una idea no me deja en paz, construyo algo.
 
-- MapAnim — editor de mapas animados con exportación de vídeo
+- GeoCut (antes MapAnim) — editor de mapas animados en geocut.app
 - TalentGapAnalyzer — ganador de UAB The Hack 2025
 - + XR, visión artificial y hardware
 
@@ -118,18 +118,19 @@ Mi trabajo como fundador e ingeniero de Glassear: el usuario describe una app XR
 - [Caso de estudio](https://glassear.com/studio/)
 - [Abrir Glassear Studio](https://platform.glassear.com/)
 
-### [MapAnim — Route Motion Studio](https://brunomoya.com/#projects)
+### [GeoCut (antes MapAnim)](https://geocut.app/)
 
 _Herramientas creativas y visualización geoespacial_
 
 Editor de mapas de viajes animados en el navegador, con itinerarios editables, una línea de tiempo de cámara, estilos de mapa y exportación MP4.
 
-**Resultado:** Editor interactivo de rutas animadas con itinerarios, cámara, estilos de mapa y exportación por fotogramas.
+**Resultado:** Editor interactivo de rutas animadas con itinerarios, cámara, estilos de mapa y exportación por fotogramas disponible en geocut.app.
 
 **Tecnologías:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
 
-- [Caso de estudio](https://brunomoya.com/#projects)
-- [Repositorio](https://github.com/elblogbruno/MapAnim)
+- [Caso de estudio](https://brunomoya.comhttps://geocut.app/)
+- [Repositorio](https://github.com/elblogbruno/GeoCut)
+- [Abrir GeoCut](https://geocut.app/)
 
 ### [CompareAmazon — Smart Amazon Comparison Extension & Web Platform](https://www.compareamazon.es/)
 

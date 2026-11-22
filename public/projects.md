@@ -41,7 +41,7 @@ My work as the founder and engineer of Glassear: the user describes an XR app, a
 - **Stack:** TypeScript, React, Fastify, PostgreSQL, Unity, three.js, WebXR, Rust, Tauri, Docker, MCP, Claude Code, OpenAI Codex, Langfuse
 - **Case study:** https://glassear.com/studio/
 
-## MapAnim — Route Motion Studio
+## GeoCut (formerly MapAnim)
 
 A browser-based editor for animated travel maps, with an editable itinerary, camera controls, a timeline, map styles and MP4 export.
 
@@ -52,8 +52,8 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 - **Role:** Product development and software engineering.
 - **Outcome:** An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.
 - **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
-- **Case study:** https://brunomoya.com/#projects
-- **Repository:** https://github.com/elblogbruno/MapAnim
+- **Case study:** https://geocut.app/
+- **Repository:** https://github.com/elblogbruno/GeoCut
 
 ## CompareAmazon — Smart Amazon Comparison Extension & Web Platform
 

@@ -12,7 +12,7 @@ I started programming at 13. In 2015, still a teenager, I started building Glass
 
 - **Glassear** (Founder & CEO, since 2015): Optical see-through AR hardware that uses the user's smartphone as display and compute (Glassear One, patent pending), Glassear Studio (an AI-native platform for creating spatial apps) and GlassMusic, its first real use case. Focus: Glassear One — AR hardware; Glassear Studio — spatial creation with AI; GlassMusic — first vertical product.
 - **TopBrokers** (CTO, since 2025): AI, automation, backend systems and production infrastructure for a real estate technology platform.
-- **Experiments** (Side projects & hackathons): Side projects and hackathons such as MapAnim, a browser-based editor for animated travel maps, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work. Focus: MapAnim — an animated-map editor with video export; TalentGapAnalyzer — UAB The Hack 2025 winner; + XR, computer vision and hardware.
+- **Experiments** (Side projects & hackathons): Side projects and hackathons such as GeoCut (formerly MapAnim), a browser-based editor for animated travel maps at geocut.app, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work. Focus: GeoCut (formerly MapAnim) — animated-map editor at geocut.app; TalentGapAnalyzer — UAB The Hack 2025 winner; + XR, computer vision and hardware.
 
 ## Milestones
 
@@ -136,7 +136,7 @@ My work as the founder and engineer of Glassear: the user describes an XR app, a
 
 **Stack:** TypeScript, React, Fastify, PostgreSQL, Unity, three.js, WebXR, Rust, Tauri, Docker, MCP, Claude Code, OpenAI Codex, Langfuse
 
-### [MapAnim — Route Motion Studio](https://brunomoya.com/#projects)
+### [GeoCut (formerly MapAnim)](https://geocut.app/)
 
 A browser-based editor for animated travel maps, with an editable itinerary, camera controls, a timeline, map styles and MP4 export.
 
@@ -144,7 +144,7 @@ A browser-based editor for animated travel maps, with an editable itinerary, cam
 
 **Stack:** React, TypeScript, MapLibre GL, Zustand, Turf.js, Playwright, FFmpeg
 
-[Repository](https://github.com/elblogbruno/MapAnim)
+[Repository](https://github.com/elblogbruno/GeoCut)
 
 ### [CompareAmazon — Smart Amazon Comparison Extension & Web Platform](https://www.compareamazon.es/)
 

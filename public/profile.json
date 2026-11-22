@@ -59,9 +59,9 @@
       "role": "Side projects & hackathons",
       "since": null,
       "url": "https://github.com/elblogbruno",
-      "summary": "Side projects and hackathons such as MapAnim, a browser-based editor for animated travel maps, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work.",
+      "summary": "Side projects and hackathons such as GeoCut (formerly MapAnim), a browser-based editor for animated travel maps at geocut.app, and TalentGapAnalyzer, winner of UAB The Hack 2025, plus XR, computer vision and hardware work.",
       "points": [
-        "MapAnim — an animated-map editor with video export",
+        "GeoCut (formerly MapAnim) — animated-map editor at geocut.app",
         "TalentGapAnalyzer — UAB The Hack 2025 winner",
         "+ XR, computer vision and hardware"
       ]
@@ -844,12 +844,14 @@
     },
     {
       "id": "mapanim",
-      "name": "MapAnim",
-      "title": "MapAnim — Route Motion Studio",
+      "name": "GeoCut",
+      "title": "GeoCut (formerly MapAnim)",
       "featured": true,
       "category": "Creative tools & geospatial visualization",
-      "repository": "https://github.com/elblogbruno/MapAnim",
-      "url": "https://brunomoya.com/#projects",
+      "repository": "https://github.com/elblogbruno/GeoCut",
+      "url": "https://geocut.app/",
+      "actionUrl": "https://geocut.app/",
+      "actionLabel": "Open GeoCut",
       "role": "Product development and software engineering.",
       "outcome": "An interactive route-animation editor combining itinerary editing, camera controls, map styling and a frame-by-frame export pipeline.",
       "problem": "Turning a travel itinerary into a map animation requires coordinating route geometry, camera movement, timing and video rendering.",

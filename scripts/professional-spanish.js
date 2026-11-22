@@ -97,15 +97,16 @@ const projects = {
     actionLabel: 'Abrir Glassear Studio'
   },
   mapanim: {
-    title: 'MapAnim — Route Motion Studio',
+    title: 'GeoCut (antes MapAnim)',
     category: 'Herramientas creativas y visualización geoespacial', role: 'Desarrollo de producto e ingeniería de software',
-    outcome: 'Editor interactivo de rutas animadas con itinerarios, cámara, estilos de mapa y exportación por fotogramas.',
+    outcome: 'Editor interactivo de rutas animadas con itinerarios, cámara, estilos de mapa y exportación por fotogramas disponible en geocut.app.',
     problem: 'Animar un itinerario requiere coordinar la geometría de la ruta, la cámara, los tiempos y el renderizado.',
     description: 'Editor de mapas de viajes animados en el navegador, con itinerarios editables, una línea de tiempo de cámara, estilos de mapa y exportación MP4.',
     architecture: 'React, TypeScript, MapLibre GL y Zustand. Un motor de escena compartido calcula la ruta y la cámara para cada instante; Playwright y Chromium capturan los fotogramas y FFmpeg genera el vídeo.',
     aiComponent: 'El funcionamiento no depende de IA generativa.',
     deterministicComponent: 'La vista previa y la exportación comparten getSceneAtTime(project, time) para representar la misma escena en cada instante.',
     principle: 'Un único modelo de escena para la vista previa y la exportación.',
-    highlights: ['Importación GPX y tiempos del itinerario.', 'Transiciones continuas de cámara.', 'Estilos de mapa y ejemplo de la Ruta 66, de Chicago a Santa Mónica.', 'Exportación MP4 por fotogramas con FFmpeg.']
+    highlights: ['Importación GPX y tiempos del itinerario.', 'Transiciones continuas de cámara.', 'Estilos de mapa y ejemplo de la Ruta 66, de Chicago a Santa Mónica.', 'Exportación MP4 por fotogramas con FFmpeg.'],
+    actionLabel: 'Abrir GeoCut'
   }
 };
